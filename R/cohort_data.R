@@ -4,12 +4,12 @@
 #'
 #' @docType data
 #'
-#' @usage cohort
+#' @usage cohortdata
 #'
 #' @format An object of class \code{"cross"}; see \code{\link[qtl]{read.cross}}.
 #'
 #' @keywords datasets
 #'
 #' @examples
-#' cohort
-"cohort"
+#' cohortdata
+"cohortdata"

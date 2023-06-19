@@ -121,8 +121,8 @@ get_immunization_date <- function(data, outcome_date_col,
 
 #' Function to construct the time-to-event
 #' 
-#' This function returns a column with the time-to-event in days to a reference outcome.
-#' If a register presents a outcome the function search for the closest vaccine date before the outcome
+#' This function returns a column with the time-to-event in days occurred until a reference outcome.
+#' If a register presents an outcome, the function searches for the closest vaccine date before the outcome
 #' that satisfies the condition: vacc_date_col <= outcome_date_col - delay_time - immunization_delay.
 #' This condition allows to discriminate the vaccine dates in terms of characteristic time in days 
 #' (delay_time) associated to an outcome, from the onset of symptoms or from any reference event, and the 
@@ -150,7 +150,7 @@ get_immunization_date <- function(data, outcome_date_col,
 #'                                             "2021-01-01", "2021-12-31", 
 #'                                             TRUE, "immunization.death") 
 #' @export
-get_time_to_event <- function(data, outcome_date,
+get_time_to_event <- function(data, outcome_date_col,
                               start_cohort, end_cohort,
                               start_from_immunization = FALSE, 
                               immunization_date_col = FALSE) {
@@ -158,20 +158,20 @@ get_time_to_event <- function(data, outcome_date,
     end_cohort <- as.Date(end_cohort)
     if(start_from_immunization) {
         if(!isFALSE(immunization_date_col)){
-            data[[outcome_date]] <- as.Date(data[[outcome_date]])
+            data[[outcome_date_col]] <- as.Date(data[[outcome_date_col]])
             data[[immunization_date_col]] <- as.Date(data[[immunization_date_col]])
-            data$time_to_event <-  data[[outcome_date]] - data[[immunization_date_col]]
+            data$time_to_event <-  data[[outcome_date_col]] - data[[immunization_date_col]]
             data$time_to_event <- ifelse((is.na(data$time_to_event)) &
                                         (is.na(data[[immunization_date_col]])),
-                                        data[[outcome_date]] - start_cohort,
+                                        data[[outcome_date_col]] - start_cohort,
                                         data$time_to_event)
             data$time_to_event <- ifelse((is.na(data$time_to_event)) &
                                         (is.na(data[[immunization_date_col]])) &
-                                        (is.na(data[[outcome_date]])),
+                                        (is.na(data[[outcome_date_col]])),
                                         end_cohort - start_cohort, 
                                         data$time_to_event)
             data$time_to_event <- ifelse((is.na(data$time_to_event)) &
-                                        (is.na(data[[outcome_date]])),
+                                        (is.na(data[[outcome_date_col]])),
                                         end_cohort - data[[immunization_date_col]],
                                         data$time_to_event)
             return(data$time_to_event)
@@ -179,12 +179,136 @@ get_time_to_event <- function(data, outcome_date,
             stop("Variable immunization_date_col must be introduce if start_from_immunization=TRUE")  
         }
     } else {
-        data[[outcome_date]] <- as.Date(data[[outcome_date]])
-        data$time_to_event <- data[[outcome_date]] - start_cohort
+        data[[outcome_date_col]] <- as.Date(data[[outcome_date_col]])
+        data$time_to_event <- data[[outcome_date_col]] - start_cohort
         data$time_to_event <- ifelse((is.na(data$time_to_event)) &
-                                    (is.na(data[[outcome_date]])),
+                                    (is.na(data[[outcome_date_col]])),
                                     end_cohort - start_cohort, 
                                     data$time_to_event)
         return(data$time_to_event)
     }
+}
+
+#' Function to construct dose associated to the immunization date
+#' 
+#' This function returns the names of the columns associated to the immunization date.
+#' To avoid mistakes, it is necessary to set the same value of immunization_delay that was used in the previous 
+#' functions.
+#' 
+#' @param data dataset with at least one outcome column to generate the time-to-event
+#' @param start_cohort start date of the study 
+#' @param end_cohort end date of the study 
+#' @param start_from_immunization TRUE: starts counting time-to-event from immunization date if available
+#'                                FALSE: starts counting time-to-event for start date of cohort study
+#' @param immunization_date_col Required if start_from_immunization=TRUE
+#' @return time_to_event
+#' @examples
+#' \dontrun{
+#' data("cohortdata")
+#' cohortdata$immunization.death <- get_immunization_date(cohortdata, "death.date", 1, 1,
+#'                                                          c("vaccine.date.1", "vaccine.date.2"), 
+#'                                                          "2021-12-31", take_first = FALSE)
+#' cohortdata$immunization.dose <- get_immunization_dose(cohortdata, "immunization.death", 
+#'                                                         c("vaccine.date.1", "vaccine.date.2"),
+#'                                                         immunization_delay = 14)
+#' @export
+get_immunization_dose <- function(data, immunization_date_col, 
+                                    vacc_date_col,
+                                    immunization_delay) {
+    data$id <- 1:nrow(data)
+
+    cols <- c("id", immunization_date_col, vacc_date_col)
+    split <- data[!is.na(data[[immunization_date_col]])] %>%
+             select(all_of(cols))
+
+    long <- data.table::melt(data.table::setDT(split),
+                id.vars = c("id", immunization_date_col),
+                variable.name = "dose",
+                value.name = "vaccine_date")
+    long[[immunization_date_col]] <- as.Date(long[[immunization_date_col]])
+    long$vaccine_date <- as.Date(long$vaccine_date)
+
+    long <- long[(long[[immunization_date_col]] - immunization_delay
+                    == long$vaccine_date)
+                & !is.na(long$vaccine_date)]
+    long <- long[order(long$id, long$dose), ]
+    long <- long[!duplicated(long$id), ]
+    long <- long %>% select(all_of(c("id", "dose")))
+    data <- merge(x = data, y = long, by = c("id"), all.x = TRUE)
+    data <- data[order(data$id), ]
+    return(data$dose)
+}
+
+#' Function to construct vaccine biologic associated to the immunization date
+#' 
+#' This function returns the names of the vaccines associated to the immunization date.
+#' To avoid mistakes, it is necessary to set the same value of immunization_delay that was used in the previous 
+#' functions. 
+#' The arguments vacc_date_col and vacc_name_col in the same order, i.e. every name of column date must correspond 
+#' to a name of vaccine column (see example)
+#' 
+#' @param data dataset with at least one outcome column to generate the time-to-event
+#' @param start_cohort start date of the study 
+#' @param end_cohort end date of the study 
+#' @param start_from_immunization TRUE: starts counting time-to-event from immunization date if available
+#'                                FALSE: starts counting time-to-event for start date of cohort study
+#' @param immunization_date_col Required if start_from_immunization=TRUE
+#' @return time_to_event
+#' @examples
+#' \dontrun{
+#' data("cohortdata")
+#' cohortdata$immunization.death <- get_immunization_date(cohortdata, "death.date", 1, 1,
+#'                                                          c("vaccine.date.1", "vaccine.date.2"), 
+#'                                                          "2021-12-31", take_first = FALSE)
+#' cohortdata$immunization.vaccine <- get_immunization_vaccine(cohortdata, "immunization.death", 
+#'                                                             c("vaccine.date.1", "vaccine.date.2"),
+#'                                                             c("vaccine.1", "vaccine.2"),
+#'                                                             immunization_delay = 14)
+#' @export
+get_immunization_vaccine <- function(data, immunization_date_col, 
+                                        vacc_date_col, vacc_name_col,
+                                        immunization_delay) {
+    rdf <- data.frame("vaccine_name_col" = vacc_name_col,
+                      "vaccine_date_col" = vacc_date_col)
+    data$id <- 1:nrow(data)
+
+    cols1 <- c("id", immunization_date_col, vacc_date_col)
+    split1 <- data[!is.na(data[[immunization_date_col]])] %>%
+              select(all_of(cols1))
+    long1 <- data.table::melt(data.table::setDT(split1),
+                id.vars = c("id", immunization_date_col),
+                variable.name = "vaccine_date_col",
+                value.name = "vaccine_date")
+    long1[[immunization_date_col]] <- as.Date(long1[[immunization_date_col]])
+    long1$vaccine_date <- as.Date(long1$vaccine_date)
+    long1 <- long1[(long1[[immunization_date_col]] - immunization_delay
+                    == long1$vaccine_date)
+                & !is.na(long1$vaccine_date)]
+    long1 <- long1[order(long1$id, long1$vaccine_date_col), ]
+    long1 <- long1[!duplicated(long1$id), ]
+
+    cols2 <- c("id", immunization_date_col, vacc_date_col, vacc_name_col)
+    split2 <- data[!is.na(data[[immunization_date_col]])] %>%
+              select(all_of(cols2))
+    long2 <- data.table::melt(data.table::setDT(split2),
+                id.vars = c("id", immunization_date_col, vacc_date_col),
+                variable.name = "vaccine_name_col",
+                value.name = "vaccine_name")
+    long3 <- data.table::melt(data.table::setDT(long2),
+                id.vars = c("id", immunization_date_col, "vaccine_name_col", "vaccine_name"),
+                variable.name = "vaccine_date_col",
+                value.name = "vaccine_date")
+    long3 <- long3[(long3[[immunization_date_col]] - immunization_delay
+                    == long3$vaccine_date)
+                & !is.na(long3$vaccine_date)]
+    long3 <- merge(x = long3, y = rdf, by = c("vaccine_name_col"), all.x = TRUE)
+    long3 <- long3[(long3$vaccine_date_col.x == long3$vaccine_date_col.y)]
+    long3 <- long3 %>% select(all_of(c("id", "vaccine_name", "vaccine_date_col.x")))
+    colnames(long3) <- c("id", "vaccine", "vaccine_date_col")
+    
+    long1 <- merge(x = long1, y = long3, by = c("id", "vaccine_date_col"), all.x = TRUE)
+    long1 <- long1 %>% select(all_of(c("id", "vaccine")))
+    data <- merge(x = data, y = long1, by = c("id"), all.x = TRUE)
+    data <- data[order(data$id), ]
+    return(data$vaccine)
 }

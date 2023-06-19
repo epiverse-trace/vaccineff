@@ -72,9 +72,9 @@ set_status <- function(data, col_names,
 #' @examples
 #' \dontrun{
 #' data("cohortdata")
-#' cohortdata$vaccine.status <- set_status(cohortdata, 
-#'                                          c("vaccine.date.1", "vaccine.date.2"), 
-#'                                          status = c("v", "u"))
+#' cohortdata$immunization.death <- get_immunization_date(cohortdata, "death.date", 1, 1,
+#'                                                          c("vaccine.date.1", "vaccine.date.2"), 
+#'                                                          "2021-12-31", take_first = FALSE)
 #' }
 #' @export
 get_immunization_date <- function(data, outcome_date_col,
@@ -82,7 +82,7 @@ get_immunization_date <- function(data, outcome_date_col,
                                   vacc_date_col, end_cohort,
                                   take_first = TRUE
                                  ) {
-
+    end_cohort <- as.Date(end_cohort)
     data$outcome_col <- set_status(data, outcome_date_col, 
                                         operator = "&",
                                         status = c(1, 0))
@@ -116,5 +116,75 @@ get_immunization_date <- function(data, outcome_date_col,
     } else {
         ## Take the closest date to end_cohort
         return(data$imm_out_date)
+    }
+}
+
+#' Function to construct the time-to-event
+#' 
+#' This function returns a column with the time-to-event in days to a reference outcome.
+#' If a register presents a outcome the function search for the closest vaccine date before the outcome
+#' that satisfies the condition: vacc_date_col <= outcome_date_col - delay_time - immunization_delay.
+#' This condition allows to discriminate the vaccine dates in terms of characteristic time in days 
+#' (delay_time) associated to an outcome, from the onset of symptoms or from any reference event, and the 
+#' characteristic time in days before the pacient is considered immune (immunization_delay). 
+#' Both parameters can be set to zero by the user without affecting the results.
+#' If a register does not present an outcome, the immunization date can be construct using the closest vaccine 
+#' date to the end of the study (take_first = FALSE), or the first vaccination date found (take_first = TRUE).
+#' Notice that the function works for one or several vaccines. In case of several vaccines, the parameter must
+#' be passed as a vector (see example) 
+#' 
+#' @param data dataset with at least one outcome column to generate the time-to-event
+#' @param start_cohort start date of the study 
+#' @param end_cohort end date of the study 
+#' @param start_from_immunization TRUE: starts counting time-to-event from immunization date if available
+#'                                FALSE: starts counting time-to-event for start date of cohort study
+#' @param immunization_date_col Required if start_from_immunization=TRUE
+#' @return time_to_event
+#' @examples
+#' \dontrun{
+#' data("cohortdata")
+#' cohortdata$immunization.death <- get_immunization_date(cohortdata, "death.date", 1, 1,
+#'                                                          c("vaccine.date.1", "vaccine.date.2"), 
+#'                                                          "2021-12-31", take_first = FALSE)
+#' cohortdata$time.to.death <- get_time_to_event(cohortdata, "death.date",
+#'                                             "2021-01-01", "2021-12-31", 
+#'                                             TRUE, "immunization.death") 
+#' @export
+get_time_to_event <- function(data, outcome_date,
+                              start_cohort, end_cohort,
+                              start_from_immunization = FALSE, 
+                              immunization_date_col = FALSE) {
+    start_cohort <- as.Date(start_cohort)
+    end_cohort <- as.Date(end_cohort)
+    if(start_from_immunization) {
+        if(!isFALSE(immunization_date_col)){
+            data[[outcome_date]] <- as.Date(data[[outcome_date]])
+            data[[immunization_date_col]] <- as.Date(data[[immunization_date_col]])
+            data$time_to_event <-  data[[outcome_date]] - data[[immunization_date_col]]
+            data$time_to_event <- ifelse((is.na(data$time_to_event)) &
+                                        (is.na(data[[immunization_date_col]])),
+                                        data[[outcome_date]] - start_cohort,
+                                        data$time_to_event)
+            data$time_to_event <- ifelse((is.na(data$time_to_event)) &
+                                        (is.na(data[[immunization_date_col]])) &
+                                        (is.na(data[[outcome_date]])),
+                                        end_cohort - start_cohort, 
+                                        data$time_to_event)
+            data$time_to_event <- ifelse((is.na(data$time_to_event)) &
+                                        (is.na(data[[outcome_date]])),
+                                        end_cohort - data[[immunization_date_col]],
+                                        data$time_to_event)
+            return(data$time_to_event)
+        } else{
+            stop("Variable immunization_date_col must be introduce if start_from_immunization=TRUE")  
+        }
+    } else {
+        data[[outcome_date]] <- as.Date(data[[outcome_date]])
+        data$time_to_event <- data[[outcome_date]] - start_cohort
+        data$time_to_event <- ifelse((is.na(data$time_to_event)) &
+                                    (is.na(data[[outcome_date]])),
+                                    end_cohort - start_cohort, 
+                                    data$time_to_event)
+        return(data$time_to_event)
     }
 }

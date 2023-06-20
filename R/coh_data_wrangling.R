@@ -1,4 +1,3 @@
-library(dplyr)
 #' Function to assign the outcome status or the vaccination status
 #' 
 #' This function generates a binary status column using the set of columns, passed through the 
@@ -148,7 +147,8 @@ get_immunization_date <- function(data, outcome_date_col,
 #'                                                          "2021-12-31", take_first = FALSE)
 #' cohortdata$time.to.death <- get_time_to_event(cohortdata, "death.date",
 #'                                             "2021-01-01", "2021-12-31", 
-#'                                             TRUE, "immunization.death") 
+#'                                             TRUE, "immunization.death")
+#' } 
 #' @export
 get_time_to_event <- function(data, outcome_date_col,
                               start_cohort, end_cohort,
@@ -196,12 +196,11 @@ get_time_to_event <- function(data, outcome_date_col,
 #' functions.
 #' 
 #' @param data dataset with at least one outcome column to generate the time-to-event
-#' @param start_cohort start date of the study 
-#' @param end_cohort end date of the study 
-#' @param start_from_immunization TRUE: starts counting time-to-event from immunization date if available
-#'                                FALSE: starts counting time-to-event for start date of cohort study
-#' @param immunization_date_col Required if start_from_immunization=TRUE
-#' @return time_to_event
+#' @param immunization_date_col DESCRIBE!
+#' @param vacc_date_col DESCRIBE!
+#' @param immunization_delay DESCRIBE!
+#' @param immunization_date_col DESCRIBE!
+#' @return dose
 #' @examples
 #' \dontrun{
 #' data("cohortdata")
@@ -211,6 +210,7 @@ get_time_to_event <- function(data, outcome_date_col,
 #' cohortdata$immunization.dose <- get_immunization_dose(cohortdata, "immunization.death", 
 #'                                                         c("vaccine.date.1", "vaccine.date.2"),
 #'                                                         immunization_delay = 14)
+#' }
 #' @export
 get_immunization_dose <- function(data, immunization_date_col, 
                                     vacc_date_col,
@@ -248,12 +248,11 @@ get_immunization_dose <- function(data, immunization_date_col,
 #' to a name of vaccine column (see example)
 #' 
 #' @param data dataset with at least one outcome column to generate the time-to-event
-#' @param start_cohort start date of the study 
-#' @param end_cohort end date of the study 
-#' @param start_from_immunization TRUE: starts counting time-to-event from immunization date if available
-#'                                FALSE: starts counting time-to-event for start date of cohort study
-#' @param immunization_date_col Required if start_from_immunization=TRUE
-#' @return time_to_event
+#' @param immunization_date_col DESCRIBE!
+#' @param vacc_date_col DESCRIBE! 
+#' @param vacc_name_col DESCRIBE!
+#' @param immunization_delay DESCRIBE!
+#' @return vaccine type
 #' @examples
 #' \dontrun{
 #' data("cohortdata")
@@ -264,6 +263,7 @@ get_immunization_dose <- function(data, immunization_date_col,
 #'                                                             c("vaccine.date.1", "vaccine.date.2"),
 #'                                                             c("vaccine.1", "vaccine.2"),
 #'                                                             immunization_delay = 14)
+#' }
 #' @export
 get_immunization_vaccine <- function(data, immunization_date_col, 
                                         vacc_date_col, vacc_name_col,

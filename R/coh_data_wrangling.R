@@ -109,41 +109,42 @@ get_immunization_date <- function(data,
                                   end_cohort,
                                   take_first = TRUE
                                  ) {
-    end_cohort <- as.Date(end_cohort)
-    data$outcome_col <- set_status(data, outcome_date_col,
-                                        operator = "&",
-                                        status = c(1, 0))
-    data$imm_limit <- data.table::fifelse(data$outcome_col == 1,
-                                            as.Date(data[[outcome_date_col]]) -
-                                            as.difftime(outcome_delay, unit = "days") -
-                                            as.difftime(immunization_delay, unit = "days"),
-                                            end_cohort)
+  end_cohort <- as.Date(end_cohort)
+  data$outcome_col <- set_status(data,
+                                 outcome_date_col,
+                                 operator = "&",
+                                 status = c(1, 0))
+  data$imm_limit <- data.table::fifelse(data$outcome_col == 1,
+                                        as.Date(data[[outcome_date_col]]) -
+                                        as.difftime(outcome_delay, unit = "days") -
+                                        as.difftime(immunization_delay, unit = "days"),
+                                        end_cohort)
 
-    deltas <- c()
-    for (i in seq_along(vacc_date_col)) {
-        data[[paste0("delta", i)]] <-
-             data$imm_limit - as.Date(data[[vacc_date_col[i]]])
-        deltas <- c(deltas, paste0("delta", i))
-        }
-    n_deltas <- length(deltas) - 1
-    data[, (ncol(data) - n_deltas):ncol(data)][
-        data[, (ncol(data) - n_deltas):ncol(data)] < 0] <- NA
-    data <- data %>%
-            dplyr::mutate(delta_imm = pmin(!!!rlang::syms(deltas), na.rm = TRUE))
-    data$imm_out_date <- data$imm_limit - data$delta_imm + immunization_delay
-    if (take_first) {
-        ## Take the minimum immunization date
-        data <- data %>%
-             dplyr::mutate(min_imm = pmin(!!!rlang::syms(vacc_date_col), na.rm = TRUE))
-        data$min_imm <- as.Date(data$min_imm) + immunization_delay
-        data$imm_date <- data.table::fifelse(data$outcome_col == 1,
+  deltas <- c()
+  for (i in seq_along(vacc_date_col)) {
+      data[[paste0("delta", i)]] <-
+           data$imm_limit - as.Date(data[[vacc_date_col[i]]])
+      deltas <- c(deltas, paste0("delta", i))
+  }
+  n_deltas <- length(deltas) - 1
+  data[, (ncol(data) - n_deltas):ncol(data)][
+      data[, (ncol(data) - n_deltas):ncol(data)] < 0] <- NA
+  data <- data %>%
+          dplyr::mutate(delta_imm = pmin(!!!rlang::syms(deltas), na.rm = TRUE))
+  data$imm_out_date <- data$imm_limit - data$delta_imm + immunization_delay
+  if (take_first) {
+      ## Take the minimum immunization date
+      data <- data %>%
+           dplyr::mutate(min_imm = pmin(!!!rlang::syms(vacc_date_col), na.rm = TRUE))
+      data$min_imm <- as.Date(data$min_imm) + immunization_delay
+      data$imm_date <- data.table::fifelse(data$outcome_col == 1,
                                                 data$imm_out_date,
                                                 data$min_imm)
-        return(data$imm_date)
-    } else {
-        ## Take the closest date to end_cohort
-        return(data$imm_out_date)
-    }
+      return(data$imm_date)
+  } else {
+      ## Take the closest date to end_cohort
+      return(data$imm_out_date)
+  }
 }
 
 #' Function to construct the time-to-event

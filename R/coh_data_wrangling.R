@@ -1,15 +1,21 @@
 #' Function to assign the outcome status or the vaccination status
-#' 
-#' This function generates a binary status column using the set of columns, passed through the 
-#' variable {col_names}. This columns must contain the information of the outcomes or the vaccine dates. 
-#' It generates a logical codition using the operators "&" or "|", and evalutes if the registers in 
-#' the columns contain or not information. 
-#' If the logical operator is "&", the function returns 1, only if all the columns contain information. 
-#' On the other hand, if the logical operator is "|", it is enough to find one column with information.
-#' It is recommended to use this method when working with several outcomes or severa vaccine doses.
-#' By default, it returns a binary column 0 means no outcome or no vaccine and 1 means the opposite. 
-#' However, it can also receive personalized options, e.g. ["v", "u"] for unvaccinated and vaccinated.
-#' 
+#' This function generates a binary status column using the set of columns,
+#' passed through the
+#' variable {col_names}. This columns must contain the information of
+#' the outcomes or the vaccine dates.
+#' It generates a logical codition using the operators "&" or "|", and
+#' evalutes if the registers in
+#' the columns contain or not information.
+#' If the logical operator is "&", the function returns 1, only if all the
+#' columns contain information.
+#' On the other hand, if the logical operator is "|", it is enough to find one
+#' column with information.
+#' It is recommended to use this method when working with several outcomes or
+#' severa vaccine doses.
+#' By default, it returns a binary column 0 means no outcome or no vaccine and
+#' 1 means the opposite.
+#' However, it can also receive personalized options, e.g. ["v", "u"] for
+#' unvaccinated and vaccinated.
 #' @param data dataset with at least one column to generate the status
 #' @param col_names name of the column containing the age information
 #' @param operator logical operator to evaluate the condition
@@ -18,71 +24,93 @@
 #' @examples
 #' \dontrun{
 #' data("cohortdata")
-#' cohortdata$vaccine.status <- set_status(cohortdata, 
-#'                                          c("vaccine.date.1", "vaccine.date.2"), 
+#' cohortdata$vaccine.status <- set_status(cohortdata,
+#'                                          c("vaccine.date.1",
+#'                                            "vaccine.date.2"),
 #'                                          status = c("v", "u"))
 #' }
 #' @export
-set_status <- function(data, col_names, 
-                        operator = "&",
-                        status = c(1, 0)) {
-    condition <- "ifelse("
-    int0 <- "(!is.na(data[["
-    intf <- "]]))"
-    i <- 1
-    for (col_name in col_names){
-        if (i == length(col_names)) {
-            sep <- ""
-        } else {
-           sep <- operator
-        }
-        condition <- paste0(condition, int0, "'", col_name, "'", intf, sep)
-        i <- i + 1
+set_status <- function(data,
+                       col_names,
+                       operator = "&",
+                       status = c(1, 0)) {
+  condition <- "ifelse("
+  int0 <- "(!is.na(data[["
+  intf <- "]]))"
+  i <- 1
+  for (col_name in col_names) {
+    if (i == length(col_names)) {
+      sep <- ""
+    } else {
+      sep <- operator
     }
-    lst <- paste0(",", "'", status[1], "'", ",", "'", status[2], "'", ")")
-    condition <- paste0(condition, lst)
-    status_col <- eval(parse(text = condition))
-    return(status_col)
+    condition <- paste0(condition, int0, "'", col_name, "'", intf, sep)
+    i <- i + 1
+  }
+  lst <- paste0(",", "'", status[1], "'", ",", "'", status[2], "'", ")")
+  condition <- paste0(condition, lst)
+  status_col <- eval(parse(text = condition))
+  return(status_col)
 }
 
 #' Function to construct the inmunization date
-#' 
-#' This function returns a column with the immunization that corresponds to an analysed outcome.
-#' If a register presents a outcome the function search for the closest vaccine date before the outcome
-#' that satisfies the condition: vacc_date_col <= outcome_date_col - delay_time - immunization_delay.
-#' This condition allows to discriminate the vaccine dates in terms of characteristic time in days 
-#' (delay_time) associated to an outcome, from the onset of symptoms or from any reference event, and the 
-#' characteristic time in days before the pacient is considered immune (immunization_delay). 
-#' Both parameters can be set to zero by the user without affecting the results.
-#' If a register does not present an outcome, the immunization date can be construct using the closest vaccine 
-#' date to the end of the study (take_first = FALSE), or the first vaccination date found (take_first = TRUE).
-#' Notice that the function works for one or several vaccines. In case of several vaccines, the parameter must
-#' be passed as a vector (see example) 
-#' 
-#' @param data dataset with at least one column to generate the status
-#' @param outcome_date_col name of the column that contains the outcome dates
-#' @param outcome_delay characteristic time in days of the outcome from reference event
-#' @param immunization_delay characteristic time in days before the pacient is considered immune 
+#'
+#' This function returns a column with the immunization that corresponds
+#' to an analysed outcome.
+#' If a register presents a outcome the function search for the closest
+#' vaccine date before the outcome
+#' that satisfies the condition: vacc_date_col <= outcome_date_col -
+#' delay_time - immunization_delay.
+#' This condition allows to discriminate the vaccine dates in
+#' terms of characteristic time in days
+#' (delay_time) associated to an outcome, from the onset of symptoms
+#' or from any reference event, and the
+#' characteristic time in days before the pacient is considered
+#' immune (immunization_delay).
+#' Both parameters can be set to zero by the user without
+#' affecting the results.
+#' If a register does not present an outcome, the immunization
+#' date can be construct using the closest vaccine
+#' date to the end of the study (take_first = FALSE), or the
+#' first vaccination date found (take_first = TRUE).
+#' Notice that the function works for one or several vaccines.
+#' In case of several vaccines, the parameter must
+#' be passed as a vector (see example)
+#'
+#' @param data dataset with at least one column to generate
+#' the status
+#' @param outcome_date_col name of the column that contains
+#' the outcome dates
+#' @param outcome_delay characteristic time in days of the outcome
+#' from reference event
+#' @param immunization_delay characteristic time in days before the pacient
+#' is considered immune
 #' @param vacc_date_col name of the column(s) that contains the vaccine dates
-#' @param end_cohort end date of the study 
-#' @param take_first TRUE: takes the minimum vaccine date for registers without outcome. 
-#'                   FALSE: takes closest to end_cohort
+#' @param end_cohort end date of the study
+#' @param take_first TRUE: takes the minimum vaccine date for
+#' registers without outcome.
+#' FALSE: takes closest to end_cohort
 #' @return status_col
 #' @examples
 #' \dontrun{
 #' data("cohortdata")
-#' cohortdata$immunization.death <- get_immunization_date(cohortdata, "death.date", 1, 1,
-#'                                                          c("vaccine.date.1", "vaccine.date.2"), 
-#'                                                          "2021-12-31", take_first = FALSE)
+#' cohortdata$immunization.death <- get_immunization_date(cohortdata,
+#' "death.date", 1, 1,
+#' c("vaccine.date.1", "vaccine.date.2"),
+#' "2021-12-31",
+#' take_first = FALSE)
 #' }
 #' @export
-get_immunization_date <- function(data, outcome_date_col,
-                                  outcome_delay, immunization_delay,
-                                  vacc_date_col, end_cohort,
+get_immunization_date <- function(data,
+                                  outcome_date_col,
+                                  outcome_delay,
+                                  immunization_delay,
+                                  vacc_date_col,
+                                  end_cohort,
                                   take_first = TRUE
                                  ) {
     end_cohort <- as.Date(end_cohort)
-    data$outcome_col <- set_status(data, outcome_date_col, 
+    data$outcome_col <- set_status(data, outcome_date_col,
                                         operator = "&",
                                         status = c(1, 0))
     data$imm_limit <- data.table::fifelse(data$outcome_col == 1,
@@ -90,7 +118,7 @@ get_immunization_date <- function(data, outcome_date_col,
                                             as.difftime(outcome_delay, unit = "days") -
                                             as.difftime(immunization_delay, unit = "days"),
                                             end_cohort)
-    
+
     deltas <- c()
     for (i in seq_along(vacc_date_col)) {
         data[[paste0("delta", i)]] <-
@@ -119,22 +147,22 @@ get_immunization_date <- function(data, outcome_date_col,
 }
 
 #' Function to construct the time-to-event
-#' 
+#'
 #' This function returns a column with the time-to-event in days occurred until a reference outcome.
 #' If a register presents an outcome, the function searches for the closest vaccine date before the outcome
 #' that satisfies the condition: vacc_date_col <= outcome_date_col - delay_time - immunization_delay.
-#' This condition allows to discriminate the vaccine dates in terms of characteristic time in days 
-#' (delay_time) associated to an outcome, from the onset of symptoms or from any reference event, and the 
-#' characteristic time in days before the pacient is considered immune (immunization_delay). 
+#' This condition allows to discriminate the vaccine dates in terms of characteristic time in days
+#' (delay_time) associated to an outcome, from the onset of symptoms or from any reference event, and the
+#' characteristic time in days before the pacient is considered immune (immunization_delay).
 #' Both parameters can be set to zero by the user without affecting the results.
-#' If a register does not present an outcome, the immunization date can be construct using the closest vaccine 
+#' If a register does not present an outcome, the immunization date can be construct using the closest vaccine
 #' date to the end of the study (take_first = FALSE), or the first vaccination date found (take_first = TRUE).
 #' Notice that the function works for one or several vaccines. In case of several vaccines, the parameter must
-#' be passed as a vector (see example) 
-#' 
+#' be passed as a vector (see example)
+#'
 #' @param data dataset with at least one outcome column to generate the time-to-event
-#' @param start_cohort start date of the study 
-#' @param end_cohort end date of the study 
+#' @param start_cohort start date of the study
+#' @param end_cohort end date of the study
 #' @param start_from_immunization TRUE: starts counting time-to-event from immunization date if available
 #'                                FALSE: starts counting time-to-event for start date of cohort study
 #' @param immunization_date_col Required if start_from_immunization=TRUE
@@ -143,16 +171,16 @@ get_immunization_date <- function(data, outcome_date_col,
 #' \dontrun{
 #' data("cohortdata")
 #' cohortdata$immunization.death <- get_immunization_date(cohortdata, "death.date", 1, 1,
-#'                                                          c("vaccine.date.1", "vaccine.date.2"), 
+#'                                                          c("vaccine.date.1", "vaccine.date.2"),
 #'                                                          "2021-12-31", take_first = FALSE)
 #' cohortdata$time.to.death <- get_time_to_event(cohortdata, "death.date",
-#'                                             "2021-01-01", "2021-12-31", 
+#'                                             "2021-01-01", "2021-12-31",
 #'                                             TRUE, "immunization.death")
-#' } 
+#' }
 #' @export
 get_time_to_event <- function(data, outcome_date_col,
                               start_cohort, end_cohort,
-                              start_from_immunization = FALSE, 
+                              start_from_immunization = FALSE,
                               immunization_date_col = FALSE) {
     start_cohort <- as.Date(start_cohort)
     end_cohort <- as.Date(end_cohort)
@@ -168,7 +196,7 @@ get_time_to_event <- function(data, outcome_date_col,
             data$time_to_event <- ifelse((is.na(data$time_to_event)) &
                                         (is.na(data[[immunization_date_col]])) &
                                         (is.na(data[[outcome_date_col]])),
-                                        end_cohort - start_cohort, 
+                                        end_cohort - start_cohort,
                                         data$time_to_event)
             data$time_to_event <- ifelse((is.na(data$time_to_event)) &
                                         (is.na(data[[outcome_date_col]])),
@@ -176,25 +204,25 @@ get_time_to_event <- function(data, outcome_date_col,
                                         data$time_to_event)
             return(data$time_to_event)
         } else{
-            stop("Variable immunization_date_col must be introduce if start_from_immunization=TRUE")  
+            stop("Variable immunization_date_col must be introduce if start_from_immunization=TRUE")
         }
     } else {
         data[[outcome_date_col]] <- as.Date(data[[outcome_date_col]])
         data$time_to_event <- data[[outcome_date_col]] - start_cohort
         data$time_to_event <- ifelse((is.na(data$time_to_event)) &
                                     (is.na(data[[outcome_date_col]])),
-                                    end_cohort - start_cohort, 
+                                    end_cohort - start_cohort,
                                     data$time_to_event)
         return(data$time_to_event)
     }
 }
 
 #' Function to construct dose associated to the immunization date
-#' 
+#'
 #' This function returns the names of the columns associated to the immunization date.
-#' To avoid mistakes, it is necessary to set the same value of immunization_delay that was used in the previous 
+#' To avoid mistakes, it is necessary to set the same value of immunization_delay that was used in the previous
 #' functions.
-#' 
+#'
 #' @param data dataset with at least one outcome column to generate the time-to-event
 #' @param immunization_date_col DESCRIBE!
 #' @param vacc_date_col DESCRIBE!
@@ -205,14 +233,14 @@ get_time_to_event <- function(data, outcome_date_col,
 #' \dontrun{
 #' data("cohortdata")
 #' cohortdata$immunization.death <- get_immunization_date(cohortdata, "death.date", 1, 1,
-#'                                                          c("vaccine.date.1", "vaccine.date.2"), 
+#'                                                          c("vaccine.date.1", "vaccine.date.2"),
 #'                                                          "2021-12-31", take_first = FALSE)
-#' cohortdata$immunization.dose <- get_immunization_dose(cohortdata, "immunization.death", 
+#' cohortdata$immunization.dose <- get_immunization_dose(cohortdata, "immunization.death",
 #'                                                         c("vaccine.date.1", "vaccine.date.2"),
 #'                                                         immunization_delay = 14)
 #' }
 #' @export
-get_immunization_dose <- function(data, immunization_date_col, 
+get_immunization_dose <- function(data, immunization_date_col,
                                     vacc_date_col,
                                     immunization_delay) {
     data$id <- 1:nrow(data)
@@ -240,16 +268,16 @@ get_immunization_dose <- function(data, immunization_date_col,
 }
 
 #' Function to construct vaccine biologic associated to the immunization date
-#' 
+#'
 #' This function returns the names of the vaccines associated to the immunization date.
-#' To avoid mistakes, it is necessary to set the same value of immunization_delay that was used in the previous 
-#' functions. 
-#' The arguments vacc_date_col and vacc_name_col in the same order, i.e. every name of column date must correspond 
+#' To avoid mistakes, it is necessary to set the same value of immunization_delay that was used in the previous
+#' functions.
+#' The arguments vacc_date_col and vacc_name_col in the same order, i.e. every name of column date must correspond
 #' to a name of vaccine column (see example)
-#' 
+#'
 #' @param data dataset with at least one outcome column to generate the time-to-event
 #' @param immunization_date_col DESCRIBE!
-#' @param vacc_date_col DESCRIBE! 
+#' @param vacc_date_col DESCRIBE!
 #' @param vacc_name_col DESCRIBE!
 #' @param immunization_delay DESCRIBE!
 #' @return vaccine type
@@ -257,15 +285,15 @@ get_immunization_dose <- function(data, immunization_date_col,
 #' \dontrun{
 #' data("cohortdata")
 #' cohortdata$immunization.death <- get_immunization_date(cohortdata, "death.date", 1, 1,
-#'                                                          c("vaccine.date.1", "vaccine.date.2"), 
+#'                                                          c("vaccine.date.1", "vaccine.date.2"),
 #'                                                          "2021-12-31", take_first = FALSE)
-#' cohortdata$immunization.vaccine <- get_immunization_vaccine(cohortdata, "immunization.death", 
+#' cohortdata$immunization.vaccine <- get_immunization_vaccine(cohortdata, "immunization.death",
 #'                                                             c("vaccine.date.1", "vaccine.date.2"),
 #'                                                             c("vaccine.1", "vaccine.2"),
 #'                                                             immunization_delay = 14)
 #' }
 #' @export
-get_immunization_vaccine <- function(data, immunization_date_col, 
+get_immunization_vaccine <- function(data, immunization_date_col,
                                         vacc_date_col, vacc_name_col,
                                         immunization_delay) {
     rdf <- data.frame("vaccine_name_col" = vacc_name_col,
@@ -305,7 +333,7 @@ get_immunization_vaccine <- function(data, immunization_date_col,
     long3 <- long3[(long3$vaccine_date_col.x == long3$vaccine_date_col.y)]
     long3 <- long3 %>% select(all_of(c("id", "vaccine_name", "vaccine_date_col.x")))
     colnames(long3) <- c("id", "vaccine", "vaccine_date_col")
-    
+
     long1 <- merge(x = long1, y = long3, by = c("id", "vaccine_date_col"), all.x = TRUE)
     long1 <- long1 %>% select(all_of(c("id", "vaccine")))
     data <- merge(x = data, y = long1, by = c("id"), all.x = TRUE)

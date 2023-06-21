@@ -1,3 +1,4 @@
+library(dplyr)
 #' Function to assign the outcome status or the vaccination status
 #' This function generates a binary status column using the set of columns,
 #' passed through the
@@ -47,7 +48,11 @@ set_status <- function(data,
     condition <- paste0(condition, int0, "'", col_name, "'", intf, sep)
     i <- i + 1
   }
-  lst <- paste0(",", "'", status[1], "'", ",", "'", status[2], "'", ")")
+  if(is.numeric(status)){
+    lst <- paste0(",", status[1], ",", status[2], ")")
+  } else{
+    lst <- paste0(",", "'", status[1], "'", ",", "'", status[2], "'", ")")
+  }
   condition <- paste0(condition, lst)
   status_col <- eval(parse(text = condition))
   return(status_col)

@@ -2,7 +2,24 @@
 % Please edit documentation in R/coh_data_wrangling.R
 \name{set_status}
 \alias{set_status}
-\title{Function to assign the outcome status or the vaccination status}
+\title{Function to assign the outcome status or the vaccination status
+This function generates a binary status column using the set of columns,
+passed through the
+variable {col_names}. This columns must contain the information of
+the outcomes or the vaccine dates.
+It generates a logical codition using the operators "&" or "|", and
+evalutes if the registers in
+the columns contain or not information.
+If the logical operator is "&", the function returns 1, only if all the
+columns contain information.
+On the other hand, if the logical operator is "|", it is enough to find one
+column with information.
+It is recommended to use this method when working with several outcomes or
+severa vaccine doses.
+By default, it returns a binary column 0 means no outcome or no vaccine and
+1 means the opposite.
+However, it can also receive personalized options, e.g. \link{"v", "u"} for
+unvaccinated and vaccinated.}
 \usage{
 set_status(data, col_names, operator = "&", status = c(1, 0))
 }
@@ -19,21 +36,31 @@ set_status(data, col_names, operator = "&", status = c(1, 0))
 age_group
 }
 \description{
-This function generates a binary status column using the set of columns, passed through the
-variable {col_names}. This columns must contain the information of the outcomes or the vaccine dates.
-It generates a logical codition using the operators "&" or "|", and evalutes if the registers in
+Function to assign the outcome status or the vaccination status
+This function generates a binary status column using the set of columns,
+passed through the
+variable {col_names}. This columns must contain the information of
+the outcomes or the vaccine dates.
+It generates a logical codition using the operators "&" or "|", and
+evalutes if the registers in
 the columns contain or not information.
-If the logical operator is "&", the function returns 1, only if all the columns contain information.
-On the other hand, if the logical operator is "|", it is enough to find one column with information.
-It is recommended to use this method when working with several outcomes or severa vaccine doses.
-By default, it returns a binary column 0 means no outcome or no vaccine and 1 means the opposite.
-However, it can also receive personalized options, e.g. \link{"v", "u"} for unvaccinated and vaccinated.
+If the logical operator is "&", the function returns 1, only if all the
+columns contain information.
+On the other hand, if the logical operator is "|", it is enough to find one
+column with information.
+It is recommended to use this method when working with several outcomes or
+severa vaccine doses.
+By default, it returns a binary column 0 means no outcome or no vaccine and
+1 means the opposite.
+However, it can also receive personalized options, e.g. \link{"v", "u"} for
+unvaccinated and vaccinated.
 }
 \examples{
 \dontrun{
-data("cohortdata")
-cohortdata$vaccine.status <- set_status(cohortdata, 
-                                         c("vaccine.date.1", "vaccine.date.2"), 
+cohortdata <- data.frame()
+cohortdata$vaccine.status <- set_status(cohortdata,
+                                         c("vaccine.date.1",
+                                           "vaccine.date.2"),
                                          status = c("v", "u"))
 }
 }

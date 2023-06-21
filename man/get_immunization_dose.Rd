@@ -12,7 +12,8 @@ get_immunization_dose(
 )
 }
 \arguments{
-\item{data}{dataset with at least one outcome column to generate the time-to-event}
+\item{data}{dataset with at least one outcome column
+to generate the time-to-event}
 
 \item{immunization_date_col}{DESCRIBE!}
 
@@ -24,18 +25,26 @@ get_immunization_dose(
 dose
 }
 \description{
-This function returns the names of the columns associated to the immunization date.
-To avoid mistakes, it is necessary to set the same value of immunization_delay that was used in the previous
-functions.
+This function returns the names of the columns associated
+to the immunization date.
+To avoid mistakes, it is necessary to set the same value of
+immunization_delay that was used in the previous functions.
 }
 \examples{
 \dontrun{
-data("cohortdata")
-cohortdata$immunization.death <- get_immunization_date(cohortdata, "death.date", 1, 1,
-                                                         c("vaccine.date.1", "vaccine.date.2"), 
-                                                         "2021-12-31", take_first = FALSE)
-cohortdata$immunization.dose <- get_immunization_dose(cohortdata, "immunization.death", 
-                                                        c("vaccine.date.1", "vaccine.date.2"),
-                                                        immunization_delay = 14)
+cohortdata <- data.frame()
+cohortdata$immunization.death
+    <- get_immunization_date(cohortdata,
+                             "death.date",
+                             1,
+                             1,
+                             c("vaccine.date.1", "vaccine.date.2"),
+                             "2021-12-31",
+                             take_first = FALSE)
+cohortdata$immunization.dose <-
+      get_immunization_dose(cohortdata,
+                            "immunization.death",
+                            c("vaccine.date.1", "vaccine.date.2"),
+                            immunization_delay = 14)
 }
 }

@@ -15,42 +15,59 @@ get_immunization_date(
 )
 }
 \arguments{
-\item{data}{dataset with at least one column to generate the status}
+\item{data}{dataset with at least one column to generate
+the status}
 
-\item{outcome_date_col}{name of the column that contains the outcome dates}
+\item{outcome_date_col}{name of the column that contains
+the outcome dates}
 
-\item{outcome_delay}{characteristic time in days of the outcome from reference event}
+\item{outcome_delay}{characteristic time in days of the outcome
+from reference event}
 
-\item{immunization_delay}{characteristic time in days before the pacient is considered immune}
+\item{immunization_delay}{characteristic time in days before the pacient
+is considered immune}
 
 \item{vacc_date_col}{name of the column(s) that contains the vaccine dates}
 
 \item{end_cohort}{end date of the study}
 
-\item{take_first}{TRUE: takes the minimum vaccine date for registers without outcome.
+\item{take_first}{TRUE: takes the minimum vaccine date for
+registers without outcome.
 FALSE: takes closest to end_cohort}
 }
 \value{
 status_col
 }
 \description{
-This function returns a column with the immunization that corresponds to an analysed outcome.
-If a register presents a outcome the function search for the closest vaccine date before the outcome
-that satisfies the condition: vacc_date_col <= outcome_date_col - delay_time - immunization_delay.
-This condition allows to discriminate the vaccine dates in terms of characteristic time in days
-(delay_time) associated to an outcome, from the onset of symptoms or from any reference event, and the
-characteristic time in days before the pacient is considered immune (immunization_delay).
-Both parameters can be set to zero by the user without affecting the results.
-If a register does not present an outcome, the immunization date can be construct using the closest vaccine
-date to the end of the study (take_first = FALSE), or the first vaccination date found (take_first = TRUE).
-Notice that the function works for one or several vaccines. In case of several vaccines, the parameter must
+This function returns a column with the immunization that corresponds
+to an analysed outcome.
+If a register presents a outcome the function search for the closest
+vaccine date before the outcome
+that satisfies the condition: vacc_date_col <= outcome_date_col -
+delay_time - immunization_delay.
+This condition allows to discriminate the vaccine dates in
+terms of characteristic time in days
+(delay_time) associated to an outcome, from the onset of symptoms
+or from any reference event, and the
+characteristic time in days before the pacient is considered
+immune (immunization_delay).
+Both parameters can be set to zero by the user without
+affecting the results.
+If a register does not present an outcome, the immunization
+date can be construct using the closest vaccine
+date to the end of the study (take_first = FALSE), or the
+first vaccination date found (take_first = TRUE).
+Notice that the function works for one or several vaccines.
+In case of several vaccines, the parameter must
 be passed as a vector (see example)
 }
 \examples{
 \dontrun{
-data("cohortdata")
-cohortdata$immunization.death <- get_immunization_date(cohortdata, "death.date", 1, 1,
-                                                         c("vaccine.date.1", "vaccine.date.2"), 
-                                                         "2021-12-31", take_first = FALSE)
+cohortdata <- data.frame()
+cohortdata$immunization.death <- get_immunization_date(cohortdata,
+"death.date", 1, 1,
+c("vaccine.date.1", "vaccine.date.2"),
+"2021-12-31",
+take_first = FALSE)
 }
 }

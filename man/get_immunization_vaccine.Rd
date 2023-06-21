@@ -13,7 +13,8 @@ get_immunization_vaccine(
 )
 }
 \arguments{
-\item{data}{dataset with at least one outcome column to generate the time-to-event}
+\item{data}{dataset with at least one outcome column to
+generate the time-to-event}
 
 \item{immunization_date_col}{DESCRIBE!}
 
@@ -27,21 +28,31 @@ get_immunization_vaccine(
 vaccine type
 }
 \description{
-This function returns the names of the vaccines associated to the immunization date.
-To avoid mistakes, it is necessary to set the same value of immunization_delay that was used in the previous
+This function returns the names of the vaccines
+associated to the immunization date.
+To avoid mistakes, it is necessary to set the same
+value of immunization_delay that was used in the previous
 functions.
-The arguments vacc_date_col and vacc_name_col in the same order, i.e. every name of column date must correspond
+The arguments vacc_date_col and vacc_name_col in the same
+order, i.e. every name of column date must correspond
 to a name of vaccine column (see example)
 }
 \examples{
 \dontrun{
-data("cohortdata")
-cohortdata$immunization.death <- get_immunization_date(cohortdata, "death.date", 1, 1,
-                                                         c("vaccine.date.1", "vaccine.date.2"), 
-                                                         "2021-12-31", take_first = FALSE)
-cohortdata$immunization.vaccine <- get_immunization_vaccine(cohortdata, "immunization.death", 
-                                                            c("vaccine.date.1", "vaccine.date.2"),
-                                                            c("vaccine.1", "vaccine.2"),
-                                                            immunization_delay = 14)
+cohortdata <- data.frame()
+cohortdata$immunization.death
+  <- get_immunization_date(cohortdata,
+                           "death.date",
+                           1,
+                           1,
+                           c("vaccine.date.1","vaccine.date.2"),
+                           "2021-12-31",
+                           take_first = FALSE)
+cohortdata$immunization.vaccine
+  <- get_immunization_vaccine(cohortdata,
+                              "immunization.death",
+                              c("vaccine.date.1", "vaccine.date.2"),
+                              c("vaccine.1", "vaccine.2"),
+                              immunization_delay = 14)
 }
 }

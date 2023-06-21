@@ -18,7 +18,7 @@
 #' @return age_group
 #' @examples
 #' \dontrun{
-#' data("cohortdata")
+#' cohortdata <- data.frame()
 #' cohortdata$age.group <- get_age_group(cohortdata, "age", 80, 9)
 #' }
 #' @export

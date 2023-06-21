@@ -2,14 +2,25 @@
 % Please edit documentation in R/all_data_prep.R
 \name{get_age_group}
 \alias{get_age_group}
-\title{Method for constructing age-group variable from age column}
+\title{Method for constructing age-group variable from age column
+This method splits an age interval from min_val to max_val into
+(max_val-min_val)/step intervals.
+By default min_val is set 0, however it can be assigned by
+convenience.
+If the method finds ages greater or equal than max_val
+it assigns the string ">{max_val}".
+To avoir errors it is necessary to set step < max_val.
+It is also suggested to choose the step such
+that max_val\%\%(step+1) = 0}
 \usage{
 get_age_group(data, col_age, max_val, step, min_val = 0)
 }
 \arguments{
-\item{data}{dataset with at least a column containing the age information}
+\item{data}{dataset with at least a column containing the age
+information}
 
-\item{col_age}{name of the column containing the age information}
+\item{col_age}{name of the column containing the age
+information}
 
 \item{max_val}{maximum value of age interval to split}
 
@@ -21,15 +32,20 @@ get_age_group(data, col_age, max_val, step, min_val = 0)
 age_group
 }
 \description{
-This method splits an age interval from min_val to max_val into (max_val-min_val)/step intervals.
-By default min_val is set 0, however it can be assigned by convenience.
-If the method finds ages greater or equal than max_val it assigns the string ">{max_val}".
+Method for constructing age-group variable from age column
+This method splits an age interval from min_val to max_val into
+(max_val-min_val)/step intervals.
+By default min_val is set 0, however it can be assigned by
+convenience.
+If the method finds ages greater or equal than max_val
+it assigns the string ">{max_val}".
 To avoir errors it is necessary to set step < max_val.
-It is also suggested to choose the step such that max_val\%\%(step+1) = 0
+It is also suggested to choose the step such
+that max_val\%\%(step+1) = 0
 }
 \examples{
 \dontrun{
-data("cohortdata")
+cohortdata <- data.frame()
 cohortdata$age.group <- get_age_group(cohortdata, "age", 80, 9)
 }
 }

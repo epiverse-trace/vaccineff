@@ -9,7 +9,7 @@ By default min_val is set 0, however it can be assigned by
 convenience.
 If the method finds ages greater or equal than max_val
 it assigns the string ">{max_val}".
-To avoir errors it is necessary to set step < max_val.
+To avoid errors it is necessary to set step < max_val.
 It is also suggested to choose the step such
 that max_val\%\%(step+1) = 0}
 \usage{
@@ -39,7 +39,7 @@ By default min_val is set 0, however it can be assigned by
 convenience.
 If the method finds ages greater or equal than max_val
 it assigns the string ">{max_val}".
-To avoir errors it is necessary to set step < max_val.
+To avoid errors it is necessary to set step < max_val.
 It is also suggested to choose the step such
 that max_val\%\%(step+1) = 0
 }

@@ -1,11 +1,10 @@
-library(dplyr)
 #' Function to assign the outcome status or the vaccination status
 #' This function generates a binary status column using the set of columns,
 #' passed through the
 #' variable {col_names}. This columns must contain the information of
 #' the outcomes or the vaccine dates.
-#' It generates a logical codition using the operators "&" or "|", and
-#' evalutes if the registers in
+#' It generates a logical condition using the operators "&" or "|", and
+#' evaluates if the registers in
 #' the columns contain or not information.
 #' If the logical operator is "&", the function returns 1, only if all the
 #' columns contain information.
@@ -15,7 +14,7 @@ library(dplyr)
 #' severa vaccine doses.
 #' By default, it returns a binary column 0 means no outcome or no vaccine and
 #' 1 means the opposite.
-#' However, it can also receive personalized options, e.g. ["v", "u"] for
+#' However, it can also receive personalized options, e.g. c("v", "u") for
 #' unvaccinated and vaccinated.
 #' @param data dataset with at least one column to generate the status
 #' @param col_names name of the column containing the age information
@@ -70,7 +69,7 @@ set_status <- function(data,
 #' terms of characteristic time in days
 #' (delay_time) associated to an outcome, from the onset of symptoms
 #' or from any reference event, and the
-#' characteristic time in days before the pacient is considered
+#' characteristic time in days before the patient is considered
 #' immune (immunization_delay).
 #' Both parameters can be set to zero by the user without
 #' affecting the results.
@@ -88,7 +87,7 @@ set_status <- function(data,
 #' the outcome dates
 #' @param outcome_delay characteristic time in days of the outcome
 #' from reference event
-#' @param immunization_delay characteristic time in days before the pacient
+#' @param immunization_delay characteristic time in days before the patient
 #' is considered immune
 #' @param vacc_date_col name of the column(s) that contains the vaccine dates
 #' @param end_cohort end date of the study
@@ -121,9 +120,9 @@ get_immunization_date <- function(data,
   data$imm_limit <- data.table::fifelse(data$outcome_col == 1,
                                         as.Date(data[[outcome_date_col]]) -
                                           as.difftime(outcome_delay,
-                                                      unit = "days") -
+                                                      units = "days") -
                                           as.difftime(immunization_delay,
-                                                      unit = "days"),
+                                                      units = "days"),
                                         end_cohort)
 
   deltas <- NULL
@@ -170,7 +169,7 @@ get_immunization_date <- function(data,
 #' characteristic time in days
 #' (delay_time) associated to an outcome, from the onset of symptoms or
 #' from any reference event, and the
-#' characteristic time in days before the pacient is considered immune
+#' characteristic time in days before the patient is considered immune
 #' (immunization_delay).
 #' Both parameters can be set to zero by the user without affecting
 #' the results.
@@ -184,6 +183,8 @@ get_immunization_date <- function(data,
 #'
 #' @param data dataset with at least one outcome column to generate
 #' the time-to-event
+#' @param outcome_date_col name of the column that contains
+#' the outcome dates
 #' @param start_cohort start date of the study
 #' @param end_cohort end date of the study
 #' @param start_from_immunization TRUE: starts counting time-to-event from

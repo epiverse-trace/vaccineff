@@ -1,4 +1,3 @@
-library(survival)
 #' Function to test the proportional hazards hypothesis of the model.
 #' The function relies on the implementation of the Scheunfeld test for testing
 #' the proportional hazards hypothesis on survival package.
@@ -7,7 +6,7 @@ library(survival)
 #' strategies, e.g. stratifying the dataset by confounders or including
 #' time-dependent variables.
 #' @param data dataset with at least one column to generate the status
-#' @param outcome_status_col name of the column containin status of the
+#' @param outcome_status_col name of the column containing status of the
 #' event (most be a binary column)
 #' @param time_to_event_col name of the column containing the time-to-event
 #' @param status_vacc_col name of the column containing the vaccination
@@ -44,8 +43,8 @@ coh_test_noconf <- function(data, outcome_status_col,
                             time_to_event_col,
                             status_vacc_col,
                             p_thr = 0.05) {
-  cx <- coxph(Surv(data[[time_to_event_col]], data[[outcome_status_col]])
+  cx <- survival::coxph(survival::Surv(data[[time_to_event_col]], data[[outcome_status_col]])
               ~ data[[status_vacc_col]])
-  test <- cox.zph(cx)
+  test <- survival::cox.zph(cx)
   return(test)
 }

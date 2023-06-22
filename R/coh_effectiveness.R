@@ -1,4 +1,3 @@
-library(survival)
 #' Function to estimate the vaccine effectiveness based on the vaccination
 #' status.
 #' The function relies on the implementation of the Cox model for proportional
@@ -9,7 +8,7 @@ library(survival)
 #' statistical strategies, e.g. stratifying the dataset by confounders or
 #' including time-dependent variables.
 #' @param data dataset with at least one column to generate the status
-#' @param outcome_status_col name of the column containin status of the
+#' @param outcome_status_col name of the column containing status of the
 #' event (most be a binary column)
 #' @param time_to_event_col name of the column containing the time-to-event
 #' @param status_vacc_col name of the column containing the vaccination
@@ -45,12 +44,12 @@ coh_eff_noconf <- function(data,
                            time_to_event_col,
                            status_vacc_col,
                            p_thr = 0.05) {
-  cx <- coxph(Surv(data[[time_to_event_col]], data[[outcome_status_col]])
+  cx <- survival::coxph(survival::Surv(data[[time_to_event_col]], data[[outcome_status_col]])
               ~ data[[status_vacc_col]])
-  test <- cox.zph(cx)
-  hr <- c(round(exp(coef(cx)), 4)[1])
-  ci025 <- c(round(exp(confint(cx)), 4)[1])
-  ci975 <- c(round(exp(confint(cx)), 4)[2])
+  test <- survival::cox.zph(cx)
+  hr <- c(round(exp(stats::coef(cx)), 4)[1])
+  ci025 <- c(round(exp(stats::confint(cx)), 4)[1])
+  ci975 <- c(round(exp(stats::confint(cx)), 4)[2])
   p <- test$table[5]
   p_value <- c(format(p, digits = 3))
   if (p < p_thr) {

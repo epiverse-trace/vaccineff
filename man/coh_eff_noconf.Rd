@@ -23,7 +23,7 @@ coh_eff_noconf(
 \arguments{
 \item{data}{dataset with at least one column to generate the status}
 
-\item{outcome_status_col}{name of the column containin status of the
+\item{outcome_status_col}{name of the column containing status of the
 event (most be a binary column)}
 
 \item{time_to_event_col}{name of the column containing the time-to-event}

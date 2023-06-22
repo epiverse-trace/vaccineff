@@ -17,6 +17,9 @@ get_time_to_event(
 \item{data}{dataset with at least one outcome column to generate
 the time-to-event}
 
+\item{outcome_date_col}{name of the column that contains
+the outcome dates}
+
 \item{start_cohort}{start date of the study}
 
 \item{end_cohort}{end date of the study}
@@ -43,7 +46,7 @@ This condition allows to discriminate the vaccine dates in terms of
 characteristic time in days
 (delay_time) associated to an outcome, from the onset of symptoms or
 from any reference event, and the
-characteristic time in days before the pacient is considered immune
+characteristic time in days before the patient is considered immune
 (immunization_delay).
 Both parameters can be set to zero by the user without affecting
 the results.

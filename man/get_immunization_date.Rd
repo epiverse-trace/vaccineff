@@ -24,7 +24,7 @@ the outcome dates}
 \item{outcome_delay}{characteristic time in days of the outcome
 from reference event}
 
-\item{immunization_delay}{characteristic time in days before the pacient
+\item{immunization_delay}{characteristic time in days before the patient
 is considered immune}
 
 \item{vacc_date_col}{name of the column(s) that contains the vaccine dates}
@@ -49,7 +49,7 @@ This condition allows to discriminate the vaccine dates in
 terms of characteristic time in days
 (delay_time) associated to an outcome, from the onset of symptoms
 or from any reference event, and the
-characteristic time in days before the pacient is considered
+characteristic time in days before the patient is considered
 immune (immunization_delay).
 Both parameters can be set to zero by the user without
 affecting the results.

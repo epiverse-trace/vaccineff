@@ -7,8 +7,8 @@ This function generates a binary status column using the set of columns,
 passed through the
 variable {col_names}. This columns must contain the information of
 the outcomes or the vaccine dates.
-It generates a logical codition using the operators "&" or "|", and
-evalutes if the registers in
+It generates a logical condition using the operators "&" or "|", and
+evaluates if the registers in
 the columns contain or not information.
 If the logical operator is "&", the function returns 1, only if all the
 columns contain information.
@@ -18,7 +18,7 @@ It is recommended to use this method when working with several outcomes or
 severa vaccine doses.
 By default, it returns a binary column 0 means no outcome or no vaccine and
 1 means the opposite.
-However, it can also receive personalized options, e.g. \link{"v", "u"} for
+However, it can also receive personalized options, e.g. c("v", "u") for
 unvaccinated and vaccinated.}
 \usage{
 set_status(data, col_names, operator = "&", status = c(1, 0))
@@ -41,8 +41,8 @@ This function generates a binary status column using the set of columns,
 passed through the
 variable {col_names}. This columns must contain the information of
 the outcomes or the vaccine dates.
-It generates a logical codition using the operators "&" or "|", and
-evalutes if the registers in
+It generates a logical condition using the operators "&" or "|", and
+evaluates if the registers in
 the columns contain or not information.
 If the logical operator is "&", the function returns 1, only if all the
 columns contain information.
@@ -52,7 +52,7 @@ It is recommended to use this method when working with several outcomes or
 severa vaccine doses.
 By default, it returns a binary column 0 means no outcome or no vaccine and
 1 means the opposite.
-However, it can also receive personalized options, e.g. \link{"v", "u"} for
+However, it can also receive personalized options, e.g. c("v", "u") for
 unvaccinated and vaccinated.
 }
 \examples{

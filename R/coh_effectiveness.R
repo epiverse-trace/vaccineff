@@ -44,8 +44,9 @@ coh_eff_noconf <- function(data,
                            time_to_event_col,
                            status_vacc_col,
                            p_thr = 0.05) {
-  cx <- survival::coxph(survival::Surv(data[[time_to_event_col]], data[[outcome_status_col]])
-              ~ data[[status_vacc_col]])
+  cx <- survival::coxph(survival::Surv(data[[time_to_event_col]],
+                                       data[[outcome_status_col]])
+                        ~ data[[status_vacc_col]])
   test <- survival::cox.zph(cx)
   hr <- c(round(exp(stats::coef(cx)), 4)[1])
   ci025 <- c(round(exp(stats::confint(cx)), 4)[1])

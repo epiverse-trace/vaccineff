@@ -43,8 +43,9 @@ coh_test_noconf <- function(data, outcome_status_col,
                             time_to_event_col,
                             status_vacc_col,
                             p_thr = 0.05) {
-  cx <- survival::coxph(survival::Surv(data[[time_to_event_col]], data[[outcome_status_col]])
-              ~ data[[status_vacc_col]])
+  cx <- survival::coxph(survival::Surv(data[[time_to_event_col]],
+                                       data[[outcome_status_col]])
+                        ~ data[[status_vacc_col]])
   test <- survival::cox.zph(cx)
   return(test)
 }

@@ -286,7 +286,7 @@ get_immunization_dose <- function(data,
                                   immunization_date_col,
                                   vacc_date_col,
                                   immunization_delay) {
-  data$id <- 1:nrow(data)
+  data$id <- seq_len(nrow(data))
   cols <- c("id", immunization_date_col, vacc_date_col)
   split <- data[!is.na(data[[immunization_date_col]])] %>%
     dplyr::select(dplyr::all_of(cols))
@@ -303,7 +303,7 @@ get_immunization_dose <- function(data,
   long <- long[order(long$id, long$dose), ]
   long <- long[!duplicated(long$id), ]
   long <- long %>% dplyr::select(dplyr::all_of(c("id", "dose")))
-  data <- merge(x = data, y = long, by = c("id"), all.x = TRUE)
+  data <- merge(x = data, y = long, by = "id", all.x = TRUE)
   data <- data[order(data$id), ]
   return(data$dose)
 }
@@ -352,7 +352,7 @@ get_immunization_vaccine <- function(data,
                                      immunization_delay) {
   rdf <- data.frame("vaccine_name_col" = vacc_name_col,
                     "vaccine_date_col" = vacc_date_col)
-  data$id <- 1:nrow(data)
+  data$id <- seq_len(nrow(data))
   cols1 <- c("id", immunization_date_col, vacc_date_col)
   split1 <- data[!is.na(data[[immunization_date_col]])] %>%
     dplyr::select(dplyr::all_of(cols1))
@@ -387,7 +387,7 @@ get_immunization_vaccine <- function(data,
   long3 <- long3[(long3[[immunization_date_col]] - immunization_delay
                   == long3$vaccine_date)
                  & !is.na(long3$vaccine_date)]
-  long3 <- merge(x = long3, y = rdf, by = c("vaccine_name_col"), all.x = TRUE)
+  long3 <- merge(x = long3, y = rdf, by = "vaccine_name_col", all.x = TRUE)
   long3 <- long3[(long3$vaccine_date_col.x == long3$vaccine_date_col.y)]
   long3 <- long3 %>% dplyr::select(dplyr::all_of(c("id",
                                                    "vaccine_name",
@@ -398,7 +398,7 @@ get_immunization_vaccine <- function(data,
                  by = c("id", "vaccine_date_col"),
                  all.x = TRUE)
   long1 <- long1 %>% dplyr::select(dplyr::all_of(c("id", "vaccine")))
-  data <- merge(x = data, y = long1, by = c("id"), all.x = TRUE)
+  data <- merge(x = data, y = long1, by = "id", all.x = TRUE)
   data <- data[order(data$id), ]
   return(data$vaccine)
 }

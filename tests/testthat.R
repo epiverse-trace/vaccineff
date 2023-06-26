@@ -5,8 +5,3 @@
 # Learn more about the roles of various files in:
 # * https://r-pkgs.org/tests.html
 # * https://testthat.r-lib.org/reference/test_package.html#special-files
-
-library(testthat)
-library(readepi)
-
-test_check("readepi")

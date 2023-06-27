@@ -2,41 +2,25 @@
 % Please edit documentation in R/coh_data_wrangling.R
 \name{set_status}
 \alias{set_status}
-\title{Function to assign the outcome status or the vaccination status
-This function generates a binary status column using the set of columns,
-passed through the
-variable {col_names}. This columns must contain the information of
-the outcomes or the vaccine dates.
-It generates a logical condition using the operators "&" or "|", and
-evaluates if the registers in
-the columns contain or not information.
-If the logical operator is "&", the function returns 1, only if all the
-columns contain information.
-On the other hand, if the logical operator is "|", it is enough to find one
-column with information.
-It is recommended to use this method when working with several outcomes or
-severa vaccine doses.
-By default, it returns a binary column 0 means no outcome or no vaccine and
-1 means the opposite.
-However, it can also receive personalized options, e.g. c("v", "u") for
-unvaccinated and vaccinated.}
+\title{Function to assign the outcome status or the vaccination status}
 \usage{
 set_status(data, col_names, operator = "&", status = c(1, 0))
 }
 \arguments{
 \item{data}{dataset with at least one column to generate the status}
 
-\item{col_names}{name of the column containing the age information}
+\item{col_names}{name of the column containing the information for the
+status}
 
 \item{operator}{logical operator to evaluate the condition}
 
-\item{status}{binary set of status, e.g. c(1,0)}
+\item{status}{binary set of status, e.g. c("v","u"). The first element of
+the vector must be the status when the condition is satisfied.}
 }
 \value{
-age_group
+status
 }
 \description{
-Function to assign the outcome status or the vaccination status
 This function generates a binary status column using the set of columns,
 passed through the
 variable {col_names}. This columns must contain the information of
@@ -49,18 +33,18 @@ columns contain information.
 On the other hand, if the logical operator is "|", it is enough to find one
 column with information.
 It is recommended to use this method when working with several outcomes or
-severa vaccine doses.
-By default, it returns a binary column 0 means no outcome or no vaccine and
-1 means the opposite.
+several vaccine doses.
+By default, it returns a binary column where 0 means no outcome or no
+vaccine and 1 means the opposite.
 However, it can also receive personalized options, e.g. c("v", "u") for
-unvaccinated and vaccinated.
+vaccinated and unvaccinated.
 }
 \examples{
 \dontrun{
-cohortdata <- data.frame()
+data(cohortdata)
 cohortdata$vaccine.status <- set_status(cohortdata,
-                                         c("vaccine.date.1",
-                                           "vaccine.date.2"),
+                                         c("vaccine_date_1",
+                                           "vaccine_date_2"),
                                          status = c("v", "u"))
 }
 }

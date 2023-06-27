@@ -1,18 +1,19 @@
 #' Function to test the proportional hazards hypothesis of the model.
-#' The function relies on the implementation of the Scheunfeld test for testing
+#'
+#' The function relies on the implementation of the Schoenfeld test for testing
 #' the proportional hazards hypothesis on survival package.
 #' It returns the result of the test and it can by plotted using plot().
 #' If the test is rejected, it is recomended to try other statistical
 #' strategies, e.g. stratifying the dataset by confounders or including
 #' time-dependent variables.
-#' @param data dataset with at least one column to generate the status
+#' @param data dataset with cohort information (see example)
 #' @param outcome_status_col name of the column containing status of the
 #' event (most be a binary column)
 #' @param time_to_event_col name of the column containing the time-to-event
 #' @param status_vacc_col name of the column containing the vaccination
 #' status
 #' @param p_thr p-value to test Proportional Hazards Hypothesis
-#' @return age_group
+#' @return Schoenfeld test: Survival element
 #' @examples
 #' \dontrun{
 #' cohortdata <- data.frame()

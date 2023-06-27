@@ -1,20 +1,23 @@
 #' Function to estimate the vaccine effectiveness based on the vaccination
 #' status.
+#'
 #' The function relies on the implementation of the Cox model for proportional
 #' hazards on survival package. It returns a dataframe with the summary of the
-#' estimation that includes the value of the hazard ratio, the vaccine
-#' effectiveness, and the result of the test for the Proportional Hazards
-#' hypothesis. If the test is rejected, it is recomended to try other
+#' estimation that includes the value of the hazard ratio (CI95%), the vaccine
+#' effectiveness (CI95%), and the result of the test for the Proportional
+#' Hazards hypothesis. If the test is rejected, it is recomended to try other
 #' statistical strategies, e.g. stratifying the dataset by confounders or
 #' including time-dependent variables.
-#' @param data dataset with at least one column to generate the status
+#'
+#' @param data dataset with cohort information (see example)
 #' @param outcome_status_col name of the column containing status of the
 #' event (most be a binary column)
 #' @param time_to_event_col name of the column containing the time-to-event
 #' @param status_vacc_col name of the column containing the vaccination
 #' status
 #' @param p_thr p-value to test Proportional Hazards Hypothesis
-#' @return age_group
+#' @return summary: hazards ratio (CI95%), vaccine effectiveness (CI95%),
+#' and Schoenfeld test
 #' @examples
 #' \dontrun{
 #' cohortdata <- data.frame()

@@ -16,27 +16,27 @@
 #' @return Schoenfeld test: Survival element
 #' @examples
 #' \dontrun{
-#' cohortdata <- data.frame()
-#' cohortdata$immunization.death <- get_immunization_date(cohortdata,
-#' "death.date",
+#' data(cohortdata)
+#' cohortdata$immunization_death <- get_immunization_date(cohortdata,
+#' "death_date",
 #' 0,
 #' 14,
-#' c("vaccine.date.1", "vaccine.date.2"),
+#' c("vaccine_date_1", "vaccine_date_2"),
 #' "2021-12-31", take_first = FALSE)
 #' "2021-12-31",
 #' take_first = FALSE)
-#' cohortdata$vaccine.status <- set_status(cohortdata,
-#' c("immunization.death"),
+#' cohortdata$vaccine_status <- set_status(cohortdata,
+#' c("immunization_death"),
 #' status = c("v", "u"))
-#' cohortdata$death.status <- set_status(cohortdata,
-#' c("death.date"))
-#' cohortdata$time.to.death <- get_time_to_event(cohortdata, "death.date",
+#' cohortdata$death_status <- set_status(cohortdata,
+#' c("death_date"))
+#' cohortdata$time_to_death <- get_time_to_event(cohortdata, "death_date",
 #' "2021-01-01", "2021-12-31",
 #' FALSE)
 #' test <- coh_test_noconf(cohortdata,
-#' "death.status",
-#' "time.to.death",
-#' "vaccine.status")
+#' "death_status",
+#' "time_to_death",
+#' "vaccine_status")
 #' plot(test)
 #' }
 #' @export

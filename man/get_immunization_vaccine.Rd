@@ -13,19 +13,23 @@ get_immunization_vaccine(
 )
 }
 \arguments{
-\item{data}{dataset with at least one outcome column to
-generate the time-to-event}
+\item{data}{dataset with cohort information (see example)}
 
-\item{immunization_date_col}{DESCRIBE!}
+\item{immunization_date_col}{name of the column that contains the
+immunization date.}
 
-\item{vacc_date_col}{DESCRIBE!}
+\item{vacc_date_col}{name of the column(s) that contains the vaccine date}
 
-\item{vacc_name_col}{DESCRIBE!}
+\item{vacc_name_col}{name of the column(s) that contains the vaccine names}
 
-\item{immunization_delay}{DESCRIBE!}
+\item{immunization_delay}{characteristic time in days before the patient
+is considered immune}
 }
 \value{
-vaccine type
+dose: a column with the names of the columns that are associated to
+the doses of each register
+
+vaccine name
 }
 \description{
 This function returns the names of the vaccines
@@ -33,26 +37,26 @@ associated to the immunization date.
 To avoid mistakes, it is necessary to set the same
 value of immunization_delay that was used in the previous
 functions.
-The arguments vacc_date_col and vacc_name_col in the same
+The arguments vacc_date_col and vacc_name_col must be passed in the same
 order, i.e. every name of column date must correspond
 to a name of vaccine column (see example)
 }
 \examples{
 \dontrun{
-cohortdata <- data.frame()
-cohortdata$immunization.death
+data("cohortdata")
+cohortdata$immunization_death
   <- get_immunization_date(cohortdata,
-                           "death.date",
+                           "death_date",
                            1,
                            1,
-                           c("vaccine.date.1","vaccine.date.2"),
+                           c("vaccine_date_1","vaccine_date_2"),
                            "2021-12-31",
                            take_first = FALSE)
 cohortdata$immunization.vaccine
   <- get_immunization_vaccine(cohortdata,
-                              "immunization.death",
-                              c("vaccine.date.1", "vaccine.date.2"),
-                              c("vaccine.1", "vaccine.2"),
+                              "immunization_death",
+                              c("vaccine_date_1", "vaccine_date_2"),
+                              c("vaccine_1", "vaccine_2"),
                               immunization_delay = 14)
 }
 }

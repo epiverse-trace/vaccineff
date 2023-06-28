@@ -3,14 +3,7 @@
 \name{coh_eff_noconf}
 \alias{coh_eff_noconf}
 \title{Function to estimate the vaccine effectiveness based on the vaccination
-status.
-The function relies on the implementation of the Cox model for proportional
-hazards on survival package. It returns a dataframe with the summary of the
-estimation that includes the value of the hazard ratio, the vaccine
-effectiveness, and the result of the test for the Proportional Hazards
-hypothesis. If the test is rejected, it is recomended to try other
-statistical strategies, e.g. stratifying the dataset by confounders or
-including time-dependent variables.}
+status.}
 \usage{
 coh_eff_noconf(
   data,
@@ -21,7 +14,7 @@ coh_eff_noconf(
 )
 }
 \arguments{
-\item{data}{dataset with at least one column to generate the status}
+\item{data}{dataset with cohort information (see example)}
 
 \item{outcome_status_col}{name of the column containing status of the
 event (most be a binary column)}
@@ -34,40 +27,38 @@ status}
 \item{p_thr}{p-value to test Proportional Hazards Hypothesis}
 }
 \value{
-age_group
+summary: hazards ratio (CI95\%), vaccine effectiveness (CI95\%),
+and Schoenfeld test
 }
 \description{
-Function to estimate the vaccine effectiveness based on the vaccination
-status.
 The function relies on the implementation of the Cox model for proportional
 hazards on survival package. It returns a dataframe with the summary of the
-estimation that includes the value of the hazard ratio, the vaccine
-effectiveness, and the result of the test for the Proportional Hazards
-hypothesis. If the test is rejected, it is recomended to try other
+estimation that includes the value of the hazard ratio (CI95\%), the vaccine
+effectiveness (CI95\%), and the result of the test for the Proportional
+Hazards hypothesis. If the test is rejected, it is recomended to try other
 statistical strategies, e.g. stratifying the dataset by confounders or
 including time-dependent variables.
 }
 \examples{
 \dontrun{
-cohortdata <- data.frame()
-
-cohortdata$immunization.death <- get_immunization_date(cohortdata,
-"death.date", 0, 14,
-c("vaccine.date.1", "vaccine.date.2"),
+data("cohortdata")
+cohortdata$immunization_death <- get_immunization_date(cohortdata,
+"death_date", 0, 14,
+c("vaccine_date_1", "vaccine_date_2"),
 "2021-12-31", take_first = FALSE)
 "2021-12-31",
 take_first = FALSE)
-cohortdata$vaccine.status <- set_status(cohortdata,
-c("immunization.death"),
+cohortdata$vaccine_status <- set_status(cohortdata,
+c("immunization_death"),
 status = c("v", "u"))
-cohortdata$death.status <- set_status(cohortdata,
-c("death.date"))
-cohortdata$time.to.death <- get_time_to_event(cohortdata, "death.date",
+cohortdata$death_status <- set_status(cohortdata,
+c("death_date"))
+cohortdata$time_to_death <- get_time_to_event(cohortdata, "death_date",
 "2021-01-01", "2021-12-31",
 FALSE)
 coh_eff_noconf(cohortdata,
-"death.status",
-"time.to.death",
-"vaccine.status")
+"death_status",
+"time_to_death",
+"vaccine_status")
 }
 }

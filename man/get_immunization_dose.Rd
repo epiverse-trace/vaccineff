@@ -12,17 +12,19 @@ get_immunization_dose(
 )
 }
 \arguments{
-\item{data}{dataset with at least one outcome column
-to generate the time-to-event}
+\item{data}{dataset with cohort information (see example)}
 
-\item{immunization_date_col}{DESCRIBE!}
+\item{immunization_date_col}{name of the column that contains the
+immunization date.}
 
-\item{vacc_date_col}{DESCRIBE!}
+\item{vacc_date_col}{name of the column(s) that contains the vaccine date}
 
-\item{immunization_delay}{DESCRIBE!}
+\item{immunization_delay}{characteristic time in days before the patient
+is considered immune}
 }
 \value{
-dose
+dose: a column with the names of the columns that are associated to
+the doses of each register
 }
 \description{
 This function returns the names of the columns associated
@@ -32,19 +34,19 @@ immunization_delay that was used in the previous functions.
 }
 \examples{
 \dontrun{
-cohortdata <- data.frame()
+data("cohortdata")
 cohortdata$immunization.death
     <- get_immunization_date(cohortdata,
-                             "death.date",
+                             "death_date",
                              1,
                              1,
-                             c("vaccine.date.1", "vaccine.date.2"),
+                             c("vaccine_date_1", "vaccine_date_2"),
                              "2021-12-31",
                              take_first = FALSE)
-cohortdata$immunization.dose <-
+cohortdata$immunization_dose <-
       get_immunization_dose(cohortdata,
-                            "immunization.death",
-                            c("vaccine.date.1", "vaccine.date.2"),
+                            "immunization_death",
+                            c("vaccine_date_1", "vaccine_date_2"),
                             immunization_delay = 14)
 }
 }

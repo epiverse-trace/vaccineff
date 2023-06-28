@@ -58,7 +58,7 @@ each design `(cohortdata, testnegdata, screeningdata)`
 
 \# Load example `cohortdata` included in the package
 
-```{r example, include = FALSE, echo = TRUE}
+```{r example, include = TRUE, echo = TRUE}
 data("cohortdata")
 head(cohortdata, 5)
 ```

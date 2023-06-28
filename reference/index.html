@@ -56,25 +56,17 @@
           <code><a href="coh_eff_noconf.html">coh_eff_noconf()</a></code> 
         </dt>
         <dd>Function to estimate the vaccine effectiveness based on the vaccination
-status.
-The function relies on the implementation of the Cox model for proportional
-hazards on survival package. It returns a dataframe with the summary of the
-estimation that includes the value of the hazard ratio, the vaccine
-effectiveness, and the result of the test for the Proportional Hazards
-hypothesis. If the test is rejected, it is recomended to try other
-statistical strategies, e.g. stratifying the dataset by confounders or
-including time-dependent variables.</dd>
+status.</dd>
       </dl><dl><dt>
           
           <code><a href="coh_test_noconf.html">coh_test_noconf()</a></code> 
         </dt>
-        <dd>Function to test the proportional hazards hypothesis of the model.
-The function relies on the implementation of the Scheunfeld test for testing
-the proportional hazards hypothesis on survival package.
-It returns the result of the test and it can by plotted using plot().
-If the test is rejected, it is recomended to try other statistical
-strategies, e.g. stratifying the dataset by confounders or including
-time-dependent variables.</dd>
+        <dd>Function to test the proportional hazards hypothesis of the model.</dd>
+      </dl><dl><dt>
+          
+          <code><a href="cohortdata.html">cohortdata</a></code> 
+        </dt>
+        <dd>Cohort data on vaccineff</dd>
       </dl><dl><dt>
           
           <code><a href="get_age_group.html">get_age_group()</a></code> 
@@ -113,24 +105,7 @@ that max_val%%(step+1) = 0</dd>
           
           <code><a href="set_status.html">set_status()</a></code> 
         </dt>
-        <dd>Function to assign the outcome status or the vaccination status
-This function generates a binary status column using the set of columns,
-passed through the
-variable col_names. This columns must contain the information of
-the outcomes or the vaccine dates.
-It generates a logical condition using the operators "&amp;" or "|", and
-evaluates if the registers in
-the columns contain or not information.
-If the logical operator is "&amp;", the function returns 1, only if all the
-columns contain information.
-On the other hand, if the logical operator is "|", it is enough to find one
-column with information.
-It is recommended to use this method when working with several outcomes or
-severa vaccine doses.
-By default, it returns a binary column 0 means no outcome or no vaccine and
-1 means the opposite.
-However, it can also receive personalized options, e.g. c("v", "u") for
-unvaccinated and vaccinated.</dd>
+        <dd>Function to assign the outcome status or the vaccination status</dd>
       </dl></div>
   </main></div>
 

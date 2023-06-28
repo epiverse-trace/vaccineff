@@ -16,7 +16,7 @@
 #' @return Schoenfeld test: Survival element
 #' @examples
 #' \dontrun{
-#' data(cohortdata)
+#' data("cohortdata")
 #' cohortdata$immunization_death <- get_immunization_date(cohortdata,
 #' "death_date",
 #' 0,

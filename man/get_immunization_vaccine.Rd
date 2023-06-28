@@ -43,7 +43,7 @@ to a name of vaccine column (see example)
 }
 \examples{
 \dontrun{
-data(cohortdata)
+data("cohortdata")
 cohortdata$immunization_death
   <- get_immunization_date(cohortdata,
                            "death_date",

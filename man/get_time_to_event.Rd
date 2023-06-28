@@ -44,7 +44,7 @@ case, it is not necessary to pass the argument {immunization_date_col}
 }
 \examples{
 \dontrun{
-data(cohortdata)
+data("cohortdata")
 cohortdata$immunization_death <-
   get_immunization_date(cohortdata,
                        "death_date",

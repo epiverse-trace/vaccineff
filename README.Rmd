@@ -56,7 +56,13 @@ library(vaccineff)
 **vaccineff** provides a minimal datasets that can be used to test out
 each design `(cohortdata, testnegdata, screeningdata)`
 
-\# Load example `cohortdata` incuded in the package
+\# Load example `cohortdata` included in the package
+
+```{r example, include = FALSE, echo = TRUE}
+data("cohortdata")
+head(cohortdata, 5)
+```
+
 
 ### Contributions
 
@@ -67,6 +73,6 @@ Contributors to the project include:
 
 -   [Zulma M. Cucunubá](https://github.com/zmcucunuba) (author)
 
--   Santiago Loaiza (author)
+-   [Santiago Loaiza](https://github.com/santilo9513) (author)
 
 -   [Geraldine Gómez](https://github.com/GeraldineGomez) (contributor)

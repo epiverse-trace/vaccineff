@@ -60,7 +60,7 @@ In case of several vaccines, the parameter
 }
 \examples{
 \dontrun{
-data(cohortdata)
+data("cohortdata")
 cohortdata$immunization.death <- get_immunization_date(cohortdata,
 "death_date", 1, 1,
 c("vaccine_date_1", "vaccine_date_2"),

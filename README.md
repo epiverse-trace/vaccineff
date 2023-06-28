@@ -43,11 +43,11 @@ each design `(cohortdata, testnegdata, screeningdata)`
 
 Contributors to the project include:
 
-- [David Santiago Quevedo](https://github.com/davidsantiagoquevedo)
-  (author)
+-   [David Santiago Quevedo](https://github.com/davidsantiagoquevedo)
+    (author)
 
-- [Zulma M. Cucunubá](https://github.com/zmcucunuba) (author)
+-   [Zulma M. Cucunubá](https://github.com/zmcucunuba) (author)
 
-- Santiago Loaiza (author)
+-   [Santiago Loaiza](https://github.com/santilo9513) (author)
 
-- [Geraldine Gómez](https://github.com/GeraldineGomez) (contributor)
+-   [Geraldine Gómez](https://github.com/GeraldineGomez) (contributor)

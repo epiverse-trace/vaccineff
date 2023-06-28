@@ -34,7 +34,7 @@ immunization_delay that was used in the previous functions.
 }
 \examples{
 \dontrun{
-data(cohortdata)
+data("cohortdata")
 cohortdata$immunization.death
     <- get_immunization_date(cohortdata,
                              "death_date",

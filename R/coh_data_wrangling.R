@@ -27,7 +27,7 @@
 #' @return status
 #' @examples
 #' \dontrun{
-#' data(cohortdata)
+#' data("cohortdata")
 #' cohortdata$vaccine.status <- set_status(cohortdata,
 #'                                          c("vaccine_date_1",
 #'                                            "vaccine_date_2"),
@@ -98,7 +98,7 @@ set_status <- function(data,
 #' @return immunzation date
 #' @examples
 #' \dontrun{
-#' data(cohortdata)
+#' data("cohortdata")
 #' cohortdata$immunization.death <- get_immunization_date(cohortdata,
 #' "death_date", 1, 1,
 #' c("vaccine_date_1", "vaccine_date_2"),
@@ -181,7 +181,7 @@ get_immunization_date <- function(data,
 #' @return time-to-event
 #' @examples
 #' \dontrun{
-#' data(cohortdata)
+#' data("cohortdata")
 #' cohortdata$immunization_death <-
 #'   get_immunization_date(cohortdata,
 #'                        "death_date",
@@ -253,7 +253,7 @@ get_time_to_event <- function(data, outcome_date_col,
 #' the doses of each register
 #' @examples
 #' \dontrun{
-#' data(cohortdata)
+#' data("cohortdata")
 #' cohortdata$immunization.death
 #'     <- get_immunization_date(cohortdata,
 #'                              "death_date",
@@ -318,7 +318,7 @@ get_immunization_dose <- function(data,
 #' @return vaccine name
 #' @examples
 #' \dontrun{
-#' data(cohortdata)
+#' data("cohortdata")
 #' cohortdata$immunization_death
 #'   <- get_immunization_date(cohortdata,
 #'                            "death_date",

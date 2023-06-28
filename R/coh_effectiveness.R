@@ -20,7 +20,7 @@
 #' and Schoenfeld test
 #' @examples
 #' \dontrun{
-#' data(cohortdata)#'
+#' data("cohortdata")
 #' cohortdata$immunization_death <- get_immunization_date(cohortdata,
 #' "death_date", 0, 14,
 #' c("vaccine_date_1", "vaccine_date_2"),

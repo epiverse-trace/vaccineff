@@ -37,17 +37,17 @@ remotes::install_github("TRACE-LAC/vaccineff")
 **vaccineff** provides a minimal datasets that can be used to test out
 each design `(cohortdata, testnegdata, screeningdata)`
 
-\# Load example `cohortdata` incuded in the package
+\# Load example `cohortdata` included in the package
 
 ### Contributions
 
 Contributors to the project include:
 
--   [David Santiago Quevedo](https://github.com/davidsantiagoquevedo)
-    (author)
+- [David Santiago Quevedo](https://github.com/davidsantiagoquevedo)
+  (author)
 
--   [Zulma M. Cucunubá](https://github.com/zmcucunuba) (author)
+- [Zulma M. Cucunubá](https://github.com/zmcucunuba) (author)
 
--   [Santiago Loaiza](https://github.com/santilo9513) (author)
+- [Santiago Loaiza](https://github.com/santilo9513) (author)
 
--   [Geraldine Gómez](https://github.com/GeraldineGomez) (contributor)
+- [Geraldine Gómez](https://github.com/GeraldineGomez) (contributor)

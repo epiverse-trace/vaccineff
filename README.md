@@ -7,7 +7,7 @@
 MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/license/mit/)
 [![Codecov test
 coverage](https://codecov.io/gh/%7B%7B%20gh_repo%20%7D%7D/branch/main/graph/badge.svg)](https://app.codecov.io/gh/%7B%7B%20gh_repo%20%7D%7D?branch=main)
-[![lifecycle-concept](https://raw.githubusercontent.com/reconverse/reconverse.github.io/master/images/badge-concept.svg)](https://www.reconverse.org/lifecycle.html#concept)
+[![lifecycle-experimental](https://raw.githubusercontent.com/reconverse/reconverse.github.io/master/images/badge-experimental.svg)](https://www.reconverse.org/lifecycle.html#concept)
 
 <!-- badges: end -->
 
@@ -62,3 +62,40 @@ Contributors to the project include:
 - [Santiago Loaiza](https://github.com/santilo9513) (author)
 
 - [Geraldine Gómez](https://github.com/GeraldineGomez) (contributor)
+
+## Help
+
+To report a bug please open an
+[issue](https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html).
+
+## Contribute
+
+Contributions to `vaccineff` are welcomed. Please follow the [package
+contributing
+guide](https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html).
+
+## Code of Conduct
+
+Please note that the linelist project is released with a [Contributor
+Code of
+Conduct](https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html).
+By contributing to this project, you agree to abide by its terms.
+
+## Usage
+
+Estimating the vaccine effectiveness is a key task during the middle
+phase of an epidemic. `vaccineff` provides tools to do so under
+different study designs, including cohorts, test-negative/case-control
+and screening method. Every design comes with its own example data set
+which includes information on the vaccination dates and biologic per
+doses, and the relevant demographic information. The level of
+aggregation of the data responds to the characteristics and needs of
+every study case.
+
+## Users
+
+`vaccineff`is useful for local, national and international health
+agencies looking for a quick implementation to estimate the vaccine
+effectiveness based on their available data. It also provides insights
+to researchers, data analyst and epidemiology students to approach
+vaccine effectiveness under different methods.

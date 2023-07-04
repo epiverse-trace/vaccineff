@@ -1,5 +1,4 @@
 test_that("immunization date", {
-  cohortdata <- data.frame()
   data("cohortdata")
   cohortdata$immunization_death <-
     get_immunization_date(cohortdata,

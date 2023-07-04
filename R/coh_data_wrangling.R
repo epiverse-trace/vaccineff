@@ -176,7 +176,7 @@ get_immunization_date <- function(data,
 #' @param start_from_immunization TRUE: starts counting time-to-event from
 #' immunization date if available
 #' FALSE: starts counting time-to-event from the start date of the cohort study
-#' @param immunization_date_col name of the column that contains the 
+#' @param immunization_date_col name of the column that contains the
 #' immunization date. Required if start_from_immunization = TRUE
 #' @return time-to-event
 #' @examples

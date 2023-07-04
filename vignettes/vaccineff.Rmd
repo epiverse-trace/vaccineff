@@ -1,0 +1,88 @@
+---
+title: "An introduction to vaccineff"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{vaccineff}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(vaccineff)
+```
+
+
+## Usage
+
+Estimating the vaccine effectiveness is a key task once a vaccine is available as a control measure within a population, i.e. during the middle phase of an epidemic such as Ebola or COVID-19, and also in evaluation of regular vaccination programmes such as childhood vaccines. 
+
+`vaccineff` provides tools to do so under different study designs, including cohorts, test-negative/case-control and screening method. Every design comes with its own example dataset which includes information on the vaccination dates and biologic per doses, and the relevant demographic information. The level of aggregation of the data responds to the characteristics and needs of every study case.
+
+## Who are the users / potential users?
+
+`vaccineff` is useful for local, national and international health agencies looking for a quick implementation to estimate the vaccine effectiveness based on their available data. It also provides insights to researchers, data analyst and epidemiology students to approach vaccine effectiveness under different methods.
+
+## What is vaccine effectiveness? 
+
+In contrast with vaccine efficacy, that is the percentage reduction of disease/phenomenon incidence in a vaccinated group compared with an unvaccinated group, under ideal conditions. Vaccine effectiveness is the percentage reduction of disease/phenomenon incidence in a vaccinated group compared with an unvaccinated group, under rountine conditions. Evaluating effectiveness of vaccines in the field is an important aspect of monitoring immunization programmes. 
+
+
+## For which designs of vaccine effectiveness is this package?
+
+`vaccineff` is a package designed to be used for any infectious disease for which a vaccine strategy has been implemented. The study designs currently implemented in the package are: cohorts, test-negative/case-control and screening method
+
+### Cohort Design
+
+The cohort design VE is estimated using the Hazard Ratios (HR) of vaccinated and unvaccinated populations according to the following equation:
+
+## Modelling vaccine effectivenes
+
+### VE for Cohort design
+
+The current release of the package bases the estimation of the cohort design VE on the hypothesis of proportional hazards between the vaccinated and unvaccinated populations. The estimation of the hazard ratio relies on the implementation of the Cox model in the R package: `Survival`.
+
+The integrated data set `cohortdata` provides a minimal example of the input of the package. The following code can be used to prepare this data set for model implementation and implements the basic constant model:
+
+```{r cohortdata, include = TRUE, echo = FALSE, warning = FALSE}
+
+data("cohortdata")
+
+cohortdata$immunization_death <- get_immunization_date(
+  data = cohortdata,
+  outcome_date_col = "death_date", 
+  outcome_delay = 0, 
+  immunization_delay = 14,
+  vacc_date_col = c("vaccine_date_1", "vaccine_date_2"),
+  end_cohort = "2021-12-31",
+  take_first = FALSE)
+
+cohortdata$vaccine_status <- set_status(
+  data = cohortdata,
+  col_names = c("immunization_death"),
+  status = c("v", "u"))
+
+cohortdata$death_status <- set_status(
+  data = cohortdata,
+  col_names = c("death_date"))
+
+cohortdata$time_to_death <- get_time_to_event(
+  data = cohortdata,
+  outcome_date_col = "death_date",
+  start_cohort = "2021-01-01",
+  end_cohort =  "2021-12-31",
+  start_from_immunization = FALSE)
+
+coh_eff_noconf(
+  data = cohortdata,
+  outcome_status_col = "death_status",
+  time_to_event_col = "time_to_death",
+  status_vacc_col = "vaccine_status")
+
+```

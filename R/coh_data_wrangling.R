@@ -28,10 +28,10 @@
 #' @examples
 #' \dontrun{
 #' data("cohortdata")
-#' cohortdata$vaccine.status <- set_status(cohortdata,
-#'                                          c("vaccine_date_1",
-#'                                            "vaccine_date_2"),
-#'                                          status = c("v", "u"))
+#' cohortdata$vaccine_status <- set_status(
+#' data = cohortdata,
+#' col_names = c("vaccine_date_1", "vaccine_date_2"),
+#' status = c("v", "u"))
 #' }
 #' @export
 set_status <- function(data,
@@ -99,10 +99,13 @@ set_status <- function(data,
 #' @examples
 #' \dontrun{
 #' data("cohortdata")
-#' cohortdata$immunization.death <- get_immunization_date(cohortdata,
-#' "death_date", 1, 1,
-#' c("vaccine_date_1", "vaccine_date_2"),
-#' "2021-12-31",
+#' cohortdata$immunization_death <- get_immunization_date(
+#' data = cohortdata,
+#' outcome_date_col = "death_date",
+#' outcome_delay = 0,
+#' immunization_delay = 14,
+#' vacc_date_col = c("vaccine_date_1", "vaccine_date_2"),
+#' end_cohort = "2021-12-31",
 #' take_first = FALSE)
 #' }
 #' @export
@@ -176,23 +179,27 @@ get_immunization_date <- function(data,
 #' @param start_from_immunization TRUE: starts counting time-to-event from
 #' immunization date if available
 #' FALSE: starts counting time-to-event from the start date of the cohort study
-#' @param immunization_date_col name of the column that contains the 
+#' @param immunization_date_col name of the column that contains the
 #' immunization date. Required if start_from_immunization = TRUE
 #' @return time-to-event
 #' @examples
 #' \dontrun{
 #' data("cohortdata")
-#' cohortdata$immunization_death <-
-#'   get_immunization_date(cohortdata,
-#'                        "death_date",
-#'                        1,
-#'                        1,
-#'                        c("vaccine_date_1", "vaccine_date_2"),
-#'                        "2021-12-31",
-#'                        take_first = FALSE)
-#' cohortdata$time_to_death <- get_time_to_event(cohortdata, "death_date",
-#'                                             "2021-01-01", "2021-12-31",
-#'                                             TRUE, "immunization_death")
+#' cohortdata$immunization_death <- get_immunization_date(
+#' data = cohortdata,
+#' outcome_date_col = "death_date",
+#' outcome_delay = 0,
+#' immunization_delay = 14,
+#' vacc_date_col = c("vaccine_date_1", "vaccine_date_2"),
+#' end_cohort = "2021-12-31",
+#' take_first = FALSE)
+#' cohortdata$time_to_death <- get_time_to_event(
+#' data = cohortdata,
+#' outcome_date_col = "death_date",
+#' start_cohort = "2021-01-01",
+#' end_cohort = "2021-12-31",
+#' start_from_immunization = TRUE,
+#' immunization_date_col = "immunization_death")
 #' }
 #' @export
 get_time_to_event <- function(data, outcome_date_col,
@@ -254,19 +261,19 @@ get_time_to_event <- function(data, outcome_date_col,
 #' @examples
 #' \dontrun{
 #' data("cohortdata")
-#' cohortdata$immunization.death
-#'     <- get_immunization_date(cohortdata,
-#'                              "death_date",
-#'                              1,
-#'                              1,
-#'                              c("vaccine_date_1", "vaccine_date_2"),
-#'                              "2021-12-31",
-#'                              take_first = FALSE)
-#' cohortdata$immunization_dose <-
-#'       get_immunization_dose(cohortdata,
-#'                             "immunization_death",
-#'                             c("vaccine_date_1", "vaccine_date_2"),
-#'                             immunization_delay = 14)
+#' cohortdata$immunization_death <- get_immunization_date(
+#' data = cohortdata,
+#' outcome_date_col = "death_date",
+#' outcome_delay = 0,
+#' immunization_delay = 14,
+#' vacc_date_col = c("vaccine_date_1", "vaccine_date_2"),
+#' end_cohort = "2021-12-31",
+#' take_first = FALSE)
+#' cohortdata$immunization_dose <- get_immunization_dose(
+#' data = cohortdata,
+#' immunization_date_col = "immunization_death",
+#' vacc_date_col = c("vaccine_date_1", "vaccine_date_2"),
+#' immunization_delay = 14)
 #' }
 #' @export
 get_immunization_dose <- function(data,
@@ -319,20 +326,20 @@ get_immunization_dose <- function(data,
 #' @examples
 #' \dontrun{
 #' data("cohortdata")
-#' cohortdata$immunization_death
-#'   <- get_immunization_date(cohortdata,
-#'                            "death_date",
-#'                            1,
-#'                            1,
-#'                            c("vaccine_date_1","vaccine_date_2"),
-#'                            "2021-12-31",
-#'                            take_first = FALSE)
-#' cohortdata$immunization.vaccine
-#'   <- get_immunization_vaccine(cohortdata,
-#'                               "immunization_death",
-#'                               c("vaccine_date_1", "vaccine_date_2"),
-#'                               c("vaccine_1", "vaccine_2"),
-#'                               immunization_delay = 14)
+#' cohortdata$immunization_death <- get_immunization_date(
+#' data = cohortdata,
+#' outcome_date_col = "death_date",
+#' outcome_delay = 0,
+#' immunization_delay = 14,
+#' vacc_date_col = c("vaccine_date_1", "vaccine_date_2"),
+#' end_cohort = "2021-12-31",
+#' take_first = FALSE)
+#' cohortdata$immunization_vaccine <- get_immunization_vaccine(
+#' data = cohortdata,
+#' immunization_date_col = "immunization_death",
+#' vacc_date_col = c("vaccine_date_1", "vaccine_date_2"),
+#' vacc_name_col = c("vaccine_1", "vaccine_2"),
+#' immunization_delay = 14)
 #' }
 #' @export
 get_immunization_vaccine <- function(data,

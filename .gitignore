@@ -50,3 +50,5 @@ rsconnect/
 
 # macOS hidden files
 .DS_Store
+inst/doc
+docs

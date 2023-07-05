@@ -61,12 +61,12 @@ coh_eff_noconf <- function(data,
     ph <- "accept"
   }
   df_summ <- data.frame(HR = hr,
-                        HR.low = ci025,
-                        HR.high = ci975,
-                        V.eff = 1 - hr,
-                        V.eff.low = 1 - ci975,
-                        V.eff.high = 1 - ci025,
+                        HR_low = ci025,
+                        HR_high = ci975,
+                        V_eff = 1 - hr,
+                        V_eff_low = 1 - ci975,
+                        V_eff_high = 1 - ci025,
                         PH = ph,
-                        p.value = p_value)
+                        p_value = p_value)
   return(df_summ)
 }

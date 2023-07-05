@@ -12,11 +12,9 @@ set_binary_test(data, col_name, neg_cond, status = c(TRUE, FALSE))
 \item{col_name}{name of the column containing the information for the
 status}
 
-\item{neg_cond}{condition value in \code{data$colname} storing negative
-test results}
+\item{neg_cond}{condition value in \code{data$colname} storing negative}
 
-\item{status_col}{binary set of status, e.g. c(1, 0). The first element of
-the vector must be the status when the condition is satisfied.}
+\item{status}{test results}
 }
 \value{
 status

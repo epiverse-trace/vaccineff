@@ -4,9 +4,7 @@
 #' @param col_name name of the column containing the information for the
 #' status
 #' @param neg_cond condition value in \code{data$colname} storing negative
-#' test results
-#' @param status_col binary set of status, e.g. c(1, 0). The first element of
-#' the vector must be the status when the condition is satisfied.
+#' @param status test results
 #' @return status
 #' @examples
 #' data("testnegdata")

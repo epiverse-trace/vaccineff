@@ -2,16 +2,7 @@
 % Please edit documentation in R/all_data_prep.R
 \name{get_age_group}
 \alias{get_age_group}
-\title{Method for constructing age-group variable from age column
-This method splits an age interval from min_val to max_val into
-(max_val-min_val)/step intervals.
-By default min_val is set 0, however it can be assigned by
-convenience.
-If the method finds ages greater or equal than max_val
-it assigns the string ">{max_val}".
-To avoid errors it is necessary to set step < max_val.
-It is also suggested to choose the step such
-that max_val\%\%(step+1) = 0}
+\title{Construct age-group variable from age column}
 \usage{
 get_age_group(data, col_age, max_val, min_val = 0, step)
 }
@@ -29,28 +20,33 @@ information}
 \item{step}{step used to split the age interval}
 }
 \value{
-age_group
+A \code{factor} object of the same length as the number of rows in \code{data},
+with levels corresponding to age bins between \code{min_val} and \code{max_val}.
+Ages above \code{max_val} are represented as \verb{>max_val}.
 }
 \description{
-Method for constructing age-group variable from age column
-This method splits an age interval from min_val to max_val into
-(max_val-min_val)/step intervals.
-By default min_val is set 0, however it can be assigned by
+This method splits an age interval from \code{min_val} to \code{max_val}
+into \code{(max_val - min_val) / step} intervals.
+By default \code{min_val} is set to 0, however it can be assigned by
 convenience.
-If the method finds ages greater or equal than max_val
-it assigns the string ">{max_val}".
-To avoid errors it is necessary to set step < max_val.
+If the method finds ages greater or equal than \code{max_val}
+it assigns the string \code{">max_val"}.
+To avoid errors it is necessary to set \code{step < max_val}.
 It is also suggested to choose the step such
-that max_val\%\%(step+1) = 0
+that \code{max_val \%\% (step + 1) == 0}.
 }
 \examples{
-\dontrun{
-cohortdata <- data(cohortdata)
-cohortdata$age.group <- get_age_group(
+# load data provided with the package
+data(cohortdata)
+
+# assign age groups as a column of the data frame
+cohortdata$age_group <- get_age_group(
   data = cohortdata,
   col_age = "age",
   max_val = 80,
   step = 9
 )
-}
+
+# view the data frame with new column
+head(cohortdata)
 }

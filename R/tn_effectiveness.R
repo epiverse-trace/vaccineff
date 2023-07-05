@@ -5,6 +5,10 @@
 #' @return The vaccine effectiveness value
 #' @export
 #'
+#' @details
+#' Currently, this function requires the arguments `status_vacc_col` and
+#' `outcome_status_col` to be booleans (TRUE/FALSE). This will be relaxed
+#' in the future to allow any kind of binary values for the two columns.
 #' @examples
 #' # Load the dataset for this example
 #' data(testnegdata)

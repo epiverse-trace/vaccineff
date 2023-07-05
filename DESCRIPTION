@@ -19,7 +19,8 @@ Imports:
     dplyr,
     rlang,
     survival,
-    stats
+    stats,
+    checkmate
 Suggests: 
     knitr,
     rmarkdown,

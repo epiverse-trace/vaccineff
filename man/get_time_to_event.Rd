@@ -36,7 +36,7 @@ time-to-event
 \description{
 This function returns a column with the time-to-event in days occurred
 until a reference outcome. The starting point to count the time-to-event
-can be the immunization date, supossing that the vaccinate population
+can be the immunization date, supposing that the vaccinate population
 enters to the study, when they are vaccinated
 (start_from_immunization=TRUE). Or the beginning of the study, if all the
 cohort is known at this point (start_from_immunization=FALSE). In this last
@@ -46,19 +46,21 @@ case, it is not necessary to pass the argument {immunization_date_col}
 \dontrun{
 data("cohortdata")
 cohortdata$immunization_death <- get_immunization_date(
-data = cohortdata,
-outcome_date_col = "death_date",
-outcome_delay = 0,
-immunization_delay = 14,
-vacc_date_col = c("vaccine_date_1", "vaccine_date_2"),
-end_cohort = "2021-12-31",
-take_first = FALSE)
+  data = cohortdata,
+  outcome_date_col = "death_date",
+  outcome_delay = 0,
+  immunization_delay = 14,
+  vacc_date_col = c("vaccine_date_1", "vaccine_date_2"),
+  end_cohort = "2021-12-31",
+  take_first = FALSE
+)
 cohortdata$time_to_death <- get_time_to_event(
-data = cohortdata,
-outcome_date_col = "death_date",
-start_cohort = "2021-01-01",
-end_cohort = "2021-12-31",
-start_from_immunization = TRUE,
-immunization_date_col = "immunization_death")
+  data = cohortdata,
+  outcome_date_col = "death_date",
+  start_cohort = "2021-01-01",
+  end_cohort = "2021-12-31",
+  start_from_immunization = TRUE,
+  immunization_date_col = "immunization_death"
+)
 }
 }

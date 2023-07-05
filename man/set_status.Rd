@@ -43,8 +43,9 @@ vaccinated and unvaccinated.
 \dontrun{
 data("cohortdata")
 cohortdata$vaccine_status <- set_status(
-data = cohortdata,
-col_names = c("vaccine_date_1", "vaccine_date_2"),
-status = c("v", "u"))
+  data = cohortdata,
+  col_names = c("vaccine_date_1", "vaccine_date_2"),
+  status = c("v", "u")
+)
 }
 }

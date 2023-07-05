@@ -35,7 +35,7 @@ registers without outcome.
 FALSE: takes closest to end_cohort}
 }
 \value{
-immunzation date
+immunization date
 }
 \description{
 This function returns a column with the immunization date that corresponds
@@ -62,12 +62,13 @@ In case of several vaccines, the parameter
 \dontrun{
 data("cohortdata")
 cohortdata$immunization_death <- get_immunization_date(
-data = cohortdata,
-outcome_date_col = "death_date",
-outcome_delay = 0,
-immunization_delay = 14,
-vacc_date_col = c("vaccine_date_1", "vaccine_date_2"),
-end_cohort = "2021-12-31",
-take_first = FALSE)
+  data = cohortdata,
+  outcome_date_col = "death_date",
+  outcome_delay = 0,
+  immunization_delay = 14,
+  vacc_date_col = c("vaccine_date_1", "vaccine_date_2"),
+  end_cohort = "2021-12-31",
+  take_first = FALSE
+)
 }
 }

@@ -42,23 +42,40 @@ including time-dependent variables.
 \examples{
 \dontrun{
 data("cohortdata")
-cohortdata$immunization_death <- get_immunization_date(cohortdata,
-"death_date", 0, 14,
-c("vaccine_date_1", "vaccine_date_2"),
-"2021-12-31", take_first = FALSE)
-"2021-12-31",
-take_first = FALSE)
-cohortdata$vaccine_status <- set_status(cohortdata,
-c("immunization_death"),
-status = c("v", "u"))
-cohortdata$death_status <- set_status(cohortdata,
-c("death_date"))
-cohortdata$time_to_death <- get_time_to_event(cohortdata, "death_date",
-"2021-01-01", "2021-12-31",
-FALSE)
-coh_eff_noconf(cohortdata,
-"death_status",
-"time_to_death",
-"vaccine_status")
+cohortdata$immunization_death <- get_immunization_date(
+  date = cohortdata,
+  outcome_date_col = "death_date",
+  outcome_delay = 0,
+  immunisation_delay = 14,
+  vacc_date_col = c("vaccine_date_1", "vaccine_date_2"),
+  end_cohort = "2021-12-31",
+  take_first = FALSE
+)
+
+cohortdata$vaccine_status <- set_status(
+  data = cohortdata,
+  col_names = c("immunization_death"),
+  status = c("v", "u")
+)
+
+cohortdata$death_status <- set_status(
+  data = cohortdata,
+  col_names = c("death_date")
+)
+
+cohortdata$time_to_death <- get_time_to_event(
+  data = cohortdata,
+  outcome_date_col = "death_date",
+  start_cohort = "2021-01-01",
+  end_cohort = "2021-12-31",
+  FALSE
+)
+
+coh_eff_noconf(
+  cohortdata,
+  "death_status",
+  "time_to_death",
+  "vaccine_status"
+)
 }
 }

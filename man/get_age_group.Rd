@@ -47,9 +47,10 @@ that max_val\%\%(step+1) = 0
 \dontrun{
 cohortdata <- data(cohortdata)
 cohortdata$age.group <- get_age_group(
-data = cohortdata,
-col_age = "age",
-max_val = 80,
-step = 9)
+  data = cohortdata,
+  col_age = "age",
+  max_val = 80,
+  step = 9
+)
 }
 }

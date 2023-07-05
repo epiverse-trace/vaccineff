@@ -28,6 +28,20 @@
 #' }
 #' @export
 get_age_group <- function(data, col_age, max_val, min_val = 0, step) {
+  # input checking
+  checkmate::assert_data_frame(
+    data,
+    min.rows = 1, min.cols = 1
+  )
+  checkmate::assert_string(col_age)
+  checkmate::assert_names(
+    names(data),
+    must.include = col_age
+  )
+  checkmate::assert_number(min_val, lower = 0)
+  checkmate::assert_number(max_val, lower = min_val)
+  checkmate::assert_number(step, lower = 1, upper = max_val)
+
   n_steps <- as.integer((max_val - min_val) / step) + 1
   limits_low <- c(as.integer(seq(min_val,
     max_val,

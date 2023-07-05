@@ -8,8 +8,6 @@ test_that("Errors are returned as expected", {
 })
 
 test_that("Vaccine effectiveness is calculated", {
-  expect_true(is.numeric(estimate_tn_eff(testnegdata,
-                                         "vaccine12mo_yn",
-                                         "flu_final_posneg"))
-              )
+  expect_type(estimate_tn_eff(testnegdata, "vaccine12mo_yn",
+                              "flu_final_posneg"), "numeric")
 })

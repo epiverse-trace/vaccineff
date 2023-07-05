@@ -1,3 +1,4 @@
 url: ~
 template:
-  package: epiversetheme
+  bootstrap: 5
+

@@ -7,7 +7,7 @@
 MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/license/mit/)
 [![Codecov test
 coverage](https://codecov.io/gh/%7B%7B%20gh_repo%20%7D%7D/branch/main/graph/badge.svg)](https://app.codecov.io/gh/%7B%7B%20gh_repo%20%7D%7D?branch=main)
-[![lifecycle-concept](https://raw.githubusercontent.com/reconverse/reconverse.github.io/master/images/badge-concept.svg)](https://www.reconverse.org/lifecycle.html#concept)
+[![lifecycle-experimental](https://raw.githubusercontent.com/reconverse/reconverse.github.io/master/images/badge-experimental.svg)](https://www.reconverse.org/lifecycle.html#concept)
 
 <!-- badges: end -->
 
@@ -28,8 +28,8 @@ You can install the development version of **vaccineff** from
 [GitHub](https://github.com/) with:
 
 ``` r
-if(!require("remotes")) install.packages("remotes")
-remotes::install_github("TRACE-LAC/vaccineff")
+install.packages("remotes")
+remotes::install_github("epiverse-trace/vaccineff")
 ```
 
 ## Quick start
@@ -62,3 +62,30 @@ Contributors to the project include:
 - [Santiago Loaiza](https://github.com/santilo9513) (author)
 
 - [Geraldine Gómez](https://github.com/GeraldineGomez) (contributor)
+
+- [Jaime A. Pavlich-Mariscal](https://github.com/jpavlich) (contributor)
+
+## Package vignettes
+
+More details on how to use `vaccineff` can be found in the online
+documentation as package vignettes, under Get Started with vaccineff,
+Vaccine Effectiveness Models in vaccineff and Vaccine effectiveness Use
+Cases for vaccineff
+
+## Help
+
+To report a bug please open an
+[issue](https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html).
+
+## Contribute
+
+Contributions to `vaccineff` are welcomed. Please follow the [package
+contributing
+guide](https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html).
+
+## Code of Conduct
+
+Please note that the `vaccineff` project is released with a [Contributor
+Code of
+Conduct](https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html).
+By contributing to this project, you agree to abide by its terms.

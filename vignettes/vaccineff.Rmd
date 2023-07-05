@@ -1,0 +1,123 @@
+---
+title: "vaccineff"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{vaccineff}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(vaccineff)
+```
+
+## Usage
+
+Estimating the vaccine effectiveness is a key task once a vaccine is available as a control measure within a population, i.e. during the middle phase of an epidemic such as Ebola or COVID-19, and also in evaluation of regular vaccination programmes such as childhood vaccines.
+
+`vaccineff` provides tools to do so under different study designs, including cohorts, test-negative/case-control and screening method. Every design comes with its own example data set which includes information on the vaccination dates and biologic per doses, and the relevant demographic information. The level of aggregation of the data responds to the characteristics and needs of every study case.
+
+## Who are the users / potential users?
+
+`vaccineff` is useful for local, national and international health agencies looking for a quick implementation to estimate the vaccine effectiveness based on their available data. It also provides insights to researchers, data analyst and epidemiology students to approach vaccine effectiveness under different methods.
+
+## What is vaccine effectiveness?
+
+In contrast with vaccine efficacy, that is the percentage reduction of disease/phenomenon incidence in a vaccinated group compared with an unvaccinated group, under ideal conditions. Vaccine effectiveness is the percentage reduction of disease/phenomenon incidence in a vaccinated group compared with an unvaccinated group, under rountine conditions. Evaluating effectiveness of vaccines in the field is an important aspect of monitoring immunization programmes.
+
+## For which designs of vaccine effectiveness is this package?
+
+`vaccineff` is a package designed to be used for any infectious disease for which a vaccine strategy has been implemented. The study designs currently implemented in the package are: cohorts, test-negative/case-control and screening method
+
+### Cohort Design
+
+The cohort design VE is estimated using the Hazard Ratios ($HR$) of vaccinated and unvaccinated populations according to the following equation:
+$$VE = (1-HR(t))\times100$$
+The HR is estimated using the Cox Proportional Hazards model:
+$$h_g(t,s)=h_{0,g}\exp(\beta s)$$
+
+Where the hazards are modeled in terms of the status of vaccination. The proportional hazards hypothesis is checked using the Shoenfled test. If the hypothesis is not satisfied, it is recommended to stratify the population into smaller groups (g) using the confounding variables. 
+
+### Test Negative Design
+
+The test negative design is a modified case-control design. The vaccinfe effectiveness is estimated using the odds ratio (OR) of vaccination among cases divided into the OR of vaccination among controls. 
+$$VE = 1- \frac{\text{Vaccination OR among cases}}{\text{Vaccination OR among controls}}\times 100$$
+
+### Screening Method
+
+The screening method estimates the VE using the proportion of cases vaccinated (PCV)  and the proportion of the population vaccinated (PPV) using the following expression:
+$$VE = \frac{\text{PCV}}{1-\text{PCV}} \times \frac{1-\text{PPV}}{\text{PPV}} \times 100$$
+To calculate the PCV, it is supposed that all, or at least, a random sample of cases of a disease arising over a given period in a defined population is available. Additionally, it takes the PPV as a prior information or external estimate.
+
+## What type of data is needed to use the package?
+
+This package is designed to be used for vaccination data sets with the following structure:
+
+### Data for Cohort design
+
+Data disaggregated at individual level to follow up vaccinated and unvaccinated populations through time. The data set most contain the following information:
+
+- Date(s) of vaccination for each individual. The package allows to work with several doses for each individual and estimates the immunization date using delay times of outcomes and immunization times of vaccines.
+- Date(s) of outcome(s). The package estimates the vaccine effectiveness against several outcomes.
+Individuals’ demographic information (e.g. sex, age-group, health regime) can be specify depending on the confounding variables that will be introduced in the model.
+
+### Data for Test-negative design
+
+Data disaggregated at individual level to correlate vaccination and disease status for each case. The data set must contain the following information:
+
+- Vaccination status for each individual. Consider time since vaccination and number of doses to determine as vaccinated or unvaccinated. 
+- Result of gold-standard test for pathogen of interest. Molecular test as PCR o multiplex-PCR are the most common used test to determine etiology agents in TND studies. 
+- Individuals demographic information (e.g. sex, age, health insurance) others can be specify depending on the confounding variables that will be introduced in the model.
+
+### Data for Screening method design
+
+- Vaccination status for each case or age group. Consider time since vaccination to determine as vaccinated or unvaccinated. If vaccine of interest required several doses for maxime efficacy exclude patients with incomplete schemes. 
+- Proportion of population vaccinated. Data can be administrated as people with complete vaccination and people without complete vaccination or the proportion of people vaccinated. 
+- Individuals demographic information (e.g. sex, age, health insurance) others can be specify depending on the confounding variables that will be introduced in the model.
+
+
+## Modelling vaccine effectivenes
+
+### VE for Cohort design
+
+The current release of the package bases the estimation of the cohort design VE on the hypothesis of proportional hazards between the vaccinated and unvaccinated populations. The estimation of the hazard ratio relies on the implementation of the Cox model in the R package: `survival`
+
+The integrated data set `cohortdata` provides a minimal example of the input of the package. The following code can be used to prepare this data set for model implementation and implements the basic constant model:
+
+```{r cohortdata, include = TRUE, echo = TRUE}
+data("cohortdata")
+
+cohortdata$immunization_death <-
+  get_immunization_date(data = cohortdata,
+                        outcome_date_col = "death_date",
+                        outcome_delay = 0,
+                        immunization_delay = 14,
+                        vacc_date_col = c("vaccine_date_1", "vaccine_date_2"),
+                        end_cohort = "2021-12-31",
+                        take_first = FALSE)
+
+cohortdata$vaccine_status <- set_status(data = cohortdata,
+                                        col_names = "immunization_death",
+                                        status = c("v", "u"))
+
+cohortdata$death_status <- set_status(data = cohortdata,
+                                      col_names = "death_date")
+
+cohortdata$time_to_death <- get_time_to_event(data = cohortdata,
+                                              outcome_date_col = "death_date",
+                                              start_cohort = "2021-01-01",
+                                              end_cohort =  "2021-12-31",
+                                              start_from_immunization = FALSE)
+
+coh_eff_noconf(data = cohortdata,
+               outcome_status_col = "death_status",
+               time_to_event_col = "time_to_death",
+               status_vacc_col = "vaccine_status")
+```

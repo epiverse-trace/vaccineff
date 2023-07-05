@@ -18,11 +18,15 @@
 #' @return age_group
 #' @examples
 #' \dontrun{
-#' cohortdata <- data.frame()
-#' cohortdata$age.group <- get_age_group(cohortdata, "age", 80, 9)
+#' cohortdata <- data(cohortdata)
+#' cohortdata$age.group <- get_age_group(
+#' data = cohortdata,
+#' col_age = "age",
+#' max_val = 80,
+#' step = 9)
 #' }
 #' @export
-get_age_group <- function(data, col_age, max_val, step, min_val = 0) {
+get_age_group <- function(data, col_age, max_val, min_val = 0, step) {
   n_steps <- as.integer((max_val - min_val) / step) + 1
   limits_low <- c(as.integer(seq(min_val,
                                  max_val,

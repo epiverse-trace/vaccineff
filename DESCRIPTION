@@ -1,5 +1,5 @@
 Package: vaccineff
-Title: Estimation of the Vaccines Effectiveness Based on Different Designs
+Title: Estimate Vaccine Effectiveness Based on Different Study Designs
 Version: 0.0.1
 Authors@R: c(
     person(given = "Zulma M.", family = "Cucunubá", email = "zulma.cucunuba@javeriana.edu.co", role = c("aut", "cre"),
@@ -10,8 +10,7 @@ Authors@R: c(
         comment = c(ORCID = "https://orcid.org/0000-0002-2092-3262")),
     person(given = "Geraldine", family = "Gómez Millán", email = "geralidine.gomez@javeriana.edu.co", role = c("ctb"))
   )
-Description: A package to estimate the vaccines effectiveness based on different designs.
-    following format: Author et al. (2023) <doi:10.5281/zenodo.6619350>.
+Description: Estimate vaccine effectiveness based on different observational study designs, as discussed in Torvaldsen and McIntyre (2020) <doi:10.3316/informit.511798489353134>.
 URL: https://github.com/epiverse-trace/vaccineff, https://epiverse-trace.github.io/vaccineff/
 BugReports: https://github.com/epiverse-trace/vaccineff/issues
 License: MIT + file LICENSE

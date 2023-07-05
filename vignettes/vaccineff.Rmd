@@ -38,21 +38,22 @@ In contrast with vaccine efficacy, that is the percentage reduction of disease/p
 
 ### Cohort Design
 
-The cohort design VE is estimated using the Hazard Ratios (HR) of vaccinated and unvaccinated populations according to the following equation:
-
-
+The cohort design VE is estimated using the Hazard Ratios ($HR$) of vaccinated and unvaccinated populations according to the following equation:
+$$VE = (1-HR(t))\times100$$
 The HR is estimated using the Cox Proportional Hazards model:
+$$h_g(t,s)=h_{0,g}\exp(\beta s)$$
 
 Where the hazards are modeled in terms of the status of vaccination. The proportional hazards hypothesis is checked using the Shoenfled test. If the hypothesis is not satisfied, it is recommended to stratify the population into smaller groups (g) using the confounding variables. 
 
 ### Test Negative Design
 
 The test negative design is a modified case-control design. The vaccinfe effectiveness is estimated using the odds ratio (OR) of vaccination among cases divided into the OR of vaccination among controls. 
+$$VE = 1- \frac{\text{Vaccination OR among cases}}{\text{Vaccination OR among controls}}\times 100$$
 
 ### Screening Method
 
 The screening method estimates the VE using the proportion of cases vaccinated (PCV)  and the proportion of the population vaccinated (PPV) using the following expression:
-
+$$VE = \frac{\text{PCV}}{1-\text{PCV}} \times \frac{1-\text{PPV}}{\text{PPV}} \times 100$$
 To calculate the PCV, it is supposed that all, or at least, a random sample of cases of a disease arising over a given period in a defined population is available. Additionally, it takes the PPV as a prior information or external estimate.
 
 ## What type of data is needed to use the package?

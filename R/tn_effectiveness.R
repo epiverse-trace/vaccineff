@@ -27,13 +27,13 @@ estimate_tn_eff <- function(data, status_vacc_col, outcome_status_col) {
             "status_vacc_col must be a column in dataset" =
               status_vacc_col %in% names(data),
             "status_vacc_col must be boolean (TRUE OR FALSE)" =
-              checkmate::assert_logical(data[[status_vacc_col]]),
+              is.logical(data[[status_vacc_col]]),
             "outcome_status_col must be boolean (TRUE OR FALSE)" =
-              checkmate::assert_logical(data[[outcome_status_col]])
+              is.logical(data[[outcome_status_col]])
             )
 
   # Generate a 2x2 grid for vaccination status and test positivity
-  status_grid <- table(data[[status_vacc_col]], data[[outcome_status_col]],)
+  status_grid <- table(data[[status_vacc_col]], data[[outcome_status_col]])
 
   # Calculate odds of being vaccinated as a case (positive for infection)
   odds_case_vaxed <- status_grid[1, 1] / status_grid[2, 1]

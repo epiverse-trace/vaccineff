@@ -2,13 +2,17 @@ Package: vaccineff
 Title: Estimation of the Vaccines Effectiveness Based on Different Designs
 Version: 0.0.1
 Authors@R: c(
-    person(given = "Zulma M.", family = "Cucunubá", email = "zulma.cucunuba@javeriana.edu.co", role = c("aut", "cre")),
-    person(given = "David Santiago", family = "Quevedo", email = "ex-dsquevedo@javeriana.edu.co", role = c("aut")),
+    person(given = "Zulma M.", family = "Cucunubá", email = "zulma.cucunuba@javeriana.edu.co", role = c("aut", "cre"),
+        comment = c(ORCID = "https://orcid.org/0000-0002-8165-3198")),
+    person(given = "David Santiago", family = "Quevedo", email = "ex-dsquevedo@javeriana.edu.co", role = c("aut"),
+        comment = c(ORCID = "https://orcid.org/0000-0003-1583-4262)")),
     person(given = "Santiago", family = "Loaiza", email = "santiago.loaiza@javeriana.edu.co", role = c("aut")),
     person(given = "Geraldine", family = "Gómez Millán", email = "geralidine.gomez@javeriana.edu.co", role = c("ctb"))
   )
 Description: A package to estimate the vaccines effectiveness based on different designs.
     following format: Author et al. (2023) <doi:10.5281/zenodo.6619350>.
+URL: https://github.com/epiverse-trace/vaccineff, https://epiverse-trace.github.io/vaccineff/
+BugReports: https://github.com/epiverse-trace/vaccineff/issues
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true

@@ -20,7 +20,7 @@ library(vaccineff)
 
 ## Usage
 
-Estimating the vaccine effectiveness is a key task once a vaccine is available as a control measure within a population, i.e. during the middle phase of an epidemic such as Ebola or COVID-19, and also in evaluation of regular vaccination programmes such as childhood vaccines.
+Estimating the vaccine effectiveness is a key task once a vaccine is available as a control measure within a population, i.e. during the middle phase of an epidemic such as Ebola or COVID-19, and also in evaluation of regular vaccination programs such as childhood vaccines.
 
 `vaccineff` provides tools to do so under different study designs, including cohorts, test-negative/case-control and screening method. Every design comes with its own example data set which includes information on the vaccination dates and biologic per doses, and the relevant demographic information. The level of aggregation of the data responds to the characteristics and needs of every study case.
 
@@ -30,7 +30,7 @@ Estimating the vaccine effectiveness is a key task once a vaccine is available a
 
 ## What is vaccine effectiveness?
 
-In contrast with vaccine efficacy, that is the percentage reduction of disease/phenomenon incidence in a vaccinated group compared with an unvaccinated group, under ideal conditions. Vaccine effectiveness is the percentage reduction of disease/phenomenon incidence in a vaccinated group compared with an unvaccinated group, under rountine conditions. Evaluating effectiveness of vaccines in the field is an important aspect of monitoring immunization programmes.
+In contrast with vaccine efficacy, that is the percentage reduction of disease/phenomenon incidence in a vaccinated group compared with an unvaccinated group, under ideal conditions. Vaccine effectiveness is the percentage reduction of disease/phenomenon incidence in a vaccinated group compared with an unvaccinated group, under routine conditions. Evaluating effectiveness of vaccines in the field is an important aspect of monitoring immunization programs.
 
 ## For which designs of vaccine effectiveness is this package?
 
@@ -43,11 +43,11 @@ $$VE = (1-HR(t))\times100$$
 The HR is estimated using the Cox Proportional Hazards model:
 $$h_g(t,s)=h_{0,g}\exp(\beta s)$$
 
-Where the hazards are modeled in terms of the status of vaccination. The proportional hazards hypothesis is checked using the Shoenfled test. If the hypothesis is not satisfied, it is recommended to stratify the population into smaller groups (g) using the confounding variables. 
+Where the hazards are modeled in terms of the status of vaccination. The proportional hazards hypothesis is checked using the Schoenfeld test. If the hypothesis is not satisfied, it is recommended to stratify the population into smaller groups (g) using the confounding variables. 
 
 ### Test Negative Design
 
-The test negative design is a modified case-control design. The vaccinfe effectiveness is estimated using the odds ratio (OR) of vaccination among cases divided into the OR of vaccination among controls. 
+The test negative design is a modified case-control design. The vaccine effectiveness is estimated using the odds ratio (OR) of vaccination among cases divided into the OR of vaccination among controls. 
 $$VE = 1- \frac{\text{Vaccination OR among cases}}{\text{Vaccination OR among controls}}\times 100$$
 
 ### Screening Method
@@ -78,12 +78,12 @@ Data disaggregated at individual level to correlate vaccination and disease stat
 
 ### Data for Screening method design
 
-- Vaccination status for each case or age group. Consider time since vaccination to determine as vaccinated or unvaccinated. If vaccine of interest required several doses for maxime efficacy exclude patients with incomplete schemes. 
+- Vaccination status for each case or age group. Consider time since vaccination to determine as vaccinated or unvaccinated. If vaccine of interest required several doses for maximum efficacy exclude patients with incomplete schemes. 
 - Proportion of population vaccinated. Data can be administrated as people with complete vaccination and people without complete vaccination or the proportion of people vaccinated. 
 - Individuals demographic information (e.g. sex, age, health insurance) others can be specify depending on the confounding variables that will be introduced in the model.
 
 
-## Modelling vaccine effectivenes
+## Modeling vaccine effectiveness
 
 ### VE for Cohort design
 

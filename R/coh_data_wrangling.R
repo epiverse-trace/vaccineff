@@ -65,7 +65,7 @@ set_status <- function(data,
 #' Function to construct the inmunization date
 #'
 #' This function returns a column with the immunization date that corresponds
-#' to an analysed outcome.
+#' to an analyzed outcome.
 #' If a register presents an outcome, the function search for the closest
 #' vaccine date before the outcome that satisfies the condition:
 #' vacc_date_col <= outcome_date_col - delay_time - immunization_delay.
@@ -96,7 +96,7 @@ set_status <- function(data,
 #' @param take_first TRUE: takes the minimum vaccine date for
 #' registers without outcome.
 #' FALSE: takes closest to end_cohort
-#' @return immunzation date
+#' @return immunization date
 #' @examples
 #' \dontrun{
 #' data("cohortdata")
@@ -180,7 +180,7 @@ get_immunization_date <- function(data,
 #'
 #' This function returns a column with the time-to-event in days occurred
 #' until a reference outcome. The starting point to count the time-to-event
-#' can be the immunization date, supossing that the vaccinate population
+#' can be the immunization date, supposing that the vaccinate population
 #' enters to the study, when they are vaccinated
 #' (start_from_immunization=TRUE). Or the beginning of the study, if all the
 #' cohort is known at this point (start_from_immunization=FALSE). In this last

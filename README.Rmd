@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-## *vaccineff*: an R package with tools for estimating vaccine effectiveness and vaccinne related metrics <img src="man/figures/vaccineff.png" align="right" width="130"/>
+## *vaccineff*: an R package with tools for estimating vaccine effectiveness and vaccine related metrics <img src="man/figures/vaccineff.png" align="right" width="130"/>
 
 <!-- badges: start -->
 
@@ -30,10 +30,10 @@ coverage](https://codecov.io/gh/%7B%7B%20gh_repo%20%7D%7D/branch/main/graph/badg
 vaccine effectiveness, using a series of epidemiological designs
 (including cohort studies, test-negative case-control, and screening
 methods). The package provides a set of features for preparing the data,
-to analyse different study designs and for assessing the performance of
+to analyze different study designs and for assessing the performance of
 the models.
 
-**vaccineff** is developed at [Pontificia Univeridad
+**vaccineff** is developed at [Pontificia Universidad
 Javeriana](https://www.javeriana.edu.co/inicio) as part of the
 [Epiverse-TRACE program](https://data.org/initiatives/epiverse/).
 

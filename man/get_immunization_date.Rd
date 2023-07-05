@@ -39,7 +39,7 @@ immunization date
 }
 \description{
 This function returns a column with the immunization date that corresponds
-to an analysed outcome.
+to an analyzed outcome.
 If a register presents an outcome, the function search for the closest
 vaccine date before the outcome that satisfies the condition:
 vacc_date_col <= outcome_date_col - delay_time - immunization_delay.

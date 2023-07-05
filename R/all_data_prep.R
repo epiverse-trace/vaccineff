@@ -20,26 +20,32 @@
 #' \dontrun{
 #' cohortdata <- data(cohortdata)
 #' cohortdata$age.group <- get_age_group(
-#' data = cohortdata,
-#' col_age = "age",
-#' max_val = 80,
-#' step = 9)
+#'   data = cohortdata,
+#'   col_age = "age",
+#'   max_val = 80,
+#'   step = 9
+#' )
 #' }
 #' @export
 get_age_group <- function(data, col_age, max_val, min_val = 0, step) {
   n_steps <- as.integer((max_val - min_val) / step) + 1
   limits_low <- c(as.integer(seq(min_val,
-                                 max_val,
-                                 length.out = n_steps)))
+    max_val,
+    length.out = n_steps
+  )))
   limits_hgh <- limits_low + step
   lim_labels <- paste(as.character(limits_low), as.character(limits_hgh),
-                      sep = "-")
-  lim_labels[length(lim_labels)] <- paste0("+",
-                                           limits_low[length(limits_low)])
+    sep = "-"
+  )
+  lim_labels[length(lim_labels)] <- paste0(
+    "+",
+    limits_low[length(limits_low)]
+  )
   lim_breaks <- c(-Inf, limits_low[2:length(limits_low)] - 1, Inf)
 
   age_group <- cut(data[[col_age]],
-                   breaks = lim_breaks,
-                   labels = lim_labels)
+    breaks = lim_breaks,
+    labels = lim_labels
+  )
   return(age_group)
 }

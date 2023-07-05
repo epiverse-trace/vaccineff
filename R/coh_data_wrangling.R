@@ -29,9 +29,10 @@
 #' \dontrun{
 #' data("cohortdata")
 #' cohortdata$vaccine_status <- set_status(
-#' data = cohortdata,
-#' col_names = c("vaccine_date_1", "vaccine_date_2"),
-#' status = c("v", "u"))
+#'   data = cohortdata,
+#'   col_names = c("vaccine_date_1", "vaccine_date_2"),
+#'   status = c("v", "u")
+#' )
 #' }
 #' @export
 set_status <- function(data,
@@ -100,13 +101,14 @@ set_status <- function(data,
 #' \dontrun{
 #' data("cohortdata")
 #' cohortdata$immunization_death <- get_immunization_date(
-#' data = cohortdata,
-#' outcome_date_col = "death_date",
-#' outcome_delay = 0,
-#' immunization_delay = 14,
-#' vacc_date_col = c("vaccine_date_1", "vaccine_date_2"),
-#' end_cohort = "2021-12-31",
-#' take_first = FALSE)
+#'   data = cohortdata,
+#'   outcome_date_col = "death_date",
+#'   outcome_delay = 0,
+#'   immunization_delay = 14,
+#'   vacc_date_col = c("vaccine_date_1", "vaccine_date_2"),
+#'   end_cohort = "2021-12-31",
+#'   take_first = FALSE
+#' )
 #' }
 #' @export
 get_immunization_date <- function(data,
@@ -118,16 +120,21 @@ get_immunization_date <- function(data,
                                   take_first = TRUE) {
   end_cohort <- as.Date(end_cohort)
   data$outcome_col <- set_status(data,
-                                 outcome_date_col,
-                                 operator = "&",
-                                 status = c(1, 0))
-  data$imm_limit <- data.table::fifelse(data$outcome_col == 1,
-                                        as.Date(data[[outcome_date_col]]) -
-                                          as.difftime(outcome_delay,
-                                                      units = "days") -
-                                          as.difftime(immunization_delay,
-                                                      units = "days"),
-                                        end_cohort)
+    outcome_date_col,
+    operator = "&",
+    status = c(1, 0)
+  )
+  data$imm_limit <- data.table::fifelse(
+    data$outcome_col == 1,
+    as.Date(data[[outcome_date_col]]) -
+      as.difftime(outcome_delay,
+        units = "days"
+      ) -
+      as.difftime(immunization_delay,
+        units = "days"
+      ),
+    end_cohort
+  )
 
   deltas <- NULL
   for (i in seq_along(vacc_date_col)) {
@@ -137,23 +144,31 @@ get_immunization_date <- function(data,
   }
   n_deltas <- length(deltas) - 1
   data[, (ncol(data) - n_deltas):ncol(data)][
-                                             data[,
-                                                  (ncol(data) -
-                                                     n_deltas):ncol(data)]
-                                             < 0] <- NA
+    data[
+      ,
+      (ncol(data) -
+        n_deltas):ncol(data)
+    ]
+    < 0
+  ] <- NA
   data <- data %>%
     dplyr::mutate(delta_imm = pmin(!!!rlang::syms(deltas), na.rm = TRUE))
   data$imm_out_date <- data$imm_limit - data$delta_imm + immunization_delay
   if (take_first) {
     ## Take the minimum immunization date
     data <- data %>%
-      dplyr::mutate(min_imm =
-                      pmin(!!!rlang::syms(vacc_date_col),
-                           na.rm = TRUE))
+      dplyr::mutate(
+        min_imm =
+          pmin(!!!rlang::syms(vacc_date_col),
+            na.rm = TRUE
+          )
+      )
     data$min_imm <- as.Date(data$min_imm) + immunization_delay
-    data$imm_date <- data.table::fifelse(data$outcome_col == 1,
-                                         data$imm_out_date,
-                                         data$min_imm)
+    data$imm_date <- data.table::fifelse(
+      data$outcome_col == 1,
+      data$imm_out_date,
+      data$min_imm
+    )
     return(data$imm_date)
   } else {
     ## Take the closest date to end_cohort
@@ -186,20 +201,22 @@ get_immunization_date <- function(data,
 #' \dontrun{
 #' data("cohortdata")
 #' cohortdata$immunization_death <- get_immunization_date(
-#' data = cohortdata,
-#' outcome_date_col = "death_date",
-#' outcome_delay = 0,
-#' immunization_delay = 14,
-#' vacc_date_col = c("vaccine_date_1", "vaccine_date_2"),
-#' end_cohort = "2021-12-31",
-#' take_first = FALSE)
+#'   data = cohortdata,
+#'   outcome_date_col = "death_date",
+#'   outcome_delay = 0,
+#'   immunization_delay = 14,
+#'   vacc_date_col = c("vaccine_date_1", "vaccine_date_2"),
+#'   end_cohort = "2021-12-31",
+#'   take_first = FALSE
+#' )
 #' cohortdata$time_to_death <- get_time_to_event(
-#' data = cohortdata,
-#' outcome_date_col = "death_date",
-#' start_cohort = "2021-01-01",
-#' end_cohort = "2021-12-31",
-#' start_from_immunization = TRUE,
-#' immunization_date_col = "immunization_death")
+#'   data = cohortdata,
+#'   outcome_date_col = "death_date",
+#'   start_cohort = "2021-01-01",
+#'   end_cohort = "2021-12-31",
+#'   start_from_immunization = TRUE,
+#'   immunization_date_col = "immunization_death"
+#' )
 #' }
 #' @export
 get_time_to_event <- function(data, outcome_date_col,
@@ -212,21 +229,24 @@ get_time_to_event <- function(data, outcome_date_col,
     if (!isFALSE(immunization_date_col)) {
       data[[outcome_date_col]] <- as.Date(data[[outcome_date_col]])
       data[[immunization_date_col]] <- as.Date(data[[immunization_date_col]])
-      data$time_to_event <-  data[[outcome_date_col]] -
+      data$time_to_event <- data[[outcome_date_col]] -
         data[[immunization_date_col]]
       data$time_to_event <- ifelse((is.na(data$time_to_event)) &
-                                     (is.na(data[[immunization_date_col]])),
-                                   data[[outcome_date_col]] - start_cohort,
-                                   data$time_to_event)
+        (is.na(data[[immunization_date_col]])),
+      data[[outcome_date_col]] - start_cohort,
+      data$time_to_event
+      )
       data$time_to_event <- ifelse((is.na(data$time_to_event)) &
-                                     (is.na(data[[immunization_date_col]])) &
-                                     (is.na(data[[outcome_date_col]])),
-                                   end_cohort - start_cohort,
-                                   data$time_to_event)
+        (is.na(data[[immunization_date_col]])) &
+        (is.na(data[[outcome_date_col]])),
+      end_cohort - start_cohort,
+      data$time_to_event
+      )
       data$time_to_event <- ifelse((is.na(data$time_to_event)) &
-                                     (is.na(data[[outcome_date_col]])),
-                                   end_cohort - data[[immunization_date_col]],
-                                   data$time_to_event)
+        (is.na(data[[outcome_date_col]])),
+      end_cohort - data[[immunization_date_col]],
+      data$time_to_event
+      )
       return(data$time_to_event)
     } else {
       stop("Variable immunization_date_col must be
@@ -236,9 +256,10 @@ get_time_to_event <- function(data, outcome_date_col,
     data[[outcome_date_col]] <- as.Date(data[[outcome_date_col]])
     data$time_to_event <- data[[outcome_date_col]] - start_cohort
     data$time_to_event <- ifelse((is.na(data$time_to_event)) &
-                                   (is.na(data[[outcome_date_col]])),
-                                 end_cohort - start_cohort,
-                                 data$time_to_event)
+      (is.na(data[[outcome_date_col]])),
+    end_cohort - start_cohort,
+    data$time_to_event
+    )
     return(data$time_to_event)
   }
 }
@@ -262,18 +283,20 @@ get_time_to_event <- function(data, outcome_date_col,
 #' \dontrun{
 #' data("cohortdata")
 #' cohortdata$immunization_death <- get_immunization_date(
-#' data = cohortdata,
-#' outcome_date_col = "death_date",
-#' outcome_delay = 0,
-#' immunization_delay = 14,
-#' vacc_date_col = c("vaccine_date_1", "vaccine_date_2"),
-#' end_cohort = "2021-12-31",
-#' take_first = FALSE)
+#'   data = cohortdata,
+#'   outcome_date_col = "death_date",
+#'   outcome_delay = 0,
+#'   immunization_delay = 14,
+#'   vacc_date_col = c("vaccine_date_1", "vaccine_date_2"),
+#'   end_cohort = "2021-12-31",
+#'   take_first = FALSE
+#' )
 #' cohortdata$immunization_dose <- get_immunization_dose(
-#' data = cohortdata,
-#' immunization_date_col = "immunization_death",
-#' vacc_date_col = c("vaccine_date_1", "vaccine_date_2"),
-#' immunization_delay = 14)
+#'   data = cohortdata,
+#'   immunization_date_col = "immunization_death",
+#'   vacc_date_col = c("vaccine_date_1", "vaccine_date_2"),
+#'   immunization_delay = 14
+#' )
 #' }
 #' @export
 get_immunization_dose <- function(data,
@@ -285,15 +308,16 @@ get_immunization_dose <- function(data,
   split <- data[!is.na(data[[immunization_date_col]])] %>%
     dplyr::select(dplyr::all_of(cols))
   long <- data.table::melt(data.table::setDT(split),
-                           id.vars = c("id", immunization_date_col),
-                           variable.name = "dose",
-                           value.name = "vaccine_date")
+    id.vars = c("id", immunization_date_col),
+    variable.name = "dose",
+    value.name = "vaccine_date"
+  )
   long[[immunization_date_col]] <- as.Date(long[[immunization_date_col]])
   long$vaccine_date <- as.Date(long$vaccine_date)
 
   long <- long[(long[[immunization_date_col]] - immunization_delay
-                == long$vaccine_date)
-               & !is.na(long$vaccine_date)]
+  == long$vaccine_date) &
+    !is.na(long$vaccine_date)]
   long <- long[order(long$id, long$dose), ]
   long <- long[!duplicated(long$id), ]
   long <- long %>% dplyr::select(dplyr::all_of(c("id", "dose")))
@@ -327,19 +351,21 @@ get_immunization_dose <- function(data,
 #' \dontrun{
 #' data("cohortdata")
 #' cohortdata$immunization_death <- get_immunization_date(
-#' data = cohortdata,
-#' outcome_date_col = "death_date",
-#' outcome_delay = 0,
-#' immunization_delay = 14,
-#' vacc_date_col = c("vaccine_date_1", "vaccine_date_2"),
-#' end_cohort = "2021-12-31",
-#' take_first = FALSE)
+#'   data = cohortdata,
+#'   outcome_date_col = "death_date",
+#'   outcome_delay = 0,
+#'   immunization_delay = 14,
+#'   vacc_date_col = c("vaccine_date_1", "vaccine_date_2"),
+#'   end_cohort = "2021-12-31",
+#'   take_first = FALSE
+#' )
 #' cohortdata$immunization_vaccine <- get_immunization_vaccine(
-#' data = cohortdata,
-#' immunization_date_col = "immunization_death",
-#' vacc_date_col = c("vaccine_date_1", "vaccine_date_2"),
-#' vacc_name_col = c("vaccine_1", "vaccine_2"),
-#' immunization_delay = 14)
+#'   data = cohortdata,
+#'   immunization_date_col = "immunization_death",
+#'   vacc_date_col = c("vaccine_date_1", "vaccine_date_2"),
+#'   vacc_name_col = c("vaccine_1", "vaccine_2"),
+#'   immunization_delay = 14
+#' )
 #' }
 #' @export
 get_immunization_vaccine <- function(data,
@@ -347,21 +373,24 @@ get_immunization_vaccine <- function(data,
                                      vacc_date_col,
                                      vacc_name_col,
                                      immunization_delay) {
-  rdf <- data.frame("vaccine_name_col" = vacc_name_col,
-                    "vaccine_date_col" = vacc_date_col)
+  rdf <- data.frame(
+    "vaccine_name_col" = vacc_name_col,
+    "vaccine_date_col" = vacc_date_col
+  )
   data$id <- seq_len(nrow(data))
   cols1 <- c("id", immunization_date_col, vacc_date_col)
   split1 <- data[!is.na(data[[immunization_date_col]])] %>%
     dplyr::select(dplyr::all_of(cols1))
   long1 <- data.table::melt(data.table::setDT(split1),
-                            id.vars = c("id", immunization_date_col),
-                            variable.name = "vaccine_date_col",
-                            value.name = "vaccine_date")
+    id.vars = c("id", immunization_date_col),
+    variable.name = "vaccine_date_col",
+    value.name = "vaccine_date"
+  )
   long1[[immunization_date_col]] <- as.Date(long1[[immunization_date_col]])
   long1$vaccine_date <- as.Date(long1$vaccine_date)
   long1 <- long1[(long1[[immunization_date_col]] - immunization_delay
-                  == long1$vaccine_date)
-                 & !is.na(long1$vaccine_date)]
+  == long1$vaccine_date) &
+    !is.na(long1$vaccine_date)]
   long1 <- long1[order(long1$id, long1$vaccine_date_col), ]
   long1 <- long1[!duplicated(long1$id), ]
 
@@ -370,30 +399,40 @@ get_immunization_vaccine <- function(data,
     dplyr::select(dplyr::all_of(cols2))
   long2 <-
     data.table::melt(data.table::setDT(split2),
-                     id.vars = c("id",
-                                 immunization_date_col,
-                                 vacc_date_col),
-                     variable.name = "vaccine_name_col",
-                     value.name = "vaccine_name")
+      id.vars = c(
+        "id",
+        immunization_date_col,
+        vacc_date_col
+      ),
+      variable.name = "vaccine_name_col",
+      value.name = "vaccine_name"
+    )
   long3 <- data.table::melt(data.table::setDT(long2),
-                            id.vars = c("id", immunization_date_col,
-                                        "vaccine_name_col",
-                                        "vaccine_name"),
-                            variable.name = "vaccine_date_col",
-                            value.name = "vaccine_date")
+    id.vars = c(
+      "id", immunization_date_col,
+      "vaccine_name_col",
+      "vaccine_name"
+    ),
+    variable.name = "vaccine_date_col",
+    value.name = "vaccine_date"
+  )
   long3 <- long3[(long3[[immunization_date_col]] - immunization_delay
-                  == long3$vaccine_date)
-                 & !is.na(long3$vaccine_date)]
+  == long3$vaccine_date) &
+    !is.na(long3$vaccine_date)]
   long3 <- merge(x = long3, y = rdf, by = "vaccine_name_col", all.x = TRUE)
   long3 <- long3[(long3$vaccine_date_col.x == long3$vaccine_date_col.y)]
-  long3 <- long3 %>% dplyr::select(dplyr::all_of(c("id",
-                                                   "vaccine_name",
-                                                   "vaccine_date_col.x")))
+  long3 <- long3 %>% dplyr::select(dplyr::all_of(c(
+    "id",
+    "vaccine_name",
+    "vaccine_date_col.x"
+  )))
   colnames(long3) <- c("id", "vaccine", "vaccine_date_col")
 
-  long1 <- merge(x = long1, y = long3,
-                 by = c("id", "vaccine_date_col"),
-                 all.x = TRUE)
+  long1 <- merge(
+    x = long1, y = long3,
+    by = c("id", "vaccine_date_col"),
+    all.x = TRUE
+  )
   long1 <- long1 %>% dplyr::select(dplyr::all_of(c("id", "vaccine")))
   data <- merge(x = data, y = long1, by = "id", all.x = TRUE)
   data <- data[order(data$id), ]

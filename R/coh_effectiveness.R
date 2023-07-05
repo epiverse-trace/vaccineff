@@ -21,24 +21,41 @@
 #' @examples
 #' \dontrun{
 #' data("cohortdata")
-#' cohortdata$immunization_death <- get_immunization_date(cohortdata,
-#' "death_date", 0, 14,
-#' c("vaccine_date_1", "vaccine_date_2"),
-#' "2021-12-31", take_first = FALSE)
-#' "2021-12-31",
-#' take_first = FALSE)
-#' cohortdata$vaccine_status <- set_status(cohortdata,
-#' c("immunization_death"),
-#' status = c("v", "u"))
-#' cohortdata$death_status <- set_status(cohortdata,
-#' c("death_date"))
-#' cohortdata$time_to_death <- get_time_to_event(cohortdata, "death_date",
-#' "2021-01-01", "2021-12-31",
-#' FALSE)
-#' coh_eff_noconf(cohortdata,
-#' "death_status",
-#' "time_to_death",
-#' "vaccine_status")
+#' cohortdata$immunization_death <- get_immunization_date(
+#'   date = cohortdata,
+#'   outcome_date_col = "death_date",
+#'   outcome_delay = 0,
+#'   immunisation_delay = 14,
+#'   vacc_date_col = c("vaccine_date_1", "vaccine_date_2"),
+#'   end_cohort = "2021-12-31",
+#'   take_first = FALSE
+#' )
+#'
+#' cohortdata$vaccine_status <- set_status(
+#'   data = cohortdata,
+#'   col_names = c("immunization_death"),
+#'   status = c("v", "u")
+#' )
+#'
+#' cohortdata$death_status <- set_status(
+#'   data = cohortdata,
+#'   col_names = c("death_date")
+#' )
+#'
+#' cohortdata$time_to_death <- get_time_to_event(
+#'   data = cohortdata,
+#'   outcome_date_col = "death_date",
+#'   start_cohort = "2021-01-01",
+#'   end_cohort = "2021-12-31",
+#'   FALSE
+#' )
+#'
+#' coh_eff_noconf(
+#'   cohortdata,
+#'   "death_status",
+#'   "time_to_death",
+#'   "vaccine_status"
+#' )
 #' }
 #' @export
 coh_eff_noconf <- function(data,
@@ -46,9 +63,11 @@ coh_eff_noconf <- function(data,
                            time_to_event_col,
                            status_vacc_col,
                            p_thr = 0.05) {
-  cx <- survival::coxph(survival::Surv(data[[time_to_event_col]],
-                                       data[[outcome_status_col]])
-                        ~ data[[status_vacc_col]])
+  cx <- survival::coxph(survival::Surv(
+    data[[time_to_event_col]],
+    data[[outcome_status_col]]
+  )
+  ~ data[[status_vacc_col]])
   test <- survival::cox.zph(cx)
   hr <- c(round(exp(stats::coef(cx)), 4)[1])
   ci025 <- c(round(exp(stats::confint(cx)), 4)[1])
@@ -60,13 +79,15 @@ coh_eff_noconf <- function(data,
   } else {
     ph <- "accept"
   }
-  df_summ <- data.frame(HR = hr,
-                        HR_low = ci025,
-                        HR_high = ci975,
-                        V_eff = 1 - hr,
-                        V_eff_low = 1 - ci975,
-                        V_eff_high = 1 - ci025,
-                        PH = ph,
-                        p_value = p_value)
+  df_summ <- data.frame(
+    HR = hr,
+    HR_low = ci025,
+    HR_high = ci975,
+    V_eff = 1 - hr,
+    V_eff_low = 1 - ci975,
+    V_eff_high = 1 - ci025,
+    PH = ph,
+    p_value = p_value
+  )
   return(df_summ)
 }

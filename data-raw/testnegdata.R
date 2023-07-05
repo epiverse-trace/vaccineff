@@ -26,7 +26,7 @@ ILI_vacc_data$collection_date <- as.Date(paste(ILI_vacc_data$year,
   sep = "-"
 ))
 
-ILI_vacc_data <- ILI_vacc_data[,-c(1:2)]
+ILI_vacc_data <- ILI_vacc_data[, -c(1:2)]
 
 # Changing sex names
 

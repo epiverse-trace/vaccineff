@@ -61,10 +61,13 @@ In case of several vaccines, the parameter
 \examples{
 \dontrun{
 data("cohortdata")
-cohortdata$immunization.death <- get_immunization_date(cohortdata,
-"death_date", 1, 1,
-c("vaccine_date_1", "vaccine_date_2"),
-"2021-12-31",
+cohortdata$immunization_death <- get_immunization_date(
+data = cohortdata,
+outcome_date_col = "death_date",
+outcome_delay = 0,
+immunization_delay = 14,
+vacc_date_col = c("vaccine_date_1", "vaccine_date_2"),
+end_cohort = "2021-12-31",
 take_first = FALSE)
 }
 }

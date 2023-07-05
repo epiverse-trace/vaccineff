@@ -44,19 +44,19 @@ to a name of vaccine column (see example)
 \examples{
 \dontrun{
 data("cohortdata")
-cohortdata$immunization_death
-  <- get_immunization_date(cohortdata,
-                           "death_date",
-                           1,
-                           1,
-                           c("vaccine_date_1","vaccine_date_2"),
-                           "2021-12-31",
-                           take_first = FALSE)
-cohortdata$immunization.vaccine
-  <- get_immunization_vaccine(cohortdata,
-                              "immunization_death",
-                              c("vaccine_date_1", "vaccine_date_2"),
-                              c("vaccine_1", "vaccine_2"),
-                              immunization_delay = 14)
+cohortdata$immunization_death <- get_immunization_date(
+data = cohortdata,
+outcome_date_col = "death_date",
+outcome_delay = 0,
+immunization_delay = 14,
+vacc_date_col = c("vaccine_date_1", "vaccine_date_2"),
+end_cohort = "2021-12-31",
+take_first = FALSE)
+cohortdata$immunization_vaccine <- get_immunization_vaccine(
+data = cohortdata,
+immunization_date_col = "immunization_death",
+vacc_date_col = c("vaccine_date_1", "vaccine_date_2"),
+vacc_name_col = c("vaccine_1", "vaccine_2"),
+immunization_delay = 14)
 }
 }

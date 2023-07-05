@@ -45,16 +45,20 @@ case, it is not necessary to pass the argument {immunization_date_col}
 \examples{
 \dontrun{
 data("cohortdata")
-cohortdata$immunization_death <-
-  get_immunization_date(cohortdata,
-                       "death_date",
-                       1,
-                       1,
-                       c("vaccine_date_1", "vaccine_date_2"),
-                       "2021-12-31",
-                       take_first = FALSE)
-cohortdata$time_to_death <- get_time_to_event(cohortdata, "death_date",
-                                            "2021-01-01", "2021-12-31",
-                                            TRUE, "immunization_death")
+cohortdata$immunization_death <- get_immunization_date(
+data = cohortdata,
+outcome_date_col = "death_date",
+outcome_delay = 0,
+immunization_delay = 14,
+vacc_date_col = c("vaccine_date_1", "vaccine_date_2"),
+end_cohort = "2021-12-31",
+take_first = FALSE)
+cohortdata$time_to_death <- get_time_to_event(
+data = cohortdata,
+outcome_date_col = "death_date",
+start_cohort = "2021-01-01",
+end_cohort = "2021-12-31",
+start_from_immunization = TRUE,
+immunization_date_col = "immunization_death")
 }
 }

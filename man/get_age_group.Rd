@@ -13,7 +13,7 @@ To avoid errors it is necessary to set step < max_val.
 It is also suggested to choose the step such
 that max_val\%\%(step+1) = 0}
 \usage{
-get_age_group(data, col_age, max_val, step, min_val = 0)
+get_age_group(data, col_age, max_val, min_val = 0, step)
 }
 \arguments{
 \item{data}{dataset with at least a column containing the age
@@ -24,9 +24,9 @@ information}
 
 \item{max_val}{maximum value of age interval to split}
 
-\item{step}{step used to split the age interval}
-
 \item{min_val}{minimum value of age interval to split}
+
+\item{step}{step used to split the age interval}
 }
 \value{
 age_group
@@ -45,7 +45,11 @@ that max_val\%\%(step+1) = 0
 }
 \examples{
 \dontrun{
-cohortdata <- data.frame()
-cohortdata$age.group <- get_age_group(cohortdata, "age", 80, 9)
+cohortdata <- data(cohortdata)
+cohortdata$age.group <- get_age_group(
+data = cohortdata,
+col_age = "age",
+max_val = 80,
+step = 9)
 }
 }

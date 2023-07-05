@@ -1,5 +1,7 @@
 ---
 title: "vaccineff"
+bibliography: references.json
+link-citations: true
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{vaccineff}
@@ -22,7 +24,7 @@ library(vaccineff)
 
 Estimating the vaccine effectiveness is a key task once a vaccine is available as a control measure within a population, i.e. during the middle phase of an epidemic such as Ebola or COVID-19, and also in evaluation of regular vaccination programs such as childhood vaccines.
 
-`vaccineff` provides tools to do so under different study designs, including cohorts, test-negative/case-control and screening method. Every design comes with its own example data set which includes information on the vaccination dates and biologic per doses, and the relevant demographic information. The level of aggregation of the data responds to the characteristics and needs of every study case.
+`vaccineff` provides tools to do so under different study designs, including cohorts, test-negative/case-control and screening method [@torvaldsen2020]. Every design comes with its own example data set which includes information on the vaccination dates and biologic per doses, and the relevant demographic information. The level of aggregation of the data responds to the characteristics and needs of every study case.
 
 ## Who are the users / potential users?
 
@@ -131,3 +133,5 @@ coh_eff_noconf(
   status_vacc_col = "vaccine_status"
 )
 ```
+
+## References

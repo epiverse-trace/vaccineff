@@ -1,5 +1,7 @@
 ---
 output: github_document
+bibliography: vignettes/references.json
+link-citations: true
 editor_options: 
   markdown: 
     wrap: 72
@@ -28,9 +30,8 @@ knitr::opts_chunk$set(
 <!-- badges: end -->
 
 *{{ packagename }}* is an R package that offers tools for estimating the
-vaccine effectiveness, using a series of epidemiological designs
-(including cohort studies, test-negative case-control, and screening
-methods). The package provides a set of features for preparing the data,
+vaccine effectiveness, using a series of epidemiological designs including cohort studies, test-negative case-control, and screening
+methods [@torvaldsen2020]. The package provides a set of features for preparing the data,
 to analyze different study designs and for assessing the performance of
 the models.
 
@@ -92,3 +93,5 @@ Contributors to the project include:
 -   [Geraldine Gómez](https://github.com/GeraldineGomez) (contributor)
 
 -   [Jaime A. Pavlich-Mariscal](https://github.com/jpavlich) (contributor)
+
+## References

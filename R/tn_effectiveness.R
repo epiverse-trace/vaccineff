@@ -8,7 +8,15 @@
 #' @examples
 #' # Load the dataset for this example
 #' data(testnegdata)
-#' estimate_tn_eff(testnegdata, "vaccine12mo_yn", "flu_final_posneg")
+#' testnegdata$pcr_result_bin <- set_binary_test(testnegdata,
+#'                                               "pcr_result",
+#'                                               "Neg",
+#'                                               c(FALSE, TRUE))
+#' testnegdata$vacc_status_bin <- set_binary_test(testnegdata,
+#'                                               "vacc_status",
+#'                                               "No",
+#'                                               c(FALSE, TRUE))
+#' estimate_tn_eff(testnegdata, "vacc_status_bin", "pcr_result_bin")
 estimate_tn_eff <- function(data, status_vacc_col, outcome_status_col) {
   # Check that column names are characters
   checkmate::assert_string(outcome_status_col)
@@ -25,7 +33,7 @@ estimate_tn_eff <- function(data, status_vacc_col, outcome_status_col) {
             )
 
   # Generate a 2x2 grid for vaccination status and test positivity
-  status_grid <- table(data[[status_vacc_col]], data[[outcome_status_col]])
+  status_grid <- table(data[[status_vacc_col]], data[[outcome_status_col]],)
 
   # Calculate odds of being vaccinated as a case (positive for infection)
   odds_case_vaxed <- status_grid[1, 1] / status_grid[2, 1]

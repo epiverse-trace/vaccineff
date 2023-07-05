@@ -24,5 +24,13 @@ Estimate vaccine effectiveness using the test negative design
 \examples{
 # Load the dataset for this example
 data(testnegdata)
-estimate_tn_eff(testnegdata, "vaccine12mo_yn", "flu_final_posneg")
+testnegdata$pcr_result_bin <- set_binary_test(testnegdata,
+                                              "pcr_result",
+                                              "Neg",
+                                              c(FALSE, TRUE))
+testnegdata$vacc_status_bin <- set_binary_test(testnegdata,
+                                              "vacc_status",
+                                              "No",
+                                              c(FALSE, TRUE))
+estimate_tn_eff(testnegdata, "vacc_status_bin", "pcr_result_bin")
 }

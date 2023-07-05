@@ -19,7 +19,13 @@
 #' @export
 #'
 #' @examples
-#' filtered_data <- readRDS("~/Documents/LSHTM_code/vaccineff/data/filtered_data.rds")
+#' filtered_data <- readRDS(
+#'   system.file(
+#'     "extdata", "filtered_data.rds",
+#'     package = "vaccineff",
+#'     mustWork = TRUE
+#'   )
+#' )
 #' st_effectiveness(
 #'   data = filtered_data,
 #'   vaccinated_population = "pob_comp",
@@ -55,7 +61,7 @@ st_effectiveness <- function(data, vaccinated_population,
   }
 
   # aggregate by variable
-  data <- aggregate(
+  data <- stats::aggregate(
     data[, c(vaccinated_population, unvaccinated_population, vaccinated_outcome, unvaccinated_outcome)],
     by = by,
     FUN = sum

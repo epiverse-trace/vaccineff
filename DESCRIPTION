@@ -30,7 +30,8 @@ Suggests:
     knitr,
     rmarkdown,
     spelling,
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    qtl
 Config/testthat/edition: 3
 Config/Needs/website:
     epiverse-trace/epiversetheme

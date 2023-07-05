@@ -1,6 +1,7 @@
 pandoc: 2.19.2
 pkgdown: 2.0.7
 pkgdown_sha: ~
-articles: {}
-last_built: 2023-06-28T13:22Z
+articles:
+  vaccineff: vaccineff.html
+last_built: 2023-07-05T01:36Z
 

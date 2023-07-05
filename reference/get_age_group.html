@@ -35,13 +35,7 @@ It is also suggested to choose the step such
 that max_val%%(step+1) = 0'><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]--><!-- Google tag (gtag.js) --><script async src="https://www.googletagmanager.com/gtag/js?id=G-XZ471458FQ"></script><script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-XZ471458FQ');
-</script></head><body>
+<![endif]--></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
     
 
@@ -57,7 +51,10 @@ that max_val%%(step+1) = 0'><!-- mathjax --><script src="https://cdnjs.cloudflar
     </button>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
-      <ul class="navbar-nav me-auto"><li class="active nav-item">
+      <ul class="navbar-nav me-auto"><li class="nav-item">
+  <a class="nav-link" href="../articles/vaccineff.html">Get started</a>
+</li>
+<li class="active nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
 </li>
       </ul><form class="form-inline my-2 my-lg-0" role="search">
@@ -99,7 +96,7 @@ that max_val%%(step+1) = 0</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_age_group</span><span class="op">(</span><span class="va">data</span>, <span class="va">col_age</span>, <span class="va">max_val</span>, <span class="va">step</span>, min_val <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_age_group</span><span class="op">(</span><span class="va">data</span>, <span class="va">col_age</span>, <span class="va">max_val</span>, min_val <span class="op">=</span> <span class="fl">0</span>, <span class="va">step</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -118,12 +115,12 @@ information</p></dd>
 <dd><p>maximum value of age interval to split</p></dd>
 
 
-<dt>step</dt>
-<dd><p>step used to split the age interval</p></dd>
-
-
 <dt>min_val</dt>
 <dd><p>minimum value of age interval to split</p></dd>
+
+
+<dt>step</dt>
+<dd><p>step used to split the age interval</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -136,8 +133,12 @@ information</p></dd>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span><span class="va">cohortdata</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">cohortdata</span><span class="op">$</span><span class="va">age.group</span> <span class="op">&lt;-</span> <span class="fu">get_age_group</span><span class="op">(</span><span class="va">cohortdata</span>, <span class="st">"age"</span>, <span class="fl">80</span>, <span class="fl">9</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">cohortdata</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">cohortdata</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">cohortdata</span><span class="op">$</span><span class="va">age.group</span> <span class="op">&lt;-</span> <span class="fu">get_age_group</span><span class="op">(</span></span></span>
+<span class="r-in"><span>data <span class="op">=</span> <span class="va">cohortdata</span>,</span></span>
+<span class="r-in"><span>col_age <span class="op">=</span> <span class="st">"age"</span>,</span></span>
+<span class="r-in"><span>max_val <span class="op">=</span> <span class="fl">80</span>,</span></span>
+<span class="r-in"><span>step <span class="op">=</span> <span class="fl">9</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>

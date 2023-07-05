@@ -34,13 +34,7 @@ However, it can also receive personalized options, e.g. c("v", "u") for
 vaccinated and unvaccinated.'><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]--><!-- Google tag (gtag.js) --><script async src="https://www.googletagmanager.com/gtag/js?id=G-XZ471458FQ"></script><script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-XZ471458FQ');
-</script></head><body>
+<![endif]--></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
     
 
@@ -56,7 +50,10 @@ vaccinated and unvaccinated.'><!-- mathjax --><script src="https://cdnjs.cloudfl
     </button>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
-      <ul class="navbar-nav me-auto"><li class="active nav-item">
+      <ul class="navbar-nav me-auto"><li class="nav-item">
+  <a class="nav-link" href="../articles/vaccineff.html">Get started</a>
+</li>
+<li class="active nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
 </li>
       </ul><form class="form-inline my-2 my-lg-0" role="search">
@@ -130,10 +127,10 @@ the vector must be the status when the condition is satisfied.</p></dd>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"cohortdata"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">cohortdata</span><span class="op">$</span><span class="va">vaccine.status</span> <span class="op">&lt;-</span> <span class="fu">set_status</span><span class="op">(</span><span class="va">cohortdata</span>,</span></span>
-<span class="r-in"><span>                                         <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"vaccine_date_1"</span>,</span></span>
-<span class="r-in"><span>                                           <span class="st">"vaccine_date_2"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>                                         status <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"v"</span>, <span class="st">"u"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">cohortdata</span><span class="op">$</span><span class="va">vaccine_status</span> <span class="op">&lt;-</span> <span class="fu">set_status</span><span class="op">(</span></span></span>
+<span class="r-in"><span>data <span class="op">=</span> <span class="va">cohortdata</span>,</span></span>
+<span class="r-in"><span>col_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"vaccine_date_1"</span>, <span class="st">"vaccine_date_2"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>status <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"v"</span>, <span class="st">"u"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>

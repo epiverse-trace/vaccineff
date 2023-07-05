@@ -43,8 +43,8 @@ You can install the development version of **vaccineff** from
 [GitHub](https://github.com/) with:
 
 ``` r
-if(!require("remotes")) install.packages("remotes")
-remotes::install_github("TRACE-LAC/vaccineff")
+install.packages("remotes")
+remotes::install_github("epiverse-trace/vaccineff")
 ```
 
 ## Quick start
@@ -75,6 +75,8 @@ Contributors to the project include:
 -   [Santiago Loaiza](https://github.com/santilo9513) (author)
 
 -   [Geraldine Gómez](https://github.com/GeraldineGomez) (contributor)
+
+-   [Jaime A. Pavlich-Mariscal](https://github.com/jpavlich) (contributor)
 
 ## Package vignettes
 

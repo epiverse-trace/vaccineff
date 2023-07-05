@@ -28,8 +28,8 @@ You can install the development version of **vaccineff** from
 [GitHub](https://github.com/) with:
 
 ``` r
-if(!require("remotes")) install.packages("remotes")
-remotes::install_github("TRACE-LAC/vaccineff")
+install.packages("remotes")
+remotes::install_github("epiverse-trace/vaccineff")
 ```
 
 ## Quick start
@@ -63,6 +63,15 @@ Contributors to the project include:
 
 - [Geraldine Gómez](https://github.com/GeraldineGomez) (contributor)
 
+- [Jaime A. Pavlich-Mariscal](https://github.com/jpavlich) (contributor)
+
+## Package vignettes
+
+More details on how to use `vaccineff` can be found in the online
+documentation as package vignettes, under Get Started with vaccineff,
+Vaccine Effectiveness Models in vaccineff and Vaccine effectiveness Use
+Cases for vaccineff
+
 ## Help
 
 To report a bug please open an
@@ -76,26 +85,7 @@ guide](https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html).
 
 ## Code of Conduct
 
-Please note that the linelist project is released with a [Contributor
+Please note that the `vaccineff` project is released with a [Contributor
 Code of
 Conduct](https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html).
 By contributing to this project, you agree to abide by its terms.
-
-## Usage
-
-Estimating the vaccine effectiveness is a key task during the middle
-phase of an epidemic. `vaccineff` provides tools to do so under
-different study designs, including cohorts, test-negative/case-control
-and screening method. Every design comes with its own example data set
-which includes information on the vaccination dates and biologic per
-doses, and the relevant demographic information. The level of
-aggregation of the data responds to the characteristics and needs of
-every study case.
-
-## Users
-
-`vaccineff`is useful for local, national and international health
-agencies looking for a quick implementation to estimate the vaccine
-effectiveness based on their available data. It also provides insights
-to researchers, data analyst and epidemiology students to approach
-vaccine effectiveness under different methods.

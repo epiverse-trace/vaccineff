@@ -18,10 +18,11 @@ status](https://www.r-pkg.org/badges/version/vaccineff)](https://CRAN.R-project.
 <!-- badges: end -->
 
 *vaccineff* is an R package that offers tools for estimating the vaccine
-effectiveness, using a series of epidemiological designs (including
-cohort studies, test-negative case-control, and screening methods). The
-package provides a set of features for preparing the data, to analyze
-different study designs and for assessing the performance of the models.
+effectiveness, using a series of epidemiological designs including
+cohort studies, test-negative case-control, and screening methods
+([Torvaldsen and McIntyre 2020](#ref-torvaldsen2020)). The package
+provides a set of features for preparing the data, to analyze different
+study designs and for assessing the performance of the models.
 
 *vaccineff* is developed at [Pontificia Universidad
 Javeriana](https://www.javeriana.edu.co/inicio) as part of the
@@ -93,3 +94,18 @@ Contributors to the project include:
 - [Geraldine Gómez](https://github.com/GeraldineGomez) (contributor)
 
 - [Jaime A. Pavlich-Mariscal](https://github.com/jpavlich) (contributor)
+
+## References
+
+<div id="refs" class="references csl-bib-body hanging-indent">
+
+<div id="ref-torvaldsen2020" class="csl-entry">
+
+Torvaldsen, S., and P. B. McIntyre. 2020. “Observational Methods in
+Epidemiologic Assessment of Vaccine Effectiveness.” *Communicable
+Diseases Intelligence Quarterly Report* 26 (3).
+<https://doi.org/10.3316/informit.511798489353134>.
+
+</div>
+
+</div>

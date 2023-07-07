@@ -80,12 +80,13 @@ coh_eff_noconf <- function(data,
   )
   checkmate::assert_number(p_thr, lower = 0.0, upper = 1.0)
 
+  indiv_survival <- survival::Surv( # nolint
+    data[[time_to_event_col]], data[[outcome_status_col]]
+  )
+
   # cox regression
   cx <- survival::coxph(
-    survival::Surv(
-      data[[time_to_event_col]],
-      data[[outcome_status_col]]
-    ) ~ data[[status_vacc_col]]
+    indiv_survival ~ data[[status_vacc_col]]
   )
 
   # Test the Proportional Hazards Assumption

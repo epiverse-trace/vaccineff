@@ -39,6 +39,32 @@ set_status <- function(data,
                        col_names,
                        operator = "&",
                        status = c(1, 0)) {
+  # input checking
+  checkmate::assert_data_frame(
+    data,
+    min.rows = 1, min.cols = 1
+  )
+  checkmate::assert_character(col_names, any.missing = FALSE, min.len = 1)
+  checkmate::assert_names(
+    names(data),
+    must.include = col_names
+  )
+
+  # check the operator
+  # TODO: more specific checks on the operator
+  operator <- match.arg(operator, several.ok = FALSE)
+  checkmate::assert_string(
+    operator,
+    n.chars = 1L
+  )
+
+  # check the status vector
+  # TODO: ideally limit status to character vector
+  checkmate::assert_vector(
+    status,
+    len = 2L, unique = TRUE,
+    any.missing = FALSE
+  )
   condition <- "ifelse("
   int0 <- "(!is.na(data[["
   intf <- "]]))"

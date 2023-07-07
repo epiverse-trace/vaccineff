@@ -45,7 +45,7 @@
 #' @export
 set_status <- function(data,
                        col_names,
-                       operator = "&",
+                       operator = c("&", "|"),
                        status = c(1, 0)) {
   # input checking
   checkmate::assert_data_frame(

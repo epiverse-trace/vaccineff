@@ -40,29 +40,34 @@ statistical strategies, e.g. stratifying the dataset by confounders or
 including time-dependent variables.
 }
 \examples{
-\dontrun{
+# load example data from package
 data("cohortdata")
+
+# add immunization dates
 cohortdata$immunization_death <- get_immunization_date(
-  date = cohortdata,
+  data = cohortdata,
   outcome_date_col = "death_date",
   outcome_delay = 0,
-  immunisation_delay = 14,
+  immunization_delay = 14,
   vacc_date_col = c("vaccine_date_1", "vaccine_date_2"),
   end_cohort = "2021-12-31",
   take_first = FALSE
 )
 
+# add vaccine status
 cohortdata$vaccine_status <- set_status(
   data = cohortdata,
   col_names = c("immunization_death"),
   status = c("v", "u")
 )
 
+# add death status
 cohortdata$death_status <- set_status(
   data = cohortdata,
   col_names = c("death_date")
 )
 
+# add time to death
 cohortdata$time_to_death <- get_time_to_event(
   data = cohortdata,
   outcome_date_col = "death_date",
@@ -71,11 +76,11 @@ cohortdata$time_to_death <- get_time_to_event(
   FALSE
 )
 
+# estimate vaccine effectiveness
 coh_eff_noconf(
   cohortdata,
   "death_status",
   "time_to_death",
   "vaccine_status"
 )
-}
 }

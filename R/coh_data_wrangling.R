@@ -426,6 +426,21 @@ get_time_to_event <- function(data, outcome_date_col,
       yes = NA_real_,
       no = time_to_event
     )
+
+    return(time_to_event)
+  } else {
+    # condition where the start date is not from immunization
+    # difference between outcomes and start of the cohort study
+    time_to_event <- data[[outcome_date_col]] - start_cohort
+
+    time_to_event <- ifelse(
+      (is.na(time_to_event)) &
+        (is.na(data[[outcome_date_col]])
+        ),
+      yes = end_cohort - start_cohort,
+      no = time_to_event
+    )
+    return(time_to_event)
   }
 }
 

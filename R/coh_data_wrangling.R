@@ -209,60 +209,83 @@ get_immunization_date <- function(data,
       )
     )
   }
+
+  # set vaccination status
   data$outcome_col <- set_status(data,
     outcome_date_col,
     operator = "&",
     status = c(1, 0)
   )
-  data$imm_limit <- data.table::fifelse(
-    data$outcome_col == 1,
-    as.Date(data[[outcome_date_col]]) -
-      as.difftime(outcome_delay,
-        units = "days"
-      ) -
-      as.difftime(immunization_delay,
-        units = "days"
-      ),
-    end_cohort
+
+  # get immunisation limit for individuals with available data
+  # first get outcome-immunisation delay difference
+  # assume both are in days
+  outcome_imm_difference <- outcome_delay - immunization_delay
+  # get difference with outcome date
+  data$imm_limit <- as.Date(data[[outcome_date_col]]) - outcome_imm_difference
+
+  # all other individuals' limit is set to end_cohort
+  data[is.na(data$imm_limit), "imm_limit"] <- end_cohort
+
+  # get differences from vaccination dates
+  cols_delta <- sprintf("delta_%i", seq_along(vacc_date_col))
+
+  for (i in seq_along(cols_delta)) {
+    # calculate values
+    vals <- as.numeric(
+      data$imm_limit - as.Date(data[[vacc_date_col[i]]])
+    )
+    # set any values less than 0 to NA
+    vals[vals < 0] <- NA
+    # assign values
+    data[[cols_delta[i]]] <- vals
+  }
+
+  # assign the lower value as delta_imm, keeping NAs where
+  # only NAs are present
+  # this `apply` replaces the earlier implementation and avoids
+  # a dependency
+  data$delta_imm <- apply(
+    # apply min over each row of a dataframe of the delta columns
+    # returning a vector of minimum delta values or NAs
+    data[, cols_delta],
+    MARGIN = 1, FUN = function(x) {
+      if (all(is.na(x))) {
+        NA_real_
+      } else {
+        min(x, na.rm = TRUE)
+      }
+    }
   )
 
-  deltas <- NULL
-  for (i in seq_along(vacc_date_col)) {
-    data[[paste0("delta", i)]] <-
-      data$imm_limit - as.Date(data[[vacc_date_col[i]]])
-    deltas <- c(deltas, paste0("delta", i))
-  }
-  n_deltas <- length(deltas) - 1
-  data[, (ncol(data) - n_deltas):ncol(data)][
-    data[
-      ,
-      (ncol(data) -
-        n_deltas):ncol(data)
-    ]
-    < 0
-  ] <- NA
-  data <- data %>%
-    dplyr::mutate(delta_imm = pmin(!!!rlang::syms(deltas), na.rm = TRUE))
-  data$imm_out_date <- data$imm_limit - data$delta_imm + immunization_delay
+  # immunization outcome as a vector
+  imm_out_date <- data$imm_limit - data$delta_imm + immunization_delay
+
+  # for option `take_first`
   if (take_first) {
     ## Take the minimum immunization date
-    data <- data %>%
-      dplyr::mutate(
-        min_imm =
-          pmin(!!!rlang::syms(vacc_date_col),
-            na.rm = TRUE
-          )
-      )
-    data$min_imm <- as.Date(data$min_imm) + immunization_delay
-    data$imm_date <- data.table::fifelse(
-      data$outcome_col == 1,
-      data$imm_out_date,
-      data$min_imm
+    data$min_imm <- apply(
+      data[, vacc_date_col],
+      MARGIN = 1,
+      FUN = function(x) {
+        if (all(is.na(x))) {
+          NA_character_
+        } else {
+          min(x, na.rm = TRUE)
+        }
+      }
     )
-    return(data$imm_date)
+    data$min_imm <- as.Date(data$min_imm) + immunization_delay
+
+    # get the immunization date based on vax status as a vector
+    imm_date <- data$min_imm
+    # if individuals are vaccinated, assign the `imm_out_date`
+    imm_date[data$outcome_col] <- imm_out_date
+
+    return(imm_date)
   } else {
     ## Take the closest date to end_cohort
-    return(data$imm_out_date)
+    return(imm_out_date)
   }
 }
 

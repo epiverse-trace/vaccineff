@@ -530,18 +530,13 @@ get_immunization_dose <- function(data,
 #' order, i.e. every name of column date must correspond
 #' to a name of vaccine column (see example)
 #'
-#' @param data dataset with cohort information (see example)
-#' @param immunization_date_col name of the column that contains the
-#' immunization date.
-#' @param vacc_date_col name of the column(s) that contains the vaccine date
+#' @inheritParams get_immunization_dose
 #' @param vacc_name_col name of the column(s) that contains the vaccine names
-#' @param immunization_delay characteristic time in days before the patient
-#' is considered immune
 #' @return dose: a column with the names of the columns that are associated to
 #' the doses of each register
 #' @return vaccine name
 #' @examples
-#' \dontrun{
+#' # load example data
 #' data("cohortdata")
 #' cohortdata$immunization_death <- get_immunization_date(
 #'   data = cohortdata,
@@ -559,75 +554,55 @@ get_immunization_dose <- function(data,
 #'   vacc_name_col = c("vaccine_1", "vaccine_2"),
 #'   immunization_delay = 14
 #' )
-#' }
+#'
+#' # view data
+#' head(cohortdata)
 #' @export
 get_immunization_vaccine <- function(data,
                                      immunization_date_col,
                                      vacc_date_col,
                                      vacc_name_col,
                                      immunization_delay) {
-  rdf <- data.frame(
-    "vaccine_name_col" = vacc_name_col,
-    "vaccine_date_col" = vacc_date_col
+  # input checking
+  checkmate::assert_data_frame(
+    data,
+    min.rows = 1L
   )
-  data$id <- seq_len(nrow(data))
-  cols1 <- c("id", immunization_date_col, vacc_date_col)
-  split1 <- data[!is.na(data[[immunization_date_col]])] %>%
-    dplyr::select(dplyr::all_of(cols1))
-  long1 <- data.table::melt(data.table::setDT(split1),
-    id.vars = c("id", immunization_date_col),
-    variable.name = "vaccine_date_col",
-    value.name = "vaccine_date"
+  checkmate::assert_string(immunization_date_col)
+  checkmate::assert_character(
+    vacc_date_col,
+    min.len = 1L
   )
-  long1[[immunization_date_col]] <- as.Date(long1[[immunization_date_col]])
-  long1$vaccine_date <- as.Date(long1$vaccine_date)
-  long1 <- long1[(long1[[immunization_date_col]] - immunization_delay
-  == long1$vaccine_date) &
-    !is.na(long1$vaccine_date)]
-  long1 <- long1[order(long1$id, long1$vaccine_date_col), ]
-  long1 <- long1[!duplicated(long1$id), ]
+  checkmate::assert_character(
+    vacc_name_col,
+    len = length(vacc_date_col)
+  )
+  checkmate::assert_number(
+    immunization_delay,
+    lower = 0, finite = TRUE
+  )
+  checkmate::assert_names(
+    colnames(data),
+    must.include = c(vacc_date_col, immunization_date_col, vacc_name_col)
+  )
 
-  cols2 <- c("id", immunization_date_col, vacc_date_col, vacc_name_col)
-  split2 <- data[!is.na(data[[immunization_date_col]])] %>%
-    dplyr::select(dplyr::all_of(cols2))
-  long2 <-
-    data.table::melt(data.table::setDT(split2),
-      id.vars = c(
-        "id",
-        immunization_date_col,
-        vacc_date_col
-      ),
-      variable.name = "vaccine_name_col",
-      value.name = "vaccine_name"
-    )
-  long3 <- data.table::melt(data.table::setDT(long2),
-    id.vars = c(
-      "id", immunization_date_col,
-      "vaccine_name_col",
-      "vaccine_name"
-    ),
-    variable.name = "vaccine_date_col",
-    value.name = "vaccine_date"
+  # get the vaccine date corresponding to the immunizing dose
+  immunizing_dose <- get_immunization_dose(
+    data,
+    immunization_date_col = immunization_date_col,
+    vacc_date_col = vacc_date_col, immunization_delay = immunization_delay
   )
-  long3 <- long3[(long3[[immunization_date_col]] - immunization_delay
-  == long3$vaccine_date) &
-    !is.na(long3$vaccine_date)]
-  long3 <- merge(x = long3, y = rdf, by = "vaccine_name_col", all.x = TRUE)
-  long3 <- long3[(long3$vaccine_date_col.x == long3$vaccine_date_col.y)]
-  long3 <- long3 %>% dplyr::select(dplyr::all_of(c(
-    "id",
-    "vaccine_name",
-    "vaccine_date_col.x"
-  )))
-  colnames(long3) <- c("id", "vaccine", "vaccine_date_col")
 
-  long1 <- merge(
-    x = long1, y = long3,
-    by = c("id", "vaccine_date_col"),
-    all.x = TRUE
+  # position of immunizing dose
+  data$dose_index <- match(immunizing_dose, vacc_date_col)
+
+  # get the vaccine name at the immunizing dose index
+  immunizing_vaccine <- apply(
+    data[, c(vacc_name_col, "dose_index")],
+    MARGIN = 1, FUN = function(x) {
+      index <- as.numeric(x[length(x)])
+      x[index]
+    }
   )
-  long1 <- long1 %>% dplyr::select(dplyr::all_of(c("id", "vaccine")))
-  data <- merge(x = data, y = long1, by = "id", all.x = TRUE)
-  data <- data[order(data$id), ]
-  return(data$vaccine)
+  return(immunizing_vaccine)
 }

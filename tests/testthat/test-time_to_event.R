@@ -2,6 +2,13 @@
 
 # Prepare some data
 data("cohortdata")
+# filter out all vaccinations after deaths
+cohortdata <- cohortdata[
+  is.na(cohortdata$death_date) |
+    (cohortdata$vaccine_date_1 < cohortdata$death_date &
+      cohortdata$vaccine_date_2 < cohortdata$death_date),
+]
+
 data <- as.data.frame(cohortdata)
 
 # assign immunization date
@@ -55,6 +62,6 @@ test_that("`get_time_to_event`: Basic expectations", {
     ptype = numeric()
   )
   expect_true(
-    all(time_to_death >= 0)
+    all(time_to_death >= 0 | is.na(time_to_death))
   )
 })

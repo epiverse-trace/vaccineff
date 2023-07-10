@@ -487,27 +487,36 @@ get_immunization_dose <- function(data,
                                   immunization_date_col,
                                   vacc_date_col,
                                   immunization_delay) {
-  data$id <- seq_len(nrow(data))
-  cols <- c("id", immunization_date_col, vacc_date_col)
-  split <- data[!is.na(data[[immunization_date_col]])] %>%
-    dplyr::select(dplyr::all_of(cols))
-  long <- data.table::melt(data.table::setDT(split),
-    id.vars = c("id", immunization_date_col),
-    variable.name = "dose",
-    value.name = "vaccine_date"
+  # input checking
+  # add input checking
+  checkmate::assert_data_frame(
+    data,
+    min.rows = 1L
   )
-  long[[immunization_date_col]] <- as.Date(long[[immunization_date_col]])
-  long$vaccine_date <- as.Date(long$vaccine_date)
+  checkmate::assert_string(immunization_date_col)
+  checkmate::assert_character(
+    vacc_date_col,
+    min.len = 1L
+  )
+  checkmate::assert_number(
+    immunization_delay,
+    lower = 0, finite = TRUE
+  )
+  checkmate::assert_names(
+    colnames(data),
+    must.include = c(vacc_date_col, immunization_date_col)
+  )
 
-  long <- long[(long[[immunization_date_col]] - immunization_delay
-  == long$vaccine_date) &
-    !is.na(long$vaccine_date)]
-  long <- long[order(long$id, long$dose), ]
-  long <- long[!duplicated(long$id), ]
-  long <- long %>% dplyr::select(dplyr::all_of(c("id", "dose")))
-  data <- merge(x = data, y = long, by = "id", all.x = TRUE)
-  data <- data[order(data$id), ]
-  return(data$dose)
+  # calculate the expected date of immunizing vaccination
+  data$delta_imm <- data[[immunization_date_col]] - immunization_delay
+
+  # get the first dose corresponding to immunization date - delay
+  dose_number <- apply(data[, c(vacc_date_col, "delta_imm")], 1, function(x) {
+    which(x == x[length(x)])[1] # hard coded to get first value
+  })
+
+  # get names of the vaccination columns corresponding to the dose
+  return(vacc_date_col[dose_number])
 }
 
 #' Function to construct vaccine biologic associated to the immunization date

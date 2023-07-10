@@ -339,7 +339,34 @@ get_immunization_date <- function(data,
 get_time_to_event <- function(data, outcome_date_col,
                               start_cohort, end_cohort,
                               start_from_immunization = FALSE,
-                              immunization_date_col = FALSE) {
+  # add input checking
+  checkmate::assert_data_frame(
+    data,
+    min.rows = 1L
+  )
+  checkmate::assert_string(outcome_date_col)
+  checkmate::assert_names(
+    colnames(data),
+    must.include = outcome_date_col
+  )
+  # check strings, converted to date later
+  checkmate::assert_string(start_cohort)
+  checkmate::assert_string(end_cohort)
+
+  checkmate::assert_logical(
+    start_from_immunization,
+    len = 1L, any.missing = FALSE
+  )
+
+  # check immnunization date col if asked
+  if (start_from_immunization) {
+    stopifnot(
+      "`immunization_date_col` must be provided, and a column name in `data`" =
+        (!missing(immunization_date_col) &&
+          checkmate::test_string(immunization_date_col) &&
+          immunization_date_col %in% colnames(data))
+    )
+  }
   start_cohort <- as.Date(start_cohort)
   end_cohort <- as.Date(end_cohort)
   if (start_from_immunization) {

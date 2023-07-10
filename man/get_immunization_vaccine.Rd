@@ -42,7 +42,7 @@ order, i.e. every name of column date must correspond
 to a name of vaccine column (see example)
 }
 \examples{
-\dontrun{
+# load example data
 data("cohortdata")
 cohortdata$immunization_death <- get_immunization_date(
   data = cohortdata,
@@ -60,5 +60,7 @@ cohortdata$immunization_vaccine <- get_immunization_vaccine(
   vacc_name_col = c("vaccine_1", "vaccine_2"),
   immunization_delay = 14
 )
-}
+
+# view data
+head(cohortdata)
 }

@@ -406,6 +406,14 @@ get_time_to_event <- function(data, outcome_date_col,
       yes = end_cohort - data[[immunization_date_col]],
       no = time_to_event
     )
+
+    # handle case of immunization date being after cohort end date
+    # return NA here
+    time_to_event <- ifelse(
+      !is.na(data[[immunization_date_col]]) &
+        data[[immunization_date_col]] > end_cohort,
+      yes = NA_real_,
+      no = time_to_event
     )
     return(data$time_to_event)
   }

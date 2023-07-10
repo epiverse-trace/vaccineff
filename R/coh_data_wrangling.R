@@ -315,7 +315,7 @@ get_immunization_date <- function(data,
 #' immunization date. Required if start_from_immunization = TRUE
 #' @return time-to-event
 #' @examples
-#' \dontrun{
+#' # load package example data
 #' data("cohortdata")
 #' cohortdata$immunization_death <- get_immunization_date(
 #'   data = cohortdata,
@@ -334,11 +334,14 @@ get_immunization_date <- function(data,
 #'   start_from_immunization = TRUE,
 #'   immunization_date_col = "immunization_death"
 #' )
-#' }
+#'
+#' # view data
+#' head(cohortdata)
 #' @export
 get_time_to_event <- function(data, outcome_date_col,
                               start_cohort, end_cohort,
                               start_from_immunization = FALSE,
+                              immunization_date_col) {
   # add input checking
   checkmate::assert_data_frame(
     data,
@@ -367,6 +370,7 @@ get_time_to_event <- function(data, outcome_date_col,
           immunization_date_col %in% colnames(data))
     )
   }
+
   # convert strings to dates
   start_cohort <- as.Date(start_cohort)
   end_cohort <- as.Date(end_cohort)

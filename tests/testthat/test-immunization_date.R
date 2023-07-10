@@ -25,7 +25,7 @@ test_that("`get_immunization_date`: Snapshot test", {
 test_that("`get_immunization_date`: Basic expectations", {
   data("cohortdata")
   cohortdata <- as.data.frame(cohortdata)
-  # filter vaccination after death!
+  # filter out all real deaths
   cohortdata <- cohortdata[is.na(cohortdata$death_date), ]
 
   # get immunization dates
@@ -71,7 +71,7 @@ test_that("`get_immunization_date`: Basic expectations", {
 test_that("`get_immunization_date`: Take first vaccination", {
   data("cohortdata")
   cohortdata <- as.data.frame(cohortdata)
-  # filter vaccination after death!
+  # filter out all real deaths
   cohortdata <- cohortdata[is.na(cohortdata$death_date), ]
 
   # get immunization dates

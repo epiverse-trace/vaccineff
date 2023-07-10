@@ -23,7 +23,6 @@ Depends:
 Imports: 
     data.table,
     dplyr,
-    rlang,
     survival,
     stats,
     checkmate

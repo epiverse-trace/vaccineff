@@ -415,7 +415,17 @@ get_time_to_event <- function(data, outcome_date_col,
       yes = NA_real_,
       no = time_to_event
     )
-    return(data$time_to_event)
+
+    # handle case of full immunization being after death date
+    # i.e., person dies after last dose but within the immunity delay time
+    # return NA as well
+    time_to_event <- ifelse(
+      !is.na(data[[outcome_date_col]]) &
+        !is.na(data[[immunization_date_col]]) &
+        (data[[outcome_date_col]] < data[[immunization_date_col]]),
+      yes = NA_real_,
+      no = time_to_event
+    )
   }
 }
 

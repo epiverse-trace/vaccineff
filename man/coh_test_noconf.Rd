@@ -37,13 +37,15 @@ strategies, e.g. stratifying the dataset by confounders or including
 time-dependent variables.
 }
 \examples{
-\dontrun{
+# load example package data
 data("cohortdata")
+
+# add useful columns
 cohortdata$immunization_death <- get_immunization_date(
-  date = cohortdata,
+  data = cohortdata,
   outcome_date_col = "death_date",
   outcome_delay = 0,
-  immunisation_delay = 14,
+  immunization_delay = 14,
   vacc_date_col = c("vaccine_date_1", "vaccine_date_2"),
   end_cohort = "2021-12-31",
   take_first = FALSE
@@ -68,12 +70,14 @@ cohortdata$time_to_death <- get_time_to_event(
   FALSE
 )
 
+# perform the test
 test <- coh_test_noconf(
   cohortdata,
   "death_status",
   "time_to_death",
   "vaccine_status"
 )
-plot(test)
-}
+
+# View test object
+test
 }

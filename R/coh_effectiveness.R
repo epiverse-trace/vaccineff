@@ -100,7 +100,6 @@ coh_eff_noconf <- function(data,
   # extract from matrix by name
   p <- test$table["GLOBAL", "p"]
 
-  p_value <- format(p, digits = 3)
   if (p < p_thr) {
     ph <- "reject"
   } else {
@@ -114,7 +113,9 @@ coh_eff_noconf <- function(data,
     V_eff_low = 1 - ci975,
     V_eff_high = 1 - ci025,
     PH = ph,
-    p_value = p_value
+    p_value = p # p_value must be a numeric
   )
+  # remove rownames
+  rownames(df_summ) <- NULL
   return(df_summ)
 }

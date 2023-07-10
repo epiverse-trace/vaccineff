@@ -152,7 +152,63 @@ get_immunization_date <- function(data,
                                   vacc_date_col,
                                   end_cohort,
                                   take_first = TRUE) {
+  # check inputs
+  checkmate::assert_data_frame(
+    data,
+    min.rows = 1L
+  )
+  checkmate::assert_string(
+    outcome_date_col
+  )
+  checkmate::assert_character(
+    vacc_date_col,
+    min.len = 1L
+  )
+  # check data has expected column names
+  checkmate::assert_names(
+    names(data),
+    must.include = c(outcome_date_col, vacc_date_col)
+  )
+  # TODO: check that outcome, vax, and end date columns are of type Date
+  # or coercible to date
+
+  # check outcome and immunization delay as a number - may be decimal for now
+  # TODO: consider restricting to a count or integerish
+  checkmate::assert_number(
+    outcome_delay,
+    lower = 0, finite = TRUE
+  )
+  checkmate::assert_number(
+    immunization_delay,
+    lower = 0, finite = TRUE
+  )
+
+  # expect end cohort is a string - will be coerced to date later
+  checkmate::assert_string(
+    end_cohort
+  )
+
+  # check take_first
+  checkmate::assert_logical(
+    take_first,
+    len = 1L
+  )
+
+  # convert end_cohort column
+  # TODO: expect specific format
   end_cohort <- as.Date(end_cohort)
+
+  # warn on year of cohort end date date
+  max_year <- 2100 # a plausible maximum year
+  end_year <- as.numeric(format(end_cohort, "%Y"))
+  if (end_year > max_year) {
+    warning(
+      sprintf(
+        "`end_cohort` has a date with year > %s, please check the date!",
+        as.character(max_year)
+      )
+    )
+  }
   data$outcome_col <- set_status(data,
     outcome_date_col,
     operator = "&",

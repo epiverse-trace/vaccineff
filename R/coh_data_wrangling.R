@@ -132,8 +132,10 @@ set_status <- function(data,
 #' FALSE: takes closest to end_cohort
 #' @return immunization date
 #' @examples
-#' \dontrun{
+#' # load package example data
 #' data("cohortdata")
+#'
+#' # get immunization dates
 #' cohortdata$immunization_death <- get_immunization_date(
 #'   data = cohortdata,
 #'   outcome_date_col = "death_date",
@@ -143,7 +145,9 @@ set_status <- function(data,
 #'   end_cohort = "2021-12-31",
 #'   take_first = FALSE
 #' )
-#' }
+#'
+#' # view head of data
+#' head(cohortdata)
 #' @export
 get_immunization_date <- function(data,
                                   outcome_date_col,

@@ -3,7 +3,7 @@
 # snapshot test to test edited implementations
 test_that("`get_immunization_date`: Snapshot test", {
   data("cohortdata")
-  cohortdata = as.data.frame(cohortdata)
+  cohortdata <- as.data.frame(cohortdata)
 
   # get immunization dates
   immunization_death <- get_immunization_date(
@@ -20,5 +20,3 @@ test_that("`get_immunization_date`: Snapshot test", {
     head(immunization_death, 15)
   )
 })
-
-

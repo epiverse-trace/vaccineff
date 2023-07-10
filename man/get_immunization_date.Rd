@@ -59,8 +59,10 @@ In case of several vaccines, the parameter
 {outcome_date_col must} be passed as a vector (see example)
 }
 \examples{
-\dontrun{
+# load package example data
 data("cohortdata")
+
+# get immunization dates
 cohortdata$immunization_death <- get_immunization_date(
   data = cohortdata,
   outcome_date_col = "death_date",
@@ -70,5 +72,7 @@ cohortdata$immunization_death <- get_immunization_date(
   end_cohort = "2021-12-31",
   take_first = FALSE
 )
-}
+
+# view head of data
+head(cohortdata)
 }

@@ -10,7 +10,7 @@ get_time_to_event(
   start_cohort,
   end_cohort,
   start_from_immunization = FALSE,
-  immunization_date_col = FALSE
+  immunization_date_col
 )
 }
 \arguments{
@@ -43,7 +43,7 @@ cohort is known at this point (start_from_immunization=FALSE). In this last
 case, it is not necessary to pass the argument {immunization_date_col}
 }
 \examples{
-\dontrun{
+# load package example data
 data("cohortdata")
 cohortdata$immunization_death <- get_immunization_date(
   data = cohortdata,
@@ -62,5 +62,7 @@ cohortdata$time_to_death <- get_time_to_event(
   start_from_immunization = TRUE,
   immunization_date_col = "immunization_death"
 )
-}
+
+# view data
+head(cohortdata)
 }

@@ -1,4 +1,4 @@
-url: ~
+url: https://epiverse-trace.github.io/vaccineff/
 template:
-  bootstrap: 5
+  package: epiversetheme
 

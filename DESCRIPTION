@@ -20,6 +20,7 @@ Imports:
     rlang,
     survival,
     stats,
+    epiDisplay
     checkmate
 Suggests: 
     knitr,

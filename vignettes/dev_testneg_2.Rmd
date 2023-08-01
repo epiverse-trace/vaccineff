@@ -1,0 +1,30 @@
+---
+title: "dev_testneg_2"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{dev_testneg_2}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(vaccineff)
+```
+
+## loading the data 
+
+```{r}
+data("testnegdata")
+
+# SELECT THE COLUMNS OF INTEREST FOR THE SIMPLE MODEL
+data_of_interest <- testnegdata %>% 
+  dplyr::select(real_time_pcr_for_influenza_abafrims, vaccine12mo_yn) %>%
+  dplyr::mutate(screen_res = ifelse(real_time_pcr_for_influenza_abafrims == "Neg", 0, 1))
+```

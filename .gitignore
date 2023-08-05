@@ -52,3 +52,6 @@ rsconnect/
 .DS_Store
 inst/doc
 docs
+
+# scratch file for development
+scratch.R

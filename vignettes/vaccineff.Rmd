@@ -1,5 +1,7 @@
 ---
 title: "vaccineff"
+bibliography: references.json
+link-citations: true
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{vaccineff}
@@ -20,9 +22,9 @@ library(vaccineff)
 
 ## Usage
 
-Estimating the vaccine effectiveness is a key task once a vaccine is available as a control measure within a population, i.e. during the middle phase of an epidemic such as Ebola or COVID-19, and also in evaluation of regular vaccination programmes such as childhood vaccines.
+Estimating the vaccine effectiveness is a key task once a vaccine is available as a control measure within a population, i.e. during the middle phase of an epidemic such as Ebola or COVID-19, and also in evaluation of regular vaccination programs such as childhood vaccines.
 
-`vaccineff` provides tools to do so under different study designs, including cohorts, test-negative/case-control and screening method. Every design comes with its own example data set which includes information on the vaccination dates and biologic per doses, and the relevant demographic information. The level of aggregation of the data responds to the characteristics and needs of every study case.
+`vaccineff` provides tools to do so under different study designs, including cohorts, test-negative/case-control and screening method [@torvaldsen2020]. Every design comes with its own example data set which includes information on the vaccination dates and biologic per doses, and the relevant demographic information. The level of aggregation of the data responds to the characteristics and needs of every study case.
 
 ## Who are the users / potential users?
 
@@ -30,7 +32,7 @@ Estimating the vaccine effectiveness is a key task once a vaccine is available a
 
 ## What is vaccine effectiveness?
 
-In contrast with vaccine efficacy, that is the percentage reduction of disease/phenomenon incidence in a vaccinated group compared with an unvaccinated group, under ideal conditions. Vaccine effectiveness is the percentage reduction of disease/phenomenon incidence in a vaccinated group compared with an unvaccinated group, under rountine conditions. Evaluating effectiveness of vaccines in the field is an important aspect of monitoring immunization programmes.
+In contrast with vaccine efficacy, that is the percentage reduction of disease/phenomenon incidence in a vaccinated group compared with an unvaccinated group, under ideal conditions. Vaccine effectiveness is the percentage reduction of disease/phenomenon incidence in a vaccinated group compared with an unvaccinated group, under routine conditions. Evaluating effectiveness of vaccines in the field is an important aspect of monitoring immunization programs.
 
 ## For which designs of vaccine effectiveness is this package?
 
@@ -43,11 +45,11 @@ $$VE = (1-HR(t))\times100$$
 The HR is estimated using the Cox Proportional Hazards model:
 $$h_g(t,s)=h_{0,g}\exp(\beta s)$$
 
-Where the hazards are modeled in terms of the status of vaccination. The proportional hazards hypothesis is checked using the Shoenfled test. If the hypothesis is not satisfied, it is recommended to stratify the population into smaller groups (g) using the confounding variables. 
+Where the hazards are modeled in terms of the status of vaccination. The proportional hazards hypothesis is checked using the Schoenfeld test. If the hypothesis is not satisfied, it is recommended to stratify the population into smaller groups (g) using the confounding variables. 
 
 ### Test Negative Design
 
-The test negative design is a modified case-control design. The vaccinfe effectiveness is estimated using the odds ratio (OR) of vaccination among cases divided into the OR of vaccination among controls. 
+The test negative design is a modified case-control design. The vaccine effectiveness is estimated using the odds ratio (OR) of vaccination among cases divided into the OR of vaccination among controls. 
 $$VE = 1- \frac{\text{Vaccination OR among cases}}{\text{Vaccination OR among controls}}\times 100$$
 
 ### Screening Method
@@ -78,12 +80,12 @@ Data disaggregated at individual level to correlate vaccination and disease stat
 
 ### Data for Screening method design
 
-- Vaccination status for each case or age group. Consider time since vaccination to determine as vaccinated or unvaccinated. If vaccine of interest required several doses for maxime efficacy exclude patients with incomplete schemes. 
+- Vaccination status for each case or age group. Consider time since vaccination to determine as vaccinated or unvaccinated. If vaccine of interest required several doses for maximum efficacy exclude patients with incomplete schemes. 
 - Proportion of population vaccinated. Data can be administrated as people with complete vaccination and people without complete vaccination or the proportion of people vaccinated. 
 - Individuals demographic information (e.g. sex, age, health insurance) others can be specify depending on the confounding variables that will be introduced in the model.
 
 
-## Modelling vaccine effectivenes
+## Modeling vaccine effectiveness
 
 ### VE for Cohort design
 
@@ -95,29 +97,41 @@ The integrated data set `cohortdata` provides a minimal example of the input of 
 data("cohortdata")
 
 cohortdata$immunization_death <-
-  get_immunization_date(data = cohortdata,
-                        outcome_date_col = "death_date",
-                        outcome_delay = 0,
-                        immunization_delay = 14,
-                        vacc_date_col = c("vaccine_date_1", "vaccine_date_2"),
-                        end_cohort = "2021-12-31",
-                        take_first = FALSE)
+  get_immunization_date(
+    data = cohortdata,
+    outcome_date_col = "death_date",
+    outcome_delay = 0,
+    immunization_delay = 14,
+    vacc_date_col = c("vaccine_date_1", "vaccine_date_2"),
+    end_cohort = "2021-12-31",
+    take_first = FALSE
+  )
 
-cohortdata$vaccine_status <- set_status(data = cohortdata,
-                                        col_names = "immunization_death",
-                                        status = c("v", "u"))
+cohortdata$vaccine_status <- set_status(
+  data = cohortdata,
+  col_names = "immunization_death",
+  status = c("v", "u")
+)
 
-cohortdata$death_status <- set_status(data = cohortdata,
-                                      col_names = "death_date")
+cohortdata$death_status <- set_status(
+  data = cohortdata,
+  col_names = "death_date"
+)
 
-cohortdata$time_to_death <- get_time_to_event(data = cohortdata,
-                                              outcome_date_col = "death_date",
-                                              start_cohort = "2021-01-01",
-                                              end_cohort =  "2021-12-31",
-                                              start_from_immunization = FALSE)
+cohortdata$time_to_death <- get_time_to_event(
+  data = cohortdata,
+  outcome_date_col = "death_date",
+  start_cohort = "2021-01-01",
+  end_cohort = "2021-12-31",
+  start_from_immunization = FALSE
+)
 
-coh_eff_noconf(data = cohortdata,
-               outcome_status_col = "death_status",
-               time_to_event_col = "time_to_death",
-               status_vacc_col = "vaccine_status")
+coh_eff_noconf(
+  data = cohortdata,
+  outcome_status_col = "death_status",
+  time_to_event_col = "time_to_death",
+  status_vacc_col = "vaccine_status"
+)
 ```
+
+## References

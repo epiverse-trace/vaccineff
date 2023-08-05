@@ -33,7 +33,13 @@
       </ul><form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off"></form>
 
-      <ul class="navbar-nav"></ul></div>
+      <ul class="navbar-nav"><li class="nav-item">
+  <a class="external-link nav-link" href="https://github.com/epiverse-trace/vaccineff/" aria-label="github">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul></div>
 
     
   </div>
@@ -74,16 +80,7 @@ status.</dd>
           
           <code><a href="get_age_group.html">get_age_group()</a></code> 
         </dt>
-        <dd>Method for constructing age-group variable from age column
-This method splits an age interval from min_val to max_val into
-(max_val-min_val)/step intervals.
-By default min_val is set 0, however it can be assigned by
-convenience.
-If the method finds ages greater or equal than max_val
-it assigns the string "&gt;max_val".
-To avoid errors it is necessary to set step &lt; max_val.
-It is also suggested to choose the step such
-that max_val%%(step+1) = 0</dd>
+        <dd>Construct age-group variable from age column</dd>
       </dl><dl><dt>
           
           <code><a href="get_immunization_date.html">get_immunization_date()</a></code> 
@@ -113,7 +110,7 @@ that max_val%%(step+1) = 0</dd>
           
           <code><a href="set_status.html">set_status()</a></code> 
         </dt>
-        <dd>Function to assign the outcome status or the vaccination status</dd>
+        <dd>Assign outcome status or vaccination status</dd>
       </dl><dl><dt>
           
           <code><a href="testnegdata.html">testnegdata</a></code> 

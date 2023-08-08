@@ -1,47 +1,47 @@
 
-## *vaccineff*: An R package with tools for estimating vaccine effectiveness and vaccine related metrics <img src="man/figures/vaccineff.png" align="right" width="130"/>
+## *{{ packagename }}*: An R package with tools for estimating vaccine effectiveness and vaccine related metrics <img src="man/figures/vaccineff.png" align="right" width="130"/>
 
 <!-- badges: start -->
 
 [![License:
 MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/license/mit/)
-[![R-CMD-check](https://github.com/epiverse-trace/vaccineff/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/epiverse-trace/vaccineff/actions/workflows/R-CMD-check.yaml)
+[![R-CMD-check](https://github.com/%7B%7B%20gh_repo%20%7D%7D/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/%7B%7B%20gh_repo%20%7D%7D/actions/workflows/R-CMD-check.yaml)
 [![Codecov test
-coverage](https://codecov.io/gh/epiverse-trace/vaccineff/branch/main/graph/badge.svg)](https://app.codecov.io/gh/epiverse-trace/vaccineff?branch=main)
+coverage](https://codecov.io/gh/%7B%7B%20gh_repo%20%7D%7D/branch/main/graph/badge.svg)](https://app.codecov.io/gh/%7B%7B%20gh_repo%20%7D%7D?branch=main)
 [![Project Status: WIP – Initial development is in progress, but there
 has not yet been a stable, usable release suitable for the
 public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
 [![CRAN
-status](https://www.r-pkg.org/badges/version/vaccineff)](https://CRAN.R-project.org/package=vaccineff)
+status](https://www.r-pkg.org/badges/version/%7B%7B%20packagename%20%7D%7D)](https://CRAN.R-project.org/package=%7B%7B%20packagename%20%7D%7D)
 [![lifecycle-experimental](https://raw.githubusercontent.com/reconverse/reconverse.github.io/master/images/badge-experimental.svg)](https://www.reconverse.org/lifecycle.html#concept)
 
 <!-- badges: end -->
 
-*vaccineff* is an R package that offers tools for estimating the vaccine
-effectiveness, using a series of epidemiological designs including
-cohort studies, test-negative case-control, and screening methods
-([Torvaldsen and McIntyre 2020](#ref-torvaldsen2020)). The package
-provides a set of features for preparing the data, to analyze different
-study designs and for assessing the performance of the models.
+*{{ packagename }}* is an R package that offers tools for estimating the
+vaccine effectiveness, using a series of epidemiological designs
+including cohort studies, test-negative case-control, and screening
+methods ([Torvaldsen and McIntyre 2020](#ref-torvaldsen2020)). The
+package provides a set of features for preparing the data, to analyze
+different study designs and for assessing the performance of the models.
 
-*vaccineff* is developed at [Pontificia Universidad
+*{{ packagename }}* is developed at [Pontificia Universidad
 Javeriana](https://www.javeriana.edu.co/inicio) as part of the
 [Epiverse-TRACE initiative](https://data.org/initiatives/epiverse/).
 
 ## Installation
 
-The current development version of *vaccineff* can be installed from
-[GitHub](https://github.com/) using the `pak` package.
+The current development version of *{{ packagename }}* can be installed
+from [GitHub](https://github.com/) using the `pak` package.
 
 ``` r
 if(!require("pak")) install.packages("pak")
-pak::pak("epiverse-trace/vaccineff")
+pak::pak("{{ gh_repo }}")
 ```
 
 ## Quick start
 
-*vaccineff* provides minimal datasets that can be used to test out each
-design `(cohortdata, testnegdata, screeningdata)`
+*{{ packagename }}* provides minimal datasets that can be used to test
+out each design `(cohortdata, testnegdata, screeningdata)`
 
 ``` r
 # Load example `cohortdata` included in the package
@@ -57,26 +57,26 @@ head(cohortdata, 5)
 
 ## Package vignettes
 
-More details on how to use *vaccineff* can be found in the [online
-documentation as package
-vignettes](https://epiverse-trace.github.io/vaccineff/), in the article
-“Get Started with vaccineff”.
+More details on how to use *{{ packagename }}* can be found in the
+[online documentation as package
+vignettes](https://epiverse-trace.github.io/%7B%7B%20packagename%20%7D%7D/),
+in the article “Get Started with vaccineff”.
 
 ## Help
 
 To report a bug or to request a new feature please open an
-[issue](https://github.com/epiverse-trace/vaccineff/issues/new/choose).
+[issue](https://github.com/%7B%7B%20gh_repo%20%7D%7D/issues/new/choose).
 
 ## Contribute
 
-Contributions to *vaccineff* are welcomed. Please follow the [package
-contributing
-guide](https://github.com/epiverse-trace/vaccineff/blob/main/.github/CONTRIBUTING.md).
+Contributions to *{{ packagename }}* are welcomed. Please follow the
+[package contributing
+guide](https://github.com/%7B%7B%20gh_repo%20%7D%7D/blob/main/.github/CONTRIBUTING.md).
 
 ## Code of conduct
 
-Please note that the *vaccineff* project is released with a [Contributor
-Code of
+Please note that the *{{ packagename }}* project is released with a
+[Contributor Code of
 Conduct](https://github.com/epiverse-trace/.github/blob/main/CODE_OF_CONDUCT.md).
 By contributing to this project, you agree to abide by its terms.
 
@@ -84,16 +84,17 @@ By contributing to this project, you agree to abide by its terms.
 
 Contributors to the project include:
 
-- [David Santiago Quevedo](https://github.com/davidsantiagoquevedo)
-  (author)
+-   [David Santiago Quevedo](https://github.com/davidsantiagoquevedo)
+    (author)
 
-- [Zulma M. Cucunubá](https://github.com/zmcucunuba) (author)
+-   [Zulma M. Cucunubá](https://github.com/zmcucunuba) (author)
 
-- [Santiago Loaiza](https://github.com/santilo9513) (author)
+-   [Santiago Loaiza](https://github.com/santilo9513) (author)
 
-- [Geraldine Gómez](https://github.com/GeraldineGomez) (contributor)
+-   [Geraldine Gómez](https://github.com/GeraldineGomez) (contributor)
 
-- [Jaime A. Pavlich-Mariscal](https://github.com/jpavlich) (contributor)
+-   [Jaime A. Pavlich-Mariscal](https://github.com/jpavlich)
+    (contributor)
 
 ## References
 

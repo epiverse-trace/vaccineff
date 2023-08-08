@@ -28,7 +28,8 @@ Authors:
 
 Other contributors:
 \itemize{
-  \item Geraldine Gómez Millán \email{geralidine.gomez@javeriana.edu.co} [contributor]
+  \item Geraldine Gómez Millán \email{geralidine.gomez@javeriana.edu.co} (\href{https://orcid.org/0009-0007-8701-0568}{ORCID}) [contributor]
+  \item Pratik Gupte \email{pratik.gupte@lshtm.ac.uk} (\href{https://orcid.org/0000-0001-5294-7819}{ORCID}) [contributor]
 }
 
 }

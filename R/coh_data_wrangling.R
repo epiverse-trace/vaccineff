@@ -366,8 +366,8 @@ get_time_to_event <- function(data, outcome_date_col,
     stopifnot(
       "`immunization_date_col` must be provided, and a column name in `data`" =
         (!missing(immunization_date_col) &&
-          checkmate::test_string(immunization_date_col) &&
-          immunization_date_col %in% colnames(data))
+         checkmate::test_string(immunization_date_col) &&
+         immunization_date_col %in% colnames(data))
     )
   }
 

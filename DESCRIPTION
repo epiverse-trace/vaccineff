@@ -8,7 +8,9 @@ Authors@R: c(
         comment = c(ORCID = "https://orcid.org/0000-0003-1583-4262)")),
     person(given = "Santiago", family = "Loaiza", email = "santiago.loaiza@javeriana.edu.co", role = c("aut"),
         comment = c(ORCID = "https://orcid.org/0000-0002-2092-3262")),
-    person(given = "Geraldine", family = "Gómez Millán", email = "geralidine.gomez@javeriana.edu.co", role = c("ctb"))
+    person(given = "Geraldine", family = "Gómez Millán", email = "geralidine.gomez@javeriana.edu.co", role = c("ctb")),
+    person(given = "Pratik", family = "Gupte", email = "pratik.gupte@lshtm.ac.uk", role = c("aut"), 
+           comment = c(ORCID = "https://orcid.org/0000-0001-5294-7819")),
   )
 Description: Estimate vaccine effectiveness based on different observational study designs, as discussed in Torvaldsen and McIntyre (2020) <doi:10.3316/informit.511798489353134>.
 URL: https://github.com/epiverse-trace/vaccineff, https://epiverse-trace.github.io/vaccineff/

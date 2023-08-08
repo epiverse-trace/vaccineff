@@ -95,6 +95,8 @@ Contributors to the project include:
 
 - [Jaime A. Pavlich-Mariscal](https://github.com/jpavlich) (contributor)
 
+- [Pratik Gupte](https://github.com/pratikunterwegs) (contributor)
+
 ## References
 
 <div id="refs" class="references csl-bib-body hanging-indent">

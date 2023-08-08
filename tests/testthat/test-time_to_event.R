@@ -6,7 +6,7 @@ data("cohortdata")
 cohortdata <- cohortdata[
   is.na(cohortdata$death_date) |
     (cohortdata$vaccine_date_1 < cohortdata$death_date &
-      cohortdata$vaccine_date_2 < cohortdata$death_date),
+       cohortdata$vaccine_date_2 < cohortdata$death_date),
 ]
 
 data <- as.data.frame(cohortdata)

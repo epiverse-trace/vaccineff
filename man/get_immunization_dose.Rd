@@ -36,17 +36,19 @@ immunization_delay that was used in the previous functions.
 \dontrun{
 data("cohortdata")
 cohortdata$immunization_death <- get_immunization_date(
-data = cohortdata,
-outcome_date_col = "death_date",
-outcome_delay = 0,
-immunization_delay = 14,
-vacc_date_col = c("vaccine_date_1", "vaccine_date_2"),
-end_cohort = "2021-12-31",
-take_first = FALSE)
+  data = cohortdata,
+  outcome_date_col = "death_date",
+  outcome_delay = 0,
+  immunization_delay = 14,
+  vacc_date_col = c("vaccine_date_1", "vaccine_date_2"),
+  end_cohort = "2021-12-31",
+  take_first = FALSE
+)
 cohortdata$immunization_dose <- get_immunization_dose(
-data = cohortdata,
-immunization_date_col = "immunization_death",
-vacc_date_col = c("vaccine_date_1", "vaccine_date_2"),
-immunization_delay = 14)
+  data = cohortdata,
+  immunization_date_col = "immunization_death",
+  vacc_date_col = c("vaccine_date_1", "vaccine_date_2"),
+  immunization_delay = 14
+)
 }
 }

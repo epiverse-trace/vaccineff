@@ -4,22 +4,32 @@
 \name{vaccineff-package}
 \alias{vaccineff}
 \alias{vaccineff-package}
-\title{vaccineff: Estimation of the Vaccines Effectiveness Based on Different Designs}
+\title{vaccineff: Estimate Vaccine Effectiveness Based on Different Study Designs}
 \description{
-A package to estimate the vaccines effectiveness based on different designs. following format: Author et al. (2023) \doi{10.5281/zenodo.6619350}.
+Estimate vaccine effectiveness based on different observational study designs, as discussed in Torvaldsen and McIntyre (2020) \doi{10.3316/informit.511798489353134}.
+}
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/epiverse-trace/vaccineff}
+  \item \url{https://epiverse-trace.github.io/vaccineff/}
+  \item Report bugs at \url{https://github.com/epiverse-trace/vaccineff/issues}
+}
+
 }
 \author{
-\strong{Maintainer}: Zulma M. Cucunubá \email{zulma.cucunuba@javeriana.edu.co}
+\strong{Maintainer}: Zulma M. Cucunubá \email{zulma.cucunuba@javeriana.edu.co} (\href{https://orcid.org/0000-0002-8165-3198}{ORCID})
 
 Authors:
 \itemize{
-  \item David Santiago Quevedo \email{ex-dsquevedo@javeriana.edu.co}
-  \item Santiago Loaiza \email{santiago.loaiza@javeriana.edu.co}
+  \item David Santiago Quevedo \email{ex-dsquevedo@javeriana.edu.co} (\href{https://orcid.org/0000-0003-1583-4262)}{ORCID})
+  \item Santiago Loaiza \email{santiago.loaiza@javeriana.edu.co} (\href{https://orcid.org/0000-0002-2092-3262}{ORCID})
 }
 
 Other contributors:
 \itemize{
-  \item Geraldine Gómez Millán \email{geralidine.gomez@javeriana.edu.co} [contributor]
+  \item Geraldine Gómez Millán \email{geralidine.gomez@javeriana.edu.co} (\href{https://orcid.org/0009-0007-8701-0568}{ORCID}) [contributor]
+  \item Pratik Gupte \email{pratik.gupte@lshtm.ac.uk} (\href{https://orcid.org/0000-0001-5294-7819}{ORCID}) [contributor]
 }
 
 }

@@ -134,7 +134,8 @@ set_status <- function(data,
 #' @examples
 #' # load package example data
 #' data("cohortdata")
-#'
+#' # define end date of the study as type date
+#' end_cohort <- as.Date("2021-12-31")
 #' # get immunization dates
 #' cohortdata$immunization_death <- get_immunization_date(
 #'   data = cohortdata,
@@ -142,13 +143,15 @@ set_status <- function(data,
 #'   outcome_delay = 0,
 #'   immunization_delay = 14,
 #'   vacc_date_col = c("vaccine_date_1", "vaccine_date_2"),
-#'   end_cohort = "2021-12-31",
+#'   end_cohort = end_cohort,
 #'   take_first = FALSE
 #' )
 #'
 #' # view head of data
 #' head(cohortdata)
 #' @export
+cohortdata$test_date <- cohortdata$vaccine_date_1 + 13.9
+head(cohortdata)
 get_immunization_date <- function(data,
                                   outcome_date_col,
                                   outcome_delay,
@@ -268,7 +271,7 @@ get_immunization_date <- function(data,
       }
     }
   )
-  
+
   # immunization outcome as a vector
   imm_out_date <- data$imm_limit - data$delta_imm + immunization_delay
 

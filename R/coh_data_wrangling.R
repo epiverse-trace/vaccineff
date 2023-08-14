@@ -168,13 +168,22 @@ get_immunization_date <- function(data,
     vacc_date_col,
     min.len = 1L
   )
+
   # check data has expected column names
   checkmate::assert_names(
     names(data),
     must.include = c(outcome_date_col, vacc_date_col)
   )
-  # TODO: check that outcome, vax, and end date columns are of type Date
-  # or coercible to date
+
+  # check if date columns are date type
+  checkmate::assert_date(
+    data[[outcome_date_col]]
+  )
+  for (i in seq_along(vacc_date_col)) {
+    checkmate::assert_date(
+      data[[vacc_date_col[i]]]
+    )
+  }
 
   # check outcome and immunization delay as a number - may be decimal for now
   # TODO: consider restricting to a count or integerish
@@ -187,8 +196,8 @@ get_immunization_date <- function(data,
     lower = 0, finite = TRUE
   )
 
-  # expect end cohort is a string - will be coerced to date later
-  checkmate::assert_string(
+  # expect end cohort is a date
+  checkmate::assert_date(
     end_cohort
   )
 
@@ -197,10 +206,6 @@ get_immunization_date <- function(data,
     take_first,
     len = 1L
   )
-
-  # convert end_cohort column
-  # TODO: expect specific format
-  end_cohort <- as.Date(end_cohort)
 
   # warn on year of cohort end date date
   max_year <- 2100 # a plausible maximum year
@@ -226,7 +231,7 @@ get_immunization_date <- function(data,
   # assume both are in days
   outcome_imm_difference <- outcome_delay - immunization_delay
   # get difference with outcome date
-  data$imm_limit <- as.Date(data[[outcome_date_col]]) - outcome_imm_difference
+  data$imm_limit <- data[[outcome_date_col]] - outcome_imm_difference
 
   # all other individuals' limit is set to end_cohort
   data[is.na(data$imm_limit), "imm_limit"] <- end_cohort
@@ -237,7 +242,7 @@ get_immunization_date <- function(data,
   for (i in seq_along(cols_delta)) {
     # calculate values
     vals <- as.numeric(
-      data$imm_limit - as.Date(data[[vacc_date_col[i]]])
+      data$imm_limit - data[[vacc_date_col[i]]]
     )
     # set any values less than 0 to NA
     vals[vals < 0] <- NA
@@ -252,7 +257,9 @@ get_immunization_date <- function(data,
   data$delta_imm <- apply(
     # apply min over each row of a dataframe of the delta columns
     # returning a vector of minimum delta values or NAs
-    data[, cols_delta],
+    # set data[, cols_delta] as dataframe to avoid errors when
+    # working with only one vaccination column
+    data.frame(data[, cols_delta]),
     MARGIN = 1, FUN = function(x) {
       if (all(is.na(x))) {
         NA_real_
@@ -261,7 +268,7 @@ get_immunization_date <- function(data,
       }
     }
   )
-
+  
   # immunization outcome as a vector
   imm_out_date <- data$imm_limit - data$delta_imm + immunization_delay
 
@@ -269,16 +276,19 @@ get_immunization_date <- function(data,
   if (take_first) {
     ## Take the minimum immunization date
     data$min_imm <- apply(
-      data[, vacc_date_col],
+      # set data[, vacc_date_col] as dataframe to avoid errors when
+      # working with only one vaccination column
+      data.frame(data[, vacc_date_col]),
       MARGIN = 1,
       FUN = function(x) {
         if (all(is.na(x))) {
-          NA_character_
+          as.Date(NA_character_)
         } else {
           min(x, na.rm = TRUE)
         }
       }
     )
+    # TODO: avoid as.Date() conversions inside functions
     data$min_imm <- as.Date(data$min_imm) + immunization_delay
 
     # get the immunization date based on vax status as a vector

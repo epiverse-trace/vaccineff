@@ -330,20 +330,23 @@ get_immunization_date <- function(data,
 #' @examples
 #' # load package example data
 #' data("cohortdata")
+#' # define start and end dates of the study as type date
+#' start_cohort <- as.Date("2021-01-01")
+#' end_cohort <- as.Date("2021-12-31")
 #' cohortdata$immunization_death <- get_immunization_date(
 #'   data = cohortdata,
 #'   outcome_date_col = "death_date",
 #'   outcome_delay = 0,
 #'   immunization_delay = 14,
 #'   vacc_date_col = c("vaccine_date_1", "vaccine_date_2"),
-#'   end_cohort = "2021-12-31",
+#'   end_cohort = end_cohort,
 #'   take_first = FALSE
 #' )
 #' cohortdata$time_to_death <- get_time_to_event(
 #'   data = cohortdata,
 #'   outcome_date_col = "death_date",
-#'   start_cohort = "2021-01-01",
-#'   end_cohort = "2021-12-31",
+#'   start_cohort = start_cohort,
+#'   end_cohort = end_cohort,
 #'   start_from_immunization = TRUE,
 #'   immunization_date_col = "immunization_death"
 #' )
@@ -365,9 +368,14 @@ get_time_to_event <- function(data, outcome_date_col,
     colnames(data),
     must.include = outcome_date_col
   )
-  # check strings, converted to date later
-  checkmate::assert_string(start_cohort)
-  checkmate::assert_string(end_cohort)
+  # check date types
+  checkmate::assert_date(start_cohort)
+  checkmate::assert_date(end_cohort)
+
+  # check if date columns are date type
+  checkmate::assert_date(
+    data[[outcome_date_col]]
+  )
 
   checkmate::assert_logical(
     start_from_immunization,
@@ -384,16 +392,11 @@ get_time_to_event <- function(data, outcome_date_col,
     )
   }
 
-  # convert strings to dates
-  start_cohort <- as.Date(start_cohort)
-  end_cohort <- as.Date(end_cohort)
-
-  # convert outcome date to Date type
-  data[[outcome_date_col]] <- as.Date(data[[outcome_date_col]])
-
   if (start_from_immunization) {
     # convert date columns to Date type
-    data[[immunization_date_col]] <- as.Date(data[[immunization_date_col]])
+    checkmate::assert_date(
+      data[[immunization_date_col]]
+    )
 
     # calculate time to event as a vector
     time_to_event <- data[[outcome_date_col]] -

@@ -520,6 +520,12 @@ get_immunization_dose <- function(data,
     colnames(data),
     must.include = c(vacc_date_col, immunization_date_col)
   )
+  checkmate::assert_date(
+    data[[immunization_date_col]]
+  )
+  checkmate::assert_date(
+    data[[vacc_date_col]]
+  )
 
   # calculate the expected date of immunizing vaccination
   data$delta_imm <- data[[immunization_date_col]] - immunization_delay
@@ -598,6 +604,12 @@ get_immunization_vaccine <- function(data,
   checkmate::assert_names(
     colnames(data),
     must.include = c(vacc_date_col, immunization_date_col, vacc_name_col)
+  )
+  checkmate::assert_date(
+    data[[immunization_date_col]]
+  )
+  checkmate::assert_date(
+    data[[vacc_date_col]]
   )
 
   # get the vaccine date corresponding to the immunizing dose

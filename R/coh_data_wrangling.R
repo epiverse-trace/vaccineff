@@ -59,7 +59,6 @@ set_status <- function(data,
   )
 
   # check the operator
-  # TODO: more specific checks on the operator
   operator <- match.arg(operator, several.ok = FALSE)
   checkmate::assert_string(
     operator,
@@ -67,7 +66,6 @@ set_status <- function(data,
   )
 
   # check the status vector
-  # TODO: ideally limit status to character vector
   checkmate::assert_vector(
     status,
     len = 2L, unique = TRUE,

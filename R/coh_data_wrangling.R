@@ -150,8 +150,6 @@ set_status <- function(data,
 #' # view head of data
 #' head(cohortdata)
 #' @export
-cohortdata$test_date <- cohortdata$vaccine_date_1 + 13.9
-head(cohortdata)
 get_immunization_date <- function(data,
                                   outcome_date_col,
                                   outcome_delay,

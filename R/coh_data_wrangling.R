@@ -186,15 +186,14 @@ get_immunization_date <- function(data,
     )
   }
 
-  # check outcome and immunization delay as a number - may be decimal for now
-  # TODO: consider restricting to a count or integerish
-  checkmate::assert_number(
-    outcome_delay,
-    lower = 0, finite = TRUE
-  )
-  checkmate::assert_number(
-    immunization_delay,
-    lower = 0, finite = TRUE
+  # check outcome and immunization delay
+  stopifnot(
+    "Please provide a non-null integer number greater or equal than 0
+    in `outcome_delay`. Use round(`outcome_delay`,0)" =
+      checkmate::test_integerish(outcome_delay, lower = 0, null.ok = FALSE),
+    "Please provide a non-null integer number greater or equal than 0
+    in `outcome_delay`. Use round(`immunization_delay`,0)" =
+      checkmate::test_integerish(immunization_delay, lower = 0, null.ok = FALSE)
   )
 
   # expect end cohort is a date
@@ -512,9 +511,10 @@ get_immunization_dose <- function(data,
     vacc_date_col,
     min.len = 1L
   )
-  checkmate::assert_number(
-    immunization_delay,
-    lower = 0, finite = TRUE
+  stopifnot(
+    "Please provide a non-null integer number greater or equal than 0
+    in `outcome_delay`. Use round(`immunization_delay`,0)" =
+      checkmate::test_integerish(immunization_delay, lower = 0, null.ok = FALSE)
   )
   checkmate::assert_names(
     colnames(data),
@@ -597,9 +597,10 @@ get_immunization_vaccine <- function(data,
     vacc_name_col,
     len = length(vacc_date_col)
   )
-  checkmate::assert_number(
-    immunization_delay,
-    lower = 0, finite = TRUE
+  stopifnot(
+    "Please provide a non-null integer number greater or equal than 0
+    in `outcome_delay`. Use round(`immunization_delay`,0)" =
+      checkmate::test_integerish(immunization_delay, lower = 0, null.ok = FALSE)
   )
   checkmate::assert_names(
     colnames(data),

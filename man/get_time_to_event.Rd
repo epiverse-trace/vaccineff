@@ -46,8 +46,8 @@ case, it is not necessary to pass the argument {immunization_date_col}
 # load package example data
 data("cohortdata")
 # define start and end dates of the study as type date
-start_cohort <- as.Date("2021-01-01")
-end_cohort <- as.Date("2021-12-31")
+start_cohort <- as.Date("2044-01-01")
+end_cohort <- as.Date("2044-12-31")
 cohortdata$immunization_death <- get_immunization_date(
   data = cohortdata,
   outcome_date_col = "death_date",

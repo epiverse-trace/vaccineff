@@ -29,7 +29,7 @@
 #'   outcome_delay = 0,
 #'   immunization_delay = 14,
 #'   vacc_date_col = c("vaccine_date_1", "vaccine_date_2"),
-#'   end_cohort = as.Date("2021-12-31"),
+#'   end_cohort = as.Date("2044-12-31"),
 #'   take_first = FALSE
 #' )
 #'
@@ -50,8 +50,8 @@
 #' cohortdata$time_to_death <- get_time_to_event(
 #'   data = cohortdata,
 #'   outcome_date_col = "death_date",
-#'   start_cohort = as.Date("2021-01-01"),
-#'   end_cohort = as.Date("2021-12-31"),
+#'   start_cohort = as.Date("2044-01-01"),
+#'   end_cohort = as.Date("2044-12-31"),
 #'   FALSE
 #' )
 #'

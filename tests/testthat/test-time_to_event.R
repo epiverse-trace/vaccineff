@@ -18,7 +18,7 @@ data$immunization_death <- get_immunization_date(
   outcome_delay = 0,
   immunization_delay = 14,
   vacc_date_col = c("vaccine_date_1", "vaccine_date_2"),
-  end_cohort = "2021-12-31",
+  end_cohort = as.Date("2021-12-31"),
   take_first = FALSE
 )
 
@@ -29,8 +29,8 @@ test_that("Snapshot test for get_time_to_event", {
   time_to_death <- get_time_to_event(
     data = data,
     outcome_date_col = "death_date",
-    start_cohort = "2021-01-01",
-    end_cohort = "2021-12-31",
+    start_cohort = as.Date("2021-01-01"),
+    end_cohort = as.Date("2021-12-31"),
     start_from_immunization = TRUE,
     immunization_date_col = "immunization_death"
   )
@@ -43,8 +43,8 @@ test_that("Snapshot test for get_time_to_event", {
 # Tests for basic expectations
 test_that("`get_time_to_event`: Basic expectations", {
   # cohort start and end time
-  start_cohort <- "2021-01-01"
-  end_cohort <- "2021-12-31"
+  start_cohort <- as.Date("2021-01-01")
+  end_cohort <- as.Date("2021-12-31")
 
   # calculate time to death
   time_to_death <- get_time_to_event(

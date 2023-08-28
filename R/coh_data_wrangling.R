@@ -521,20 +521,24 @@ get_immunization_dose <- function(data,
   checkmate::assert_date(
     data[[immunization_date_col]]
   )
-  checkmate::assert_date(
-    data[[vacc_date_col]]
-  )
+  # The function can receive one or more column names in vacc_date_col
+  vacc_date_col_ <- vacc_date_col # hard coded to return right error message
+  for (vacc_date_col in c(vacc_date_col_)) {
+    checkmate::assert_date(
+      data[[vacc_date_col]]
+    )
+  }
 
   # calculate the expected date of immunizing vaccination
   data$delta_imm <- data[[immunization_date_col]] - immunization_delay
 
   # get the first dose corresponding to immunization date - delay
-  dose_number <- apply(data[, c(vacc_date_col, "delta_imm")], 1, function(x) {
+  dose_number <- apply(data[, c(vacc_date_col_, "delta_imm")], 1, function(x) {
     which(x == x[length(x)])[1] # hard coded to get first value
   })
 
   # get names of the vaccination columns corresponding to the dose
-  return(vacc_date_col[dose_number])
+  return(vacc_date_col_[dose_number])
 }
 
 #' Function to construct vaccine biologic associated to the immunization date
@@ -607,9 +611,13 @@ get_immunization_vaccine <- function(data,
   checkmate::assert_date(
     data[[immunization_date_col]]
   )
-  checkmate::assert_date(
-    data[[vacc_date_col]]
-  )
+  # The function can receive one or more column names in vacc_date_col
+  vacc_date_col_ <- vacc_date_col # hard coded to return right error message
+  for (vacc_date_col in c(vacc_date_col_)) {
+    checkmate::assert_date(
+      data[[vacc_date_col]]
+    )
+  }
 
   # get the vaccine date corresponding to the immunizing dose
   immunizing_dose <- get_immunization_dose(

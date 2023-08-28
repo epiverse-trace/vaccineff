@@ -1,3 +1,4 @@
+#### Test for set status ####
 
 # load package example data for cohort studies
 data("cohortdata")
@@ -30,7 +31,7 @@ test_that("`set_status`: Basic expectations", {
 
   # expect unique values
   expect_identical(
-    unique(vaccine_status),
+    sort(unique(vaccine_status), decreasing = TRUE),
     vax_status
   )
 })

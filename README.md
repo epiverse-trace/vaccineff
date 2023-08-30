@@ -47,12 +47,12 @@ out each design `(cohortdata, testnegdata, screeningdata)`
 # Load example `cohortdata` included in the package
 data("cohortdata")
 head(cohortdata, 5)
-  sex age subsidy death_date vaccine_date_1 vaccine_date_2 vaccine_1 vaccine_2
-#1   F   6       0       <NA>           <NA>           <NA>      <NA>      <NA>
-#2   M  79       0       <NA>     2044-03-31     2044-05-07    BRAND2    BRAND2
-#3   F  34       0       <NA>     2044-07-26     2044-09-03    BRAND2    BRAND2
-#4   M  26       0       <NA>           <NA>           <NA>      <NA>      <NA>
-#5   F  66       0       <NA>     2044-05-20     2044-06-17    BRAND2    BRAND2
+#>   sex age subsidy death_date vaccine_date_1 vaccine_date_2 vaccine_1 vaccine_2
+#> 1   F   6       0       <NA>           <NA>           <NA>      <NA>      <NA>
+#> 2   M  79       0       <NA>     2044-03-31     2044-05-07    BRAND2    BRAND2
+#> 3   F  34       0       <NA>     2044-07-26     2044-09-03    BRAND2    BRAND2
+#> 4   M  26       0       <NA>           <NA>           <NA>      <NA>      <NA>
+#> 5   F  66       0       <NA>     2044-05-20     2044-06-17    BRAND2    BRAND2
 ```
 
 ## Package vignettes

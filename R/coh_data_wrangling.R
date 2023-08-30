@@ -59,7 +59,6 @@ set_status <- function(data,
   )
 
   # check the operator
-  # TODO: more specific checks on the operator
   operator <- match.arg(operator, several.ok = FALSE)
   checkmate::assert_string(
     operator,
@@ -67,7 +66,6 @@ set_status <- function(data,
   )
 
   # check the status vector
-  # TODO: ideally limit status to character vector
   checkmate::assert_vector(
     status,
     len = 2L, unique = TRUE,
@@ -134,7 +132,8 @@ set_status <- function(data,
 #' @examples
 #' # load package example data
 #' data("cohortdata")
-#'
+#' # define end date of the study as type date
+#' end_cohort <- as.Date("2044-12-31")
 #' # get immunization dates
 #' cohortdata$immunization_death <- get_immunization_date(
 #'   data = cohortdata,
@@ -142,7 +141,7 @@ set_status <- function(data,
 #'   outcome_delay = 0,
 #'   immunization_delay = 14,
 #'   vacc_date_col = c("vaccine_date_1", "vaccine_date_2"),
-#'   end_cohort = "2021-12-31",
+#'   end_cohort = end_cohort,
 #'   take_first = FALSE
 #' )
 #'
@@ -168,27 +167,35 @@ get_immunization_date <- function(data,
     vacc_date_col,
     min.len = 1L
   )
+
   # check data has expected column names
   checkmate::assert_names(
     names(data),
     must.include = c(outcome_date_col, vacc_date_col)
   )
-  # TODO: check that outcome, vax, and end date columns are of type Date
-  # or coercible to date
 
-  # check outcome and immunization delay as a number - may be decimal for now
-  # TODO: consider restricting to a count or integerish
-  checkmate::assert_number(
-    outcome_delay,
-    lower = 0, finite = TRUE
+  # check if date columns are date type
+  checkmate::assert_date(
+    data[[outcome_date_col]]
   )
-  checkmate::assert_number(
-    immunization_delay,
-    lower = 0, finite = TRUE
+  for (i in seq_along(vacc_date_col)) {
+    checkmate::assert_date(
+      data[[vacc_date_col[i]]]
+    )
+  }
+
+  # check outcome and immunization delay
+  stopifnot(
+    "Please provide a non-null integer number greater or equal than 0
+    in `outcome_delay`. Use round(`outcome_delay`,0)" =
+      checkmate::test_integerish(outcome_delay, lower = 0, null.ok = FALSE),
+    "Please provide a non-null integer number greater or equal than 0
+    in `outcome_delay`. Use round(`immunization_delay`,0)" =
+      checkmate::test_integerish(immunization_delay, lower = 0, null.ok = FALSE)
   )
 
-  # expect end cohort is a string - will be coerced to date later
-  checkmate::assert_string(
+  # expect end cohort is a date
+  checkmate::assert_date(
     end_cohort
   )
 
@@ -197,10 +204,6 @@ get_immunization_date <- function(data,
     take_first,
     len = 1L
   )
-
-  # convert end_cohort column
-  # TODO: expect specific format
-  end_cohort <- as.Date(end_cohort)
 
   # warn on year of cohort end date date
   max_year <- 2100 # a plausible maximum year
@@ -226,7 +229,7 @@ get_immunization_date <- function(data,
   # assume both are in days
   outcome_imm_difference <- outcome_delay - immunization_delay
   # get difference with outcome date
-  data$imm_limit <- as.Date(data[[outcome_date_col]]) - outcome_imm_difference
+  data$imm_limit <- data[[outcome_date_col]] - outcome_imm_difference
 
   # all other individuals' limit is set to end_cohort
   data[is.na(data$imm_limit), "imm_limit"] <- end_cohort
@@ -237,7 +240,7 @@ get_immunization_date <- function(data,
   for (i in seq_along(cols_delta)) {
     # calculate values
     vals <- as.numeric(
-      data$imm_limit - as.Date(data[[vacc_date_col[i]]])
+      data$imm_limit - data[[vacc_date_col[i]]]
     )
     # set any values less than 0 to NA
     vals[vals < 0] <- NA
@@ -252,7 +255,9 @@ get_immunization_date <- function(data,
   data$delta_imm <- apply(
     # apply min over each row of a dataframe of the delta columns
     # returning a vector of minimum delta values or NAs
-    data[, cols_delta],
+    # set data[, cols_delta] as dataframe to avoid errors when
+    # working with only one vaccination column
+    data.frame(data[, cols_delta]),
     MARGIN = 1, FUN = function(x) {
       if (all(is.na(x))) {
         NA_real_
@@ -269,16 +274,19 @@ get_immunization_date <- function(data,
   if (take_first) {
     ## Take the minimum immunization date
     data$min_imm <- apply(
-      data[, vacc_date_col],
+      # set data[, vacc_date_col] as dataframe to avoid errors when
+      # working with only one vaccination column
+      data.frame(data[, vacc_date_col]),
       MARGIN = 1,
       FUN = function(x) {
         if (all(is.na(x))) {
-          NA_character_
+          as.Date(NA_character_)
         } else {
           min(x, na.rm = TRUE)
         }
       }
     )
+    # TODO: avoid as.Date() conversions inside functions
     data$min_imm <- as.Date(data$min_imm) + immunization_delay
 
     # get the immunization date based on vax status as a vector
@@ -317,20 +325,23 @@ get_immunization_date <- function(data,
 #' @examples
 #' # load package example data
 #' data("cohortdata")
+#' # define start and end dates of the study as type date
+#' start_cohort <- as.Date("2044-01-01")
+#' end_cohort <- as.Date("2044-12-31")
 #' cohortdata$immunization_death <- get_immunization_date(
 #'   data = cohortdata,
 #'   outcome_date_col = "death_date",
 #'   outcome_delay = 0,
 #'   immunization_delay = 14,
 #'   vacc_date_col = c("vaccine_date_1", "vaccine_date_2"),
-#'   end_cohort = "2021-12-31",
+#'   end_cohort = end_cohort,
 #'   take_first = FALSE
 #' )
 #' cohortdata$time_to_death <- get_time_to_event(
 #'   data = cohortdata,
 #'   outcome_date_col = "death_date",
-#'   start_cohort = "2021-01-01",
-#'   end_cohort = "2021-12-31",
+#'   start_cohort = start_cohort,
+#'   end_cohort = end_cohort,
 #'   start_from_immunization = TRUE,
 #'   immunization_date_col = "immunization_death"
 #' )
@@ -352,9 +363,14 @@ get_time_to_event <- function(data, outcome_date_col,
     colnames(data),
     must.include = outcome_date_col
   )
-  # check strings, converted to date later
-  checkmate::assert_string(start_cohort)
-  checkmate::assert_string(end_cohort)
+  # check date types
+  checkmate::assert_date(start_cohort)
+  checkmate::assert_date(end_cohort)
+
+  # check if date columns are date type
+  checkmate::assert_date(
+    data[[outcome_date_col]]
+  )
 
   checkmate::assert_logical(
     start_from_immunization,
@@ -371,16 +387,11 @@ get_time_to_event <- function(data, outcome_date_col,
     )
   }
 
-  # convert strings to dates
-  start_cohort <- as.Date(start_cohort)
-  end_cohort <- as.Date(end_cohort)
-
-  # convert outcome date to Date type
-  data[[outcome_date_col]] <- as.Date(data[[outcome_date_col]])
-
   if (start_from_immunization) {
     # convert date columns to Date type
-    data[[immunization_date_col]] <- as.Date(data[[immunization_date_col]])
+    checkmate::assert_date(
+      data[[immunization_date_col]]
+    )
 
     # calculate time to event as a vector
     time_to_event <- data[[outcome_date_col]] -
@@ -472,7 +483,7 @@ get_time_to_event <- function(data, outcome_date_col,
 #'   outcome_delay = 0,
 #'   immunization_delay = 14,
 #'   vacc_date_col = c("vaccine_date_1", "vaccine_date_2"),
-#'   end_cohort = "2021-12-31",
+#'   end_cohort = as.Date("2044-12-31"),
 #'   take_first = FALSE
 #' )
 #' cohortdata$immunization_dose <- get_immunization_dose(
@@ -498,25 +509,36 @@ get_immunization_dose <- function(data,
     vacc_date_col,
     min.len = 1L
   )
-  checkmate::assert_number(
-    immunization_delay,
-    lower = 0, finite = TRUE
+  stopifnot(
+    "Please provide a non-null integer number greater or equal than 0
+    in `outcome_delay`. Use round(`immunization_delay`,0)" =
+      checkmate::test_integerish(immunization_delay, lower = 0, null.ok = FALSE)
   )
   checkmate::assert_names(
     colnames(data),
     must.include = c(vacc_date_col, immunization_date_col)
   )
+  checkmate::assert_date(
+    data[[immunization_date_col]]
+  )
+  # The function can receive one or more column names in vacc_date_col
+  vacc_date_col_ <- vacc_date_col # hard coded to return right error message
+  for (vacc_date_col in c(vacc_date_col_)) {
+    checkmate::assert_date(
+      data[[vacc_date_col]]
+    )
+  }
 
   # calculate the expected date of immunizing vaccination
   data$delta_imm <- data[[immunization_date_col]] - immunization_delay
 
   # get the first dose corresponding to immunization date - delay
-  dose_number <- apply(data[, c(vacc_date_col, "delta_imm")], 1, function(x) {
+  dose_number <- apply(data[, c(vacc_date_col_, "delta_imm")], 1, function(x) {
     which(x == x[length(x)])[1] # hard coded to get first value
   })
 
   # get names of the vaccination columns corresponding to the dose
-  return(vacc_date_col[dose_number])
+  return(vacc_date_col_[dose_number])
 }
 
 #' Function to construct vaccine biologic associated to the immunization date
@@ -544,7 +566,7 @@ get_immunization_dose <- function(data,
 #'   outcome_delay = 0,
 #'   immunization_delay = 14,
 #'   vacc_date_col = c("vaccine_date_1", "vaccine_date_2"),
-#'   end_cohort = "2021-12-31",
+#'   end_cohort = as.Date("2044-12-31"),
 #'   take_first = FALSE
 #' )
 #' cohortdata$immunization_vaccine <- get_immunization_vaccine(
@@ -577,14 +599,25 @@ get_immunization_vaccine <- function(data,
     vacc_name_col,
     len = length(vacc_date_col)
   )
-  checkmate::assert_number(
-    immunization_delay,
-    lower = 0, finite = TRUE
+  stopifnot(
+    "Please provide a non-null integer number greater or equal than 0
+    in `outcome_delay`. Use round(`immunization_delay`,0)" =
+      checkmate::test_integerish(immunization_delay, lower = 0, null.ok = FALSE)
   )
   checkmate::assert_names(
     colnames(data),
     must.include = c(vacc_date_col, immunization_date_col, vacc_name_col)
   )
+  checkmate::assert_date(
+    data[[immunization_date_col]]
+  )
+  # The function can receive one or more column names in vacc_date_col
+  vacc_date_col_ <- vacc_date_col # hard coded to return right error message
+  for (vacc_date_col in c(vacc_date_col_)) {
+    checkmate::assert_date(
+      data[[vacc_date_col]]
+    )
+  }
 
   # get the vaccine date corresponding to the immunizing dose
   immunizing_dose <- get_immunization_dose(

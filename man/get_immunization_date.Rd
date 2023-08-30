@@ -61,7 +61,8 @@ In case of several vaccines, the parameter
 \examples{
 # load package example data
 data("cohortdata")
-
+# define end date of the study as type date
+end_cohort <- as.Date("2044-12-31")
 # get immunization dates
 cohortdata$immunization_death <- get_immunization_date(
   data = cohortdata,
@@ -69,7 +70,7 @@ cohortdata$immunization_death <- get_immunization_date(
   outcome_delay = 0,
   immunization_delay = 14,
   vacc_date_col = c("vaccine_date_1", "vaccine_date_2"),
-  end_cohort = "2021-12-31",
+  end_cohort = end_cohort,
   take_first = FALSE
 )
 

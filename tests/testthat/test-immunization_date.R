@@ -1,4 +1,4 @@
-#### Tests for get_immnization_date()
+#### Tests for get_immunization_date()
 
 # snapshot test to test edited implementations
 test_that("`get_immunization_date`: Snapshot test", {
@@ -12,7 +12,7 @@ test_that("`get_immunization_date`: Snapshot test", {
     outcome_delay = 0,
     immunization_delay = 14,
     vacc_date_col = c("vaccine_date_1", "vaccine_date_2"),
-    end_cohort = "2021-12-31",
+    end_cohort = as.Date("2044-12-31"),
     take_first = FALSE
   )
 
@@ -37,13 +37,13 @@ test_that("`get_immunization_date`: Basic expectations", {
     outcome_delay = 0,
     immunization_delay = immunization_delay,
     vacc_date_col = vax_date_col,
-    end_cohort = "2021-12-31",
+    end_cohort = as.Date("2044-12-31"),
     take_first = FALSE
   )
 
   expect_vector(
     immunization_death,
-    ptype = as.Date("2023-01-01")
+    ptype = as.Date("2045-01-01")
   )
 
   # expect NAs for those not vaccinated at least once
@@ -83,7 +83,7 @@ test_that("`get_immunization_date`: Take first vaccination", {
     outcome_delay = 0,
     immunization_delay = immunization_delay,
     vacc_date_col = vax_date_col,
-    end_cohort = "2021-12-31",
+    end_cohort = as.Date("2044-12-31"),
     take_first = TRUE
   )
 

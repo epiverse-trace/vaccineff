@@ -30,10 +30,7 @@ test_that("`set_status`: Basic expectations", {
   )
 
   # expect unique values
-  expect_identical(
-    sort(unique(vaccine_status), decreasing = TRUE),
-    vax_status
-  )
+  expect_setequal(vaccine_status, vax_status)
 })
 
 test_that("`set_status`: Correctness", {

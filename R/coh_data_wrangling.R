@@ -364,8 +364,12 @@ get_time_to_event <- function(data, outcome_date_col,
     must.include = outcome_date_col
   )
   # check date types
-  checkmate::assert_date(start_cohort)
-  checkmate::assert_date(end_cohort)
+  checkmate::assert_date(
+    start_cohort, any.missing = FALSE, len = 1
+  )
+  checkmate::assert_date(
+    end_cohort, any.missing = FALSE, len = 1
+  )
 
   # check if date columns are date type
   checkmate::assert_date(
@@ -523,7 +527,7 @@ get_immunization_dose <- function(data,
   )
   # The function can receive one or more column names in vacc_date_col
   vacc_date_col_ <- vacc_date_col # hard coded to return right error message
-  for (vacc_date_col in c(vacc_date_col_)) {
+  for (vacc_date_col in vacc_date_col_) {
     checkmate::assert_date(
       data[[vacc_date_col]]
     )

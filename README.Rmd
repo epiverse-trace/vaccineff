@@ -35,8 +35,7 @@ methods [@torvaldsen2020]. The package provides a set of features for preparing 
 to analyze different study designs and for assessing the performance of
 the models.
 
-*{{ packagename }}* is developed at [Pontificia Universidad
-Javeriana](https://www.javeriana.edu.co/inicio) as part of the
+*{{ packagename }}* is developed at [Pontificia Universidad Javeriana](https://www.javeriana.edu.co/inicio) as part of the
 [Epiverse-TRACE initiative](https://data.org/initiatives/epiverse/).
 
 ## Installation

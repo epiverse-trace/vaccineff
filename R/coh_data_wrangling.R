@@ -196,7 +196,7 @@ get_immunization_date <- function(data,
 
   # expect end cohort is a date
   checkmate::assert_date(
-    end_cohort
+    end_cohort, any.missing = FALSE, len = 1
   )
 
   # check take_first

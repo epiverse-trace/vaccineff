@@ -168,7 +168,8 @@ FALSE: takes closest to end_cohort</p></dd>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># load package example data</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"cohortdata"</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># define end date of the study as type date</span></span></span>
+<span class="r-in"><span><span class="va">end_cohort</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"2044-12-31"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># get immunization dates</span></span></span>
 <span class="r-in"><span><span class="va">cohortdata</span><span class="op">$</span><span class="va">immunization_death</span> <span class="op">&lt;-</span> <span class="fu">get_immunization_date</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  data <span class="op">=</span> <span class="va">cohortdata</span>,</span></span>
@@ -176,26 +177,26 @@ FALSE: takes closest to end_cohort</p></dd>
 <span class="r-in"><span>  outcome_delay <span class="op">=</span> <span class="fl">0</span>,</span></span>
 <span class="r-in"><span>  immunization_delay <span class="op">=</span> <span class="fl">14</span>,</span></span>
 <span class="r-in"><span>  vacc_date_col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"vaccine_date_1"</span>, <span class="st">"vaccine_date_2"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  end_cohort <span class="op">=</span> <span class="st">"2021-12-31"</span>,</span></span>
+<span class="r-in"><span>  end_cohort <span class="op">=</span> <span class="va">end_cohort</span>,</span></span>
 <span class="r-in"><span>  take_first <span class="op">=</span> <span class="cn">FALSE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># view head of data</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">cohortdata</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   sex age death_date vaccine_date_1 vaccine_date_2 vaccine_1 vaccine_2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1   M  68       &lt;NA&gt;     2021-07-27     2021-12-01    BRAND2    BRAND2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2   F  26       &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;      &lt;NA&gt;      &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3   M  42       &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;      &lt;NA&gt;      &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4   M  23       &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;      &lt;NA&gt;      &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5   M  51       &lt;NA&gt;     2021-07-09     2021-08-10    BRAND2    BRAND2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6   M  28       &lt;NA&gt;           &lt;NA&gt;     2021-08-30      &lt;NA&gt;    BRAND2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   sex age subsidy death_date vaccine_date_1 vaccine_date_2 vaccine_1 vaccine_2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1   F   6       0       &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;      &lt;NA&gt;      &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2   M  79       0       &lt;NA&gt;     2044-03-31     2044-05-07    BRAND2    BRAND2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3   F  34       0       &lt;NA&gt;     2044-07-26     2044-09-03    BRAND2    BRAND2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4   M  26       0       &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;      &lt;NA&gt;      &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5   F  66       0       &lt;NA&gt;     2044-05-20     2044-06-17    BRAND2    BRAND2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6   M  10       1       &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;      &lt;NA&gt;      &lt;NA&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   immunization_death</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1         2021-12-15</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2               &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3               &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1               &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2         2044-05-21</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3         2044-09-17</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4               &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5         2021-08-24</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6         2021-09-13</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5         2044-07-01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6               &lt;NA&gt;</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

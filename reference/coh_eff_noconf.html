@@ -131,7 +131,7 @@ and Schoenfeld test</p>
 <span class="r-in"><span>  outcome_delay <span class="op">=</span> <span class="fl">0</span>,</span></span>
 <span class="r-in"><span>  immunization_delay <span class="op">=</span> <span class="fl">14</span>,</span></span>
 <span class="r-in"><span>  vacc_date_col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"vaccine_date_1"</span>, <span class="st">"vaccine_date_2"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  end_cohort <span class="op">=</span> <span class="st">"2021-12-31"</span>,</span></span>
+<span class="r-in"><span>  end_cohort <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"2044-12-31"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  take_first <span class="op">=</span> <span class="cn">FALSE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
@@ -152,8 +152,8 @@ and Schoenfeld test</p>
 <span class="r-in"><span><span class="va">cohortdata</span><span class="op">$</span><span class="va">time_to_death</span> <span class="op">&lt;-</span> <span class="fu"><a href="get_time_to_event.html">get_time_to_event</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  data <span class="op">=</span> <span class="va">cohortdata</span>,</span></span>
 <span class="r-in"><span>  outcome_date_col <span class="op">=</span> <span class="st">"death_date"</span>,</span></span>
-<span class="r-in"><span>  start_cohort <span class="op">=</span> <span class="st">"2021-01-01"</span>,</span></span>
-<span class="r-in"><span>  end_cohort <span class="op">=</span> <span class="st">"2021-12-31"</span>,</span></span>
+<span class="r-in"><span>  start_cohort <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"2044-01-01"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  end_cohort <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"2044-12-31"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  <span class="cn">FALSE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
@@ -164,8 +164,8 @@ and Schoenfeld test</p>
 <span class="r-in"><span>  <span class="st">"time_to_death"</span>,</span></span>
 <span class="r-in"><span>  <span class="st">"vaccine_status"</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       HR HR_low HR_high  V_eff V_eff_low V_eff_high     PH    p_value</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 0.4015 0.2184  0.7379 0.5985    0.2621     0.7816 reject 0.01829188</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       HR HR_low HR_high  V_eff V_eff_low V_eff_high     PH      p_value</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 0.6445 0.5488  0.7568 0.3555    0.2432     0.4512 reject 2.047998e-15</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

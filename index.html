@@ -82,7 +82,7 @@
 <p>The current development version of <em>vaccineff</em> can be installed from <a href="https://github.com/" class="external-link">GitHub</a> using the <code>pak</code> package.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw">if</span><span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://pak.r-lib.org/" class="external-link">"pak"</a></span><span class="op">)</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"pak"</span><span class="op">)</span></span>
-<span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="http://pak.r-lib.org/reference/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="st">"epiverse-trace/vaccineff"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="st">"epiverse-trace/vaccineff"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="quick-start">Quick start<a class="anchor" aria-label="anchor" href="#quick-start"></a>
@@ -92,12 +92,12 @@
 <code class="sourceCode R"><span><span class="co"># Load example `cohortdata` included in the package</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"cohortdata"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">cohortdata</span>, <span class="fl">5</span><span class="op">)</span></span>
-<span><span class="co">#&gt;   sex age death_date vaccine_date_1 vaccine_date_2 vaccine_1 vaccine_2</span></span>
-<span><span class="co">#&gt; 1   M  68       &lt;NA&gt;     2021-07-27     2021-12-01    BRAND2    BRAND2</span></span>
-<span><span class="co">#&gt; 2   F  26       &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;      &lt;NA&gt;      &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; 3   M  42       &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;      &lt;NA&gt;      &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; 4   M  23       &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;      &lt;NA&gt;      &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; 5   M  51       &lt;NA&gt;     2021-07-09     2021-08-10    BRAND2    BRAND2</span></span></code></pre></div>
+<span><span class="co">#&gt;   sex age subsidy death_date vaccine_date_1 vaccine_date_2 vaccine_1 vaccine_2</span></span>
+<span><span class="co">#&gt; 1   F   6       0       &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;      &lt;NA&gt;      &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 2   M  79       0       &lt;NA&gt;     2044-03-31     2044-05-07    BRAND2    BRAND2</span></span>
+<span><span class="co">#&gt; 3   F  34       0       &lt;NA&gt;     2044-07-26     2044-09-03    BRAND2    BRAND2</span></span>
+<span><span class="co">#&gt; 4   M  26       0       &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;      &lt;NA&gt;      &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 5   F  66       0       &lt;NA&gt;     2044-05-20     2044-06-17    BRAND2    BRAND2</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="package-vignettes">Package vignettes<a class="anchor" aria-label="anchor" href="#package-vignettes"></a>

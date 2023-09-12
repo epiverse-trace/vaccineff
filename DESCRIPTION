@@ -27,7 +27,8 @@ Imports:
     survival,
     stats,
     checkmate,
-    ggplot2
+    ggplot2,
+    scales
 Suggests: 
     knitr,
     rmarkdown,

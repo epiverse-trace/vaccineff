@@ -28,6 +28,10 @@ event (most be a binary column)}
 \item{vacc_status_col}{name of the column containing the vaccination
 status}
 
+\item{status}{two-element vector specifying the values assigned that
+indicate whether the individual is vaccinated or not e.g. c("v","u").
+It must coincide with the values of the column \code{vacc_status_col}}
+
 \item{start_cohort}{start date of the study}
 
 \item{end_cohort}{end date of the study}
@@ -48,7 +52,7 @@ survival package.
 It returns a plot of the Survival Probability or the Cumulative Hazard (if
 cumulative = TRUE).
 The return is a ggplot2 element of the curves with 95\% C.I that can be
-maniulated in order to change the colors, labels, legen, etc.
+manipulated in order to change the colors, labels, legend, etc.
 }
 \examples{
 # load example package data

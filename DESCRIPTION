@@ -26,7 +26,8 @@ Depends:
 Imports: 
     survival,
     stats,
-    checkmate
+    checkmate,
+    ggplot2
 Suggests: 
     knitr,
     rmarkdown,

@@ -1,8 +1,8 @@
 #' Internal function to extract summary output from survival models.
 #'
-#' @param model
-#' @param start_cohort
-#' @param end_cohort
+#' @param model survival object with model
+#' @param start_cohort start date of the study
+#' @param end_cohort end date of the study
 #' @return Data frame with survival data
 #' @export
 extract_surv_model <- function(model, start_cohort, end_cohort) {

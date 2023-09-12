@@ -22,13 +22,16 @@ extract_surv_model <- function(model, start_cohort, end_cohort) {
 #' It returns a plot of the Survival Probability or the Cumulative Hazard (if
 #' cumulative = TRUE).
 #' The return is a ggplot2 element of the curves with 95% C.I that can be
-#' maniulated in order to change the colors, labels, legen, etc.
+#' manipulated in order to change the colors, labels, legend, etc.
 #' @param data dataset with cohort information (see example)
 #' @param outcome_status_col name of the column containing status of the
 #' event (most be a binary column)
 #' @param time_to_event_col name of the column containing the time-to-event
 #' @param vacc_status_col name of the column containing the vaccination
 #' status
+#' @param status two-element vector specifying the values assigned that
+#' indicate whether the individual is vaccinated or not e.g. c("v","u").
+#' It must coincide with the values of the column `vacc_status_col`
 #' @param start_cohort start date of the study
 #' @param end_cohort end date of the study
 #' @param colors list of two colors the type:

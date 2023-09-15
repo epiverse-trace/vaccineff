@@ -29,7 +29,7 @@ extract_surv_model <- function(model, start_cohort, end_cohort) {
 #' @param time_to_event_col name of the column containing the time-to-event
 #' @param vacc_status_col name of the column containing the vaccination
 #' status
-#' @param status two-element vector specifying the values assigned that
+#' @param vacc_status two-element vector specifying the values assigned that
 #' indicate whether the individual is vaccinated or not e.g. c("v","u").
 #' It must coincide with the values of the column `vacc_status_col`
 #' @param start_cohort start date of the study
@@ -90,7 +90,7 @@ extract_surv_model <- function(model, start_cohort, end_cohort) {
 plot_survival <- function(data, outcome_status_col,
                           time_to_event_col,
                           vacc_status_col,
-                          status,
+                          vacc_status,
                           start_cohort,
                           end_cohort,
                           colors = c("c1" = "steelblue",
@@ -145,9 +145,9 @@ plot_survival <- function(data, outcome_status_col,
   }
 
   #Filter data by status
-  conn1 <- paste0("data[[vacc_status_col]]=", status[1])
+  conn1 <- paste0("data[[vacc_status_col]]=", vacc_status[1])
   results_1 <- results[results$strata == conn1, ]
-  conn2 <- paste0("data[[vacc_status_col]]=", status[2])
+  conn2 <- paste0("data[[vacc_status_col]]=", vacc_status[2])
   results_2 <- results[results$strata == conn2, ]
 
   #Plot
@@ -180,7 +180,7 @@ plot_survival <- function(data, outcome_status_col,
   } +
     ggplot2::scale_color_manual(name = "Vaccine Status",
       values = colors,
-      labels = status
+      labels = vacc_status
     ) +
     ggplot2::theme_classic() + {
     if (cumulative) {

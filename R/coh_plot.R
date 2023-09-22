@@ -15,14 +15,16 @@ extract_surv_model <- function(model, start_cohort, end_cohort) {
   return(tbl)
 }
 
-#' Function to plot the Survival probability based on the Kaplan-Meir model.
+#' Function to plot the Survival probability based on the Kaplan-Meir model
 #'
 #' The function relies on the implementation of the Kaplan-Meier model from
 #' survival package.
 #' It returns a plot of the Survival Probability or the Cumulative Hazard (if
 #' cumulative = TRUE).
-#' The return is a ggplot2 element of the curves with 95% C.I that can be
-#' manipulated in order to change the colors, labels, legend, etc.
+#' The return is a ggplot2 element of the curves with 95% C.I.
+#' It is possible to manipulate the colors, labels, legend and most of
+#' the graphic elemnts.To do so follow the convention:
+#' c("c1" = "color1", "c2" = "color2")
 #' @param data dataset with cohort information (see example)
 #' @param outcome_status_col name of the column containing status of the
 #' event (most be a binary column)
@@ -34,11 +36,11 @@ extract_surv_model <- function(model, start_cohort, end_cohort) {
 #' It must coincide with the values of the column `vacc_status_col`
 #' @param start_cohort start date of the study
 #' @param end_cohort end date of the study
-#' @param colors list of two colors the type:
+#' @param colors two colors list of the type:
 #' c("c1" = "steelblue", "c2" = "darkred")
 #' @param percentage if TRUE returns probability in percentage
 #' @param cumulative if TRUE returns cumulative Hazards (1-Survival)
-#' @return Survival/Cumulative hazard plot: ggplot2 element
+#' @return ggplot2 plot of curvival/cumulative hazard
 #' @examples
 #' # load example package data
 #' data("cohortdata")
@@ -76,16 +78,17 @@ extract_surv_model <- function(model, start_cohort, end_cohort) {
 #'   start_from_immunization = FALSE
 #' )
 #'
-#' survival_plot <- plot_survival(data = cohortdata,
-#'                                outcome_status_col = "death_status",
-#'                                time_to_event_col = "time_to_death",
-#'                                vacc_status_col = "vaccine_status",
-#'                                status = c("v", "u"),
-#'                                start_cohort = start_cohort,
-#'                                end_cohort = end_cohort,
-#'                                colors = c("steelblue", "darkred"),
-#'                                percentage = TRUE,
-#'                                cumulative = TRUE)
+#' plot_survival(data = cohortdata,
+#'   outcome_status_col = "death_status",
+#'   time_to_event_col = "time_to_death",
+#'   vacc_status_col = "vaccine_status",
+#'   status = c("v", "u"),
+#'   start_cohort = start_cohort,
+#'   end_cohort = end_cohort,
+#'   colors = c("steelblue", "darkred"),
+#'   percentage = TRUE,
+#'   cumulative = TRUE
+#' )
 #' @export
 plot_survival <- function(data, outcome_status_col,
                           time_to_event_col,
@@ -121,6 +124,10 @@ plot_survival <- function(data, outcome_status_col,
   )
   checkmate::assert_date(
     end_cohort, any.missing = FALSE, len = 1
+  )
+  checkmate::assert_names(
+    names(colors),
+    must.include = c("c1", "c2")
   )
 
   #KM model

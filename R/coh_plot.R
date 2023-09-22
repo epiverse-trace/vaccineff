@@ -204,6 +204,7 @@ plot_survival <- function(data, outcome_status_col,
                    legend.text = ggplot2::element_text(size = 13))
   return(plt)
 }
+
 #' Function to plot the vaccine coverage in a cohort
 #'
 #' The function relies on the implementation of the function coh_coverage()
@@ -231,7 +232,6 @@ plot_survival <- function(data, outcome_status_col,
 #'   cumulative = FALSE
 #' )
 #' @export
-
 plot_coverage <- function(data,
                           vacc_date_col,
                           unit = c("day", "month", "year"),

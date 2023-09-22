@@ -657,10 +657,10 @@ get_immunization_vaccine <- function(data,
 #' to calculate the coverage
 #' @param unit aggregation unit, must be either "year" or "month" or "day"
 #' @param date_interval if FALSE, the function calculates the coverage interval
-#' based on the min() and max() of the vacc_date_col. 
+#' based on the min() and max() of the vacc_date_col.
 #' It is also possible to pass a custom date interval to truncate or expand the
 #' date interval (see example)
-#' @return data.frame with vaccine number of doses per date, cumulative count 
+#' @return data.frame with vaccine number of doses per date, cumulative count
 #' of doses and vaccine coverage
 #' @examples
 #' start_cohort <- as.Date("2044-01-01")
@@ -685,7 +685,7 @@ coh_coverage <- function(data,
     vacc_date_col,
     min.len = 1L
   )
-checkmate::assert_names(
+  checkmate::assert_names(
     colnames(data),
     must.include = c(vacc_date_col)
   )

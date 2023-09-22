@@ -643,3 +643,96 @@ get_immunization_vaccine <- function(data,
   )
   return(immunizing_vaccine)
 }
+
+#' Function to calculate the vaccine coverage per dose
+#'
+#' This function returns the vaccination coverage of a dose along
+#' the cohort study. The coverage can be calculated grouped by
+#' year, day and month. This most by specified in the parameter unit.
+#' To group by year, the dataset must contain more than one year of
+#' historical data.
+#'
+#' @param data dataset with cohort information (see example)
+#' @param vacc_date_col name of the column(s) that contains the vaccine date
+#' to calculate the coverage
+#' @param unit aggregation unit, must be either "year" or "month" or "day"
+#' @param date_interval if FALSE, the function calculates the coverage interval
+#' based on the min() and max() of the vacc_date_col. 
+#' It is also possible to pass a custom date interval to truncate or expand the
+#' date interval (see example)
+#' @return data.frame with vaccine number of doses per date, cumulative count 
+#' of doses and vaccine coverage
+#' @examples
+#' start_cohort <- as.Date("2044-01-01")
+#' end_cohort <- as.Date("2044-12-31")
+#' date_interval <- c(start_cohort, end_cohort)
+#' coh_coverage(
+#'   data = cohortdata,
+#'   vacc_date_col = "vaccine_date_1",
+#'   unit = "month",
+#'   date_interval = date_interval
+#' )
+#' @export
+coh_coverage <- function(data,
+                         vacc_date_col,
+                         unit = c("day", "month", "year"),
+                         date_interval = FALSE) {
+  checkmate::assert_data_frame(
+    data,
+    min.rows = 1L
+  )
+  checkmate::assert_character(
+    vacc_date_col,
+    min.len = 1L
+  )
+checkmate::assert_names(
+    colnames(data),
+    must.include = c(vacc_date_col)
+  )
+  checkmate::assert_date(
+    data[[vacc_date_col]]
+  )
+  unit <- match.arg(unit, several.ok = FALSE)
+  checkmate::assert_string(
+    unit
+  )
+
+  # Create continuous date column
+  # For fixed intervals, use date_intervales
+  # In other case use min and max of data
+  if (!isFALSE(date_interval)) {
+    checkmate::assert_date(
+      date_interval
+    )
+    start <- date_interval[1]
+    end <- date_interval[2]
+  } else {
+    start <- min(data[[vacc_date_col]], na.rm = TRUE)
+    end <- max(data[[vacc_date_col]], na.rm = TRUE)
+  }
+  if (unit == "month") {
+    # Asign first day of the month
+    st <- as.POSIXlt(start)
+    st$mday <- 1
+    start <- as.Date(st)
+  } else if (unit == "year") {
+    # Asign first day of the month and first day of the year
+    st <- as.POSIXlt(start)
+    st$mon <- 0
+    st$mday <- 1
+    start <- as.Date(st)
+  }
+  dates <- seq(from = start, to = end, by = unit)
+  coverage <- data.frame(date  = dates)
+
+  count <- as.data.frame(table(cut(data[[vacc_date_col]], breaks = unit)))
+  names(count) <- c("date", "doses")
+  count$date <- as.Date(count$date)
+  coverage <- merge(x = coverage, y = count,
+    by = "date", all.x = TRUE
+  )
+  coverage$doses[is.na(coverage$doses)] <- 0
+  coverage$cum_doses <- cumsum(coverage$doses)
+  coverage$coverage <- coverage$cum_doses / nrow(data)
+  return(coverage)
+}

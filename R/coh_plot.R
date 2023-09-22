@@ -15,30 +15,32 @@ extract_surv_model <- function(model, start_cohort, end_cohort) {
   return(tbl)
 }
 
-#' Function to plot the Survival probability based on the Kaplan-Meir model.
+#' Function to plot the Survival probability based on the Kaplan-Meir model
 #'
 #' The function relies on the implementation of the Kaplan-Meier model from
 #' survival package.
 #' It returns a plot of the Survival Probability or the Cumulative Hazard (if
 #' cumulative = TRUE).
-#' The return is a ggplot2 element of the curves with 95% C.I that can be
-#' manipulated in order to change the colors, labels, legend, etc.
+#' The return is a ggplot2 element of the curves with 95% C.I.
+#' It is possible to manipulate the colors, labels, legend and most of
+#' the graphic elemnts.To do so follow the convention:
+#' c("c1" = "color1", "c2" = "color2")
 #' @param data dataset with cohort information (see example)
 #' @param outcome_status_col name of the column containing status of the
 #' event (most be a binary column)
 #' @param time_to_event_col name of the column containing the time-to-event
 #' @param vacc_status_col name of the column containing the vaccination
 #' status
-#' @param status two-element vector specifying the values assigned that
+#' @param vacc_status two-element vector specifying the values assigned that
 #' indicate whether the individual is vaccinated or not e.g. c("v","u").
 #' It must coincide with the values of the column `vacc_status_col`
 #' @param start_cohort start date of the study
 #' @param end_cohort end date of the study
-#' @param colors list of two colors the type:
+#' @param colors two colors list of the type:
 #' c("c1" = "steelblue", "c2" = "darkred")
 #' @param percentage if TRUE returns probability in percentage
 #' @param cumulative if TRUE returns cumulative Hazards (1-Survival)
-#' @return Survival/Cumulative hazard plot: ggplot2 element
+#' @return ggplot2 plot of curvival/cumulative hazard
 #' @examples
 #' # load example package data
 #' data("cohortdata")
@@ -76,21 +78,22 @@ extract_surv_model <- function(model, start_cohort, end_cohort) {
 #'   start_from_immunization = FALSE
 #' )
 #'
-#' survival_plot <- plot_survival(data = cohortdata,
-#'                                outcome_status_col = "death_status",
-#'                                time_to_event_col = "time_to_death",
-#'                                vacc_status_col = "vaccine_status",
-#'                                status = c("v", "u"),
-#'                                start_cohort = start_cohort,
-#'                                end_cohort = end_cohort,
-#'                                colors = c("steelblue", "darkred"),
-#'                                percentage = TRUE,
-#'                                cumulative = TRUE)
+#' plot_survival(data = cohortdata,
+#'   outcome_status_col = "death_status",
+#'   time_to_event_col = "time_to_death",
+#'   vacc_status_col = "vaccine_status",
+#'   status = c("v", "u"),
+#'   start_cohort = start_cohort,
+#'   end_cohort = end_cohort,
+#'   colors = c("steelblue", "darkred"),
+#'   percentage = TRUE,
+#'   cumulative = TRUE
+#' )
 #' @export
 plot_survival <- function(data, outcome_status_col,
                           time_to_event_col,
                           vacc_status_col,
-                          status,
+                          vacc_status,
                           start_cohort,
                           end_cohort,
                           colors = c("c1" = "steelblue",
@@ -122,6 +125,10 @@ plot_survival <- function(data, outcome_status_col,
   checkmate::assert_date(
     end_cohort, any.missing = FALSE, len = 1
   )
+  checkmate::assert_names(
+    names(colors),
+    must.include = c("c1", "c2")
+  )
 
   #KM model
   km_model <- survival::survfit(
@@ -145,9 +152,9 @@ plot_survival <- function(data, outcome_status_col,
   }
 
   #Filter data by status
-  conn1 <- paste0("data[[vacc_status_col]]=", status[1])
+  conn1 <- paste0("data[[vacc_status_col]]=", vacc_status[1])
   results_1 <- results[results$strata == conn1, ]
-  conn2 <- paste0("data[[vacc_status_col]]=", status[2])
+  conn2 <- paste0("data[[vacc_status_col]]=", vacc_status[2])
   results_2 <- results[results$strata == conn2, ]
 
   #Plot
@@ -180,7 +187,7 @@ plot_survival <- function(data, outcome_status_col,
   } +
     ggplot2::scale_color_manual(name = "Vaccine Status",
       values = colors,
-      labels = status
+      labels = vacc_status
     ) +
     ggplot2::theme_classic() + {
     if (cumulative) {
@@ -192,6 +199,116 @@ plot_survival <- function(data, outcome_status_col,
     ggplot2::xlab("Time to event (Days)") +
     ggplot2::labs(colour = "Vaccine Status") +
     ggplot2::theme(axis.text = ggplot2::element_text(size = 13),
+                   axis.title = ggplot2::element_text(size = 15),
+                   legend.title = ggplot2::element_text(size = 15),
+                   legend.text = ggplot2::element_text(size = 13))
+  return(plt)
+}
+#' Function to plot the vaccine coverage in a cohort
+#'
+#' The function relies on the implementation of the function coh_coverage()
+#' It returns a plot of the vaccine coverage or the cumulative coverage (if
+#' cumulative = TRUE).
+#' The return is a 2-axis ggplot2 element with the number of vaccines per date
+#' in the left-axes and the coverage per date in the right-axes.
+#' It is possible to manipulate the colors, labels, legend and most of
+#' the graphic elemnts.To do so follow the convention:
+#' c("c1" = "color1", "c2" = "color2")
+#'
+#' @param inheritParams coh_coverage
+#' @param colors two colors list of the type:
+#' c("c1" = "steelblue", "c2" = "mediumpurple")
+#' @return 2-axis ggplot2 plot of vaccine coverage and daily doses
+#' @examples
+#' start_cohort <- as.Date("2044-01-01")
+#' end_cohort <- as.Date("2044-12-31")
+#' date_interval <- c(start_cohort, end_cohort)
+#' plot_coverage(
+#'   data = cohortdata,
+#'   vacc_date_col = "vaccine_date_1",
+#'   unit = "month",
+#'   date_interval = date_interval,
+#'   cumulative = FALSE
+#' )
+#' @export
+
+plot_coverage <- function(data,
+                          vacc_date_col,
+                          unit = c("day", "month", "year"),
+                          date_interval = FALSE,
+                          cumulative = FALSE,
+                          colors = c("c1" = "steelblue",
+                                     "c2" = "mediumpurple")) {
+  checkmate::assert_data_frame(
+    data,
+    min.rows = 1L
+  )
+  checkmate::assert_character(
+    vacc_date_col,
+    min.len = 1L
+  )
+  checkmate::assert_names(
+    colnames(data),
+    must.include = c(vacc_date_col)
+  )
+  checkmate::assert_date(
+    data[[vacc_date_col]]
+  )
+  unit <- match.arg(unit, several.ok = FALSE)
+  checkmate::assert_string(
+    unit
+  )
+  checkmate::assert_logical(
+    cumulative, len = 1
+  )
+  checkmate::assert_names(
+    names(colors),
+    must.include = c("c1", "c2")
+  )
+
+  coverage <- coh_coverage(data = data,
+    vacc_date_col = vacc_date_col,
+    unit = unit,
+    date_interval = date_interval
+  )
+  if (cumulative) {
+    coverage$dose_plot <- coverage$cum_dose
+  } else {
+    coverage$dose_plot <- coverage$dose
+  }
+
+  lbls <- c("c1" = "Doses", "c2" = "Coverage")
+  plt <- ggplot2::ggplot() +
+    ggplot2::geom_bar(ggplot2::aes(x = coverage$date,
+        y = coverage$dose_plot,
+        fill = "c1"
+      ), stat = "identity", alpha = 0.6
+    ) +
+    ggplot2::geom_line(ggplot2::aes(x = coverage$date,
+        y = coverage$coverage * max(coverage$dose_plot),
+        color = "c2", group = 1
+      ), linewidth = 1.3, linetype = 2
+    ) +
+    ggplot2::xlab("") +
+    ggplot2::ylab(paste0("Doses per ", unit)) +
+    ggplot2::scale_y_continuous(
+      labels = scales::label_number(scale_cut = scales::cut_short_scale()),
+      sec.axis = ggplot2::sec_axis(~. / max(coverage$dose_plot),
+        labels = scales::percent,
+        name = "Percentage of coverage"
+      )
+    ) +
+    ggplot2::scale_fill_manual(name = "",
+      values = colors,
+      labels = lbls
+    ) +
+    ggplot2::scale_color_manual(name = "",
+      values = colors,
+      labels = lbls
+    ) +
+    ggplot2::theme_classic() +
+    ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 90, hjust = 0),
+                   axis.text = ggplot2::element_text(size = 13),
                    axis.title = ggplot2::element_text(size = 15),
                    legend.title = ggplot2::element_text(size = 15),
                    legend.text = ggplot2::element_text(size = 13))

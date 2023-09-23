@@ -47,7 +47,7 @@ status}
 \item{cumulative}{if TRUE returns cumulative Hazards (1-Survival)}
 }
 \value{
-ggplot2 plot of curvival/cumulative hazard
+ggplot2 plot of survival/cumulative hazard
 }
 \description{
 The function relies on the implementation of the Kaplan-Meier model from
@@ -56,7 +56,7 @@ It returns a plot of the Survival Probability or the Cumulative Hazard (if
 cumulative = TRUE).
 The return is a ggplot2 element of the curves with 95\% C.I.
 It is possible to manipulate the colors, labels, legend and most of
-the graphic elemnts.To do so follow the convention:
+the graphic elements.To do so follow the convention:
 c("c1" = vaccinated_color, "c2" = unvaccinated_color)
 }
 \examples{
@@ -96,7 +96,7 @@ cohortdata$time_to_death <- get_time_to_event(
   start_from_immunization = FALSE
 )
 
-plt <- plot_survival(data = cohortdata,
+plot_survival(data = cohortdata,
   outcome_status_col = "death_status",
   time_to_event_col = "time_to_death",
   vacc_status_col = "vaccine_status",

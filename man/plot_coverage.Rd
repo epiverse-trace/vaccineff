@@ -15,23 +15,35 @@ plot_coverage(
 )
 }
 \arguments{
+\item{data}{dataset with cohort information (see example)}
+
+\item{vacc_date_col}{name of the column(s) that contains the vaccine date
+to calculate the coverage}
+
+\item{unit}{aggregation unit, must be either "year" or "month" or "day"}
+
 \item{doses_count_color}{color assigned to the doses count}
 
 \item{coverage_color}{color assigned to the coverage calculation}
 
-\item{inheritParams}{coh_coverage}
+\item{date_interval}{if FALSE, the function calculates the coverage interval
+based on the min() and max() of the vacc_date_col.
+It is also possible to pass a custom date interval to truncate or expand the
+date interval (see example)}
+
+\item{cumulative}{if TRUE returns the cumulative number of doses
+over the time window}
 }
 \value{
 2-axis ggplot2 plot of vaccine coverage and daily doses
 }
 \description{
-The function relies on the implementation of the function coh_coverage()
-It returns a plot of the vaccine coverage or the cumulative coverage (if
-cumulative = TRUE).
+The function returns a plot of the vaccine coverage or the cumulative
+coverage (if cumulative = TRUE).
 The return is a 2-axis ggplot2 element with the number of vaccines per date
 in the left-axes and the coverage per date in the right-axes.
 It is possible to manipulate the colors, labels, legend and most of
-the graphic elemnts.To do so follow the convention:
+the graphic elements.To do so follow the convention:
 c("c1" = "color1", "c2" = "color2")
 }
 \examples{
@@ -43,7 +55,7 @@ plot_coverage(
   data = cohortdata,
   vacc_date_col = "vaccine_date_1",
   unit = "month",
-  daily_doses_color = "steelblue",
+  doses_count_color = "steelblue",
   coverage_color = "mediumpurple",
   date_interval = date_interval,
   cumulative = FALSE

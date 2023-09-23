@@ -226,6 +226,7 @@ plot_survival <- function(data, outcome_status_col,
 #' c("c1" = "steelblue", "c2" = "mediumpurple")
 #' @return 2-axis ggplot2 plot of vaccine coverage and daily doses
 #' @examples
+#' data("cohortdata")
 #' start_cohort <- as.Date("2044-01-01")
 #' end_cohort <- as.Date("2044-12-31")
 #' date_interval <- c(start_cohort, end_cohort)
@@ -233,6 +234,8 @@ plot_survival <- function(data, outcome_status_col,
 #'   data = cohortdata,
 #'   vacc_date_col = "vaccine_date_1",
 #'   unit = "month",
+#'   daily_doses_color = "steelblue",
+#'   coverage_color = "mediumpurple",
 #'   date_interval = date_interval,
 #'   cumulative = FALSE
 #' )
@@ -240,10 +243,10 @@ plot_survival <- function(data, outcome_status_col,
 plot_coverage <- function(data,
                           vacc_date_col,
                           unit = c("day", "month", "year"),
+                          doses_count_color = "steelblue",
+                          coverage_color = "mediumpurple",
                           date_interval = FALSE,
-                          cumulative = FALSE,
-                          colors = c("c1" = "steelblue",
-                                     "c2" = "mediumpurple")) {
+                          cumulative = FALSE) {
   checkmate::assert_data_frame(
     data,
     min.rows = 1L
@@ -266,9 +269,8 @@ plot_coverage <- function(data,
   checkmate::assert_logical(
     cumulative, len = 1
   )
-  checkmate::assert_names(
-    names(colors),
-    must.include = c("c1", "c2")
+  checkmate::assert_character(
+    c(doses_count_color, coverage_color)
   )
 
   coverage <- coh_coverage(data = data,
@@ -282,6 +284,7 @@ plot_coverage <- function(data,
     coverage$dose_plot <- coverage$dose
   }
 
+  colors <- c("c1" = doses_count_color, "c2" = coverage_color)
   lbls <- c("c1" = "Doses", "c2" = "Coverage")
   plt <- ggplot2::ggplot() +
     ggplot2::geom_bar(ggplot2::aes(x = coverage$date,

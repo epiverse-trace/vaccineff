@@ -2,17 +2,19 @@
 % Please edit documentation in R/coh_plot.R
 \name{plot_survival}
 \alias{plot_survival}
-\title{Function to plot the Survival probability based on the Kaplan-Meir model.}
+\title{Function to plot the Survival probability based on the Kaplan-Meir model}
 \usage{
 plot_survival(
   data,
   outcome_status_col,
   time_to_event_col,
   vacc_status_col,
-  status,
+  vaccinated_status = "v",
+  unvaccinated_status = "u",
+  vaccinated_color = "steelblue",
+  unvaccinated_color = "darkred",
   start_cohort,
   end_cohort,
-  colors = c(c1 = "steelblue", c2 = "darkred"),
   percentage = TRUE,
   cumulative = FALSE
 )
@@ -28,31 +30,34 @@ event (most be a binary column)}
 \item{vacc_status_col}{name of the column containing the vaccination
 status}
 
-\item{status}{two-element vector specifying the values assigned that
-indicate whether the individual is vaccinated or not e.g. c("v","u").
-It must coincide with the values of the column \code{vacc_status_col}}
+\item{vaccinated_status}{string assigned to the vaccinated population}
+
+\item{unvaccinated_status}{string assigned to the unvaccinated population}
+
+\item{vaccinated_color}{color assigned to the vaccinated population}
+
+\item{unvaccinated_color}{color assigned to the unvaccinated population}
 
 \item{start_cohort}{start date of the study}
 
 \item{end_cohort}{end date of the study}
-
-\item{colors}{list of two colors the type:
-c("c1" = "steelblue", "c2" = "darkred")}
 
 \item{percentage}{if TRUE returns probability in percentage}
 
 \item{cumulative}{if TRUE returns cumulative Hazards (1-Survival)}
 }
 \value{
-Survival/Cumulative hazard plot: ggplot2 element
+ggplot2 plot of curvival/cumulative hazard
 }
 \description{
 The function relies on the implementation of the Kaplan-Meier model from
 survival package.
 It returns a plot of the Survival Probability or the Cumulative Hazard (if
 cumulative = TRUE).
-The return is a ggplot2 element of the curves with 95\% C.I that can be
-manipulated in order to change the colors, labels, legend, etc.
+The return is a ggplot2 element of the curves with 95\% C.I.
+It is possible to manipulate the colors, labels, legend and most of
+the graphic elemnts.To do so follow the convention:
+c("c1" = vaccinated_color, "c2" = unvaccinated_color)
 }
 \examples{
 # load example package data
@@ -91,14 +96,17 @@ cohortdata$time_to_death <- get_time_to_event(
   start_from_immunization = FALSE
 )
 
-survival_plot <- plot_survival(data = cohortdata,
-                               outcome_status_col = "death_status",
-                               time_to_event_col = "time_to_death",
-                               vacc_status_col = "vaccine_status",
-                               status = c("v", "u"),
-                               start_cohort = start_cohort,
-                               end_cohort = end_cohort,
-                               colors = c("steelblue", "darkred"),
-                               percentage = TRUE,
-                               cumulative = TRUE)
+plt <- plot_survival(data = cohortdata,
+  outcome_status_col = "death_status",
+  time_to_event_col = "time_to_death",
+  vacc_status_col = "vaccine_status",
+  vaccinated_status = "v",
+  unvaccinated_status = "u",
+  vaccinated_color = "steelblue",
+  unvaccinated_color = "darkred",
+  start_cohort = start_cohort,
+  end_cohort = end_cohort,
+  percentage = TRUE,
+  cumulative = TRUE
+)
 }

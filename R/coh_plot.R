@@ -113,7 +113,7 @@ plot_survival <- function(data, outcome_status_col,
     must.include = c(outcome_status_col, time_to_event_col, vacc_status_col)
   )
   checkmate::assert_character(
-    c(vaccinated_color, unvaccinated_color), len = 2
+    c(vaccinated_color, unvaccinated_color)
   )
   checkmate::assert_logical(
     percentage, len = 1

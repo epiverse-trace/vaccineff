@@ -31,13 +31,12 @@ extract_surv_model <- function(model, start_cohort, end_cohort) {
 #' @param time_to_event_col name of the column containing the time-to-event
 #' @param vacc_status_col name of the column containing the vaccination
 #' status
-#' @param vacc_status two-element vector specifying the values assigned that
-#' indicate whether the individual is vaccinated or not e.g. c("v","u").
-#' It must coincide with the values of the column `vacc_status_col`
+#' @param vaccinated_status string assigned to the vaccinated population
+#' @param unvaccinated_status string assigned to the unvaccinated population
+#' @param vaccinated_color color assigned to the vaccinated population
+#' @param unvaccinated_color color assigned to the unvaccinated population
 #' @param start_cohort start date of the study
 #' @param end_cohort end date of the study
-#' @param colors two colors list of the type:
-#' c("c1" = "steelblue", "c2" = "darkred")
 #' @param percentage if TRUE returns probability in percentage
 #' @param cumulative if TRUE returns cumulative Hazards (1-Survival)
 #' @return ggplot2 plot of curvival/cumulative hazard
@@ -222,8 +221,8 @@ plot_survival <- function(data, outcome_status_col,
 #' c("c1" = "color1", "c2" = "color2")
 #'
 #' @param inheritParams coh_coverage
-#' @param colors two colors list of the type:
-#' c("c1" = "steelblue", "c2" = "mediumpurple")
+#' @param doses_count_color color assigned to the doses count
+#' @param coverage_color color assigned to the coverage calculation
 #' @return 2-axis ggplot2 plot of vaccine coverage and daily doses
 #' @examples
 #' data("cohortdata")

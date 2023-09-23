@@ -23,7 +23,7 @@ extract_surv_model <- function(model, start_cohort, end_cohort) {
 #' cumulative = TRUE).
 #' The return is a ggplot2 element of the curves with 95% C.I.
 #' It is possible to manipulate the colors, labels, legend and most of
-#' the graphic elemnts.To do so follow the convention:
+#' the graphic elements.To do so follow the convention:
 #' c("c1" = vaccinated_color, "c2" = unvaccinated_color)
 #' @param data dataset with cohort information (see example)
 #' @param outcome_status_col name of the column containing status of the
@@ -39,7 +39,7 @@ extract_surv_model <- function(model, start_cohort, end_cohort) {
 #' @param end_cohort end date of the study
 #' @param percentage if TRUE returns probability in percentage
 #' @param cumulative if TRUE returns cumulative Hazards (1-Survival)
-#' @return ggplot2 plot of curvival/cumulative hazard
+#' @return ggplot2 plot of survival/cumulative hazard
 #' @examples
 #' # load example package data
 #' data("cohortdata")
@@ -77,7 +77,7 @@ extract_surv_model <- function(model, start_cohort, end_cohort) {
 #'   start_from_immunization = FALSE
 #' )
 #'
-#' plt <- plot_survival(data = cohortdata,
+#' plot_survival(data = cohortdata,
 #'   outcome_status_col = "death_status",
 #'   time_to_event_col = "time_to_death",
 #'   vacc_status_col = "vaccine_status",
@@ -211,18 +211,19 @@ plot_survival <- function(data, outcome_status_col,
 
 #' Function to plot the vaccine coverage in a cohort
 #'
-#' The function relies on the implementation of the function coh_coverage()
-#' It returns a plot of the vaccine coverage or the cumulative coverage (if
-#' cumulative = TRUE).
+#' The function returns a plot of the vaccine coverage or the cumulative
+#' coverage (if cumulative = TRUE).
 #' The return is a 2-axis ggplot2 element with the number of vaccines per date
 #' in the left-axes and the coverage per date in the right-axes.
 #' It is possible to manipulate the colors, labels, legend and most of
-#' the graphic elemnts.To do so follow the convention:
+#' the graphic elements.To do so follow the convention:
 #' c("c1" = "color1", "c2" = "color2")
 #'
-#' @param inheritParams coh_coverage
+#' @inheritParams coh_coverage
 #' @param doses_count_color color assigned to the doses count
 #' @param coverage_color color assigned to the coverage calculation
+#' @param cumulative if TRUE returns the cumulative number of doses
+#' over the time window
 #' @return 2-axis ggplot2 plot of vaccine coverage and daily doses
 #' @examples
 #' data("cohortdata")
@@ -233,7 +234,7 @@ plot_survival <- function(data, outcome_status_col,
 #'   data = cohortdata,
 #'   vacc_date_col = "vaccine_date_1",
 #'   unit = "month",
-#'   daily_doses_color = "steelblue",
+#'   doses_count_color = "steelblue",
 #'   coverage_color = "mediumpurple",
 #'   date_interval = date_interval,
 #'   cumulative = FALSE

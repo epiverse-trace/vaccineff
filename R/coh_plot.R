@@ -24,7 +24,7 @@ extract_surv_model <- function(model, start_cohort, end_cohort) {
 #' The return is a ggplot2 element of the curves with 95% C.I.
 #' It is possible to manipulate the colors, labels, legend and most of
 #' the graphic elemnts.To do so follow the convention:
-#' c("c1" = "color1", "c2" = "color2")
+#' c("c1" = vaccinated_color, "c2" = unvaccinated_color)
 #' @param data dataset with cohort information (see example)
 #' @param outcome_status_col name of the column containing status of the
 #' event (most be a binary column)
@@ -78,14 +78,16 @@ extract_surv_model <- function(model, start_cohort, end_cohort) {
 #'   start_from_immunization = FALSE
 #' )
 #'
-#' plot_survival(data = cohortdata,
+#' plt <- plot_survival(data = cohortdata,
 #'   outcome_status_col = "death_status",
 #'   time_to_event_col = "time_to_death",
 #'   vacc_status_col = "vaccine_status",
-#'   status = c("v", "u"),
+#'   vaccinated_status = "v",
+#'   unvaccinated_status = "u",
+#'   vaccinated_color = "steelblue",
+#'   unvaccinated_color = "darkred",
 #'   start_cohort = start_cohort,
 #'   end_cohort = end_cohort,
-#'   colors = c("steelblue", "darkred"),
 #'   percentage = TRUE,
 #'   cumulative = TRUE
 #' )
@@ -93,11 +95,12 @@ extract_surv_model <- function(model, start_cohort, end_cohort) {
 plot_survival <- function(data, outcome_status_col,
                           time_to_event_col,
                           vacc_status_col,
-                          vacc_status,
+                          vaccinated_status = "v",
+                          unvaccinated_status = "u",
+                          vaccinated_color = "steelblue",
+                          unvaccinated_color = "darkred",
                           start_cohort,
                           end_cohort,
-                          colors = c("c1" = "steelblue",
-                                     "c2" = "darkred"),
                           percentage = TRUE,
                           cumulative = FALSE) {
   # input checking
@@ -110,7 +113,7 @@ plot_survival <- function(data, outcome_status_col,
     must.include = c(outcome_status_col, time_to_event_col, vacc_status_col)
   )
   checkmate::assert_character(
-    colors, len = 2
+    c(vaccinated_color, unvaccinated_color), len = 2
   )
   checkmate::assert_logical(
     percentage, len = 1
@@ -126,8 +129,8 @@ plot_survival <- function(data, outcome_status_col,
     end_cohort, any.missing = FALSE, len = 1
   )
   checkmate::assert_names(
-    names(colors),
-    must.include = c("c1", "c2")
+    data[[vacc_status_col]],
+    must.include = c(vaccinated_status, unvaccinated_status)
   )
 
   #KM model
@@ -152,12 +155,14 @@ plot_survival <- function(data, outcome_status_col,
   }
 
   #Filter data by status
-  conn1 <- paste0("data[[vacc_status_col]]=", vacc_status[1])
+  conn1 <- paste0("data[[vacc_status_col]]=", vaccinated_status)
   results_1 <- results[results$strata == conn1, ]
-  conn2 <- paste0("data[[vacc_status_col]]=", vacc_status[2])
+  conn2 <- paste0("data[[vacc_status_col]]=", unvaccinated_status)
   results_2 <- results[results$strata == conn2, ]
 
   #Plot
+  colors <- c("c1" = vaccinated_color, "c2" = unvaccinated_color)
+  vacc_status <- c("c1" = vaccinated_status, "c2" = unvaccinated_status)
   plt <- ggplot2::ggplot() +
     ggplot2::geom_ribbon(
       ggplot2::aes(x = results_1$time,

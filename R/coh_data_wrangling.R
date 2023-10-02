@@ -676,7 +676,7 @@ get_immunization_vaccine <- function(data,
 coh_coverage <- function(data,
                          vacc_date_col,
                          unit = c("day", "month", "year"),
-                         date_interval = FALSE) {
+                         date_interval = NULL) {
   checkmate::assert_data_frame(
     data,
     min.rows = 1L
@@ -700,7 +700,7 @@ coh_coverage <- function(data,
   # Create continuous date column
   # For fixed intervals, use date_intervales
   # In other case use min and max of data
-  if (!isFALSE(date_interval)) {
+  if (!is.null(date_interval)) {
     checkmate::assert_date(
       date_interval
     )
@@ -710,23 +710,17 @@ coh_coverage <- function(data,
     start <- min(data[[vacc_date_col]], na.rm = TRUE)
     end <- max(data[[vacc_date_col]], na.rm = TRUE)
   }
-  if (unit == "month") {
-    # Asign first day of the month
-    st <- as.POSIXlt(start)
-    st$mday <- 1
-    start <- as.Date(st)
-  } else if (unit == "year") {
-    # Asign first day of the month and first day of the year
-    st <- as.POSIXlt(start)
-    st$mon <- 0
-    st$mday <- 1
-    start <- as.Date(st)
-  }
+  start <- as.Date(trunc(as.POSIXlt(start), units = unit))
   dates <- seq(from = start, to = end, by = unit)
   coverage <- data.frame(date  = dates)
 
-  count <- as.data.frame(table(cut(data[[vacc_date_col]], breaks = unit)))
-  names(count) <- c("date", "doses")
+  count <- as.data.frame(
+    table(
+      cut(data[[vacc_date_col]], breaks = unit),
+      dnn = "date"
+    ),
+    responseName = "doses"
+  )
   count$date <- as.Date(count$date)
   coverage <- merge(x = coverage, y = count,
     by = "date", all.x = TRUE

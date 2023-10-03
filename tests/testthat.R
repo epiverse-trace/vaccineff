@@ -8,6 +8,7 @@
 
 # nolint start
 library(testthat)
+library(vdiffr)
 library(vaccineff)
 # nolint end
 

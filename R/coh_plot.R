@@ -4,7 +4,7 @@
 #' @param start_cohort start date of the study
 #' @param end_cohort end date of the study
 #' @return Data frame with survival data
-#' @export
+#' @internal
 extract_surv_model <- function(model, start_cohort, end_cohort) {
   days <- end_cohort - start_cohort
   tte <- seq(0, as.numeric(days) - 1, by = 1)

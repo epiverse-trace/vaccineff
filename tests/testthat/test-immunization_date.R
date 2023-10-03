@@ -113,3 +113,22 @@ test_that("`get_immunization_date`: Take first vaccination", {
     all(vax_difference == immunization_delay)
   )
 })
+
+test_that("`get_immunization_date`: end_cohort > max_date", {
+  data("cohortdata")
+  cohortdata <- as.data.frame(cohortdata)
+
+  # get immunization dates
+  expect_warning(
+    get_immunization_date(
+      data = cohortdata,
+      outcome_date_col = "death_date",
+      outcome_delay = 0,
+      immunization_delay = 14,
+      vacc_date_col = c("vaccine_date_1", "vaccine_date_2"),
+      end_cohort = as.Date("2101-12-31"),
+      take_first = FALSE
+    )
+  )
+
+})

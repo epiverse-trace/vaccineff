@@ -649,8 +649,8 @@ get_immunization_vaccine <- function(data,
 #' This function returns the vaccination coverage of a dose along
 #' the cohort study. The coverage can be calculated grouped by
 #' year, day and month. This most by specified in the parameter unit.
-#' To group by year, the dataset must contain more than one year of
-#' historical data.
+#' If there are not registers for some dates, the function assigns 0,
+#' instead of NA, to be able to calculate the cumulative coverage.
 #'
 #' @param data dataset with cohort information (see example)
 #' @param vacc_date_col name of the column(s) that contains the vaccine date
@@ -663,6 +663,7 @@ get_immunization_vaccine <- function(data,
 #' @return data.frame with vaccine number of doses per date, cumulative count
 #' of doses and vaccine coverage
 #' @examples
+#' data("cohortdata")
 #' start_cohort <- as.Date("2044-01-01")
 #' end_cohort <- as.Date("2044-12-31")
 #' date_interval <- c(start_cohort, end_cohort)

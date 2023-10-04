@@ -701,15 +701,15 @@ coh_coverage <- function(data,
   # Create continuous date column
   # For fixed intervals, use date_intervales
   # In other case use min and max of data
-  if (!is.null(date_interval)) {
+  if (is.null(date_interval)) {
+    start <- min(data[[vacc_date_col]], na.rm = TRUE)
+    end <- max(data[[vacc_date_col]], na.rm = TRUE)
+  } else {
     checkmate::assert_date(
       date_interval
     )
     start <- date_interval[1]
     end <- date_interval[2]
-  } else {
-    start <- min(data[[vacc_date_col]], na.rm = TRUE)
-    end <- max(data[[vacc_date_col]], na.rm = TRUE)
   }
   start <- as.Date(trunc(as.POSIXlt(start), units = unit))
   dates <- seq(from = start, to = end, by = unit)

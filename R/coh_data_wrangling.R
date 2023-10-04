@@ -656,7 +656,7 @@ get_immunization_vaccine <- function(data,
 #' @param vacc_date_col name of the column(s) that contains the vaccine date
 #' to calculate the coverage
 #' @param unit aggregation unit, must be either "year" or "month" or "day"
-#' @param date_interval if FALSE, the function calculates the coverage interval
+#' @param date_interval if NULL, the function calculates the coverage interval
 #' based on the min() and max() of the vacc_date_col.
 #' It is also possible to pass a custom date interval to truncate or expand the
 #' date interval (see example)

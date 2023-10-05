@@ -243,7 +243,7 @@ plot_survival <- function(data, outcome_status_col,
 #'   doses_count_color = "steelblue",
 #'   coverage_color = "mediumpurple",
 #'   date_interval = date_interval,
-#'   cumulative = NULL
+#'   cumulative = FALSE
 #' )
 #' @export
 plot_coverage <- function(data,

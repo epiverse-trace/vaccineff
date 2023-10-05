@@ -68,12 +68,12 @@ test_that("`coh_eff_noconf`: basic expectations", {
   )
 })
 
-#### PH accepted `coh_eff_noconf()`
-test_that("`coh_eff_noconf`: PH accepted", {
+#### Basic expectations of `coh_test_noconf()`
+test_that("`coh_test_noconf`: basic expectations", {
 
   # runs without conditions
   expect_no_condition(
-    coh_eff_noconf(
+    coh_test_noconf(
       cohortdata,
       "death_status",
       "time_to_death",
@@ -81,28 +81,22 @@ test_that("`coh_eff_noconf`: PH accepted", {
     )
   )
 
-  # returns a data.frame
-  data <- coh_eff_noconf(
+  # returns a survival object
+  data <- coh_test_noconf(
     cohortdata,
     "death_status",
     "time_to_death",
     "vaccine_status"
   )
   expect_s3_class(
-    data, "data.frame"
-  )
-  # check all cols are numerics except PH
-  expect_true(
-    all(
-      apply(data[, setdiff(names(data), "PH")], 2, is.numeric)
-    )
+    data, "cox.zph"
   )
 })
 
-#### Basic expectations of `coh_test_noconf()`
-test_that("`coh_test_noconf`: basic expectations", {
+#### Accepted PH hypothesis `coh_test_noconf()`
+test_that("`coh_test_noconf`: accept PH", {
 
-  ## Filter an age-group that satisfies PH hyp.
+  ## Filter an age-group that satisfies the PH hyp.
   cohortdata$age_group <- get_age_group(
     data = cohortdata,
     col_age = "age",
@@ -117,5 +111,5 @@ test_that("`coh_test_noconf`: basic expectations", {
     time_to_event_col = "time_to_death",
     status_vacc_col = "vaccine_status"
   )
- expect_equal(data$PH, "accept")
+  expect_identical(data$PH, "accept")
 })

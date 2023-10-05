@@ -28,7 +28,8 @@ Imports:
     stats,
     checkmate,
     ggplot2,
-    scales
+    scales,
+    rlang
 Suggests: 
     knitr,
     rmarkdown,

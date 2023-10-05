@@ -649,20 +649,21 @@ get_immunization_vaccine <- function(data,
 #' This function returns the vaccination coverage of a dose along
 #' the cohort study. The coverage can be calculated grouped by
 #' year, day and month. This most by specified in the parameter unit.
-#' To group by year, the dataset must contain more than one year of
-#' historical data.
+#' If there are not registers for some dates, the function assigns 0,
+#' instead of NA, to be able to calculate the cumulative coverage.
 #'
 #' @param data dataset with cohort information (see example)
 #' @param vacc_date_col name of the column(s) that contains the vaccine date
 #' to calculate the coverage
 #' @param unit aggregation unit, must be either "year" or "month" or "day"
-#' @param date_interval if FALSE, the function calculates the coverage interval
+#' @param date_interval if NULL, the function calculates the coverage interval
 #' based on the min() and max() of the vacc_date_col.
 #' It is also possible to pass a custom date interval to truncate or expand the
 #' date interval (see example)
 #' @return data.frame with vaccine number of doses per date, cumulative count
 #' of doses and vaccine coverage
 #' @examples
+#' data("cohortdata")
 #' start_cohort <- as.Date("2044-01-01")
 #' end_cohort <- as.Date("2044-12-31")
 #' date_interval <- c(start_cohort, end_cohort)
@@ -700,15 +701,15 @@ coh_coverage <- function(data,
   # Create continuous date column
   # For fixed intervals, use date_intervales
   # In other case use min and max of data
-  if (!is.null(date_interval)) {
+  if (is.null(date_interval)) {
+    start <- min(data[[vacc_date_col]], na.rm = TRUE)
+    end <- max(data[[vacc_date_col]], na.rm = TRUE)
+  } else {
     checkmate::assert_date(
       date_interval
     )
     start <- date_interval[1]
     end <- date_interval[2]
-  } else {
-    start <- min(data[[vacc_date_col]], na.rm = TRUE)
-    end <- max(data[[vacc_date_col]], na.rm = TRUE)
   }
   start <- as.Date(trunc(as.POSIXlt(start), units = unit))
   dates <- seq(from = start, to = end, by = unit)

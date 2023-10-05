@@ -288,9 +288,9 @@ plot_coverage <- function(data,
   )
 
   if (cumulative) {
-    coverage$dose_plot <- coverage$cum_dose
+    coverage$dose_plot <- coverage$cum_doses
   } else {
-    coverage$dose_plot <- coverage$dose
+    coverage$dose_plot <- coverage$doses
   }
 
   plt <- ggplot2::ggplot(coverage) +

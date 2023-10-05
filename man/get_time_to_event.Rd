@@ -48,7 +48,7 @@ data("cohortdata")
 # define start and end dates of the study as type date
 start_cohort <- as.Date("2044-01-01")
 end_cohort <- as.Date("2044-12-31")
-cohortdata$immunization_death <- get_immunization_date(
+cohortdata$immunization <- get_immunization_date(
   data = cohortdata,
   outcome_date_col = "death_date",
   outcome_delay = 0,
@@ -63,7 +63,7 @@ cohortdata$time_to_death <- get_time_to_event(
   start_cohort = start_cohort,
   end_cohort = end_cohort,
   start_from_immunization = TRUE,
-  immunization_date_col = "immunization_death"
+  immunization_date_col = "immunization"
 )
 
 # view data

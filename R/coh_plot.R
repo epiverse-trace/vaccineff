@@ -77,7 +77,8 @@ extract_surv_model <- function(model, start_cohort, end_cohort) {
 #'   start_from_immunization = FALSE
 #' )
 #'
-#' plot_survival(data = cohortdata,
+#' plot_survival(
+#'   data = cohortdata,
 #'   outcome_status_col = "death_status",
 #'   time_to_event_col = "time_to_death",
 #'   vacc_status_col = "vaccine_status",
@@ -115,24 +116,28 @@ plot_survival <- function(data, outcome_status_col,
     c(vaccinated_color, unvaccinated_color)
   )
   checkmate::assert_logical(
-    percentage, len = 1
+    percentage,
+    len = 1
   )
   checkmate::assert_logical(
-    cumulative, len = 1
+    cumulative,
+    len = 1
   )
   # check date types
   checkmate::assert_date(
-    start_cohort, any.missing = FALSE, len = 1
+    start_cohort,
+    any.missing = FALSE, len = 1
   )
   checkmate::assert_date(
-    end_cohort, any.missing = FALSE, len = 1
+    end_cohort,
+    any.missing = FALSE, len = 1
   )
   checkmate::assert_names(
     data[[vacc_status_col]],
     must.include = c(vaccinated_status, unvaccinated_status)
   )
 
-  #KM model
+  # KM model
   km_model <- survival::survfit(
     survival::Surv(
       data[[time_to_event_col]],
@@ -140,7 +145,7 @@ plot_survival <- function(data, outcome_status_col,
     ) ~ data[[vacc_status_col]]
   )
 
-  #Extract data from survival element
+  # Extract data from survival element
   results <- extract_surv_model(km_model, start_cohort, end_cohort)
 
   if (cumulative) {
@@ -153,59 +158,70 @@ plot_survival <- function(data, outcome_status_col,
     results$plot_upper <- results$lower
   }
 
-  #Filter data by status
-  conn1 <- paste0("data[[vacc_status_col]]=", vaccinated_status)
-  results_1 <- results[results$strata == conn1, ]
-  conn2 <- paste0("data[[vacc_status_col]]=", unvaccinated_status)
-  results_2 <- results[results$strata == conn2, ]
+  results$strata <- factor(results$strata,
+    levels = c(
+      paste0("data[[vacc_status_col]]=", vaccinated_status),
+      paste0("data[[vacc_status_col]]=", unvaccinated_status)
+    )
+  )
+  levels(results$strata) <- c(vaccinated_status, unvaccinated_status)
 
-  #Plot
+  # Plot
   colors <- c("c1" = vaccinated_color, "c2" = unvaccinated_color)
   vacc_status <- c("c1" = vaccinated_status, "c2" = unvaccinated_status)
   plt <- ggplot2::ggplot() +
     ggplot2::geom_ribbon(
-      ggplot2::aes(x = results_1$time,
+      ggplot2::aes(
+        x = results_1$time,
         ymin = results_1$plot_lower, ymax = results_1$plot_upper
       ),
       fill = colors[1], alpha = 0.2
     ) +
     ggplot2::geom_step(
-      ggplot2::aes(x = results_1$time, y = results_1$plot,
+      ggplot2::aes(
+        x = results_1$time, y = results_1$plot,
         color = "c1"
       )
     ) +
     ggplot2::geom_ribbon(
-      ggplot2::aes(x = results_2$time,
+      ggplot2::aes(
+        x = results_2$time,
         ymin = results_2$plot_lower, ymax = results_2$plot_upper
       ),
       fill = colors[2], alpha = 0.2
     ) +
     ggplot2::geom_step(
-      ggplot2::aes(x = results_2$time, y = results_2$plot,
+      ggplot2::aes(
+        x = results_2$time, y = results_2$plot,
         color = "c2"
       )
-    ) + {
-    if (percentage) {
-      ggplot2::scale_y_continuous(labels = scales::percent)
-    }
-  } +
-    ggplot2::scale_color_manual(name = "Vaccine Status",
+    ) +
+    {
+      if (percentage) {
+        ggplot2::scale_y_continuous(labels = scales::percent)
+      }
+    } +
+    ggplot2::scale_color_manual(
+      name = "Vaccine Status",
       values = colors,
       labels = vacc_status
     ) +
-    ggplot2::theme_classic() + {
-    if (cumulative) {
-      ggplot2::ylab("Cumulative hazard")
-    } else {
-      ggplot2::ylab("Survival probability")
-    }
-  } +
+    ggplot2::theme_classic() +
+    {
+      if (cumulative) {
+        ggplot2::ylab("Cumulative hazard")
+      } else {
+        ggplot2::ylab("Survival probability")
+      }
+    } +
     ggplot2::xlab("Time to event (Days)") +
     ggplot2::labs(colour = "Vaccine Status") +
-    ggplot2::theme(axis.text = ggplot2::element_text(size = 13),
-                   axis.title = ggplot2::element_text(size = 15),
-                   legend.title = ggplot2::element_text(size = 15),
-                   legend.text = ggplot2::element_text(size = 13))
+    ggplot2::theme(
+      axis.text = ggplot2::element_text(size = 13),
+      axis.title = ggplot2::element_text(size = 15),
+      legend.title = ggplot2::element_text(size = 15),
+      legend.text = ggplot2::element_text(size = 13)
+    )
   return(plt)
 }
 
@@ -267,13 +283,15 @@ plot_coverage <- function(data,
     unit
   )
   checkmate::assert_logical(
-    cumulative, len = 1
+    cumulative,
+    len = 1
   )
   checkmate::assert_character(
     c(doses_count_color, coverage_color)
   )
 
-  coverage <- coh_coverage(data = data,
+  coverage <- coh_coverage(
+    data = data,
     vacc_date_col = vacc_date_col,
     unit = unit,
     date_interval = date_interval
@@ -287,38 +305,42 @@ plot_coverage <- function(data,
   colors <- c("c1" = doses_count_color, "c2" = coverage_color)
   lbls <- c("c1" = "Doses", "c2" = "Coverage")
   plt <- ggplot2::ggplot() +
-    ggplot2::geom_bar(ggplot2::aes(x = coverage$date,
-        y = coverage$dose_plot,
-        fill = "c1"
-      ), stat = "identity", alpha = 0.6
-    ) +
-    ggplot2::geom_line(ggplot2::aes(x = coverage$date,
-        y = coverage$coverage * max(coverage$dose_plot),
-        color = "c2", group = 1
-      ), linewidth = 1.3, linetype = 2
-    ) +
+    ggplot2::geom_bar(ggplot2::aes(
+      x = coverage$date,
+      y = coverage$dose_plot,
+      fill = "c1"
+    ), stat = "identity", alpha = 0.6) +
+    ggplot2::geom_line(ggplot2::aes(
+      x = coverage$date,
+      y = coverage$coverage * max(coverage$dose_plot),
+      color = "c2", group = 1
+    ), linewidth = 1.3, linetype = 2) +
     ggplot2::xlab("") +
     ggplot2::ylab(paste0("Doses per ", unit)) +
     ggplot2::scale_y_continuous(
       labels = scales::label_number(scale_cut = scales::cut_short_scale()),
-      sec.axis = ggplot2::sec_axis(~. / max(coverage$dose_plot),
+      sec.axis = ggplot2::sec_axis(~ . / max(coverage$dose_plot),
         labels = scales::percent,
         name = "Percentage of coverage"
       )
     ) +
-    ggplot2::scale_fill_manual(name = "",
+    ggplot2::scale_fill_manual(
+      name = "",
       values = colors,
       labels = lbls
     ) +
-    ggplot2::scale_color_manual(name = "",
+    ggplot2::scale_color_manual(
+      name = "",
       values = colors,
       labels = lbls
     ) +
     ggplot2::theme_classic() +
-    ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 90, hjust = 0),
-                   axis.text = ggplot2::element_text(size = 13),
-                   axis.title = ggplot2::element_text(size = 15),
-                   legend.title = ggplot2::element_text(size = 15),
-                   legend.text = ggplot2::element_text(size = 13))
+    ggplot2::theme(
+      axis.text.x = ggplot2::element_text(angle = 90, hjust = 0),
+      axis.text = ggplot2::element_text(size = 13),
+      axis.title = ggplot2::element_text(size = 15),
+      legend.title = ggplot2::element_text(size = 15),
+      legend.text = ggplot2::element_text(size = 13)
+    )
   return(plt)
 }

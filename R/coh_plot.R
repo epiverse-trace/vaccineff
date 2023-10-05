@@ -166,62 +166,52 @@ plot_survival <- function(data, outcome_status_col,
   )
   levels(results$strata) <- c(vaccinated_status, unvaccinated_status)
 
-  # Plot
-  colors <- c("c1" = vaccinated_color, "c2" = unvaccinated_color)
-  vacc_status <- c("c1" = vaccinated_status, "c2" = unvaccinated_status)
-  plt <- ggplot2::ggplot() +
+  # set colour names for vaccination status
+  colors <- c(vaccinated_color, unvaccinated_color)
+  vacc_status <- c(vaccinated_status, unvaccinated_status)
+  names(colors) <- c(vaccinated_status, unvaccinated_status)
+
+  plt <-
+    ggplot2::ggplot(data = results) +
     ggplot2::geom_ribbon(
       ggplot2::aes(
-        x = results_1$time,
-        ymin = results_1$plot_lower, ymax = results_1$plot_upper
+        x = .data$time,
+        ymin = .data$plot_lower, ymax = .data$plot_upper,
+        fill = .data$strata
       ),
-      fill = colors[1], alpha = 0.2
+      alpha = 0.2
     ) +
     ggplot2::geom_step(
       ggplot2::aes(
-        x = results_1$time, y = results_1$plot,
-        color = "c1"
+        x = .data$time, y = .data$plot,
+        color = .data$strata
       )
     ) +
-    ggplot2::geom_ribbon(
-      ggplot2::aes(
-        x = results_2$time,
-        ymin = results_2$plot_lower, ymax = results_2$plot_upper
-      ),
-      fill = colors[2], alpha = 0.2
-    ) +
-    ggplot2::geom_step(
-      ggplot2::aes(
-        x = results_2$time, y = results_2$plot,
-        color = "c2"
+    ggplot2::scale_y_continuous(
+      labels = ifelse(
+        test = percentage, yes = scales::label_percent(),
+        no = scales::label_number()
       )
     ) +
-    {
-      if (percentage) {
-        ggplot2::scale_y_continuous(labels = scales::percent)
-      }
-    } +
     ggplot2::scale_color_manual(
       name = "Vaccine Status",
       values = colors,
       labels = vacc_status
     ) +
+    ggplot2::scale_fill_manual(
+      name = "Vaccine Status",
+      values = colors,
+      labels = vacc_status
+    ) +
     ggplot2::theme_classic() +
-    {
-      if (cumulative) {
-        ggplot2::ylab("Cumulative hazard")
-      } else {
-        ggplot2::ylab("Survival probability")
-      }
-    } +
+    ggplot2::labs(
+      x = "Time to event (Days)",
+      y = ifelse(
+        cumulative, yes = "Cumulative hazard", no = "Survival probability"
+      )
+    ) +
     ggplot2::xlab("Time to event (Days)") +
-    ggplot2::labs(colour = "Vaccine Status") +
-    ggplot2::theme(
-      axis.text = ggplot2::element_text(size = 13),
-      axis.title = ggplot2::element_text(size = 15),
-      legend.title = ggplot2::element_text(size = 15),
-      legend.text = ggplot2::element_text(size = 13)
-    )
+    ggplot2::labs(colour = "Vaccine Status")
   return(plt)
 }
 

@@ -96,7 +96,7 @@ The integrated data set `cohortdata` provides a minimal example of the input of 
 ```{r cohortdata, include = TRUE, echo = TRUE}
 data("cohortdata")
 
-cohortdata$immunization_death <-
+cohortdata$immunization <-
   get_immunization_date(
     data = cohortdata,
     outcome_date_col = "death_date",
@@ -109,7 +109,7 @@ cohortdata$immunization_death <-
 
 cohortdata$vaccine_status <- set_status(
   data = cohortdata,
-  col_names = "immunization_death",
+  col_names = "immunization",
   status = c("v", "u")
 )
 

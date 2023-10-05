@@ -6,7 +6,7 @@ start_cohort <- as.Date("2044-01-01")
 end_cohort <- as.Date("2044-12-31")
 
 ## get immunization date to death
-cohortdata$immunization_death <-
+cohortdata$immunization <-
   get_immunization_date(
     data = cohortdata,
     outcome_date_col = "death_date",
@@ -20,7 +20,7 @@ cohortdata$immunization_death <-
 ## set vaccine status based on immunization date
 cohortdata$vaccine_status <- set_status(
   data = cohortdata,
-  col_names = "immunization_death",
+  col_names = "immunization",
   status = c("v", "u")
 )
 

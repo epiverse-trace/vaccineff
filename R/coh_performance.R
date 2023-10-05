@@ -13,7 +13,7 @@
 #' data("cohortdata")
 #'
 #' # add useful columns
-#' cohortdata$immunization_death <- get_immunization_date(
+#' cohortdata$immunization <- get_immunization_date(
 #'   data = cohortdata,
 #'   outcome_date_col = "death_date",
 #'   outcome_delay = 0,
@@ -25,7 +25,7 @@
 #'
 #' cohortdata$vaccine_status <- set_status(
 #'   data = cohortdata,
-#'   col_names = c("immunization_death"),
+#'   col_names = c("immunization"),
 #'   status = c("v", "u")
 #' )
 #'

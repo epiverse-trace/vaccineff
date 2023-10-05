@@ -479,7 +479,6 @@ get_time_to_event <- function(data, outcome_date_col,
 #' @return dose: a column with the names of the columns that are associated to
 #' the doses of each register
 #' @examples
-#' \dontrun{
 #' data("cohortdata")
 #' cohortdata$immunization <- get_immunization_date(
 #'   data = cohortdata,
@@ -496,7 +495,6 @@ get_time_to_event <- function(data, outcome_date_col,
 #'   vacc_date_col = c("vaccine_date_1", "vaccine_date_2"),
 #'   immunization_delay = 14
 #' )
-#' }
 #' @export
 get_immunization_dose <- function(data,
                                   immunization_date_col,

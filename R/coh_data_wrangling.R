@@ -135,7 +135,7 @@ set_status <- function(data,
 #' # define end date of the study as type date
 #' end_cohort <- as.Date("2044-12-31")
 #' # get immunization dates
-#' cohortdata$immunization_death <- get_immunization_date(
+#' cohortdata$immunization <- get_immunization_date(
 #'   data = cohortdata,
 #'   outcome_date_col = "death_date",
 #'   outcome_delay = 0,
@@ -328,7 +328,7 @@ get_immunization_date <- function(data,
 #' # define start and end dates of the study as type date
 #' start_cohort <- as.Date("2044-01-01")
 #' end_cohort <- as.Date("2044-12-31")
-#' cohortdata$immunization_death <- get_immunization_date(
+#' cohortdata$immunization <- get_immunization_date(
 #'   data = cohortdata,
 #'   outcome_date_col = "death_date",
 #'   outcome_delay = 0,
@@ -343,7 +343,7 @@ get_immunization_date <- function(data,
 #'   start_cohort = start_cohort,
 #'   end_cohort = end_cohort,
 #'   start_from_immunization = TRUE,
-#'   immunization_date_col = "immunization_death"
+#'   immunization_date_col = "immunization"
 #' )
 #'
 #' # view data
@@ -481,7 +481,7 @@ get_time_to_event <- function(data, outcome_date_col,
 #' @examples
 #' \dontrun{
 #' data("cohortdata")
-#' cohortdata$immunization_death <- get_immunization_date(
+#' cohortdata$immunization <- get_immunization_date(
 #'   data = cohortdata,
 #'   outcome_date_col = "death_date",
 #'   outcome_delay = 0,
@@ -492,7 +492,7 @@ get_time_to_event <- function(data, outcome_date_col,
 #' )
 #' cohortdata$immunization_dose <- get_immunization_dose(
 #'   data = cohortdata,
-#'   immunization_date_col = "immunization_death",
+#'   immunization_date_col = "immunization",
 #'   vacc_date_col = c("vaccine_date_1", "vaccine_date_2"),
 #'   immunization_delay = 14
 #' )
@@ -564,7 +564,7 @@ get_immunization_dose <- function(data,
 #' @examples
 #' # load example data
 #' data("cohortdata")
-#' cohortdata$immunization_death <- get_immunization_date(
+#' cohortdata$immunization <- get_immunization_date(
 #'   data = cohortdata,
 #'   outcome_date_col = "death_date",
 #'   outcome_delay = 0,
@@ -575,7 +575,7 @@ get_immunization_dose <- function(data,
 #' )
 #' cohortdata$immunization_vaccine <- get_immunization_vaccine(
 #'   data = cohortdata,
-#'   immunization_date_col = "immunization_death",
+#'   immunization_date_col = "immunization",
 #'   vacc_date_col = c("vaccine_date_1", "vaccine_date_2"),
 #'   vacc_name_col = c("vaccine_1", "vaccine_2"),
 #'   immunization_delay = 14

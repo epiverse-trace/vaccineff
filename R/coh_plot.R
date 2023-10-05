@@ -4,7 +4,8 @@
 #' @param start_cohort start date of the study
 #' @param end_cohort end date of the study
 #' @return Data frame with survival data
-#' @internal
+#' @keywords internal
+#' @export
 extract_surv_model <- function(model, start_cohort, end_cohort) {
   days <- end_cohort - start_cohort
   tte <- seq(0, as.numeric(days) - 1, by = 1)
@@ -24,6 +25,7 @@ extract_surv_model <- function(model, start_cohort, end_cohort) {
 #' The return is a ggplot2 element of the curves with 95% C.I.
 #' It is possible to manipulate the colors, labels, legend and most of
 #' the graphic elements.
+#' @importFrom rlang .data
 #' @param data dataset with cohort information (see example)
 #' @param outcome_status_col name of the column containing status of the
 #' event (most be a binary column)
@@ -222,7 +224,7 @@ plot_survival <- function(data, outcome_status_col,
 #' in the left-axes and the coverage per date in the right-axes.
 #' It is possible to manipulate the colors, labels, legend and most of
 #' the graphic elements.
-#'
+#' @importFrom rlang .data
 #' @inheritParams coh_coverage
 #' @param doses_count_color color assigned to the doses count
 #' @param coverage_color color assigned to the coverage calculation

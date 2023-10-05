@@ -8,7 +8,7 @@ coh_coverage(
   data,
   vacc_date_col,
   unit = c("day", "month", "year"),
-  date_interval = FALSE
+  date_interval = NULL
 )
 }
 \arguments{
@@ -19,7 +19,7 @@ to calculate the coverage}
 
 \item{unit}{aggregation unit, must be either "year" or "month" or "day"}
 
-\item{date_interval}{if FALSE, the function calculates the coverage interval
+\item{date_interval}{if NULL, the function calculates the coverage interval
 based on the min() and max() of the vacc_date_col.
 It is also possible to pass a custom date interval to truncate or expand the
 date interval (see example)}
@@ -32,10 +32,11 @@ of doses and vaccine coverage
 This function returns the vaccination coverage of a dose along
 the cohort study. The coverage can be calculated grouped by
 year, day and month. This most by specified in the parameter unit.
-To group by year, the dataset must contain more than one year of
-historical data.
+If there are not registers for some dates, the function assigns 0,
+instead of NA, to be able to calculate the cumulative coverage.
 }
 \examples{
+data("cohortdata")
 start_cohort <- as.Date("2044-01-01")
 end_cohort <- as.Date("2044-12-31")
 date_interval <- c(start_cohort, end_cohort)

@@ -19,3 +19,4 @@ Data frame with survival data
 \description{
 Internal function to extract summary output from survival models.
 }
+\keyword{internal}

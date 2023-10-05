@@ -64,7 +64,7 @@ data("cohortdata")
 # define end date of the study as type date
 end_cohort <- as.Date("2044-12-31")
 # get immunization dates
-cohortdata$immunization_death <- get_immunization_date(
+cohortdata$immunization <- get_immunization_date(
   data = cohortdata,
   outcome_date_col = "death_date",
   outcome_delay = 0,

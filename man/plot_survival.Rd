@@ -56,8 +56,7 @@ It returns a plot of the Survival Probability or the Cumulative Hazard (if
 cumulative = TRUE).
 The return is a ggplot2 element of the curves with 95\% C.I.
 It is possible to manipulate the colors, labels, legend and most of
-the graphic elements.To do so follow the convention:
-c("c1" = vaccinated_color, "c2" = unvaccinated_color)
+the graphic elements.
 }
 \examples{
 # load example package data
@@ -66,7 +65,7 @@ head(cohortdata)
 start_cohort <- as.Date("2044-01-01")
 end_cohort <- as.Date("2044-12-31")
 
-cohortdata$immunization_death <-
+cohortdata$immunization <-
   get_immunization_date(
     data = cohortdata,
     outcome_date_col = "death_date",
@@ -79,7 +78,7 @@ cohortdata$immunization_death <-
 
 cohortdata$vaccine_status <- set_status(
   data = cohortdata,
-  col_names = "immunization_death",
+  col_names = "immunization",
   status = c("v", "u")
 )
 
@@ -96,7 +95,8 @@ cohortdata$time_to_death <- get_time_to_event(
   start_from_immunization = FALSE
 )
 
-plot_survival(data = cohortdata,
+plot_survival(
+  data = cohortdata,
   outcome_status_col = "death_status",
   time_to_event_col = "time_to_death",
   vacc_status_col = "vaccine_status",

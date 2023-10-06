@@ -63,9 +63,9 @@
 <polyline points='91.91,560.45 91.91,557.71 ' style='stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;' />
 <polyline points='287.50,560.45 287.50,557.71 ' style='stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;' />
 <polyline points='485.24,560.45 485.24,557.71 ' style='stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;' />
-<text x='91.91' y='568.69' text-anchor='middle' style='font-size: 8.80px; fill: #4D4D4D; font-family: sans;' textLength='34.74px' lengthAdjust='spacingAndGlyphs'>apr 2044</text>
-<text x='287.50' y='568.69' text-anchor='middle' style='font-size: 8.80px; fill: #4D4D4D; font-family: sans;' textLength='30.82px' lengthAdjust='spacingAndGlyphs'>jul 2044</text>
-<text x='485.24' y='568.69' text-anchor='middle' style='font-size: 8.80px; fill: #4D4D4D; font-family: sans;' textLength='33.77px' lengthAdjust='spacingAndGlyphs'>okt 2044</text>
+<text x='91.91' y='568.69' text-anchor='middle' style='font-size: 8.80px; fill: #4D4D4D; font-family: sans;' textLength='35.72px' lengthAdjust='spacingAndGlyphs'>Apr 2044</text>
+<text x='287.50' y='568.69' text-anchor='middle' style='font-size: 8.80px; fill: #4D4D4D; font-family: sans;' textLength='33.27px' lengthAdjust='spacingAndGlyphs'>Jul 2044</text>
+<text x='485.24' y='568.69' text-anchor='middle' style='font-size: 8.80px; fill: #4D4D4D; font-family: sans;' textLength='35.72px' lengthAdjust='spacingAndGlyphs'>Oct 2044</text>
 <text transform='translate(13.05,309.84) rotate(-90)' text-anchor='middle' style='font-size: 11.00px; font-family: sans;' textLength='83.78px' lengthAdjust='spacingAndGlyphs'>Doses per month</text>
 <text transform='translate(704.67,309.84) rotate(90)' text-anchor='middle' style='font-size: 11.00px; font-family: sans;' textLength='116.82px' lengthAdjust='spacingAndGlyphs'>Percentage of coverage</text>
 <rect x='277.89' y='22.78' width='77.36' height='28.24' style='stroke-width: 1.07; stroke: none; fill: #FFFFFF;' />

@@ -125,7 +125,7 @@ and Schoenfeld test</p>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"cohortdata"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># add immunization dates</span></span></span>
-<span class="r-in"><span><span class="va">cohortdata</span><span class="op">$</span><span class="va">immunization_death</span> <span class="op">&lt;-</span> <span class="fu"><a href="get_immunization_date.html">get_immunization_date</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span><span class="va">cohortdata</span><span class="op">$</span><span class="va">immunization</span> <span class="op">&lt;-</span> <span class="fu"><a href="get_immunization_date.html">get_immunization_date</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  data <span class="op">=</span> <span class="va">cohortdata</span>,</span></span>
 <span class="r-in"><span>  outcome_date_col <span class="op">=</span> <span class="st">"death_date"</span>,</span></span>
 <span class="r-in"><span>  outcome_delay <span class="op">=</span> <span class="fl">0</span>,</span></span>
@@ -138,7 +138,7 @@ and Schoenfeld test</p>
 <span class="r-in"><span><span class="co"># add vaccine status</span></span></span>
 <span class="r-in"><span><span class="va">cohortdata</span><span class="op">$</span><span class="va">vaccine_status</span> <span class="op">&lt;-</span> <span class="fu"><a href="set_status.html">set_status</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  data <span class="op">=</span> <span class="va">cohortdata</span>,</span></span>
-<span class="r-in"><span>  col_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"immunization_death"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  col_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"immunization"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  status <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"v"</span>, <span class="st">"u"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>

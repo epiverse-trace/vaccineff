@@ -25,6 +25,9 @@
     <loc>https://epiverse-trace.github.io/vaccineff/index.html</loc>
   </url>
   <url>
+    <loc>https://epiverse-trace.github.io/vaccineff/reference/coh_coverage.html</loc>
+  </url>
+  <url>
     <loc>https://epiverse-trace.github.io/vaccineff/reference/coh_eff_noconf.html</loc>
   </url>
   <url>
@@ -32,6 +35,9 @@
   </url>
   <url>
     <loc>https://epiverse-trace.github.io/vaccineff/reference/cohortdata.html</loc>
+  </url>
+  <url>
+    <loc>https://epiverse-trace.github.io/vaccineff/reference/extract_surv_model.html</loc>
   </url>
   <url>
     <loc>https://epiverse-trace.github.io/vaccineff/reference/get_age_group.html</loc>
@@ -50,6 +56,12 @@
   </url>
   <url>
     <loc>https://epiverse-trace.github.io/vaccineff/reference/index.html</loc>
+  </url>
+  <url>
+    <loc>https://epiverse-trace.github.io/vaccineff/reference/plot_coverage.html</loc>
+  </url>
+  <url>
+    <loc>https://epiverse-trace.github.io/vaccineff/reference/plot_survival.html</loc>
   </url>
   <url>
     <loc>https://epiverse-trace.github.io/vaccineff/reference/set_status.html</loc>

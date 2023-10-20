@@ -6,7 +6,7 @@ start_cohort <- as.Date("2044-01-01")
 end_cohort <- as.Date("2044-12-31")
 
 # snapshot test to test default options
-test_that("`plot_coverage`: Snapshot test", {
+test_that("`plot_coverage`: default plot", {
   plt <- plot_coverage(
     data = cohortdata,
     vacc_date_col = "vaccine_date_1",
@@ -17,11 +17,12 @@ test_that("`plot_coverage`: Snapshot test", {
     cumulative = FALSE
   )
 
-  vdiffr::expect_doppelganger("coverage_default", plt)
+  expect_identical(plt$labels$y, "dose_plot")
+  expect_identical(plt$data$doses, plt$data$dose_plot)
 })
 
 # snapshot test to test cumulative
-test_that("`plot_coverage`: Snapshot test", {
+test_that("`plot_coverage`: cumulative plot", {
   plt <- plot_coverage(
     data = cohortdata,
     vacc_date_col = "vaccine_date_1",
@@ -32,11 +33,12 @@ test_that("`plot_coverage`: Snapshot test", {
     cumulative = TRUE
   )
 
-  vdiffr::expect_doppelganger("coverage_cumulative", plt)
+  expect_identical(plt$labels$y, "dose_plot")
+  expect_identical(plt$data$cum_doses, plt$data$dose_plot)
 })
 
 # snapshot test to test fixed interval
-test_that("`plot_coverage`: Snapshot test", {
+test_that("`plot_coverage`: fixed interval", {
   start <- as.Date("2044-04-01")
   end <- as.Date("2044-12-31")
   date_interval <- c(start, end)
@@ -50,5 +52,6 @@ test_that("`plot_coverage`: Snapshot test", {
     cumulative = FALSE
   )
 
-  vdiffr::expect_doppelganger("coverage_interval", plt)
+  expect_identical(min(plt$data$date), start)
+  expect_identical(max(plt$data$date), end - 30)
 })

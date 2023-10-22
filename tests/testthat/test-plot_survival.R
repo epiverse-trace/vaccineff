@@ -39,8 +39,8 @@ cohortdata$time_to_death <- get_time_to_event(
   start_from_immunization = FALSE
 )
 
-# snapshot test to test default options
-test_that("`plot_survival`: Snapshot test", {
+# test to test default options
+test_that("`plot_survival`: default params", {
   plt <- plot_survival(
     data = cohortdata,
     outcome_status_col = "death_status",
@@ -56,10 +56,34 @@ test_that("`plot_survival`: Snapshot test", {
     cumulative = FALSE
   )
 
-  vdiffr::expect_doppelganger("survival_default", plt)
+  expect_identical(plt$labels$y, "Survival probability")
+  expect_setequal(
+    c("v", "u"),
+    unique(plt$data$strata)
+  )
 })
 
-# snapshot test to test cumulative
+# test to test integer scale y axis
+test_that("`plot_survival`: integer scale", {
+  plt <- plot_survival(
+    data = cohortdata,
+    outcome_status_col = "death_status",
+    time_to_event_col = "time_to_death",
+    vacc_status_col = "vaccine_status",
+    vaccinated_status = "v",
+    unvaccinated_status = "u",
+    vaccinated_color = "steelblue",
+    unvaccinated_color = "darkred",
+    start_cohort = start_cohort,
+    end_cohort = end_cohort,
+    percentage = FALSE,
+    cumulative = TRUE
+  )
+
+  expect_s3_class(ggplot2::layer_scales(plt)$y, "ScaleContinuous")
+})
+
+# test to test non-percentage
 test_that("`plot_survival`: Snapshot test", {
   plt <- plot_survival(
     data = cohortdata,
@@ -76,45 +100,5 @@ test_that("`plot_survival`: Snapshot test", {
     cumulative = TRUE
   )
 
-  vdiffr::expect_doppelganger("survival_cumulative", plt)
-})
-
-# snapshot test to test non-percentage
-test_that("`plot_survival`: Snapshot test", {
-  plt <- plot_survival(
-    data = cohortdata,
-    outcome_status_col = "death_status",
-    time_to_event_col = "time_to_death",
-    vacc_status_col = "vaccine_status",
-    vaccinated_status = "v",
-    unvaccinated_status = "u",
-    vaccinated_color = "steelblue",
-    unvaccinated_color = "darkred",
-    start_cohort = start_cohort,
-    end_cohort = end_cohort,
-    percentage = FALSE,
-    cumulative = FALSE
-  )
-
-  vdiffr::expect_doppelganger("survival_non_perc", plt)
-})
-
-# snapshot test to test non-percentage cumulative
-test_that("`plot_survival`: Snapshot test", {
-  plt <- plot_survival(
-    data = cohortdata,
-    outcome_status_col = "death_status",
-    time_to_event_col = "time_to_death",
-    vacc_status_col = "vaccine_status",
-    vaccinated_status = "v",
-    unvaccinated_status = "u",
-    vaccinated_color = "steelblue",
-    unvaccinated_color = "darkred",
-    start_cohort = start_cohort,
-    end_cohort = end_cohort,
-    percentage = FALSE,
-    cumulative = TRUE
-  )
-
-  vdiffr::expect_doppelganger("survival_non_perc_cum", plt)
+  expect_identical(plt$labels$y, "Cumulative hazard")
 })

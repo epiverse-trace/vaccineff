@@ -58,8 +58,8 @@ test_that("`plot_survival`: default params", {
 
   expect_identical(plt$labels$y, "Survival probability")
   expect_setequal(
-    c("v", "u"),
-    unique(plt$data$strata)
+    unique(plt$data$strata),
+    c("v", "u")
   )
 })
 

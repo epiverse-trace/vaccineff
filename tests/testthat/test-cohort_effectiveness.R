@@ -94,8 +94,10 @@ test_that("`coh_test_noconf`: basic expectations", {
 })
 
 #### Accepted PH hypothesis `coh_test_noconf()`
+# The vaccinated and unvaccinated populations of cohortdata do not
+# satisfy the proportional hazards hypothesis. To get accepted
+# it's necessary to stratify the population.
 test_that("`coh_test_noconf`: accept PH", {
-
   ## Filter an age-group that satisfies the PH hyp.
   cohortdata$age_group <- get_age_group(
     data = cohortdata,

@@ -224,12 +224,12 @@ get_immunization_date <- function(data,
     status = c(1, 0)
   )
 
-  # get immunisation limit for individuals with available data
-  # first get outcome-immunisation delay difference
-  # assume both are in days
-  outcome_imm_difference <- outcome_delay - immunization_delay
+  # get immunization limit for individuals with available data
+  # This can depend both on the characteristic delay time of the
+  # outcome and the characteristic delay for immunization
+  delta_limit <- outcome_delay + immunization_delay
   # get difference with outcome date
-  data$imm_limit <- data[[outcome_date_col]] - outcome_imm_difference
+  data$imm_limit <- data[[outcome_date_col]] - delta_limit
 
   # all other individuals' limit is set to end_cohort
   data[is.na(data$imm_limit), "imm_limit"] <- end_cohort

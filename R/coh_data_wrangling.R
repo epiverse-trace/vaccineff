@@ -154,7 +154,7 @@ get_immunization_date <- function(data,
                                   immunization_delay,
                                   vacc_date_col,
                                   end_cohort,
-                                  take_first = TRUE) {
+                                  take_first = FALSE) {
   # check inputs
   checkmate::assert_data_frame(
     data,

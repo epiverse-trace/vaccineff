@@ -259,10 +259,18 @@ get_immunization_date <- function(data,
     # working with only one vaccination column
     data.frame(data[, cols_delta]),
     MARGIN = 1, FUN = function(x) {
+      #When several vaccines the function returns the first date
+      #that satisfies the limit date constraint if take_first = TRUE
+      #(i.e. the max delta). If take_firt = FALSE it returns the
+      #closest date to the event (i.e. the min delta).
       if (all(is.na(x))) {
         NA_real_
       } else {
-        min(x, na.rm = TRUE)
+        if (take_first) {
+          max(x, na.rm = TRUE)
+        } else {
+          min(x, na.rm = TRUE)
+        }
       }
     }
   )
@@ -270,35 +278,9 @@ get_immunization_date <- function(data,
   # immunization outcome as a vector
   imm_out_date <- data$imm_limit - data$delta_imm + immunization_delay
 
-  # for option `take_first`
-  if (take_first) {
-    ## Take the minimum immunization date
-    data$min_imm <- apply(
-      # set data[, vacc_date_col] as dataframe to avoid errors when
-      # working with only one vaccination column
-      data.frame(data[, vacc_date_col]),
-      MARGIN = 1,
-      FUN = function(x) {
-        if (all(is.na(x))) {
-          as.Date(NA_character_)
-        } else {
-          min(x, na.rm = TRUE)
-        }
-      }
-    )
-    # TODO: avoid as.Date() conversions inside functions
-    data$min_imm <- as.Date(data$min_imm) + immunization_delay
+  data$immunization <- imm_out_date
 
-    # get the immunization date based on vax status as a vector
-    imm_date <- data$min_imm
-    # if individuals are vaccinated, assign the `imm_out_date`
-    imm_date[data$outcome_col] <- imm_out_date
-
-    return(imm_date)
-  } else {
-    ## Take the closest date to end_cohort
-    return(imm_out_date)
-  }
+  return(data)
 }
 
 #' Function to construct the time-to-event

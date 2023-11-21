@@ -1,14 +1,33 @@
-# Name of the workflow
+# Reproduce locally by running:
+# ```r
+# pak::pak(c("any::rmarkdown", "any::usethis", "."))
+# writeLines(
+#   knitr::knit_expand(
+#     "README.Rmd",
+#     packagename = read.dcf("DESCRIPTION", "Package"),
+#     gh_repo = usethis:::github_remote_list()$repo_spec
+#   ),
+#   "README_expanded.Rmd"
+# )
+# rmarkdown::render(
+#   "README_expanded.Rmd",
+#   output_file = "README.md",
+#   output_dir = "."
+# )
+# unlink("README_expanded.Rmd")
+# ```
 name: render-readme
 
 # Controls when the action will run. Triggers include:
-# 
+#
 # - button trigger from github action page
 # - on changes to readme.Rmd
 
 on:
   workflow_dispatch:
   push:
+    tags-ignore:
+      - '*'
     paths:
       - 'README.Rmd'
       - '.github/workflows/render_readme.yml'
@@ -34,12 +53,12 @@ jobs:
 
       - name: Setup pandoc
         uses: r-lib/actions/setup-pandoc@v2
-    
+
       - name: Install dependencies
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
           extra-packages: any::rmarkdown, local::.
- 
+
       - name: Compile the readme
         run: |
           writeLines(
@@ -56,7 +75,7 @@ jobs:
             output_dir = "."
           )
         shell: Rscript {0}
-        
+
       - name: Commit files
         run: |
           git config --local user.email "action@github.com"
@@ -68,4 +87,5 @@ jobs:
             git add man/figures/
           fi
           git diff-index --quiet HEAD || git commit -m "Automatic readme update"
+          git pull --rebase origin ${{ github.ref.name }}
           git push origin || echo "No changes to push"

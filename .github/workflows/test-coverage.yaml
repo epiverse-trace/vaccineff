@@ -1,5 +1,11 @@
 # Workflow derived from https://github.com/r-lib/actions/tree/v2/examples
 # Need help debugging build failures? Start at https://github.com/r-lib/actions#where-to-find-help
+#
+# Reproduce locally by running:
+# ```r
+# pak::pak("any::covr", dependencies = "Config/Needs/coverage")
+# covr::codecov(quiet = FALSE)
+# ```
 on:
   push:
     branches: [main, master]
@@ -10,8 +16,8 @@ on:
       - 'inst/**'
       - 'DESCRIPTION'
       - '.github/workflows/test-coverage.yaml'
+  merge_group:
   pull_request:
-    branches: [main, master]
     paths:
       - 'R/**'
       - 'src/**'

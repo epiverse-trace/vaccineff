@@ -54,7 +54,7 @@ test_that("`get_immunization_date`: Basic expectations", {
   # check registers with at least one vac but without immunization date
   # must be the registers that didn't satisfy limit date constraint
   diff <- cohortdata[(is.na(cohortdata$immunization)) &
-                       (cohortdata$non_vacc==FALSE),
+      !(cohortdata$non_vacc),
   ]
 
   expect_true(
@@ -63,9 +63,8 @@ test_that("`get_immunization_date`: Basic expectations", {
 
   # for population with immunization date
   # If available vaccine 2: immunization must be
-  # immunization_date = vaccine_date_2 + immunization_delay
-  # If not available: immunization must be
-  # immunization_date = vaccine_date_1 + immunization_delay
+  # equal to vaccine_date_2 + immunization_delay
+  # If not available: immunization must be vaccine_date_1 + immunization_delay
   cohortdata$vaccine_status <-
     set_status(
       data = cohortdata,
@@ -75,11 +74,14 @@ test_that("`get_immunization_date`: Basic expectations", {
 
   # Test first population without outcome
   vaccinated_no_out <- cohortdata[(cohortdata$vaccine_status == "v") &
-    is.na(cohortdata$death_date),
+      is.na(cohortdata$death_date),
   ]
-  vaccinated_no_out$test_date <- ifelse (!is.na(vaccinated_no_out$vaccine_date_2),
-    vaccinated_no_out$immunization == vaccinated_no_out$vaccine_date_2 + immunization_delay,
-    vaccinated_no_out$immunization == vaccinated_no_out$vaccine_date_1 + immunization_delay
+  vaccinated_no_out$test_date <- ifelse(
+    !is.na(vaccinated_no_out$vaccine_date_2),
+    vaccinated_no_out$immunization ==
+      vaccinated_no_out$vaccine_date_2 + immunization_delay,
+    vaccinated_no_out$immunization ==
+      vaccinated_no_out$vaccine_date_1 + immunization_delay
   )
 
   expect_true(
@@ -88,15 +90,17 @@ test_that("`get_immunization_date`: Basic expectations", {
 
   # Now population with outcome
   vaccinated_out <- cohortdata[(cohortdata$vaccine_status == "v") &
-                                    !is.na(cohortdata$death_date),
+      !is.na(cohortdata$death_date),
   ]
-  vaccinated_out$test_date <- ifelse (!is.na(vaccinated_out$vaccine_date_2) &
-    (vaccinated_out$vaccine_date_2 <= vaccinated_out$death_date -
-      immunization_delay -
-      outcome_delay
-     ),
-    vaccinated_out$immunization == vaccinated_out$vaccine_date_2 + immunization_delay,
-    vaccinated_out$immunization == vaccinated_out$vaccine_date_1 + immunization_delay
+  vaccinated_out$test_date <- ifelse(!is.na(vaccinated_out$vaccine_date_2) &
+      (vaccinated_out$vaccine_date_2 <= vaccinated_out$death_date -
+          immunization_delay -
+          outcome_delay
+      ),
+    vaccinated_out$immunization ==
+      vaccinated_out$vaccine_date_2 + immunization_delay,
+    vaccinated_out$immunization ==
+      vaccinated_out$vaccine_date_1 + immunization_delay
   )
 
   expect_true(
@@ -140,7 +144,7 @@ test_that("`get_immunization_date`: Take first vaccination", {
   # check registers with at least one vac but without immunization date
   # must be the registers that didn't satisfy limit date constraint
   diff <- cohortdata[(is.na(cohortdata$immunization)) &
-                       (cohortdata$non_vacc==FALSE),
+      !(cohortdata$non_vacc),
   ]
 
   expect_true(
@@ -149,7 +153,7 @@ test_that("`get_immunization_date`: Take first vaccination", {
 
   # for population with immunization date
   # If available vaccine 1: immunization must be
-  # immunization_date = vaccine_date_1 + immunization_delay
+  # equal vaccine_date_1 + immunization_delay
   cohortdata$vaccine_status <-
     set_status(
       data = cohortdata,
@@ -159,7 +163,9 @@ test_that("`get_immunization_date`: Take first vaccination", {
 
   vaccinated <- cohortdata[(cohortdata$vaccine_status == "v"), ]
   expect_true(
-    all(vaccinated$immunization == vaccinated$vaccine_date_1 + immunization_delay)
+    all(vaccinated$immunization ==
+        vaccinated$vaccine_date_1 + immunization_delay
+    )
   )
 })
 

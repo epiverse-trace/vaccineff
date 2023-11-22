@@ -1,5 +1,4 @@
 #### Tests for get_immunization_date()
-
 # snapshot test to test edited implementations
 test_that("`get_immunization_date`: Snapshot test", {
   data("cohortdata")
@@ -21,20 +20,20 @@ test_that("`get_immunization_date`: Snapshot test", {
   )
 })
 
-# snapshot test to test edited implementations
+# basic expectations
 test_that("`get_immunization_date`: Basic expectations", {
   data("cohortdata")
   cohortdata <- as.data.frame(cohortdata)
-  # filter out all real deaths
-  cohortdata <- cohortdata[is.na(cohortdata$death_date), ]
 
   # get immunization dates
   vax_date_col <- c("vaccine_date_1", "vaccine_date_2")
   immunization_delay <- 14
-  immunization <- get_immunization_date(
+  outcome_delay <- 30 # use extreme outcome delay to test expectations
+  limit_delta <- immunization_delay + outcome_delay
+  cohortdata$immunization <- get_immunization_date(
     data = cohortdata,
     outcome_date_col = "death_date",
-    outcome_delay = 0,
+    outcome_delay = outcome_delay,
     immunization_delay = immunization_delay,
     vacc_date_col = vax_date_col,
     end_cohort = as.Date("2044-12-31"),
@@ -42,45 +41,85 @@ test_that("`get_immunization_date`: Basic expectations", {
   )
 
   expect_vector(
-    immunization,
+    cohortdata$immunization,
     ptype = as.Date("2045-01-01")
   )
 
-  # expect NAs for those not vaccinated at least once
-  imm_date_manual <- apply(
+  # mark registers without any vaccine date
+  cohortdata$non_vacc <- apply(
     cohortdata[, vax_date_col], 1,
     FUN = function(x) all(is.na(x))
   )
-  # running on first 15 expectations
-  expect_equal(
-    is.na(head(immunization, 15)),
-    head(imm_date_manual, 15),
-    ignore_attr = TRUE
+
+  # check registers with at least one vac but without immunization date
+  # must be the registers that didn't satisfy limit date constraint
+  diff <- cohortdata[(is.na(cohortdata$immunization)) &
+                       (cohortdata$non_vacc==FALSE),
+  ]
+
+  expect_true(
+    all((diff$death_date - diff$vaccine_date_1) < limit_delta)
   )
 
-  # expect that the immunization date is after the last vaccination date
-  # given a delay of 14 days
-  vax_difference <- immunization - as.Date(cohortdata$vaccine_date_2)
-  vax_difference <- as.numeric(vax_difference[!is.na(vax_difference)])
-  expect_true(
-    all(vax_difference == immunization_delay)
+  # for population with immunization date
+  # If available vaccine 2: immunization must be
+  # immunization_date = vaccine_date_2 + immunization_delay
+  # If not available: immunization must be
+  # immunization_date = vaccine_date_1 + immunization_delay
+  cohortdata$vaccine_status <-
+    set_status(
+      data = cohortdata,
+      col_names = "immunization",
+      status = c("v", "u")
+    )
+
+  # Test first population without outcome
+  vaccinated_no_out <- cohortdata[(cohortdata$vaccine_status == "v") &
+    is.na(cohortdata$death_date),
+  ]
+  vaccinated_no_out$test_date <- ifelse (!is.na(vaccinated_no_out$vaccine_date_2),
+    vaccinated_no_out$immunization == vaccinated_no_out$vaccine_date_2 + immunization_delay,
+    vaccinated_no_out$immunization == vaccinated_no_out$vaccine_date_1 + immunization_delay
   )
+
+  expect_true(
+    all(vaccinated_no_out$test_date)
+  )
+
+  # Now population with outcome
+  vaccinated_out <- cohortdata[(cohortdata$vaccine_status == "v") &
+                                    !is.na(cohortdata$death_date),
+  ]
+  vaccinated_out$test_date <- ifelse (!is.na(vaccinated_out$vaccine_date_2) &
+    (vaccinated_out$vaccine_date_2 <= vaccinated_out$death_date -
+      immunization_delay -
+      outcome_delay
+     ),
+    vaccinated_out$immunization == vaccinated_out$vaccine_date_2 + immunization_delay,
+    vaccinated_out$immunization == vaccinated_out$vaccine_date_1 + immunization_delay
+  )
+
+  expect_true(
+    all(vaccinated_out$test_date)
+  )
+
 })
 
-# snapshot test to test edited implementations
+# test for take_first = TRUE
+# always must return vaccine_date_1 if no outcome
 test_that("`get_immunization_date`: Take first vaccination", {
   data("cohortdata")
   cohortdata <- as.data.frame(cohortdata)
-  # filter out all real deaths
-  cohortdata <- cohortdata[is.na(cohortdata$death_date), ]
 
   # get immunization dates
   vax_date_col <- c("vaccine_date_1", "vaccine_date_2")
   immunization_delay <- 14
-  immunization <- get_immunization_date(
+  outcome_delay <- 30 # use extreme outcome delay to test expectations
+  limit_delta <- immunization_delay + outcome_delay
+  cohortdata$immunization <- get_immunization_date(
     data = cohortdata,
     outcome_date_col = "death_date",
-    outcome_delay = 0,
+    outcome_delay = outcome_delay,
     immunization_delay = immunization_delay,
     vacc_date_col = vax_date_col,
     end_cohort = as.Date("2044-12-31"),
@@ -88,32 +127,43 @@ test_that("`get_immunization_date`: Take first vaccination", {
   )
 
   expect_vector(
-    immunization,
-    ptype = as.Date("2023-01-01")
+    cohortdata$immunization,
+    ptype = as.Date("2045-01-01")
   )
 
-  # expect NAs for those not vaccinated at least once
-  imm_date_manual <- apply(
+  # mark registers without any vaccine date
+  cohortdata$non_vacc <- apply(
     cohortdata[, vax_date_col], 1,
     FUN = function(x) all(is.na(x))
   )
-  # running on first 15 expectations
-  expect_equal(
-    is.na(head(immunization, 15)),
-    head(imm_date_manual, 15),
-    ignore_attr = TRUE
+
+  # check registers with at least one vac but without immunization date
+  # must be the registers that didn't satisfy limit date constraint
+  diff <- cohortdata[(is.na(cohortdata$immunization)) &
+                       (cohortdata$non_vacc==FALSE),
+  ]
+
+  expect_true(
+    all((diff$death_date - diff$vaccine_date_1) < limit_delta)
   )
 
-  # expect that the immunization date is after the first vaccination date
-  # given a delay of 14 days
-  min_vax_date <- apply(cohortdata[, vax_date_col], 1, min)
-  vax_difference <- immunization - as.Date(min_vax_date)
-  vax_difference <- as.numeric(vax_difference[!is.na(vax_difference)])
+  # for population with immunization date
+  # If available vaccine 1: immunization must be
+  # immunization_date = vaccine_date_1 + immunization_delay
+  cohortdata$vaccine_status <-
+    set_status(
+      data = cohortdata,
+      col_names = "immunization",
+      status = c("v", "u")
+    )
+
+  vaccinated <- cohortdata[(cohortdata$vaccine_status == "v"), ]
   expect_true(
-    all(vax_difference == immunization_delay)
+    all(vaccinated$immunization == vaccinated$vaccine_date_1 + immunization_delay)
   )
 })
 
+# test for end_cohort date no longer than 2100
 test_that("`get_immunization_date`: end_cohort > max_date", {
   data("cohortdata")
   cohortdata <- as.data.frame(cohortdata)
@@ -130,5 +180,4 @@ test_that("`get_immunization_date`: end_cohort > max_date", {
       take_first = FALSE
     )
   )
-
 })

@@ -11,7 +11,7 @@ get_immunization_date(
   immunization_delay,
   vacc_date_col,
   end_cohort,
-  take_first = TRUE
+  take_first = FALSE
 )
 }
 \arguments{
@@ -30,9 +30,8 @@ is considered immune}
 
 \item{end_cohort}{end date of the study}
 
-\item{take_first}{TRUE: takes the minimum vaccine date for
-registers without outcome.
-FALSE: takes closest to end_cohort}
+\item{take_first}{TRUE: takes the minimum vaccine date .
+FALSE: takes the closest to end_cohort}
 }
 \value{
 immunization date
@@ -40,8 +39,7 @@ immunization date
 \description{
 This function returns a column with the immunization date that corresponds
 to an analyzed outcome.
-If a register presents an outcome, the function search for the closest
-vaccine date before the outcome that satisfies the condition:
+The function searches for vaccine dates that satisfy the condition:
 vacc_date_col <= outcome_date_col - delay_time - immunization_delay.
 This condition allows to discriminate the vaccine dates in
 terms of characteristic times in days (delay_time)  associated to an
@@ -50,13 +48,20 @@ characteristic time in days before the patient is considered
 immune (immunization_delay).
 Both parameters can be set to zero by the user without
 affecting the results.
-If a register does not present an outcome, the immunization
-date can be construct using the closest vaccine
-date to the end of the study (take_first = FALSE), or the
-first vaccination date found (take_first = TRUE).
+When take_first = FALSE, the function uses the vaccine date that is closest
+to the outcome to calculate the immunization. On the other hand,
+when take_first = TRUE the functions uses the first vaccine date.
+}
+\details{
+If a register does not present an outcome, the function searches
+for vaccine dates that satisfy the condition:
+vacc_date_col <= end_cohort - delay_time - immunization_delay.
+The immunization date is constructed using the closest vaccine
+date to the end of the study, when take_first = FALSE; or the
+first vaccination date found, when take_first = TRUE.
 Notice that the function works for one or several vaccines.
 In case of several vaccines, the parameter
-{outcome_date_col must} be passed as a vector (see example)
+{outcome_date_col must} be passed as a vector (see example).
 }
 \examples{
 # load package example data

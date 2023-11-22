@@ -98,7 +98,7 @@ set_status <- function(data,
 #'
 #' This function returns a column with the immunization date that corresponds
 #' to an analyzed outcome.
-#' The function searches for vaccine dates that satisfies the condition:
+#' The function searches for vaccine dates that satisfy the condition:
 #' vacc_date_col <= outcome_date_col - delay_time - immunization_delay.
 #' This condition allows to discriminate the vaccine dates in
 #' terms of characteristic times in days (delay_time)  associated to an
@@ -108,16 +108,18 @@ set_status <- function(data,
 #' Both parameters can be set to zero by the user without
 #' affecting the results.
 #' When take_first = FALSE, the function uses the vaccine date that is closest
-#' to the outcome to calculate the immunization. On the other hand, 
+#' to the outcome to calculate the immunization. On the other hand,
 #' when take_first = TRUE the functions uses the first vaccine date.
 #'
-#' If a register does not present an outcome, the immunization
-#' date can be construct using the closest vaccine
-#' date to the end of the study (take_first = FALSE), or the
-#' first vaccination date found (take_first = TRUE).
+#' If a register does not present an outcome, the function searches
+#' for vaccine dates that satisfy the condition:
+#' vacc_date_col <= end_cohort - delay_time - immunization_delay.
+#' The immunization date is constructed using the closest vaccine
+#' date to the end of the study, when take_first = FALSE; or the
+#' first vaccination date found, when take_first = TRUE.
 #' Notice that the function works for one or several vaccines.
 #' In case of several vaccines, the parameter
-#' {outcome_date_col must} be passed as a vector (see example)
+#' {outcome_date_col must} be passed as a vector (see example).
 #'
 #' @param data dataset with cohort information (see example)
 #' @param outcome_date_col name of the column that contains
@@ -234,7 +236,7 @@ get_immunization_date <- function(data,
   data$imm_limit <- data[[outcome_date_col]] - delta_limit
 
   # all other individuals' limit is set to end_cohort
-  data[is.na(data$imm_limit), "imm_limit"] <- end_cohort
+  data[is.na(data$imm_limit), "imm_limit"] <- end_cohort - delta_limit
 
   # get differences from vaccination dates
   cols_delta <- sprintf("delta_%i", seq_along(vacc_date_col))

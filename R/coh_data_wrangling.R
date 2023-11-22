@@ -98,8 +98,7 @@ set_status <- function(data,
 #'
 #' This function returns a column with the immunization date that corresponds
 #' to an analyzed outcome.
-#' If a register presents an outcome, the function search for the closest
-#' vaccine date before the outcome that satisfies the condition:
+#' The function searches for vaccine dates that satisfies the condition:
 #' vacc_date_col <= outcome_date_col - delay_time - immunization_delay.
 #' This condition allows to discriminate the vaccine dates in
 #' terms of characteristic times in days (delay_time)  associated to an
@@ -108,6 +107,10 @@ set_status <- function(data,
 #' immune (immunization_delay).
 #' Both parameters can be set to zero by the user without
 #' affecting the results.
+#' When take_first = FALSE, the function uses the vaccine date that is closest
+#' to the outcome to calculate the immunization. On the other hand, 
+#' when take_first = TRUE the functions uses the first vaccine date.
+#'
 #' If a register does not present an outcome, the immunization
 #' date can be construct using the closest vaccine
 #' date to the end of the study (take_first = FALSE), or the
@@ -125,9 +128,8 @@ set_status <- function(data,
 #' is considered immune
 #' @param vacc_date_col name of the column(s) that contains the vaccine dates
 #' @param end_cohort end date of the study
-#' @param take_first TRUE: takes the minimum vaccine date for
-#' registers without outcome.
-#' FALSE: takes closest to end_cohort
+#' @param take_first TRUE: takes the minimum vaccine date .
+#' FALSE: takes the closest to end_cohort
 #' @return immunization date
 #' @examples
 #' # load package example data

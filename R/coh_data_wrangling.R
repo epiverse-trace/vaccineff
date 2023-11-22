@@ -278,9 +278,7 @@ get_immunization_date <- function(data,
   # immunization outcome as a vector
   imm_out_date <- data$imm_limit - data$delta_imm + immunization_delay
 
-  data$immunization <- imm_out_date
-
-  return(data)
+  return(imm_out_date)
 }
 
 #' Function to construct the time-to-event

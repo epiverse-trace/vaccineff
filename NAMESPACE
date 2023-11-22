@@ -3,7 +3,6 @@
 export(coh_coverage)
 export(coh_eff_noconf)
 export(coh_test_noconf)
-export(extract_surv_model)
 export(get_age_group)
 export(get_immunization_date)
 export(get_immunization_dose)

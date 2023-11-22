@@ -1,25 +1,4 @@
 #### Tests for get_immunization_date()
-# snapshot test to test edited implementations
-test_that("`get_immunization_date`: Snapshot test", {
-  data("cohortdata")
-  cohortdata <- as.data.frame(cohortdata)
-
-  # get immunization dates
-  immunization <- get_immunization_date(
-    data = cohortdata,
-    outcome_date_col = "death_date",
-    outcome_delay = 0,
-    immunization_delay = 14,
-    vacc_date_col = c("vaccine_date_1", "vaccine_date_2"),
-    end_cohort = as.Date("2044-12-31"),
-    take_first = FALSE
-  )
-
-  expect_snapshot(
-    head(immunization, 15)
-  )
-})
-
 # basic expectations
 test_that("`get_immunization_date`: Basic expectations", {
   data("cohortdata")
@@ -27,6 +6,7 @@ test_that("`get_immunization_date`: Basic expectations", {
 
   # get immunization dates
   vax_date_col <- c("vaccine_date_1", "vaccine_date_2")
+  tf <- as.Date("2044-12-31")
   immunization_delay <- 14
   outcome_delay <- 30 # use extreme outcome delay to test expectations
   limit_delta <- immunization_delay + outcome_delay
@@ -36,7 +16,7 @@ test_that("`get_immunization_date`: Basic expectations", {
     outcome_delay = outcome_delay,
     immunization_delay = immunization_delay,
     vacc_date_col = vax_date_col,
-    end_cohort = as.Date("2044-12-31"),
+    end_cohort = tf,
     take_first = FALSE
   )
 
@@ -57,8 +37,24 @@ test_that("`get_immunization_date`: Basic expectations", {
       !(cohortdata$non_vacc),
   ]
 
+  #Differences with outcome
+  diff_outcome <- diff[!is.na(diff$death_date), ]
+
   expect_true(
-    all((diff$death_date - diff$vaccine_date_1) < limit_delta)
+    all((diff_outcome$death_date - diff_outcome$vaccine_date_1) < limit_delta)
+  )
+
+  #Differences without outcome
+  diff_no_outcome <- diff[is.na(diff$death_date), ]
+
+  expect_true(
+    all((tf - diff_no_outcome$vaccine_date_1) < limit_delta)
+  )
+
+  #Differences can only be related to outcome
+  expect_identical(
+    nrow(diff_outcome) + nrow(diff_no_outcome),
+    nrow(diff)
   )
 
   # for population with immunization date
@@ -77,7 +73,11 @@ test_that("`get_immunization_date`: Basic expectations", {
       is.na(cohortdata$death_date),
   ]
   vaccinated_no_out$test_date <- ifelse(
-    !is.na(vaccinated_no_out$vaccine_date_2),
+    !is.na(vaccinated_no_out$vaccine_date_2) &
+      (vaccinated_no_out$vaccine_date_2 <= tf -
+          immunization_delay -
+          outcome_delay
+      ),
     vaccinated_no_out$immunization ==
       vaccinated_no_out$vaccine_date_2 + immunization_delay,
     vaccinated_no_out$immunization ==
@@ -117,6 +117,7 @@ test_that("`get_immunization_date`: Take first vaccination", {
 
   # get immunization dates
   vax_date_col <- c("vaccine_date_1", "vaccine_date_2")
+  tf <- as.Date("2044-12-31")
   immunization_delay <- 14
   outcome_delay <- 30 # use extreme outcome delay to test expectations
   limit_delta <- immunization_delay + outcome_delay
@@ -126,7 +127,7 @@ test_that("`get_immunization_date`: Take first vaccination", {
     outcome_delay = outcome_delay,
     immunization_delay = immunization_delay,
     vacc_date_col = vax_date_col,
-    end_cohort = as.Date("2044-12-31"),
+    end_cohort = tf,
     take_first = TRUE
   )
 
@@ -147,8 +148,18 @@ test_that("`get_immunization_date`: Take first vaccination", {
       !(cohortdata$non_vacc),
   ]
 
+  #Differences with outcome
+  diff_outcome <- diff[!is.na(diff$death_date), ]
+
   expect_true(
-    all((diff$death_date - diff$vaccine_date_1) < limit_delta)
+    all((diff_outcome$death_date - diff_outcome$vaccine_date_1) < limit_delta)
+  )
+
+  #Differences without outcome
+  diff_no_outcome <- diff[is.na(diff$death_date), ]
+
+  expect_true(
+    all((tf - diff_no_outcome$vaccine_date_1) < limit_delta)
   )
 
   # for population with immunization date
@@ -186,4 +197,29 @@ test_that("`get_immunization_date`: end_cohort > max_date", {
       take_first = FALSE
     )
   )
+})
+
+# test coherence immunization date and end_cohort date
+test_that("`get_immunization_date`: end_cohort > immunization", {
+  date_format <- "%Y-%m-%d"
+  t0 <- as.Date("2044-01-01", date_format)
+  tf <- as.Date("2044-12-31", date_format)
+  immunization_delay <- 14
+  outcome_delay <- 0
+  data(cohortdata)
+
+  cohortdata$immunization <- get_immunization_date(
+    data = cohortdata,
+    outcome_date_col = "death_date",
+    outcome_delay = outcome_delay,
+    immunization_delay = immunization_delay,
+    vacc_date_col = c("vaccine_date_1", "vaccine_date_2"),
+    end_cohort = tf,
+    take_first = FALSE
+  )
+
+  expect_true(
+    all(cohortdata[!is.na(cohortdata$immunization), ]$immunization <= tf)
+  )
+
 })

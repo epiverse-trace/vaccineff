@@ -34,53 +34,67 @@ test_that("`set_status`: Basic expectations", {
 })
 
 test_that("`set_status`: Correctness", {
+  status <- c(1, 0)
   # get status with AND operator
-  vaccine_status_all <- set_status(
+  status_all <- set_status(
     data = cohortdata,
-    col_names = c("vaccine_date_1", "vaccine_date_2"),
+    col_names = c("death_date", "vaccine_date_1"),
     operator = "&",
-    status = vax_status
+    status = status
   )
 
   # get status with OR operator
-  vaccine_status_any <- set_status(
+  status_any <- set_status(
     data = cohortdata,
-    col_names = c("vaccine_date_1", "vaccine_date_2"),
+    col_names = c("death_date", "vaccine_date_1"),
     operator = "|",
-    status = vax_status
+    status = status
   )
 
   # expect not identical
   expect_false(
-    all(vaccine_status_any == vaccine_status_all)
+    all(status_any == status_all)
+  )
+
+  # death status both causes
+  death_status_both <- set_status(
+    data = cohortdata,
+    col_names = c("death_date", "death_other_causes"),
+    operator = "&",
+    status = status
+  )
+  # death_date and death_other_causes are disjoint
+  expect_false(
+    any(death_status_both == "1")
   )
 
   # manual checking for AND operator is correct
-  vaccine_status_all_manual <- apply(
-    cohortdata[, c("vaccine_date_1", "vaccine_date_2")],
+  status_all_manual <- apply(
+    cohortdata[, c("death_date", "vaccine_date_1")],
     MARGIN = 1,
     FUN = function(x) {
       all(!is.na(x)) # nolint
     }
   )
   expect_identical(
-    vaccine_status_all == "vaccinated",
-    vaccine_status_all_manual
+    status_all == "1",
+    status_all_manual
   )
 
   # manual checking for OR operator is correct
-  vaccine_status_any_manual <- apply(
-    cohortdata[, c("vaccine_date_1", "vaccine_date_2")],
+  status_any_manual <- apply(
+    cohortdata[, c("death_date", "vaccine_date_1")],
     MARGIN = 1,
     FUN = function(x) {
       any(!is.na(x)) # nolint
     }
   )
   expect_identical(
-    vaccine_status_any == "vaccinated",
-    vaccine_status_any_manual
+    status_any == "1",
+    status_any_manual
   )
 })
+
 
 test_that("`set_status`: Input checking", {
   # errors triggered correctly

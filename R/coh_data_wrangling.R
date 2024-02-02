@@ -373,13 +373,14 @@ get_time_to_event <- function(data, outcome_date_col,
          checkmate::test_string(immunization_date_col) &&
          immunization_date_col %in% colnames(data))
     )
-  }
 
-  if (start_from_immunization) {
-    # convert date columns to Date type
+    # Check for date type column
     checkmate::assert_date(
       data[[immunization_date_col]]
     )
+  }
+
+  if (start_from_immunization) {
 
     # calculate time to event as a vector
     time_to_event <- data[[outcome_date_col]] -

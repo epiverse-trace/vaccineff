@@ -380,72 +380,29 @@ get_time_to_event <- function(data, outcome_date_col,
     )
   }
 
+  # Initialize vector with start point to calculate time-to-event
+  # cohort start by default
+  t0 <- rep(start_cohort, nrow(data))
   if (start_from_immunization) {
-
-    # calculate time to event as a vector
-    time_to_event <- data[[outcome_date_col]] -
-      data[[immunization_date_col]]
-
-    # handle different cases of NAs
-    time_to_event <- ifelse(
-      (is.na(time_to_event)) &
-        (is.na(data[[immunization_date_col]])),
-      yes = data[[outcome_date_col]] - start_cohort,
-      no = time_to_event
-    )
-
-    time_to_event <- ifelse(
-      (is.na(time_to_event)) &
-        (is.na(data[[immunization_date_col]])) &
-        (is.na(data[[outcome_date_col]])
-        ),
-      yes = end_cohort - start_cohort,
-      no = time_to_event
-    )
-
-    time_to_event <- ifelse(
-      (is.na(time_to_event)) &
-        (is.na(data[[outcome_date_col]])
-        ),
-      yes = end_cohort - data[[immunization_date_col]],
-      no = time_to_event
-    )
-
-    # handle case of immunization date being after cohort end date
-    # return NA here
-    time_to_event <- ifelse(
-      !is.na(data[[immunization_date_col]]) &
-        data[[immunization_date_col]] > end_cohort,
-      yes = NA_real_,
-      no = time_to_event
-    )
-
-    # handle case of full immunization being after death date
-    # i.e., person dies after last dose but within the immunity delay time
-    # return NA as well
-    time_to_event <- ifelse(
-      !is.na(data[[outcome_date_col]]) &
-        !is.na(data[[immunization_date_col]]) &
-        (data[[outcome_date_col]] < data[[immunization_date_col]]),
-      yes = NA_real_,
-      no = time_to_event
-    )
-
-    return(time_to_event)
-  } else {
-    # condition where the start date is not from immunization
-    # difference between outcomes and start of the cohort study
-    time_to_event <- data[[outcome_date_col]] - start_cohort
-
-    time_to_event <- ifelse(
-      (is.na(time_to_event)) &
-        (is.na(data[[outcome_date_col]])
-        ),
-      yes = end_cohort - start_cohort,
-      no = time_to_event
-    )
-    return(time_to_event)
+    # if start from immunization replace informed immunization dates
+    t0 <- as.Date(ifelse(!is.na(data[[immunization_date_col]]),
+      yes = as.character(data[[immunization_date_col]]),
+      no = as.character(t0)
+    ))
   }
+
+  # Initialize vector with end point to calculate time-to-event
+  # cohort end by default
+  tf <- rep(end_cohort, nrow(data))
+  # replace informed outcome dates
+  tf <- as.Date(ifelse(!is.na(data[[outcome_date_col]]),
+    yes = as.character(data[[outcome_date_col]]),
+    no = as.character(t0)
+  ))
+
+  #time to event is simply the difference between tf and t0
+  time_to_event <- tf - t0
+  return(time_to_event)
 }
 
 #' Function to construct dose associated to the immunization date

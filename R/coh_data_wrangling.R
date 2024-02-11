@@ -397,7 +397,7 @@ get_time_to_event <- function(data, outcome_date_col,
   # replace informed outcome dates
   tf <- as.Date(ifelse(!is.na(data[[outcome_date_col]]),
     yes = as.character(data[[outcome_date_col]]),
-    no = as.character(t0)
+    no = as.character(tf)
   ))
 
   #time to event is simply the difference between tf and t0

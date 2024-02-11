@@ -401,7 +401,7 @@ get_time_to_event <- function(data, outcome_date_col,
   ))
 
   #time to event is simply the difference between tf and t0
-  time_to_event <- tf - t0
+  time_to_event <- as.numeric(tf - t0)
   return(time_to_event)
 }
 

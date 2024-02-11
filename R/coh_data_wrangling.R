@@ -333,7 +333,9 @@ get_immunization_date <- function(data,
 #' # view data
 #' head(cohortdata)
 #' @export
-get_time_to_event <- function(data, outcome_date_col,
+get_time_to_event <- function(data,
+                              outcome_date_col,
+                              censoring_date_col = NULL,
                               start_cohort, end_cohort,
                               start_from_immunization = FALSE,
                               immunization_date_col) {
@@ -342,7 +344,9 @@ get_time_to_event <- function(data, outcome_date_col,
     data,
     min.rows = 1L
   )
+
   checkmate::assert_string(outcome_date_col)
+
   checkmate::assert_names(
     colnames(data),
     must.include = outcome_date_col
@@ -364,6 +368,18 @@ get_time_to_event <- function(data, outcome_date_col,
     start_from_immunization,
     len = 1L, any.missing = FALSE
   )
+
+  #Checks of censoring_date_col if provided
+  if (!is.null(censoring_date_col)) {
+    checkmate::assert_names(
+      colnames(data),
+      must.include = censoring_date_col
+    )
+    checkmate::assert_date(
+      data[[censoring_date_col]]
+    )
+    checkmate::assert_string(censoring_date_col)
+  }
 
   # check immnunization date col if asked
   if (start_from_immunization) {
@@ -399,6 +415,13 @@ get_time_to_event <- function(data, outcome_date_col,
     yes = as.character(data[[outcome_date_col]]),
     no = as.character(tf)
   ))
+  # replace censoring dates if provided
+  if (!is.null(censoring_date_col)) {
+    tf <- as.Date(ifelse(!is.na(data[[censoring_date_col]]),
+      yes = as.character(data[[censoring_date_col]]),
+      no = as.character(tf)
+    ))
+  }
 
   #time to event is simply the difference between tf and t0
   time_to_event <- as.numeric(tf - t0)

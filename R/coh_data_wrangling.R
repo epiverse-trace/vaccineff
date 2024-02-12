@@ -124,6 +124,8 @@ set_status <- function(data,
 #' @param data dataset with cohort information (see example)
 #' @param outcome_date_col name of the column that contains
 #' the outcome dates
+#' @param censoring_date_col name of the column that contains
+#' the censoring date. NULL by default
 #' @param outcome_delay characteristic time in days of the outcome
 #' from the reference event
 #' @param immunization_delay characteristic time in days before the patient
@@ -154,6 +156,7 @@ set_status <- function(data,
 #' @export
 get_immunization_date <- function(data,
                                   outcome_date_col,
+                                  censoring_date_col = NULL,
                                   outcome_delay,
                                   immunization_delay,
                                   vacc_date_col,
@@ -209,6 +212,18 @@ get_immunization_date <- function(data,
     len = 1L
   )
 
+  # Check censoring_date_col if provided
+  if (!is.null(censoring_date_col)) {
+    checkmate::assert_names(
+      colnames(data),
+      must.include = censoring_date_col
+    )
+    checkmate::assert_date(
+      data[[censoring_date_col]]
+    )
+    checkmate::assert_string(censoring_date_col)
+  }
+
   # warn on year of cohort end date date
   max_year <- 2100 # a plausible maximum year
   end_year <- as.numeric(format(end_cohort, "%Y"))
@@ -232,8 +247,21 @@ get_immunization_date <- function(data,
   # This can depend both on the characteristic delay time of the
   # outcome and the characteristic delay for immunization
   delta_limit <- outcome_delay + immunization_delay
+
+  # Limit date
+  # If censoring date provided, use it. If not, use outcome date
+  limit_date <- data[[outcome_date_col]]
+
+  if (!is.null(censoring_date_col)) {
+    limit_date <- as.Date(ifelse(!is.na(data[[censoring_date_col]]),
+      yes = as.character(data[[censoring_date_col]]),
+      no = as.character(limit_date)
+    ))
+  }
+
   # get difference with outcome date
-  data$imm_limit <- data[[outcome_date_col]] - delta_limit
+
+  data$imm_limit <- limit_date - delta_limit
 
   # all other individuals' limit is set to end_cohort
   data[is.na(data$imm_limit), "imm_limit"] <- end_cohort - delta_limit

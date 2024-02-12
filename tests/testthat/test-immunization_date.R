@@ -238,7 +238,7 @@ test_that("`get_immunization_date`: Censoring date provided", {
   # immunization must be lower or equal than censoring death for informed
   # censoring
   informed <- cohortdata[!is.na(cohortdata$death_other_causes) &
-                     !is.na(cohortdata$immunization_c), ]
+                           !is.na(cohortdata$immunization_c), ]
   expect_true(
     all(informed$immunization_c <= informed$death_other_causes)
   )

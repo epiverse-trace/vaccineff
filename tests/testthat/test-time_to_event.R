@@ -99,10 +99,10 @@ test_that("`get_time_to_event`: Censoring provided", {
   # expected outcome for registers with immunization and censoring informed
   cohortdata$time_to_death_c <- time_to_death_c
   informed <- cohortdata[!is.na(cohortdata$death_other_causes) &
-                     !is.na(cohortdata$immunization_c), ]
+                           !is.na(cohortdata$immunization_c), ]
   expect_true(
     all(informed$time_to_death_c ==
-          informed$death_other_causes - informed$immunization_c
+        informed$death_other_causes - informed$immunization_c
     )
   )
 

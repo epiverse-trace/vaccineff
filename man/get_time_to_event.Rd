@@ -7,6 +7,7 @@
 get_time_to_event(
   data,
   outcome_date_col,
+  censoring_date_col = NULL,
   start_cohort,
   end_cohort,
   start_from_immunization = FALSE,

@@ -73,7 +73,7 @@ cohortdata$time_to_death <- get_time_to_event(
   outcome_date_col = "death_date",
   start_cohort = as.Date("2044-01-01"),
   end_cohort = as.Date("2044-12-31"),
-  FALSE
+  start_from_immunization = FALSE
 )
 
 # estimate vaccine effectiveness

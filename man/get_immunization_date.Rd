@@ -7,6 +7,7 @@
 get_immunization_date(
   data,
   outcome_date_col,
+  censoring_date_col = NULL,
   outcome_delay,
   immunization_delay,
   vacc_date_col,
@@ -19,6 +20,9 @@ get_immunization_date(
 
 \item{outcome_date_col}{name of the column that contains
 the outcome dates}
+
+\item{censoring_date_col}{name of the column that contains
+the censoring date. NULL by default}
 
 \item{outcome_delay}{characteristic time in days of the outcome
 from the reference event}

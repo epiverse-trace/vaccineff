@@ -1,9 +1,8 @@
 #### Tests for get_immunization_date()
+data("cohortdata")
+
 # basic expectations
 test_that("`get_immunization_date`: Basic expectations", {
-  data("cohortdata")
-  cohortdata <- as.data.frame(cohortdata)
-
   # get immunization dates
   vax_date_col <- c("vaccine_date_1", "vaccine_date_2")
   tf <- as.Date("2044-12-31")
@@ -112,9 +111,6 @@ test_that("`get_immunization_date`: Basic expectations", {
 # test for take_first = TRUE
 # always must return vaccine_date_1 if no outcome
 test_that("`get_immunization_date`: Take first vaccination", {
-  data("cohortdata")
-  cohortdata <- as.data.frame(cohortdata)
-
   # get immunization dates
   vax_date_col <- c("vaccine_date_1", "vaccine_date_2")
   tf <- as.Date("2044-12-31")
@@ -182,9 +178,6 @@ test_that("`get_immunization_date`: Take first vaccination", {
 
 # test for end_cohort date no longer than 2100
 test_that("`get_immunization_date`: end_cohort > max_date", {
-  data("cohortdata")
-  cohortdata <- as.data.frame(cohortdata)
-
   # get immunization dates
   expect_warning(
     get_immunization_date(
@@ -222,4 +215,31 @@ test_that("`get_immunization_date`: end_cohort > immunization", {
     all(cohortdata[!is.na(cohortdata$immunization), ]$immunization <= tf)
   )
 
+})
+
+# Tests for censoring
+test_that("`get_immunization_date`: Censoring date provided", {
+  # cohort start and end time
+  start_cohort <- as.Date("2044-01-01")
+  end_cohort <- as.Date("2044-12-31")
+
+  # assign immunization date
+  cohortdata$immunization_c <- get_immunization_date(
+    data = cohortdata,
+    outcome_date_col = "death_date",
+    censoring_date_col = "death_other_causes",
+    outcome_delay = 0,
+    immunization_delay = 14,
+    vacc_date_col = c("vaccine_date_1", "vaccine_date_2"),
+    end_cohort = end_cohort,
+    take_first = FALSE
+  )
+
+  # immunization must be lower or equal than censoring death for informed
+  # censoring
+  informed <- cohortdata[!is.na(cohortdata$death_other_causes) &
+                     !is.na(cohortdata$immunization_c), ]
+  expect_true(
+    all(informed$immunization_c <= informed$death_other_causes)
+  )
 })

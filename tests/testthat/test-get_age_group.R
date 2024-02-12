@@ -24,15 +24,13 @@ test_that("`get_age_groups`: basic expectations", {
   expect_length(
     unique(age_groups),
     # manual cutting of age groups - ROUGHLY CORRECT
-    length(
-      levels(
-        cut(
-          cohortdata$age,
-          breaks = c(
-            -Inf,
-            seq(step_size, max_val, step_size),
-            Inf
-          )
+    nlevels(
+      cut(
+        cohortdata$age,
+        breaks = c(
+          -Inf,
+          seq(step_size, max_val, step_size),
+          Inf
         )
       )
     )

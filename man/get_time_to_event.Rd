@@ -20,6 +20,9 @@ get_time_to_event(
 \item{outcome_date_col}{name of the column that contains
 the outcome dates}
 
+\item{censoring_date_col}{name of the column that contains
+the censoring date. NULL by default}
+
 \item{start_cohort}{start date of the study}
 
 \item{end_cohort}{end date of the study}

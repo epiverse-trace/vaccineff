@@ -323,11 +323,8 @@ get_immunization_date <- function(data,
 #' cohort is known at this point (start_from_immunization=FALSE). In this last
 #' case, it is not necessary to pass the argument {immunization_date_col}
 #'
-#' @param data dataset with cohort information (see example)
-#' @param outcome_date_col name of the column that contains
-#' the outcome dates
+#' @inheritParams get_immunization_date
 #' @param start_cohort start date of the study
-#' @param end_cohort end date of the study
 #' @param start_from_immunization TRUE: starts counting time-to-event from
 #' immunization date if available
 #' FALSE: starts counting time-to-event from the start date of the cohort study

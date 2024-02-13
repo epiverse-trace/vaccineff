@@ -51,20 +51,21 @@ get_age_group <- function(data, col_age, max_val, min_val = 0, step) {
   checkmate::assert_number(step, lower = 1, upper = max_val)
 
   # get breaks
-  n_steps <- as.integer((max_val - min_val) / step) + 1
-  limits_low <- seq.int(
-    min_val, max_val,
-    length.out = n_steps
-  )
-  limits_high <- limits_low + step
+  limits_low <- seq.int(min_val, max_val, by = step)
+  limits_high <- limits_low + step - 1
 
   # prepare labels
   lim_labels <- paste(limits_low, limits_high, sep = "-")
   lim_labels[length(lim_labels)] <- paste0(
-    ">",
-    limits_low[length(limits_low)]
+    ">", limits_low[length(limits_low)]
   )
-  lim_breaks <- c(-Inf, limits_low[seq(2, length(limits_low))] - 1, Inf)
+  if (min_val == 0) {
+    lim_breaks <- c(limits_low[seq(1, length(limits_low))] - 1, Inf)
+  }  else {
+    lim_labels <- c(paste0("<", min_val - 1), lim_labels)
+    lim_breaks <- c(-Inf, limits_low[seq(1, length(limits_low))] - 1, Inf)
+
+  }
 
   # cut the age data and apply labels
   age_group <- cut(data[[col_age]],

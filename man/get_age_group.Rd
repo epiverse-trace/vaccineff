@@ -26,14 +26,10 @@ Ages above \code{max_val} are represented as \verb{>max_val}.
 }
 \description{
 This method splits an age interval from \code{min_val} to \code{max_val}
-into \code{(max_val - min_val) / step} intervals.
-By default \code{min_val} is set to 0, however it can be assigned by
-convenience.
-If the method finds ages greater or equal than \code{max_val}
-it assigns the string \code{">max_val"}.
-To avoid errors it is necessary to set \code{step < max_val}.
-It is also suggested to choose the step such
-that \code{max_val \%\% (step + 1) == 0}.
+into intervals of size \verb{step``.ç If the method finds ages greater or equal than }max_val\verb{it assigns the string}">max_val"\verb{. By default }min_val\verb{is set to 0, however it can be assigned by convenience. If the method finds ages lower or equal than}min_val\verb{it assigns the string}"<min_val-1"`.
+The function warns when (max_val - min_val) \%\% step != 0. In that case
+the last interval is truncated to the closest upper value to max_val that
+satisfies (closest_upper - min_val) \%\% step == 0.
 }
 \examples{
 # load data provided with the package

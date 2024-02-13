@@ -22,7 +22,7 @@ Useful links:
 
 Authors:
 \itemize{
-  \item David Santiago Quevedo \email{ex-dsquevedo@javeriana.edu.co} (\href{https://orcid.org/0000-0003-1583-4262)}{ORCID})
+  \item David Santiago Quevedo \email{ex-dsquevedo@javeriana.edu.co} (\href{https://orcid.org/0000-0003-1583-4262}{ORCID})
   \item Santiago Loaiza \email{santiago.loaiza@javeriana.edu.co} (\href{https://orcid.org/0000-0002-2092-3262}{ORCID})
 }
 

@@ -103,7 +103,7 @@ test_that("`coh_test_noconf`: accept PH", {
     data = cohortdata,
     col_age = "age",
     max_val = 80,
-    step = 9
+    step = 10
   )
   cohortdata_3039 <- cohortdata[cohortdata$age_group == "30-39", ]
 

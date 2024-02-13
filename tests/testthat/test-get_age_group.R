@@ -24,23 +24,16 @@ test_that("`get_age_groups`: basic expectations", {
   expect_length(
     unique(age_groups),
     # manual cutting of age groups - ROUGHLY CORRECT
-    length(
-      levels(
-        cut(
-          cohortdata$age,
-          breaks = c(
-            -Inf,
-            seq(step_size, max_val, step_size),
-            Inf
-          )
+    nlevels(
+      cut(
+        cohortdata$age,
+        breaks = c(
+          -Inf,
+          seq(step_size, max_val, step_size),
+          Inf
         )
       )
     )
-  )
-  # check that last value is the same as max_val
-  expect_identical(
-    tail(levels(age_groups), 1),
-    sprintf(">%i", max_val) # hacky test to avoid regex extraction
   )
 
   # check that breaks are correct
@@ -54,7 +47,7 @@ test_that("`get_age_groups`: basic expectations", {
         step = 50
       )
     ),
-    c("0-50", ">80")
+    c("0-49", ">50")
   )
 })
 
@@ -136,5 +129,25 @@ test_that("`get_age_groups`: Input checking", {
       "Assertion on 'step' failed: Element 1 is not <= %i",
       max_age
     )
+  )
+})
+
+# tests to check for min_val != 0
+test_that("`get_age_groups`: non-zero min_val", {
+  min_val <- 10
+  cohortdata$age_group <- get_age_group(
+    data = cohortdata,
+    col_age = "age",
+    max_val = 80,
+    min_val = min_val,
+    step = 9
+  )
+
+  #expect none NA values are expected
+  expect_length(cohortdata[is.na(cohortdata$age_group), ]$age_group, 0)
+
+  #Check for registers < min_val
+  expect_true(
+    all(cohortdata[cohortdata$age < min_val, ]$age_group == "<9")
   )
 })

@@ -426,9 +426,9 @@ get_time_to_event <- function(data,
   t0 <- rep(start_cohort, nrow(data))
   if (start_from_immunization) {
     # if start from immunization replace informed immunization dates
-    t0 <- as.Date(ifelse(!is.na(data[[immunization_date_col]]),
-      yes = as.character(data[[immunization_date_col]]),
-      no = as.character(t0)
+    t0 <- as.Date(ifelse(is.na(data[[immunization_date_col]]),
+      yes = as.character(t0),
+      no = as.character(data[[immunization_date_col]])
     ))
   }
 

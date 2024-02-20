@@ -29,12 +29,12 @@ cohortdata$death_status <- set_status(
 )
 
 # add time to death
-cohortdata$time_to_death <- get_time_to_event(
+cohortdata$time_to_event <- get_time_to_event(
   data = cohortdata,
   outcome_date_col = "death_date",
   start_cohort = as.Date("2044-01-01"),
   end_cohort = as.Date("2044-12-31"),
-  FALSE
+  start_from_immunization = FALSE
 )
 
 #### Basic expectations of `coh_eff_noconf()`
@@ -45,7 +45,7 @@ test_that("`coh_eff_noconf`: basic expectations", {
     coh_eff_noconf(
       cohortdata,
       "death_status",
-      "time_to_death",
+      "time_to_event",
       "vaccine_status"
     )
   )
@@ -54,7 +54,7 @@ test_that("`coh_eff_noconf`: basic expectations", {
   data <- coh_eff_noconf(
     cohortdata,
     "death_status",
-    "time_to_death",
+    "time_to_event",
     "vaccine_status"
   )
   expect_s3_class(
@@ -76,7 +76,7 @@ test_that("`coh_test_noconf`: basic expectations", {
     coh_test_noconf(
       cohortdata,
       "death_status",
-      "time_to_death",
+      "time_to_event",
       "vaccine_status"
     )
   )
@@ -85,7 +85,7 @@ test_that("`coh_test_noconf`: basic expectations", {
   data <- coh_test_noconf(
     cohortdata,
     "death_status",
-    "time_to_death",
+    "time_to_event",
     "vaccine_status"
   )
   expect_s3_class(
@@ -110,7 +110,7 @@ test_that("`coh_test_noconf`: accept PH", {
   data <- coh_eff_noconf(
     data = cohortdata_3039,
     outcome_status_col = "death_status",
-    time_to_event_col = "time_to_death",
+    time_to_event_col = "time_to_event",
     status_vacc_col = "vaccine_status"
   )
   expect_identical(data$PH, "accept")

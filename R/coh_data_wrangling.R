@@ -124,6 +124,8 @@ set_status <- function(data,
 #' @param data dataset with cohort information (see example)
 #' @param outcome_date_col name of the column that contains
 #' the outcome dates
+#' @param censoring_date_col name of the column that contains
+#' the censoring date. NULL by default
 #' @param outcome_delay characteristic time in days of the outcome
 #' from the reference event
 #' @param immunization_delay characteristic time in days before the patient
@@ -154,6 +156,7 @@ set_status <- function(data,
 #' @export
 get_immunization_date <- function(data,
                                   outcome_date_col,
+                                  censoring_date_col = NULL,
                                   outcome_delay,
                                   immunization_delay,
                                   vacc_date_col,
@@ -209,6 +212,18 @@ get_immunization_date <- function(data,
     len = 1L
   )
 
+  # Check censoring_date_col if provided
+  if (!is.null(censoring_date_col)) {
+    checkmate::assert_names(
+      colnames(data),
+      must.include = censoring_date_col
+    )
+    checkmate::assert_date(
+      data[[censoring_date_col]]
+    )
+    checkmate::assert_string(censoring_date_col)
+  }
+
   # warn on year of cohort end date date
   max_year <- 2100 # a plausible maximum year
   end_year <- as.numeric(format(end_cohort, "%Y"))
@@ -232,8 +247,21 @@ get_immunization_date <- function(data,
   # This can depend both on the characteristic delay time of the
   # outcome and the characteristic delay for immunization
   delta_limit <- outcome_delay + immunization_delay
+
+  # Limit date
+  # If censoring date provided, use it. If not, use outcome date
+  limit_date <- data[[outcome_date_col]]
+
+  if (!is.null(censoring_date_col)) {
+    limit_date <- as.Date(ifelse(!is.na(data[[censoring_date_col]]),
+      yes = as.character(data[[censoring_date_col]]),
+      no = as.character(limit_date)
+    ))
+  }
+
   # get difference with outcome date
-  data$imm_limit <- data[[outcome_date_col]] - delta_limit
+
+  data$imm_limit <- limit_date - delta_limit
 
   # all other individuals' limit is set to end_cohort
   data[is.na(data$imm_limit), "imm_limit"] <- end_cohort - delta_limit
@@ -295,11 +323,8 @@ get_immunization_date <- function(data,
 #' cohort is known at this point (start_from_immunization=FALSE). In this last
 #' case, it is not necessary to pass the argument {immunization_date_col}
 #'
-#' @param data dataset with cohort information (see example)
-#' @param outcome_date_col name of the column that contains
-#' the outcome dates
+#' @inheritParams get_immunization_date
 #' @param start_cohort start date of the study
-#' @param end_cohort end date of the study
 #' @param start_from_immunization TRUE: starts counting time-to-event from
 #' immunization date if available
 #' FALSE: starts counting time-to-event from the start date of the cohort study
@@ -333,7 +358,9 @@ get_immunization_date <- function(data,
 #' # view data
 #' head(cohortdata)
 #' @export
-get_time_to_event <- function(data, outcome_date_col,
+get_time_to_event <- function(data,
+                              outcome_date_col,
+                              censoring_date_col = NULL,
                               start_cohort, end_cohort,
                               start_from_immunization = FALSE,
                               immunization_date_col) {
@@ -342,7 +369,9 @@ get_time_to_event <- function(data, outcome_date_col,
     data,
     min.rows = 1L
   )
+
   checkmate::assert_string(outcome_date_col)
+
   checkmate::assert_names(
     colnames(data),
     must.include = outcome_date_col
@@ -365,6 +394,18 @@ get_time_to_event <- function(data, outcome_date_col,
     len = 1L, any.missing = FALSE
   )
 
+  #Checks of censoring_date_col if provided
+  if (!is.null(censoring_date_col)) {
+    checkmate::assert_names(
+      colnames(data),
+      must.include = censoring_date_col
+    )
+    checkmate::assert_date(
+      data[[censoring_date_col]]
+    )
+    checkmate::assert_string(censoring_date_col)
+  }
+
   # check immnunization date col if asked
   if (start_from_immunization) {
     stopifnot(
@@ -373,78 +414,43 @@ get_time_to_event <- function(data, outcome_date_col,
          checkmate::test_string(immunization_date_col) &&
          immunization_date_col %in% colnames(data))
     )
-  }
 
-  if (start_from_immunization) {
-    # convert date columns to Date type
+    # Check for date type column
     checkmate::assert_date(
       data[[immunization_date_col]]
     )
-
-    # calculate time to event as a vector
-    time_to_event <- data[[outcome_date_col]] -
-      data[[immunization_date_col]]
-
-    # handle different cases of NAs
-    time_to_event <- ifelse(
-      (is.na(time_to_event)) &
-        (is.na(data[[immunization_date_col]])),
-      yes = data[[outcome_date_col]] - start_cohort,
-      no = time_to_event
-    )
-
-    time_to_event <- ifelse(
-      (is.na(time_to_event)) &
-        (is.na(data[[immunization_date_col]])) &
-        (is.na(data[[outcome_date_col]])
-        ),
-      yes = end_cohort - start_cohort,
-      no = time_to_event
-    )
-
-    time_to_event <- ifelse(
-      (is.na(time_to_event)) &
-        (is.na(data[[outcome_date_col]])
-        ),
-      yes = end_cohort - data[[immunization_date_col]],
-      no = time_to_event
-    )
-
-    # handle case of immunization date being after cohort end date
-    # return NA here
-    time_to_event <- ifelse(
-      !is.na(data[[immunization_date_col]]) &
-        data[[immunization_date_col]] > end_cohort,
-      yes = NA_real_,
-      no = time_to_event
-    )
-
-    # handle case of full immunization being after death date
-    # i.e., person dies after last dose but within the immunity delay time
-    # return NA as well
-    time_to_event <- ifelse(
-      !is.na(data[[outcome_date_col]]) &
-        !is.na(data[[immunization_date_col]]) &
-        (data[[outcome_date_col]] < data[[immunization_date_col]]),
-      yes = NA_real_,
-      no = time_to_event
-    )
-
-    return(time_to_event)
-  } else {
-    # condition where the start date is not from immunization
-    # difference between outcomes and start of the cohort study
-    time_to_event <- data[[outcome_date_col]] - start_cohort
-
-    time_to_event <- ifelse(
-      (is.na(time_to_event)) &
-        (is.na(data[[outcome_date_col]])
-        ),
-      yes = end_cohort - start_cohort,
-      no = time_to_event
-    )
-    return(time_to_event)
   }
+
+  # Initialize vector with start point to calculate time-to-event
+  # cohort start by default
+  t0 <- rep(start_cohort, nrow(data))
+  if (start_from_immunization) {
+    # if start from immunization replace informed immunization dates
+    t0 <- as.Date(ifelse(is.na(data[[immunization_date_col]]),
+      yes = as.character(t0),
+      no = as.character(data[[immunization_date_col]])
+    ))
+  }
+
+  # Initialize vector with end point to calculate time-to-event
+  # cohort end by default
+  tf <- rep(end_cohort, nrow(data))
+  # replace informed outcome dates
+  tf <- as.Date(ifelse(!is.na(data[[outcome_date_col]]),
+    yes = as.character(data[[outcome_date_col]]),
+    no = as.character(tf)
+  ))
+  # replace censoring dates if provided
+  if (!is.null(censoring_date_col)) {
+    tf <- as.Date(ifelse(!is.na(data[[censoring_date_col]]),
+      yes = as.character(data[[censoring_date_col]]),
+      no = as.character(tf)
+    ))
+  }
+
+  #time to event is simply the difference between tf and t0
+  time_to_event <- as.numeric(tf - t0)
+  return(time_to_event)
 }
 
 #' Function to construct dose associated to the immunization date

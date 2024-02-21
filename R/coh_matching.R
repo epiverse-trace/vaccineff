@@ -1,9 +1,68 @@
-match <- function(data,
-                  status_vacc_col,
-                  method = c("exact", "nearest"),
-                  exact = NULL,
-                  nearest = NULL,
-                  caliper = NULL) {
+#' @title Static match of cohort
+#'
+#' @description This function builds couples of vaccinated - unvaccinated
+#' individuals with similar characteristics. The function relies on  the
+#' propensity score matching algorithm implemented in MatchIt package.
+#' Thus, it allows for `exact` and `nearest` methods.
+#' When `method = "exact"` the function returns couples with the same
+#' characteristics for the variables passed in the parameter `exact`.
+#' In this case, any inputs in the parameter `nearest` are ignored.
+#' The `nearest` method can be used both with `nearest` and exact coincidences.
+#' The exact characteristics must be provided as inputs in the
+#' parameter `exact` and the others as inputs in `nearest`. In addition,
+#' the calipers must be provided as a named vector for each of the variables
+#' provided in `nearest`
+#' (e.g. `nearest = c("characteristic1", "characteristic2"),
+#' caliper = c("characteristic1" = n1, "characteristic2" = n2)`,
+#' where `n1` and `n2` are the calipers).
+#' If no input is provided to `exact` when using `method = nearest `, only
+#' near matches are returned.
+#'
+#' @param data dataset with cohort information (see example)
+#' @param status_vacc_col name of the column containing the information
+#' of the vaccination status.
+#' @param method matching method. `exact` and `nearest` are allowed.
+#' @param exact name(s) of column(s) for `exact` matching.
+#' Default to `NULL`.
+#' @param nearest name(s) of column(s) for `nearest` matching.
+#' Default to `NULL`.
+#' @param caliper named vector with caliper(s).
+#' e.g. `nearest = c("characteristic1", "characteristic2"),
+#' caliper = c("characteristic1" = n1, "characteristic2" = n2)`,
+#' where `n1` and `n2` are the calipers.
+#' @return data frame with matched population. Two columns are added
+#' to the structure provided in `data`:
+#' `prop_score` (propensity score of the match),
+#' `subclass` (id of matched couple)
+#' @examples
+#' # load package example data for cohort studies
+#' data("cohortdata")
+#'
+#' # assign vaccination status
+#' cohortdata$vaccine_status <- set_status(
+#'   data = cohortdata,
+#'   col_names = c("vaccine_date_1", "vaccine_date_2"),
+#'   status = c("v", "u")
+#' )
+#' 
+#' # match cohort
+#' cohort_match <- match_cohort(data = cohortdata,
+#'   status_vacc_col = "vaccine_status",
+#'   method = "nearest",
+#'   nearest = "age",
+#'   exact = "sex",
+#'   caliper = c("age" = 1)
+#' )
+#'
+#' # view data with added columns
+#' head(cohortdata)
+#' @export
+match_cohort <- function(data,
+                         status_vacc_col,
+                         method = c("exact", "nearest"),
+                         exact = NULL,
+                         nearest = NULL,
+                         caliper = NULL) {
 
   # input checking
   checkmate::assert_data_frame(
@@ -105,5 +164,6 @@ match <- function(data,
     replacement = "_",
     fixed = TRUE
   )
+  match <- subset(match, select = -weights)
   return(match)
 }

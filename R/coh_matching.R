@@ -44,7 +44,7 @@
 #'   col_names = c("vaccine_date_1", "vaccine_date_2"),
 #'   status = c("v", "u")
 #' )
-#' 
+#'
 #' # match cohort
 #' cohort_match <- match_cohort(data = cohortdata,
 #'   status_vacc_col = "vaccine_status",

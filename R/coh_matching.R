@@ -1,9 +1,9 @@
 match <- function(data,
-                      status_vacc_col,
-                      method = c("exact", "nearest"),
-                      exact = NULL,
-                      nearest = NULL,
-                      caliper = NULL) {
+                  status_vacc_col,
+                  method = c("exact", "nearest"),
+                  exact = NULL,
+                  nearest = NULL,
+                  caliper = NULL) {
 
   # input checking
   checkmate::assert_data_frame(

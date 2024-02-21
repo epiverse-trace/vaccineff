@@ -29,7 +29,8 @@ Imports:
     checkmate,
     ggplot2,
     scales,
-    rlang
+    rlang,
+    MatchIt
 Suggests: 
     knitr,
     rmarkdown,

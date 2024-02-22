@@ -167,3 +167,19 @@ match_cohort <- function(data,
   match <- subset(match, select = -weights)
   return(match)
 }
+
+censore_match <- function(data, censoring_date_col) {
+  censoring_date <- unlist(
+    tapply(data[[censoring_date_col]],
+      data$subclass,
+      function(x) {
+        if (all(is.na(x))) {
+          return(as.Date(NA))
+        } else {
+          return(as.character(min(x, na.rm = TRUE)))
+        }
+      }
+    )
+  )
+  return(censoring_date)
+}

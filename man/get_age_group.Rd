@@ -45,7 +45,7 @@ cohortdata$age_group <- get_age_group(
   data = cohortdata,
   col_age = "age",
   max_val = 80,
-  step = 9
+  step = 10
 )
 
 # view the data frame with new column

@@ -47,9 +47,9 @@ get_age_group <- function(data, col_age, max_val, min_val = 0, step) {
     names(data),
     must.include = col_age
   )
-  checkmate::assert_integerish(min_val, lower = 0, upper = max_val)
-  checkmate::assert_integerish(max_val, lower = min_val)
-  checkmate::assert_integerish(step, lower = 1, upper = max_val)
+  checkmate::assert_int(min_val, lower = 0)
+  checkmate::assert_int(max_val, lower = min_val)
+  checkmate::assert_int(step, lower = 1, upper = max_val)
 
   # get breaks
   limits_low <- seq.int(min_val, max_val, by = step)

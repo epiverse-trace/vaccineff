@@ -69,7 +69,7 @@ get_age_group <- function(data, col_age, max_val, min_val = 0, step) {
 
   #Warning of module condition not satisfied
   if ((max_val - min_val) %% step != 0) {
-    war_msg <- "The values provided do not satisfy (max_val-min_val)%%step = 0.
+    war_msg <- "(max_val - min_val) must be an integer multiple of step.
     The last interval will be truncated to "
     war_msg <- paste0(war_msg, lim_labels[length(lim_labels)])
     warning(war_msg)

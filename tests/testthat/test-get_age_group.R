@@ -110,6 +110,17 @@ test_that("`get_age_groups`: Input checking", {
     regexp = "Assertion on 'min_val' failed: May not be NA"
   )
 
+  # non-integer values passed
+  expect_error(
+    get_age_group(
+      data = cohortdata,
+      col_age = "age",
+      min_val = 0.7,
+      max_val = 1,
+      step = 1
+    )
+  )
+
   # step size is larger than difference in age limits
   # maximum age is less than the minimum age
   max_age <- 80

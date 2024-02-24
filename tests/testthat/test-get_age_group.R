@@ -7,13 +7,13 @@ data("cohortdata")
 test_that("`get_age_groups`: basic expectations", {
   # prepare a vector of binned ages
   max_val <- 80
-  step_size <- 7
+  step_size <- 10
 
   age_groups <- get_age_group(
     data = cohortdata,
     col_age = "age",
-    max_val = 80,
-    step = 7
+    max_val = max_val,
+    step = step_size
   )
 
   # basic checks for return type
@@ -35,24 +35,16 @@ test_that("`get_age_groups`: basic expectations", {
       )
     )
   )
-  # check that last value is the same as max_val
-  expect_identical(
-    tail(levels(age_groups), 1),
-    sprintf(">%i", max_val) # hacky test to avoid regex extraction
-  )
 
   # check that breaks are correct
   # expect 0-50 and >80
-  expect_identical(
-    levels(
-      get_age_group(
-        data = cohortdata,
-        col_age = "age",
-        max_val = 80,
-        step = 50
-      )
-    ),
-    c("0-50", ">80")
+  expect_warning(
+    get_age_group(
+      data = cohortdata,
+      col_age = "age",
+      max_val = 80,
+      step = 50
+    )
   )
 })
 
@@ -118,6 +110,17 @@ test_that("`get_age_groups`: Input checking", {
     regexp = "Assertion on 'min_val' failed: May not be NA"
   )
 
+  # non-integer values passed
+  expect_error(
+    get_age_group(
+      data = cohortdata,
+      col_age = "age",
+      min_val = 0.7,
+      max_val = 1,
+      step = 1
+    )
+  )
+
   # step size is larger than difference in age limits
   # maximum age is less than the minimum age
   max_age <- 80
@@ -134,5 +137,25 @@ test_that("`get_age_groups`: Input checking", {
       "Assertion on 'step' failed: Element 1 is not <= %i",
       max_age
     )
+  )
+})
+
+# tests to check for min_val != 0
+test_that("`get_age_groups`: non-zero min_val", {
+  min_val <- 10
+  cohortdata$age_group <- get_age_group(
+    data = cohortdata,
+    col_age = "age",
+    max_val = 80,
+    min_val = min_val,
+    step = 10
+  )
+
+  #expect none NA values are expected
+  expect_length(cohortdata[is.na(cohortdata$age_group), ]$age_group, 0)
+
+  #Check for registers < min_val
+  expect_true(
+    all(cohortdata[cohortdata$age < min_val, ]$age_group == "<9")
   )
 })

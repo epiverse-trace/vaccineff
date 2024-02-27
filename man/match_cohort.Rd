@@ -7,7 +7,6 @@
 match_cohort(
   data,
   status_vacc_col,
-  method = c("exact", "nearest"),
   exact = NULL,
   nearest = NULL,
   caliper = NULL
@@ -18,8 +17,6 @@ match_cohort(
 
 \item{status_vacc_col}{name of the column containing the information
 of the vaccination status.}
-
-\item{method}{matching method. \code{exact} and \code{nearest} are allowed.}
 
 \item{exact}{name(s) of column(s) for \code{exact} matching.
 Default to \code{NULL}.}
@@ -41,19 +38,16 @@ to the structure provided in \code{data}:
 This function builds couples of vaccinated - unvaccinated
 individuals with similar characteristics. The function relies on  the
 propensity score matching algorithm implemented in MatchIt package.
-Thus, it allows for \code{exact} and \code{nearest} methods.
-When \code{method = "exact"} the function returns couples with the same
-characteristics for the variables passed in the parameter \code{exact}.
-In this case, any inputs in the parameter \code{nearest} are ignored.
-The \code{nearest} method can be used both with \code{nearest} and exact coincidences.
-The exact characteristics must be provided as inputs in the
-parameter \code{exact} and the others as inputs in \code{nearest}. In addition,
-the calipers must be provided as a named vector for each of the variables
-provided in \code{nearest}
-(e.g. \verb{nearest = c("characteristic1", "characteristic2"), caliper = c("characteristic1" = n1, "characteristic2" = n2)},
+By default the function uses \code{method = "nearest"}, \code{ratio = 1},
+\code{distance = "glm"} to match the data.
+Exact and near characteristics are accepted for the matching criteria.
+These are passed in the parameters \code{exact} and \code{nearest}, respectively.
+Parameters \code{nearest} and \code{caliper} must be provided together. In this case,
+the calipers must be passed as a named vector containing each of
+the variables provided in \code{nearest}
+(e.g. \verb{nearest = c("characteristic1", "characteristic2"), caliper = c(characteristic1 = n1, characteristic2 = n2)},
 where \code{n1} and \code{n2} are the calipers).
-If no input is provided to \code{exact} when using \code{method = nearest }, only
-near matches are returned.
+\code{caliper} is ignored (set to NULL) when \code{nearest} is not provided.
 }
 \examples{
 # load package example data for cohort studies
@@ -72,7 +66,7 @@ cohort_match <- match_cohort(data = cohortdata,
   method = "nearest",
   nearest = "age",
   exact = "sex",
-  caliper = c("age" = 1)
+  caliper = c(age = 1)
 )
 
 # view data with added columns

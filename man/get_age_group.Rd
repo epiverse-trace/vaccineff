@@ -26,14 +26,15 @@ Ages above \code{max_val} are represented as \verb{>max_val}.
 }
 \description{
 This method splits an age interval from \code{min_val} to \code{max_val}
-into \code{(max_val - min_val) / step} intervals.
-By default \code{min_val} is set to 0, however it can be assigned by
-convenience.
+into intervals of size \code{step}.
 If the method finds ages greater or equal than \code{max_val}
 it assigns the string \code{">max_val"}.
-To avoid errors it is necessary to set \code{step < max_val}.
-It is also suggested to choose the step such
-that \code{max_val \%\% (step + 1) == 0}.
+By default \code{min_val} is set to 0, however it can be assigned by
+convenience. If the method finds ages lower or equal
+than \code{min_val} it assigns the string \code{"<min_val-1"}.
+The function warns when (max_val - min_val) is not an integer multiple of
+step. In that case the last interval is truncated to the upper value
+closest to max_val for which (closest_upper - min_val) is multiple of step.
 }
 \examples{
 # load data provided with the package
@@ -44,7 +45,7 @@ cohortdata$age_group <- get_age_group(
   data = cohortdata,
   col_age = "age",
   max_val = 80,
-  step = 9
+  step = 10
 )
 
 # view the data frame with new column

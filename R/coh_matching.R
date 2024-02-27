@@ -59,7 +59,6 @@
 #' @export
 match_cohort <- function(data,
                          status_vacc_col,
-                         method = c("exact", "nearest"),
                          exact = NULL,
                          nearest = NULL,
                          caliper = NULL) {
@@ -77,17 +76,17 @@ match_cohort <- function(data,
     must.include = c(status_vacc_col)
   )
 
-  # check method
-  method <- match.arg(method, several.ok = FALSE)
-  checkmate::assert_string(
-    method
+  # `exact` and `nearest` cannot be NULL. At least one must be provided
+  stopifnot(
+    "`exact` and `nearest` cannot be NULL. At least one must be provided" =
+      (!missing(nearest) || !missing(exact))
   )
 
-  # if nearest, nearest and caliper must be provided
-  if (method == "nearest") {
+  # checks for `nearest`
+  if (!is.null(nearest)) {
     stopifnot(
-      "`nearest` and `caliper` must be provided for `nearest` method" =
-        (!missing(nearest) && !missing(caliper))
+      "`caliper` must be provided together with `nearest`" =
+        (!missing(caliper))
     )
     checkmate::assert_character(nearest,
       any.missing = FALSE, min.len = 1
@@ -104,25 +103,9 @@ match_cohort <- function(data,
       nearest,
       must.include = names(caliper)
     )
-
-    if (!is.null(exact)) {
-      checkmate::assert_character(exact,
-        any.missing = FALSE, min.len = 1
-      )
-      checkmate::assert_names(
-        names(data),
-        must.include = nearest
-      )
-      checkmate::assert_names(
-        exact,
-        disjunct.from = nearest
-      )
-    }
-  } else {
-    stopifnot(
-      "`exact` must be provided for `exact` method" =
-        !missing(exact)
-    )
+  }
+  # checks for `exact`. Not else, both can be non-NULL
+  if (!is.null(exact)) {
     checkmate::assert_character(exact,
       any.missing = FALSE, min.len = 1
     )
@@ -130,9 +113,13 @@ match_cohort <- function(data,
       names(data),
       must.include = exact
     )
-    if (!is.null(nearest) || !is.null(caliper)) {
-      warning("`nearest` and `caliper` are ignored in `exact` method")
-    }
+  }
+
+  # if `nearest` is NULL and `caliper` is provided, caliper is ignored
+  if (is.null(nearest) && !is.null(caliper)) {
+    warning("`caliper` ignored caused by `nearest` not provided")
+    #caliper forced to null to avoid unexpected behavior
+    caliper <- NULL
   }
 
   #Formula
@@ -153,6 +140,7 @@ match_cohort <- function(data,
     formula_eval,
     data = data,
     method = "nearest",
+    ratio = 1,
     exact = exact,
     nearest = nearest,
     caliper = caliper,

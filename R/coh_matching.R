@@ -152,6 +152,43 @@ match_cohort <- function(data,
   return(match)
 }
 
+#' @title Censore couple after matching
+#'
+#' @description This function censores a couple whether the case or the control
+#' have a censoring date. It imputes the censoring date to the whole couple
+#' using the matching id provided in subclass. This column comes with the output
+#' of `match_cohort`.
+#'
+#' @inheritParams get_immunization_date
+#' @examples
+#' # load package example data for cohort studies
+#' data("cohortdata")
+#'
+#' # assign vaccination status
+#' cohortdata$vaccine_status <- set_status(
+#'   data = cohortdata,
+#'   col_names = c("vaccine_date_1", "vaccine_date_2"),
+#'   status = c("v", "u")
+#' )
+#'
+#' # match cohort
+#' cohort_match <- match_cohort(data = cohortdata,
+#'   status_vacc_col = "vaccine_status",
+#'   method = "nearest",
+#'   nearest = "age",
+#'   exact = "sex",
+#'   caliper = c(age = 1)
+#' )
+#'
+#' # add column with censoring date for match
+#' matched_cohort$censoring_date <-  censore_match(
+#'   data = matched_cohort,
+#'   censoring_date_col = "death_other_causes"
+#' )
+#'
+#' # view data with added column
+#' head(cohortdata)
+#' @export
 censore_match <- function(data, censoring_date_col) {
   censoring_date <- unlist(
     tapply(data[[censoring_date_col]],

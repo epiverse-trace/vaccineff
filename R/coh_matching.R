@@ -42,16 +42,15 @@
 #' )
 #'
 #' # match cohort
-#' cohort_match <- match_cohort(data = cohortdata,
+#' matched_cohort <- match_cohort(data = cohortdata,
 #'   status_vacc_col = "vaccine_status",
-#'   method = "nearest",
 #'   nearest = "age",
 #'   exact = "sex",
 #'   caliper = c(age = 1)
 #' )
 #'
-#' # view data with added columns
-#' head(cohortdata)
+#' # view matched data
+#' head(matched_cohort)
 #' @export
 match_cohort <- function(data,
                          status_vacc_col,
@@ -148,7 +147,7 @@ match_cohort <- function(data,
     replacement = "_",
     fixed = TRUE
   )
-  match <- subset(match, select = -weights)
+  match <- match[, -which(names(match) == "weights")]
   return(match)
 }
 
@@ -172,9 +171,8 @@ match_cohort <- function(data,
 #' )
 #'
 #' # match cohort
-#' cohort_match <- match_cohort(data = cohortdata,
+#' matched_cohort <- match_cohort(data = cohortdata,
 #'   status_vacc_col = "vaccine_status",
-#'   method = "nearest",
 #'   nearest = "age",
 #'   exact = "sex",
 #'   caliper = c(age = 1)
@@ -187,7 +185,7 @@ match_cohort <- function(data,
 #' )
 #'
 #' # view data with added column
-#' head(cohortdata)
+#' head(matched_cohort)
 #' @export
 censore_match <- function(data, censoring_date_col) {
   censoring_date <- unlist(

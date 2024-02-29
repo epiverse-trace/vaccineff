@@ -61,14 +61,13 @@ cohortdata$vaccine_status <- set_status(
 )
 
 # match cohort
-cohort_match <- match_cohort(data = cohortdata,
+matched_cohort <- match_cohort(data = cohortdata,
   status_vacc_col = "vaccine_status",
-  method = "nearest",
   nearest = "age",
   exact = "sex",
   caliper = c(age = 1)
 )
 
-# view data with added columns
-head(cohortdata)
+# view matched data
+head(matched_cohort)
 }

@@ -200,5 +200,5 @@ censore_match <- function(data, censoring_date_col) {
       }
     )
   )
-  return(censoring_date)
+  return(as.Date(censoring_date[data$subclass]))
 }

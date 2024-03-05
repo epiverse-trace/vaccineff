@@ -6,7 +6,7 @@ start_cohort <- as.Date("2044-01-01")
 end_cohort <- as.Date("2044-12-31")
 
 # sample cohort to make tests faster - take a bigger sample
-sample_size <- 50000
+sample_size <- 5000
 sample_indices <- sample(nrow(cohortdata), sample_size)
 sample_cohort <- cohortdata[sample_indices, ]
 rownames(sample_cohort) <- NULL
@@ -23,13 +23,18 @@ matched_cohort <- match_cohort(data = sample_cohort,
   exact = "sex"
 )
 # add column with censoring date for match
-matched_cohort$censoring_date <-  censore_match(
+matched_cohort$censoring_date <- censore_match(
   data = matched_cohort,
   censoring_date_col = "death_other_causes"
 )
 
 # snapshot test basic expectations
 test_that("`censore_match`: basic expectations", {
+  # expect date
+  expect_vector(
+    matched_cohort$censoring_date,
+    ptype = as.Date("2045-01-01")
+  )
   # filter registers with censoring date informed
   censored_original <-
     matched_cohort[!is.na(matched_cohort$death_other_causes), ]
@@ -51,6 +56,8 @@ test_that("`censore_match`: take minimum censoring date", {
     ]
 
   expect_true(
-    all(censored_twodates$censoring_date <= censored_original$censored_twodates)
+    all(
+      censored_twodates$censoring_date <= censored_twodates$death_other_causes
+    )
   )
 })

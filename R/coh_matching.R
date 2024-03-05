@@ -151,9 +151,9 @@ match_cohort <- function(data,
   return(match)
 }
 
-#' @title Censore couple after matching
+#' @title Censor couple after matching
 #'
-#' @description This function censores a couple whether the case or the control
+#' @description This function censors a couple whether the case or the control
 #' have a censoring date. It imputes the censoring date to the whole couple
 #' using the matching id provided in subclass. This column comes with the output
 #' of `match_cohort`.
@@ -179,7 +179,7 @@ match_cohort <- function(data,
 #' )
 #'
 #' # add column with censoring date for match
-#' matched_cohort$censoring_date <-  censore_match(
+#' matched_cohort$censoring_date <-  censor_match(
 #'   data = matched_cohort,
 #'   censoring_date_col = "death_other_causes"
 #' )
@@ -187,7 +187,7 @@ match_cohort <- function(data,
 #' # view data with added column
 #' head(matched_cohort)
 #' @export
-censore_match <- function(data, censoring_date_col) {
+censor_match <- function(data, censoring_date_col) {
   censoring_date <- unlist(
     tapply(data[[censoring_date_col]],
       data$subclass,

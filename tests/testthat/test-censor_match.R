@@ -25,6 +25,7 @@ matched_cohort <- match_cohort(data = sample_cohort,
 # add column with censoring date for match
 matched_cohort$censoring_date <- censor_match(
   data = matched_cohort,
+  outcome_date_col = "death_date",
   censoring_date_col = "death_other_causes"
 )
 
@@ -49,6 +50,7 @@ test_that("`censor_match`: basic expectations", {
   )
 })
 
+# Always take the minimum censoring date per couple
 test_that("`censor_match`: take minimum censoring date", {
   censored_twodates <-
     matched_cohort[!is.na(matched_cohort$censoring_date)  &
@@ -58,6 +60,22 @@ test_that("`censor_match`: take minimum censoring date", {
   expect_true(
     all(
       censored_twodates$censoring_date <= censored_twodates$death_other_causes
+    )
+  )
+})
+
+# If one of the members of the couple has an outcome date before
+# the censoring date of the other. Do not censor, set censoring date
+# for the member with outcome as NA
+test_that("`censor_match`: not censoring cases", {
+  censored_and_outcome <-
+    matched_cohort[!is.na(matched_cohort$censoring_date)  &
+                     !is.na(matched_cohort$death_date),
+    ]
+
+  expect_true(
+    all(
+      censored_and_outcome$censoring_date > censored_and_outcome$death_date
     )
   )
 })

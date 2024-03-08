@@ -70,7 +70,7 @@ test_that("`censor_match`: take minimum censoring date", {
 test_that("`censor_match`: not censoring cases", {
   censored_and_outcome <-
     matched_cohort[!is.na(matched_cohort$censoring_date)  &
-                     !is.na(matched_cohort$death_date),
+      !is.na(matched_cohort$death_date),
     ]
 
   expect_true(

@@ -179,15 +179,16 @@ match_cohort <- function(data,
 #' )
 #'
 #' # add column with censoring date for match
-#' matched_cohort$censoring_date <-  censor_match(
+#' matched_cohort$censoring_date_match <-  censor_match(
 #'   data = matched_cohort,
+#'   outcome_date_col = "death_date",
 #'   censoring_date_col = "death_other_causes"
 #' )
 #'
 #' # view data with added column
 #' head(matched_cohort)
 #' @export
-censor_match <- function(data, censoring_date_col) {
+censor_match <- function(data, outcome_date_col, censoring_date_col) {
   censoring_date <- unlist(
     tapply(data[[censoring_date_col]],
       data$subclass,
@@ -200,5 +201,16 @@ censor_match <- function(data, censoring_date_col) {
       }
     )
   )
-  return(as.Date(censoring_date[data$subclass]))
+  data$censoring_date_match <- as.Date(censoring_date[data$subclass])
+  # if outcome happens before censoring_date_match
+  # no censoring must be assigned
+  data$censoring_date_match <-
+    as.Date(ifelse(
+      (data$censoring_date_match > data[[outcome_date_col]]) &
+        (!is.na(data$censoring_date_match)) &
+        (!is.na(data[[outcome_date_col]])),
+      as.Date(NA),
+      as.character(data$censoring_date_match)
+    ))
+  return(data$censoring_date_match)
 }

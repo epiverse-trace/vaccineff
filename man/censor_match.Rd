@@ -4,10 +4,13 @@
 \alias{censor_match}
 \title{Censor couple after matching}
 \usage{
-censor_match(data, censoring_date_col)
+censor_match(data, outcome_date_col, censoring_date_col)
 }
 \arguments{
 \item{data}{dataset with cohort information (see example)}
+
+\item{outcome_date_col}{name of the column that contains
+the outcome dates}
 
 \item{censoring_date_col}{name of the column that contains
 the censoring date. NULL by default}
@@ -38,8 +41,9 @@ matched_cohort <- match_cohort(data = cohortdata,
 )
 
 # add column with censoring date for match
-matched_cohort$censoring_date <-  censor_match(
+matched_cohort$censoring_date_match <-  censor_match(
   data = matched_cohort,
+  outcome_date_col = "death_date",
   censoring_date_col = "death_other_causes"
 )
 

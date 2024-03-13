@@ -179,7 +179,7 @@ match_cohort <- function(data,
 #' )
 #'
 #' # add column with censoring date for match
-#' matched_cohort$censoring_date_match <-  censor_match(
+#' matched_cohort$censoring_date_match <-  get_censoring_date_match(
 #'   data = matched_cohort,
 #'   outcome_date_col = "death_date",
 #'   censoring_date_col = "death_other_causes"
@@ -188,7 +188,9 @@ match_cohort <- function(data,
 #' # view data with added column
 #' head(matched_cohort)
 #' @export
-censor_match <- function(data, outcome_date_col, censoring_date_col) {
+get_censoring_date_match <- function(data,
+                                     outcome_date_col,
+                                     censoring_date_col) {
   # check for data frame type
   checkmate::assert_data_frame(
     data,

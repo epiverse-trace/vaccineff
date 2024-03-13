@@ -43,6 +43,9 @@
     <loc>https://epiverse-trace.github.io/vaccineff/reference/get_age_group.html</loc>
   </url>
   <url>
+    <loc>https://epiverse-trace.github.io/vaccineff/reference/get_censoring_date_match.html</loc>
+  </url>
+  <url>
     <loc>https://epiverse-trace.github.io/vaccineff/reference/get_immunization_date.html</loc>
   </url>
   <url>
@@ -56,6 +59,9 @@
   </url>
   <url>
     <loc>https://epiverse-trace.github.io/vaccineff/reference/index.html</loc>
+  </url>
+  <url>
+    <loc>https://epiverse-trace.github.io/vaccineff/reference/match_cohort.html</loc>
   </url>
   <url>
     <loc>https://epiverse-trace.github.io/vaccineff/reference/plot_coverage.html</loc>

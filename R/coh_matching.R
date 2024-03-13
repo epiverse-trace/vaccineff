@@ -20,12 +20,10 @@
 #' of the vaccination status.
 #' @param exact name(s) of column(s) for `exact` matching.
 #' Default to `NULL`.
-#' @param nearest name(s) of column(s) for `nearest` matching.
-#' Default to `NULL`.
-#' @param caliper named vector with caliper(s).
-#' e.g. `nearest = c("characteristic1", "characteristic2"),
-#' caliper = c("characteristic1" = n1, "characteristic2" = n2)`,
-#' where `n1` and `n2` are the calipers.
+#' @param nearest named vector with name(s) of column(s) for `nearest`
+#' matching and caliper(s) for each variable.
+#' e.g. `nearest = c("characteristic1" = n1, "characteristic2" = n2)`,
+#' where `n1` and `n2` are the calipers. Default to `NULL`.
 #' @return data frame with matched population. Two columns are added
 #' to the structure provided in `data`:
 #' `prop_score` (propensity score of the match),
@@ -44,9 +42,8 @@
 #' # match cohort
 #' matched_cohort <- match_cohort(data = cohortdata,
 #'   status_vacc_col = "vaccine_status",
-#'   nearest = "age",
-#'   exact = "sex",
-#'   caliper = c(age = 1)
+#'   nearest = c(age = 1),
+#'   exact = "sex"
 #' )
 #'
 #' # view matched data
@@ -55,8 +52,7 @@
 match_cohort <- function(data,
                          status_vacc_col,
                          exact = NULL,
-                         nearest = NULL,
-                         caliper = NULL) {
+                         nearest = NULL) {
 
   # input checking
   checkmate::assert_data_frame(
@@ -79,24 +75,13 @@ match_cohort <- function(data,
 
   # checks for `nearest`
   if (!is.null(nearest)) {
-    stopifnot(
-      "`caliper` must be provided together with `nearest`" =
-        (!missing(caliper))
-    )
-    checkmate::assert_character(nearest,
-      any.missing = FALSE, min.len = 1
+    checkmate::assert_numeric(
+      nearest,
+      any.missing = FALSE, min.len = 1, names = "named"
     )
     checkmate::assert_names(
       names(data),
-      must.include = nearest
-    )
-    checkmate::assert_numeric(
-      caliper,
-      len = length(nearest), names = "named"
-    )
-    checkmate::assert_names(
-      nearest,
-      must.include = names(caliper)
+      must.include = names(nearest)
     )
   }
   # checks for `exact`. Not else, both can be non-NULL
@@ -110,15 +95,8 @@ match_cohort <- function(data,
     )
   }
 
-  # if `nearest` is NULL and `caliper` is provided, caliper is ignored
-  if (is.null(nearest) && !is.null(caliper)) {
-    warning("`caliper` ignored caused by `nearest` not provided")
-    #caliper forced to null to avoid unexpected behavior
-    caliper <- NULL
-  }
-
   #Formula
-  variables <- c(exact, nearest)
+  variables <- c(exact, names(nearest))
   formula <- paste0(status_vacc_col, " ~ ")
   for (v in seq_along(variables)) {
     if (v == 1) {
@@ -137,8 +115,8 @@ match_cohort <- function(data,
     method = "nearest",
     ratio = 1,
     exact = exact,
-    nearest = nearest,
-    caliper = caliper,
+    nearest = names(nearest),
+    caliper = nearest,
     distance = "glm"
   )
   match <- MatchIt::match.data(matchit, distance = "prop.score")
@@ -173,9 +151,8 @@ match_cohort <- function(data,
 #' # match cohort
 #' matched_cohort <- match_cohort(data = cohortdata,
 #'   status_vacc_col = "vaccine_status",
-#'   nearest = "age",
-#'   exact = "sex",
-#'   caliper = c(age = 1)
+#'   nearest = c(age = 1),
+#'   exact = "sex"
 #' )
 #'
 #' # add column with censoring date for match

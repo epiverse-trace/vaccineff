@@ -35,9 +35,8 @@ cohortdata$vaccine_status <- set_status(
 # match cohort
 matched_cohort <- match_cohort(data = cohortdata,
   status_vacc_col = "vaccine_status",
-  nearest = "age",
-  exact = "sex",
-  caliper = c(age = 1)
+  nearest = c(age = 1),
+  exact = "sex"
 )
 
 # add column with censoring date for match

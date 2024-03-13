@@ -4,13 +4,7 @@
 \alias{match_cohort}
 \title{Static match of cohort}
 \usage{
-match_cohort(
-  data,
-  status_vacc_col,
-  exact = NULL,
-  nearest = NULL,
-  caliper = NULL
-)
+match_cohort(data, status_vacc_col, exact = NULL, nearest = NULL)
 }
 \arguments{
 \item{data}{dataset with cohort information (see example)}
@@ -21,12 +15,10 @@ of the vaccination status.}
 \item{exact}{name(s) of column(s) for \code{exact} matching.
 Default to \code{NULL}.}
 
-\item{nearest}{name(s) of column(s) for \code{nearest} matching.
-Default to \code{NULL}.}
-
-\item{caliper}{named vector with caliper(s).
-e.g. \verb{nearest = c("characteristic1", "characteristic2"), caliper = c("characteristic1" = n1, "characteristic2" = n2)},
-where \code{n1} and \code{n2} are the calipers.}
+\item{nearest}{named vector with name(s) of column(s) for \code{nearest}
+matching and caliper(s) for each variable.
+e.g. \code{nearest = c("characteristic1" = n1, "characteristic2" = n2)},
+where \code{n1} and \code{n2} are the calipers. Default to \code{NULL}.}
 }
 \value{
 data frame with matched population. Two columns are added
@@ -63,9 +55,8 @@ cohortdata$vaccine_status <- set_status(
 # match cohort
 matched_cohort <- match_cohort(data = cohortdata,
   status_vacc_col = "vaccine_status",
-  nearest = "age",
-  exact = "sex",
-  caliper = c(age = 1)
+  nearest = c(age = 1),
+  exact = "sex"
 )
 
 # view matched data

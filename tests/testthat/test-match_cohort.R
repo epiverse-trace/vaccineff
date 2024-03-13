@@ -24,8 +24,7 @@ test_that("`match_cohort`: basic expectations - all provided", {
     data = sample_cohort,
     status_vacc_col = "vaccine_status",
     exact = "sex",
-    nearest = "age",
-    caliper = c(age = 1)
+    nearest = c(age = 1)
   )
   # expect dataframe
   expect_s3_class(matched_cohort, "data.frame")
@@ -95,16 +94,6 @@ test_that("`match_cohort`: exact match", {
     table(matched_cohort[matched_cohort$vaccine_status == "u", ]$sex),
     table(matched_cohort[matched_cohort$vaccine_status == "v", ]$sex)
   )
-
-  expect_warning(
-    match_cohort(
-      data = sample_cohort,
-      status_vacc_col = "vaccine_status",
-      exact = "sex",
-      caliper = c(age = 1)
-    ),
-    regexp = "`caliper` ignored caused by `nearest` not provided"
-  )
 })
 
 # test for exact match
@@ -112,8 +101,7 @@ test_that("`match_cohort`: nearest match", {
   matched_cohort <- match_cohort(
     data = sample_cohort,
     status_vacc_col = "vaccine_status",
-    nearest = "age",
-    caliper = c(age = 3)
+    nearest = c(age = 3)
   )
   # even number of couples
   expect_setequal(
@@ -125,17 +113,6 @@ test_that("`match_cohort`: nearest match", {
   expect_identical(
     nrow(matched_cohort[matched_cohort$vaccine_status == "u", ]),
     nrow(matched_cohort[matched_cohort$vaccine_status == "v", ])
-  )
-
-  # expect error caliper not passed
-  expect_error(
-    match_cohort(
-      data = sample_cohort,
-      status_vacc_col = "vaccine_status",
-      nearest = "age"
-    ),
-    regexp =
-      "`caliper` must be provided together with `nearest`"
   )
 
   # ages are not equal due to caliper

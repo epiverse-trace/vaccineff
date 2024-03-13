@@ -1,4 +1,4 @@
-#### Tests for censor_match()
+#### Tests for get_censoring_date_match()
 
 ## prepare data
 data("cohortdata")

@@ -189,6 +189,33 @@ match_cohort <- function(data,
 #' head(matched_cohort)
 #' @export
 censor_match <- function(data, outcome_date_col, censoring_date_col) {
+  # check for data frame type
+  checkmate::assert_data_frame(
+    data,
+    min.rows = 1L
+  )
+  # check for names in data
+  checkmate::assert_names(
+    colnames(data),
+    must.include = c(outcome_date_col, censoring_date_col)
+  )
+  # check for subclass
+  checkmate::expect_names(
+    colnames(data),
+    must.include = "subclass",
+    info = "'subclass' column from match must be included in 'data' to \
+      identify matched couples."
+  )
+
+  # check for date type
+  checkmate::assert_date(data[[outcome_date_col]])
+  checkmate::assert_date(data[[censoring_date_col]])
+
+  # check for string type
+  checkmate::assert_string(outcome_date_col)
+  checkmate::assert_string(censoring_date_col)
+
+  # create censoring date for every couple indexed by subclass
   censoring_date <- unlist(
     tapply(data[[censoring_date_col]],
       data$subclass,
@@ -201,7 +228,9 @@ censor_match <- function(data, outcome_date_col, censoring_date_col) {
       }
     )
   )
+  # return data matched by subclass
   data$censoring_date_match <- as.Date(censoring_date[data$subclass])
+
   # if outcome happens before censoring_date_match
   # no censoring must be assigned
   data$censoring_date_match <-

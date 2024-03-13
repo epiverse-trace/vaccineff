@@ -719,3 +719,27 @@ coh_coverage <- function(data,
   coverage$coverage <- coverage$cum_doses / nrow(data)
   return(coverage)
 }
+
+set_event_status <- function(data,
+                             outcome_date_col,
+                             censoring_date_col) {
+  data$outcome_status <- set_status(data = data,
+    col_names = outcome_date_col,
+    status = c(1, 0)
+  )
+  data$outcome_status <- ifelse(
+    (!is.na(data[[censoring_date_col]])) &
+      (!is.na(data[[outcome_date_col]])) &
+      (data[[censoring_date_col]] <= data[[outcome_date_col]]),
+    yes = "0",
+    no = matched_cohort$outcome_status
+  )
+
+  return(as.factor(data$outcome_status))
+}
+
+matched_cohort$death_status <- set_event_status(
+  data = matched_cohort,
+  outcome_date_col = "death_date",
+  censoring_date_col = "censoring_date_match"
+)

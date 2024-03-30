@@ -9,8 +9,9 @@ coh_eff_noconf(
   data,
   outcome_status_col,
   time_to_event_col,
-  status_vacc_col,
-  p_thr = 0.05
+  vacc_status_col,
+  vaccinated_status = "v",
+  unvaccinated_status = "u"
 )
 }
 \arguments{
@@ -21,14 +22,16 @@ event (most be a binary column)}
 
 \item{time_to_event_col}{name of the column containing the time-to-event}
 
-\item{status_vacc_col}{name of the column containing the vaccination
-status}
+\item{vacc_status_col}{name of the column containing the vaccination}
 
-\item{p_thr}{p-value to test Proportional Hazards Hypothesis}
+\item{vaccinated_status}{string assigned to the vaccinated population}
+
+\item{unvaccinated_status}{string assigned to the unvaccinated population
+status}
 }
 \value{
 summary: hazards ratio (CI95\%), vaccine effectiveness (CI95\%),
-and Schoenfeld test
+and p-value from Schoenfeld test
 }
 \description{
 The function relies on the implementation of the Cox model for proportional
@@ -78,9 +81,9 @@ cohortdata$time_to_death <- get_time_to_event(
 
 # estimate vaccine effectiveness
 coh_eff_noconf(
-  cohortdata,
-  "death_status",
-  "time_to_death",
-  "vaccine_status"
+  data = cohortdata,
+  outcome_status_col = "death_status",
+  time_to_event_col = "time_to_death",
+  vacc_status_col = "vaccine_status"
 )
 }

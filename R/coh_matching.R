@@ -176,12 +176,7 @@ get_censoring_date_match <- function(data,
   # check for names in data
   checkmate::assert_names(
     colnames(data),
-    must.include = c(outcome_date_col, censoring_date_col)
-  )
-  # check for subclass
-  checkmate::assert_names(
-    colnames(data),
-    must.include = "subclass"
+    must.include = c(outcome_date_col, censoring_date_col, "subclass")
   )
 
   # check for date type

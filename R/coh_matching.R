@@ -179,11 +179,9 @@ get_censoring_date_match <- function(data,
     must.include = c(outcome_date_col, censoring_date_col)
   )
   # check for subclass
-  checkmate::expect_names(
+  checkmate::assert_names(
     colnames(data),
-    must.include = "subclass",
-    info = "'subclass' column from match must be included in 'data' to \
-      identify matched couples."
+    must.include = "subclass"
   )
 
   # check for date type

@@ -173,6 +173,11 @@ get_censoring_date_match <- function(data,
     data,
     min.rows = 1L
   )
+
+  # check for string type
+  checkmate::assert_string(outcome_date_col)
+  checkmate::assert_string(censoring_date_col)
+
   # check for names in data
   checkmate::assert_names(
     colnames(data),
@@ -182,10 +187,6 @@ get_censoring_date_match <- function(data,
   # check for date type
   checkmate::assert_date(data[[outcome_date_col]])
   checkmate::assert_date(data[[censoring_date_col]])
-
-  # check for string type
-  checkmate::assert_string(outcome_date_col)
-  checkmate::assert_string(censoring_date_col)
 
   # create censoring date for every couple indexed by subclass
   censoring_date <- unlist(

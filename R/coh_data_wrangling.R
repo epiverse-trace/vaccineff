@@ -761,17 +761,6 @@ set_event_status <- function(data,
     col_names = outcome_date_col,
     status = c(1, 0)
   )
-<<<<<<< HEAD
-  data$outcome_status <- ifelse(
-    (!is.na(data[[censoring_date_col]])) &
-      (!is.na(data[[outcome_date_col]])) &
-      (data[[censoring_date_col]] <= data[[outcome_date_col]]),
-    yes = "0",
-    no = data$outcome_status
-  )
-
-=======
-
   if (!is.null(censoring_date_col)) {
     checkmate::assert_character(censoring_date_col,
       any.missing = FALSE, min.len = 1
@@ -787,6 +776,5 @@ set_event_status <- function(data,
       no = data$outcome_status
     )
   }
->>>>>>> refs/remotes/origin/refac-effectiveness-matching
   return(data$outcome_status)
 }

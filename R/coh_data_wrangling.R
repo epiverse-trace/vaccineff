@@ -732,14 +732,8 @@ set_event_status <- function(data,
       (!is.na(data[[outcome_date_col]])) &
       (data[[censoring_date_col]] <= data[[outcome_date_col]]),
     yes = "0",
-    no = matched_cohort$outcome_status
+    no = data$outcome_status
   )
 
-  return(as.factor(data$outcome_status))
+  return(data$outcome_status)
 }
-
-matched_cohort$death_status <- set_event_status(
-  data = matched_cohort,
-  outcome_date_col = "death_date",
-  censoring_date_col = "censoring_date_match"
-)

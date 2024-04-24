@@ -53,7 +53,8 @@ test_that("`plot_survival`: default params", {
     start_cohort = start_cohort,
     end_cohort = end_cohort,
     percentage = TRUE,
-    cumulative = FALSE
+    cumulative = FALSE,
+    loglog = FALSE
   )
 
   expect_identical(plt$labels$y, "Survival probability")
@@ -77,7 +78,8 @@ test_that("`plot_survival`: integer scale", {
     start_cohort = start_cohort,
     end_cohort = end_cohort,
     percentage = FALSE,
-    cumulative = TRUE
+    cumulative = TRUE,
+    loglog = FALSE
   )
 
   expect_s3_class(ggplot2::layer_scales(plt)$y, "ScaleContinuous")
@@ -97,8 +99,31 @@ test_that("`plot_survival`: Snapshot test", {
     start_cohort = start_cohort,
     end_cohort = end_cohort,
     percentage = TRUE,
-    cumulative = TRUE
+    cumulative = TRUE,
+    loglog = FALSE
   )
 
   expect_identical(plt$labels$y, "Cumulative hazard")
 })
+
+# test for loglog plot
+test_that("`plot_survival`: loglog plot", {
+  plt <- plot_survival(
+    data = cohortdata,
+    outcome_status_col = "death_status",
+    time_to_event_col = "time_to_death",
+    vacc_status_col = "vaccine_status",
+    vaccinated_status = "v",
+    unvaccinated_status = "u",
+    vaccinated_color = "steelblue",
+    unvaccinated_color = "darkred",
+    start_cohort = start_cohort,
+    end_cohort = end_cohort,
+    percentage = TRUE,
+    cumulative = TRUE,
+    loglog = TRUE
+  )
+
+  expect_identical(plt$labels$y, "Log[-Log[Surv.]]")
+})
+

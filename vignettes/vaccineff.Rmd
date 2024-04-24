@@ -100,6 +100,7 @@ cohortdata$immunization <-
   get_immunization_date(
     data = cohortdata,
     outcome_date_col = "death_date",
+    censoring_date_col = "death_other_causes",
     outcome_delay = 0,
     immunization_delay = 14,
     vacc_date_col = c("vaccine_date_1", "vaccine_date_2"),
@@ -113,14 +114,16 @@ cohortdata$vaccine_status <- set_status(
   status = c("v", "u")
 )
 
-cohortdata$death_status <- set_status(
+cohortdata$death_status <- set_event_status(
   data = cohortdata,
-  col_names = "death_date"
+  outcome_date_col = "death_date",
+  censoring_date_col = "death_other_causes"
 )
 
 cohortdata$time_to_death <- get_time_to_event(
   data = cohortdata,
   outcome_date_col = "death_date",
+  censoring_date_col = "death_other_causes",
   start_cohort = as.Date("2044-01-01"),
   end_cohort = as.Date("2044-12-31"),
   start_from_immunization = FALSE
@@ -130,7 +133,7 @@ coh_eff_noconf(
   data = cohortdata,
   outcome_status_col = "death_status",
   time_to_event_col = "time_to_death",
-  status_vacc_col = "vaccine_status"
+  vacc_status_col = "vaccine_status"
 )
 ```
 

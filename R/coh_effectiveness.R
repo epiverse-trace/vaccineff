@@ -13,11 +13,12 @@
 #' @param outcome_status_col name of the column containing status of the
 #' event (most be a binary column)
 #' @param time_to_event_col name of the column containing the time-to-event
-#' @param status_vacc_col name of the column containing the vaccination
+#' @param vacc_status_col name of the column containing the vaccination
+#' @param vaccinated_status string assigned to the vaccinated population
+#' @param unvaccinated_status string assigned to the unvaccinated population
 #' status
-#' @param p_thr p-value to test Proportional Hazards Hypothesis
 #' @return summary: hazards ratio (CI95%), vaccine effectiveness (CI95%),
-#' and Schoenfeld test
+#' and p-value from Schoenfeld test
 #' @examples
 #' # load example data from package
 #' data("cohortdata")
@@ -57,17 +58,18 @@
 #'
 #' # estimate vaccine effectiveness
 #' coh_eff_noconf(
-#'   cohortdata,
-#'   "death_status",
-#'   "time_to_death",
-#'   "vaccine_status"
+#'   data = cohortdata,
+#'   outcome_status_col = "death_status",
+#'   time_to_event_col = "time_to_death",
+#'   vacc_status_col = "vaccine_status"
 #' )
 #' @export
 coh_eff_noconf <- function(data,
                            outcome_status_col,
                            time_to_event_col,
-                           status_vacc_col,
-                           p_thr = 0.05) {
+                           vacc_status_col,
+                           vaccinated_status = "v",
+                           unvaccinated_status = "u") {
 
   # input checking
   checkmate::assert_data_frame(
@@ -76,9 +78,21 @@ coh_eff_noconf <- function(data,
   )
   checkmate::assert_names(
     names(data),
-    must.include = c(outcome_status_col, time_to_event_col, status_vacc_col)
+    must.include = c(outcome_status_col, time_to_event_col, vacc_status_col)
   )
-  checkmate::assert_number(p_thr, lower = 0.0, upper = 1.0)
+  checkmate::assert_names(
+    data[[vacc_status_col]],
+    must.include = c(vaccinated_status, unvaccinated_status)
+  )
+
+  data[[vacc_status_col]] <- factor(
+    data[[vacc_status_col]],
+    levels = c(vaccinated_status, unvaccinated_status),
+    ordered = FALSE
+  )
+  data[[vacc_status_col]] <- stats::relevel(
+    data[[vacc_status_col]], ref = unvaccinated_status
+  )
 
   indiv_survival <- survival::Surv( # nolint
     data[[time_to_event_col]], data[[outcome_status_col]]
@@ -86,7 +100,7 @@ coh_eff_noconf <- function(data,
 
   # cox regression
   cx <- survival::coxph(
-    indiv_survival ~ data[[status_vacc_col]]
+    indiv_survival ~ data[[vacc_status_col]]
   )
 
   # Test the Proportional Hazards Assumption
@@ -100,19 +114,13 @@ coh_eff_noconf <- function(data,
   # extract from matrix by name
   p <- test$table["GLOBAL", "p"]
 
-  if (p < p_thr) {
-    ph <- "reject"
-  } else {
-    ph <- "accept"
-  }
   df_summ <- data.frame(
     HR = hr,
-    HR_low = ci025,
-    HR_high = ci975,
-    V_eff = 1 - hr,
-    V_eff_low = 1 - ci975,
-    V_eff_high = 1 - ci025,
-    PH = ph,
+    HR_025 = ci025,
+    HR_975 = ci975,
+    VE = 1 - hr,
+    VE_025 = 1 - ci975,
+    VE_975 = 1 - ci025,
     p_value = p # p_value must be a numeric
   )
   # remove rownames

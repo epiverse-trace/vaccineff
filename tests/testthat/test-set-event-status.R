@@ -8,19 +8,10 @@ data("cohortdata")
 test_that("`set_event_status`: Basic expectations", {
   # runs without errors
   expect_no_condition(
-    set_status(
+    set_event_status(
       data = cohortdata,
-      col_names = "death_date",
-      status = c(1, 0)
+      outcome_date_col = "death_date",
+      censoring_date_col = "death_other_causes"
     )
   )
-
-  # expect character
-  expect_vector(
-    vaccine_status,
-    ptype = character()
-  )
-
-  # expect unique values
-  expect_setequal(vaccine_status, vax_status)
 })

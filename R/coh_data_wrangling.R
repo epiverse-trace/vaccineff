@@ -720,13 +720,48 @@ coh_coverage <- function(data,
   return(coverage)
 }
 
+#' @title Assign event status
+#'
+#' @description This function generates a binary status (1,0) associated
+#' with an outcome. The value returned is 0 if a register is censored
+#' before the outcome occurs or if the outcome does not occur during the
+#' follow-up period. If the outcome occurs and the register is not
+#' censored the value returned is 1.
+#' @inheritParams get_immunization_date
+#' @return status
+#' @examples
+#' # load package example data for cohort studies
+#' data("cohortdata")
+#'
+#' # assign death status
+#' cohortdata$death_status <- set_event_status(
+#'   data = cohortdata,
+#'   outcome_date_col = "death_date",
+#'   censoring_date_col = "death_other_causes"
+#' )
+#'
+#' # view data with added column
+#' head(cohortdata)
+#' @export
 set_event_status <- function(data,
                              outcome_date_col,
-                             censoring_date_col) {
+                             censoring_date_col = NULL) {
+  checkmate::assert_data_frame(
+    data,
+    min.rows = 1, min.cols = 1
+  )
+  checkmate::assert_character(outcome_date_col,
+    any.missing = FALSE, min.len = 1
+  )
+  checkmate::assert_names(
+    names(data), must.include = outcome_date_col
+  )
+
   data$outcome_status <- set_status(data = data,
     col_names = outcome_date_col,
     status = c(1, 0)
   )
+<<<<<<< HEAD
   data$outcome_status <- ifelse(
     (!is.na(data[[censoring_date_col]])) &
       (!is.na(data[[outcome_date_col]])) &
@@ -735,5 +770,23 @@ set_event_status <- function(data,
     no = data$outcome_status
   )
 
+=======
+
+  if (!is.null(censoring_date_col)) {
+    checkmate::assert_character(censoring_date_col,
+      any.missing = FALSE, min.len = 1
+    )
+    checkmate::assert_names(
+      names(data), must.include = censoring_date_col
+    )
+    data$outcome_status <- ifelse(
+      (!is.na(data[[censoring_date_col]])) &
+        (!is.na(data[[outcome_date_col]])) &
+        (data[[censoring_date_col]] <= data[[outcome_date_col]]),
+      yes = "0",
+      no = data$outcome_status
+    )
+  }
+>>>>>>> refs/remotes/origin/refac-effectiveness-matching
   return(data$outcome_status)
 }

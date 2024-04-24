@@ -16,7 +16,8 @@ plot_survival(
   start_cohort,
   end_cohort,
   percentage = TRUE,
-  cumulative = FALSE
+  cumulative = FALSE,
+  loglog = FALSE
 )
 }
 \arguments{
@@ -44,7 +45,9 @@ status}
 
 \item{percentage}{if TRUE returns probability in percentage}
 
-\item{cumulative}{if TRUE returns cumulative Hazards (1-Survival)}
+\item{cumulative}{if TRUE returns cumulative Hazards}
+
+\item{loglog}{if TRUE returns loglog plot for testing proportional hazards}
 }
 \value{
 ggplot2 plot of survival/cumulative hazard
@@ -107,6 +110,7 @@ plot_survival(
   start_cohort = start_cohort,
   end_cohort = end_cohort,
   percentage = TRUE,
-  cumulative = TRUE
+  cumulative = TRUE,
+  loglog = FALSE
 )
 }

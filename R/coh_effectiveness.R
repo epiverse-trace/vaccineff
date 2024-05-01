@@ -114,16 +114,11 @@ coh_eff_noconf <- function(data,
   # extract from matrix by name
   p <- test$table["GLOBAL", "p"]
 
-  df_summ <- data.frame(
-    HR = hr,
-    HR_025 = ci025,
-    HR_975 = ci975,
+  eff <- data.frame(
     VE = 1 - hr,
-    VE_025 = 1 - ci975,
-    VE_975 = 1 - ci025,
-    p_value = p # p_value must be a numeric
+    `lower .95` = 1 - ci975,
+    `upper .95` = 1 - ci025
   )
-  # remove rownames
-  rownames(df_summ) <- NULL
-  return(df_summ)
+
+  return(list(effectiveness = eff, ph = p))
 }

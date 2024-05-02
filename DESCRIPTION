@@ -24,7 +24,7 @@ Authors@R: c(
     person(given = "Felipe Segundo", family = "Abril", email = "fsabrilb@unal.edu.co", role = "ctb",
            comment = c(ORCID = "0000-0002-2512-4929"))
   )
-Description: Estimate vaccine effectiveness based on different observational study designs, as discussed in Torvaldsen and McIntyre (2020) <doi:10.3316/informit.511798489353134>.
+Description: R package with tools for estimating vaccine effectiveness and vaccine related metrics.
 URL: https://github.com/epiverse-trace/vaccineff, https://epiverse-trace.github.io/vaccineff/
 BugReports: https://github.com/epiverse-trace/vaccineff/issues
 License: MIT + file LICENSE

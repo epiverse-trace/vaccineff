@@ -28,11 +28,10 @@ knitr::opts_chunk$set(
 [![lifecycle-experimental](https://raw.githubusercontent.com/reconverse/reconverse.github.io/master/images/badge-experimental.svg)](https://www.reconverse.org/lifecycle.html#concept)
 
 <!-- badges: end -->
-
-*{{ packagename }}* is an R package that offers tools for estimating vaccine effectiveness [@torvaldsen2002]. The current version of the package provides a set of features for preparing, visualizing, and managing cohort data, estimating vaccine effectiveness, and assessing the performance of the models.
-
 *{{ packagename }}* is developed at [Pontificia Universidad Javeriana](https://www.javeriana.edu.co/inicio) as part of the
 [Epiverse-TRACE initiative](https://data.org/initiatives/epiverse/).
+
+*{{ packagename }}* is an R package that offers tools for estimating vaccine effectiveness, using a series of epidemiological designs including cohort studies, test-negative case-control, and screening methods [@torvaldsen2002]. The current version of the package provides a set of features for preparing, visualizing, and managing cohort data, estimating vaccine effectiveness, and assessing the performance of the models. Test-negative design and screening method will be included in future versions.
 
 ## Installation
 
@@ -75,7 +74,7 @@ Contributors to the project include:
 **Authors**: [David Santiago Quevedo](https://github.com/davidsantiagoquevedo) and [Zulma M. Cucunubá](https://github.com/zmcucunuba) (maintainer)
 
 **Contributors**:
-[Geraldine Gómez](https://github.com/GeraldineGomez), [Pratik Gupte](https://github.com/pratikunterwegs), [Érika J. Cantor](https://github.com/ErikaCantor), [Santiago Loaiza](https://github.com/santilo9513), [Jaime A. Pavlich-Mariscal](https://github.com/jpavlich), [Hugo Gruson](https://github.com/Bisaloo), [Chris Hartgerink](https://github.com/chartgerink), [Felipe S. Abril](https://github.com/fsabrilb)
+[Geraldine Gómez](https://github.com/GeraldineGomez), [Pratik Gupte](https://github.com/pratikunterwegs), [Érika J. Cantor](https://github.com/ErikaCantor), [Santiago Loaiza](https://github.com/santilo9513), [Jaime A. Pavlich-Mariscal](https://github.com/jpavlich), [Hugo Gruson](https://github.com/Bisaloo), [Chris Hartgerink](https://github.com/chartgerink), [Felipe Segundo Abril-Bermúdez](https://github.com/fsabrilb)
 
 
 ## Code of conduct

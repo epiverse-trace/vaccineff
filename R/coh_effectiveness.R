@@ -1,8 +1,6 @@
 #' Internal function to extract summary output from survival models.
 #'
 #' @param model survival object with model
-#' @param start_cohort start date of the study
-#' @param end_cohort end date of the study
 #' @return Data frame with survival data
 #' @keywords internal
 extract_surv_model <- function(model, start_cohort, end_cohort) {
@@ -18,8 +16,6 @@ extract_surv_model <- function(model, start_cohort, end_cohort) {
 #' Internal function to calculate Kapplan-Meier model and related metrics.
 #'
 #' @inheritParams coh_eff_noconf
-#' @param start_cohort start date of the study
-#' @param end_cohort end date of the study
 #' @return Data frame with data from KM model:
 #' time to event
 #' survivial probability (CI95%)
@@ -255,7 +251,7 @@ coh_eff_noconf <- function(data,
   test <- paste0("Schoenfeld test for Proportional Hazards hypothesis: ",
     cx$p_value
   )
-  
+
   # output
   ve <- list(
     ve = effectiveness,

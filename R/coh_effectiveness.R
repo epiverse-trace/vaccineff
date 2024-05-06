@@ -57,6 +57,14 @@ km_model <- function(data,
   )
   levels(km$strata) <- c(vaccinated_status, unvaccinated_status)
 
+  km <- subset(km,
+    select = c("time", "date", "strata",
+      "n.risk", "n.event", "n.censor",
+      "surv", "lower", "upper",
+      "cumincidence", "cumincidence_lower", "cumincidence_upper"
+    )
+  )
+
   return(km)
 }
 

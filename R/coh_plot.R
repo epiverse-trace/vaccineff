@@ -175,14 +175,6 @@ plot_survival <- function(data, outcome_status_col,
     km$plot_upper <- km$lower
   }
 
-  km$strata <- factor(km$strata,
-    levels = c(
-      paste0("data[[vacc_status_col]]=", vaccinated_status),
-      paste0("data[[vacc_status_col]]=", unvaccinated_status)
-    )
-  )
-  levels(km$strata) <- c(vaccinated_status, unvaccinated_status)
-
   # set colour names for vaccination status
   colors <- c(vaccinated_color, unvaccinated_color)
   vacc_status <- c(vaccinated_status, unvaccinated_status)
@@ -230,17 +222,7 @@ plot_survival <- function(data, outcome_status_col,
     ggplot2::xlab("Time to event (Days)") +
     ggplot2::labs(colour = "Vaccine Status")
 
-  if (loglog) {
-    loglog <- plot_loglog(surv_plot = plt,
-      vaccinated_status = vaccinated_status,
-      unvaccinated_status = unvaccinated_status,
-      vaccinated_color = vaccinated_color,
-      unvaccinated_color = unvaccinated_color
-    )
-    return(loglog)
-  } else {
-    return(plt)
-  }
+  return(plt)
 }
 
 #' Function to plot the vaccine coverage in a cohort

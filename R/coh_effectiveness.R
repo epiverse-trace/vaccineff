@@ -34,19 +34,19 @@ km_model <- function(data,
                      start_cohort,
                      end_cohort) {
   # KM model time to event, outcome ~ vaccine status
-  km_model <- survival::survfit(
+  model <- survival::survfit(
     survival::Surv(
       data[[time_to_event_col]],
       data[[outcome_status_col]]
     ) ~ data[[vacc_status_col]]
   )
   # Extract data from survival element
-  results <- extract_surv_model(km_model, start_cohort, end_cohort)
+  km <- extract_surv_model(model, start_cohort, end_cohort)
 
   # Construct cumulative incidence = 1 - S
-  results$cumincidence <- 1 - results$surv
-  results$cumincidence_lower <- 1 - results$upper
-  results$cumincidence_upper <- 1 - results$lower
+  km$cumincidence <- 1 - km$surv
+  km$cumincidence_lower <- 1 - km$upper
+  km$cumincidence_upper <- 1 - km$lower
 
   # Construct strata data
   km$strata <- factor(km$strata,
@@ -57,7 +57,7 @@ km_model <- function(data,
   )
   levels(km$strata) <- c(vaccinated_status, unvaccinated_status)
 
-  return(results)
+  return(km)
 }
 
 #' Function to estimate the vaccine effectiveness based on the vaccination

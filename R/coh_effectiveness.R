@@ -15,6 +15,40 @@ extract_surv_model <- function(model, start_cohort, end_cohort) {
   return(tbl)
 }
 
+#' Internal function to calculate Kapplan-Meier model and related metrics.
+#'
+#' @inheritParams coh_eff_noconf
+#' @param start_cohort start date of the study
+#' @param end_cohort end date of the study
+#' @return Data frame with data from KM model:
+#' time to event
+#' survivial probability (CI95%)
+#' cumulative incidence (CI95%)
+#' @keywords internal
+km_model <- function(data,
+                     time_to_event_col,
+                     outcome_status_col,
+                     vacc_status_col,
+                     start_cohort,
+                     end_cohort) {
+  # KM model time to event, outcome ~ vaccine status
+  km_model <- survival::survfit(
+    survival::Surv(
+      data[[time_to_event_col]],
+      data[[outcome_status_col]]
+    ) ~ data[[vacc_status_col]]
+  )
+  # Extract data from survival element
+  results <- extract_surv_model(km_model, start_cohort, end_cohort)
+
+  #Construct cumulative incidence = 1 - S
+  results$cumincidence <- 1 - results$surv
+  results$cumincidence_lower <- 1 - results$upper
+  results$cumincidence_upper <- 1 - results$lower
+
+  return(results)
+}
+
 #' Function to estimate the vaccine effectiveness based on the vaccination
 #' status.
 #'

@@ -157,33 +157,31 @@ plot_survival <- function(data, outcome_status_col,
   )
 
   # KM model
-  km_model <- survival::survfit(
-    survival::Surv(
-      data[[time_to_event_col]],
-      data[[outcome_status_col]]
-    ) ~ data[[vacc_status_col]]
+  km <- km_model(data = data,
+    time_to_event_col = time_to_event_col,
+    outcome_status_col = outcome_status_col,
+    vacc_status_col = vacc_status_col,
+    start_cohort = start_cohort,
+    end_cohort = end_cohort
   )
 
-  # Extract data from survival element
-  results <- extract_surv_model(km_model, start_cohort, end_cohort)
-
   if (cumulative) {
-    results$plot <- 1 - results$surv
-    results$plot_lower <- 1 - results$upper
-    results$plot_upper <- 1 - results$lower
+    km$plot <- km$cumincidence
+    km$plot_lower <- km$cumincidence_lower
+    km$plot_upper <- km$cumincidence_upper
   } else {
-    results$plot <- results$surv
-    results$plot_lower <- results$upper
-    results$plot_upper <- results$lower
+    km$plot <- km$surv
+    km$plot_lower <- km$upper
+    km$plot_upper <- km$lower
   }
 
-  results$strata <- factor(results$strata,
+  km$strata <- factor(km$strata,
     levels = c(
       paste0("data[[vacc_status_col]]=", vaccinated_status),
       paste0("data[[vacc_status_col]]=", unvaccinated_status)
     )
   )
-  levels(results$strata) <- c(vaccinated_status, unvaccinated_status)
+  levels(km$strata) <- c(vaccinated_status, unvaccinated_status)
 
   # set colour names for vaccination status
   colors <- c(vaccinated_color, unvaccinated_color)
@@ -191,7 +189,7 @@ plot_survival <- function(data, outcome_status_col,
   names(colors) <- c(vaccinated_status, unvaccinated_status)
 
   plt <-
-    ggplot2::ggplot(data = results) +
+    ggplot2::ggplot(data = km) +
     ggplot2::geom_ribbon(
       ggplot2::aes(
         x = .data$time,

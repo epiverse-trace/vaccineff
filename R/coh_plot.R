@@ -4,17 +4,19 @@
 #' @inheritParams plot_survival
 #' @return loglog plot
 #' @keywords internal
-plot_loglog <- function(surv_plot,
+plot_loglog <- function(km,
                         vaccinated_status,
-                        unvaccinated_status,
-                        vaccinated_color,
-                        unvaccinated_color) {
-  surv <- surv_plot$data
-  surv[surv$time == max(surv$time), ]
-  surv$loglog <- log(-log(surv$surv))
+                        unvaccinated_status) {
+  # Calculate log-variables
+  km$loglog <- log(-log(km$surv))
+  km$logtime <- log(km$time)
 
-  surv$logtime <- log(surv$time)
-  plt_loglog <- ggplot2::ggplot(data = surv) +
+  # Plot colors
+  vaccinated_color <- "steelblue"
+  unvaccinated_color <- "darkred"
+
+  # Plot
+  plt_loglog <- ggplot2::ggplot(data = km) +
     ggplot2::geom_step(ggplot2::aes(x = .data$logtime,
                                     y = .data$loglog,
                                     color = .data$strata)

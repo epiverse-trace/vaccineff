@@ -145,9 +145,11 @@ cox_model <- function(data,
 #' @param vacc_status_col name of the column containing the vaccination
 #' @param vaccinated_status string assigned to the vaccinated population
 #' @param unvaccinated_status string assigned to the unvaccinated population
+#' @param start_cohort start date of the study
+#' @param end_cohort end date of the study
 #' status
-#' @return summary: hazards ratio (CI95%), vaccine effectiveness (CI95%),
-#' and p-value from Schoenfeld test
+#' @return vaccine effectiveness (CI95%), Schoenfeld test,
+#' Loglog plot for Proportional Hazards
 #' @examples
 #' # load example data from package
 #' data("cohortdata")
@@ -198,7 +200,9 @@ coh_eff_noconf <- function(data,
                            time_to_event_col,
                            vacc_status_col,
                            vaccinated_status = "v",
-                           unvaccinated_status = "u") {
+                           unvaccinated_status = "u",
+                           start_cohort,
+                           end_cohort) {
 
   # input checking
   checkmate::assert_data_frame(
@@ -214,40 +218,50 @@ coh_eff_noconf <- function(data,
     must.include = c(vaccinated_status, unvaccinated_status)
   )
 
-  data[[vacc_status_col]] <- factor(
-    data[[vacc_status_col]],
-    levels = c(vaccinated_status, unvaccinated_status),
-    ordered = FALSE
-  )
-  data[[vacc_status_col]] <- stats::relevel(
-    data[[vacc_status_col]], ref = unvaccinated_status
-  )
-
-  indiv_survival <- survival::Surv( # nolint
-    data[[time_to_event_col]], data[[outcome_status_col]]
+  # Kapplan-Meier model for loglog curve
+  km <- km_model(data = data,
+    outcome_status_col = outcome_status_col,
+    time_to_event_col = time_to_event_col,
+    vacc_status_col = vacc_status_col,
+    vaccinated_status = vaccinated_status,
+    unvaccinated_status = unvaccinated_status,
+    start_cohort = start_cohort,
+    end_cohort = end_cohort
   )
 
-  # cox regression
-  cx <- survival::coxph(
-    indiv_survival ~ data[[vacc_status_col]]
+  # loglog plot
+  loglog <- plot_loglog(km,
+    vaccinated_status = vaccinated_status,
+    unvaccinated_status = unvaccinated_status
   )
 
-  # Test the Proportional Hazards Assumption
-  test <- survival::cox.zph(cx)
-  hr <- round(exp(stats::coef(cx)), digits = 4)
-
-  # extract first and second element as limits
-  ci025 <- round(exp(stats::confint(cx)), 4)[1]
-  ci975 <- round(exp(stats::confint(cx)), 4)[2]
-
-  # extract from matrix by name
-  p <- test$table["GLOBAL", "p"]
-
-  eff <- data.frame(
-    VE = 1 - hr,
-    `lower .95` = 1 - ci975,
-    `upper .95` = 1 - ci025
+  # Cox model
+  cx <- cox_model(data = data,
+    outcome_status_col = outcome_status_col,
+    time_to_event_col = time_to_event_col,
+    vacc_status_col = vacc_status_col,
+    vaccinated_status = vaccinated_status,
+    unvaccinated_status = unvaccinated_status
   )
 
-  return(list(effectiveness = eff, ph = p))
+  # Vaccine effectiveness = 1 - HR
+  effectiveness <- data.frame(
+    VE = 1 - cx$hr,
+    `lower .95` = 1 - cx$upper,
+    `upper .95` = 1 - cx$lower
+  )
+
+  # p-value for Schoenfeld test
+  test <- paste0("Schoenfeld test for Proportional Hazards hypothesis: ",
+    cx$p_value
+  )
+  
+  # output
+  ve <- list(
+    ve = effectiveness,
+    prop_hazards = test,
+    loglog <- loglog
+  )
+
+  return(ve)
 }

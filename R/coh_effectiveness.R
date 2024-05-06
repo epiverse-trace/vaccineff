@@ -68,6 +68,65 @@ km_model <- function(data,
   return(km)
 }
 
+#' Internal function to calculate Cox-PH model and related metrics.
+#'
+#' @inheritParams coh_eff_noconf
+#' @return List with data from Cox model:
+#' hr - hazard ratio (CI95%)
+#' p_value
+#' survival object with model
+#' survival object with Schoenfeld test
+#' @keywords internal
+cox_model <- function(data,
+                      outcome_status_col,
+                      time_to_event_col,
+                      vacc_status_col,
+                      vaccinated_status,
+                      unvaccinated_status) {
+
+  # Prepare data for model
+  data[[vacc_status_col]] <- factor(
+    data[[vacc_status_col]],
+    levels = c(vaccinated_status, unvaccinated_status),
+    ordered = FALSE
+  )
+
+  data[[vacc_status_col]] <- stats::relevel(
+    data[[vacc_status_col]], ref = unvaccinated_status
+  )
+
+  # Cox model time to event, outcome ~ vaccine status
+  indiv_survival <- survival::Surv( # nolint
+    data[[time_to_event_col]], data[[outcome_status_col]]
+  )
+
+  # Regression
+  model <- survival::coxph(
+    indiv_survival ~ data[[vacc_status_col]]
+  )
+
+  ## Hazard ratio
+  hr <- round(exp(stats::coef(model)), digits = 4)
+  # CI(95%): extract first and second element as limits
+  lower <- round(exp(stats::confint(model)), 4)[1]
+  upper <- round(exp(stats::confint(model)), 4)[2]
+
+  ## Schoenfled test for Proportional Hazards hypothesis
+  test <- survival::cox.zph(model)
+  # extract from matrix by name
+  p_value <- round(test$table["GLOBAL", "p"], 4)
+
+  cx <- list(hr = hr,
+    lower = lower,
+    upper = upper,
+    p_value = p_value,
+    model = model,
+    test = test
+  )
+
+  return(cx)
+}
+
 #' Function to estimate the vaccine effectiveness based on the vaccination
 #' status.
 #'

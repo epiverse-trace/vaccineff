@@ -160,13 +160,13 @@ plot_survival <- function(data, outcome_status_col,
 
   # KM model
   km <- km_model(data = data,
-    time_to_event_col = time_to_event_col,
     outcome_status_col = outcome_status_col,
+    time_to_event_col = time_to_event_col,
     vacc_status_col = vacc_status_col,
-    start_cohort = start_cohort,
-    end_cohort = end_cohort,
     vaccinated_status = vaccinated_status,
-    unvaccinated_status = unvaccinated_status
+    unvaccinated_status = unvaccinated_status,
+    start_cohort = start_cohort,
+    end_cohort = end_cohort
   )
 
   if (cumulative) {

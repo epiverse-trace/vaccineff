@@ -184,21 +184,21 @@ cox_model <- function(data,
 #' )
 #'
 #' # estimate vaccine effectiveness
-#' coh_eff_noconf(
+#' coh_effectiveness(
 #'   data = cohortdata,
 #'   outcome_status_col = "death_status",
 #'   time_to_event_col = "time_to_death",
 #'   vacc_status_col = "vaccine_status"
 #' )
 #' @export
-coh_eff_noconf <- function(data,
-                           outcome_status_col,
-                           time_to_event_col,
-                           vacc_status_col,
-                           vaccinated_status = "v",
-                           unvaccinated_status = "u",
-                           start_cohort,
-                           end_cohort) {
+coh_effectiveness <- function(data,
+                              outcome_status_col,
+                              time_to_event_col,
+                              vacc_status_col,
+                              vaccinated_status = "v",
+                              unvaccinated_status = "u",
+                              start_cohort,
+                              end_cohort) {
 
   # input checking
   checkmate::assert_data_frame(

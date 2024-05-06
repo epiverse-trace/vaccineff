@@ -26,9 +26,11 @@ extract_surv_model <- function(model, start_cohort, end_cohort) {
 #' cumulative incidence (CI95%)
 #' @keywords internal
 km_model <- function(data,
-                     time_to_event_col,
                      outcome_status_col,
+                     time_to_event_col,
                      vacc_status_col,
+                     vaccinated_status,
+                     unvaccinated_status,
                      start_cohort,
                      end_cohort) {
   # KM model time to event, outcome ~ vaccine status
@@ -41,10 +43,19 @@ km_model <- function(data,
   # Extract data from survival element
   results <- extract_surv_model(km_model, start_cohort, end_cohort)
 
-  #Construct cumulative incidence = 1 - S
+  # Construct cumulative incidence = 1 - S
   results$cumincidence <- 1 - results$surv
   results$cumincidence_lower <- 1 - results$upper
   results$cumincidence_upper <- 1 - results$lower
+
+  # Construct strata data
+  km$strata <- factor(km$strata,
+    levels = c(
+      paste0("data[[vacc_status_col]]=", vaccinated_status),
+      paste0("data[[vacc_status_col]]=", unvaccinated_status)
+    )
+  )
+  levels(km$strata) <- c(vaccinated_status, unvaccinated_status)
 
   return(results)
 }

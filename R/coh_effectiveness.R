@@ -1,3 +1,20 @@
+#' Internal function to extract summary output from survival models.
+#'
+#' @param model survival object with model
+#' @param start_cohort start date of the study
+#' @param end_cohort end date of the study
+#' @return Data frame with survival data
+#' @keywords internal
+extract_surv_model <- function(model, start_cohort, end_cohort) {
+  days <- end_cohort - start_cohort
+  tte <- seq(0, as.numeric(days) - 1, by = 1)
+  res <- summary(model, times = tte, scale = 1)
+  cols <- lapply(c(2:6, 8:16), function(x) res[x])
+  tbl <- do.call(data.frame, cols)
+  tbl$date <- tbl$time + start_cohort
+  return(tbl)
+}
+
 #' Function to estimate the vaccine effectiveness based on the vaccination
 #' status.
 #'

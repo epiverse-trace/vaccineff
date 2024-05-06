@@ -162,7 +162,9 @@ plot_survival <- function(data, outcome_status_col,
     outcome_status_col = outcome_status_col,
     vacc_status_col = vacc_status_col,
     start_cohort = start_cohort,
-    end_cohort = end_cohort
+    end_cohort = end_cohort,
+    vaccinated_status = vaccinated_status,
+    unvaccinated_status = unvaccinated_status
   )
 
   if (cumulative) {

@@ -1,5 +1,6 @@
 #' Internal function to extract summary output from survival models.
 #'
+#' @inheritParams coh_effectiveness
 #' @param model survival object with model
 #' @return Data frame with survival data
 #' @keywords internal
@@ -15,7 +16,7 @@ extract_surv_model <- function(model, start_cohort, end_cohort) {
 
 #' Internal function to calculate Kapplan-Meier model and related metrics.
 #'
-#' @inheritParams coh_eff_noconf
+#' @inheritParams coh_effectiveness
 #' @return Data frame with data from KM model:
 #' time to event
 #' survivial probability (CI95%)
@@ -66,7 +67,7 @@ km_model <- function(data,
 
 #' Internal function to calculate Cox-PH model and related metrics.
 #'
-#' @inheritParams coh_eff_noconf
+#' @inheritParams coh_effectiveness
 #' @return List with data from Cox model:
 #' hr - hazard ratio (CI95%)
 #' p_value
@@ -256,7 +257,7 @@ coh_effectiveness <- function(data,
   ve <- list(
     ve = effectiveness,
     prop_hazards = test,
-    loglog <- loglog
+    loglog = loglog
   )
 
   return(ve)

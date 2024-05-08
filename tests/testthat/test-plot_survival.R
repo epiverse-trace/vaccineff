@@ -126,4 +126,3 @@ test_that("`plot_survival`: loglog plot", {
 
   expect_identical(plt$labels$y, "Log[-Log[Surv.]]")
 })
-

@@ -1,23 +1,18 @@
-#' @title Static match of cohort
+#' @title Match cohort using mahalanobis distance
 #'
 #' @description This function builds couples of vaccinated - unvaccinated
 #' individuals with similar characteristics. The function relies on  the
-#' propensity score matching algorithm implemented in MatchIt package.
+#' matching algorithm implemented in the package `{MatchIt}`.
 #' By default the function uses `method = "nearest"`, `ratio = 1`,
-#' `distance = "glm"` to match the data.
+#' `distance = "mahalanobis"` to match the data.
 #' Exact and near characteristics are accepted for the matching criteria.
 #' These are passed in the parameters `exact` and `nearest`, respectively.
-#' Parameters `nearest` and `caliper` must be provided together. In this case,
-#' the calipers must be passed as a named vector containing each of
-#' the variables provided in `nearest`
+#' The parameter `nearest` must be provided together with the calipers
+#' following as a named vector.
 #' (e.g. `nearest = c("characteristic1", "characteristic2"),
 #' caliper = c(characteristic1 = n1, characteristic2 = n2)`,
 #' where `n1` and `n2` are the calipers).
-#' `caliper` is ignored (set to NULL) when `nearest` is not provided.
-#'
-#' @param data dataset with cohort information (see example)
-#' @param status_vacc_col name of the column containing the information
-#' of the vaccination status.
+#' @inheritParams coh_effectiveness
 #' @param exact name(s) of column(s) for `exact` matching.
 #' Default to `NULL`.
 #' @param nearest named vector with name(s) of column(s) for `nearest`
@@ -28,29 +23,9 @@
 #' to the structure provided in `data`:
 #' `prop_score` (propensity score of the match),
 #' `subclass` (id of matched couple)
-#' @examples
-#' # load package example data for cohort studies
-#' data("cohortdata")
-#'
-#' # assign vaccination status
-#' cohortdata$vaccine_status <- set_status(
-#'   data = cohortdata,
-#'   col_names = c("vaccine_date_1", "vaccine_date_2"),
-#'   status = c("v", "u")
-#' )
-#'
-#' # match cohort
-#' matched_cohort <- match_cohort(data = cohortdata,
-#'   status_vacc_col = "vaccine_status",
-#'   nearest = c(age = 1),
-#'   exact = "sex"
-#' )
-#'
-#' # view matched data
-#' head(matched_cohort)
-#' @export
+#' @keywords internal
 match_cohort <- function(data,
-                         status_vacc_col,
+                         vacc_status_col,
                          exact = NULL,
                          nearest = NULL) {
 
@@ -59,12 +34,12 @@ match_cohort <- function(data,
     data,
     min.rows = 1, min.cols = 1
   )
-  checkmate::assert_character(status_vacc_col,
+  checkmate::assert_character(vacc_status_col,
     any.missing = FALSE, min.len = 1
   )
   checkmate::assert_names(
     names(data),
-    must.include = c(status_vacc_col)
+    must.include = c(vacc_status_col)
   )
 
   # `exact` and `nearest` cannot be NULL. At least one must be provided
@@ -97,7 +72,7 @@ match_cohort <- function(data,
 
   #Formula
   variables <- c(exact, names(nearest))
-  formula <- paste0(status_vacc_col, " ~ ")
+  formula <- paste0(vacc_status_col, " ~ ")
   for (v in seq_along(variables)) {
     if (v == 1) {
       formula <- paste0(formula, variables[v])
@@ -106,7 +81,7 @@ match_cohort <- function(data,
     }
   }
   formula_eval <- eval(parse(text = formula))
-  data[[status_vacc_col]] <- as.factor(data[[status_vacc_col]])
+  data[[vacc_status_col]] <- as.factor(data[[vacc_status_col]])
 
   #Matching
   matchit <- MatchIt::matchit(
@@ -117,14 +92,9 @@ match_cohort <- function(data,
     exact = exact,
     nearest = names(nearest),
     caliper = nearest,
-    distance = "glm"
+    distance = "mahalanobis"
   )
-  match <- MatchIt::match.data(matchit, distance = "prop.score")
-  names(match) <- gsub(x = names(match),
-    pattern = ".",
-    replacement = "_",
-    fixed = TRUE
-  )
+  match <- MatchIt::match.data(matchit)
   match <- match[, -which(names(match) == "weights")]
   return(match)
 }

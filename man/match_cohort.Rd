@@ -2,15 +2,14 @@
 % Please edit documentation in R/coh_matching.R
 \name{match_cohort}
 \alias{match_cohort}
-\title{Static match of cohort}
+\title{Match cohort using mahalanobis distance}
 \usage{
-match_cohort(data, status_vacc_col, exact = NULL, nearest = NULL)
+match_cohort(data, vacc_status_col, exact = NULL, nearest = NULL)
 }
 \arguments{
 \item{data}{dataset with cohort information (see example)}
 
-\item{status_vacc_col}{name of the column containing the information
-of the vaccination status.}
+\item{vacc_status_col}{name of the column containing the vaccination}
 
 \item{exact}{name(s) of column(s) for \code{exact} matching.
 Default to \code{NULL}.}
@@ -29,36 +28,14 @@ to the structure provided in \code{data}:
 \description{
 This function builds couples of vaccinated - unvaccinated
 individuals with similar characteristics. The function relies on  the
-propensity score matching algorithm implemented in MatchIt package.
+matching algorithm implemented in the package \code{{MatchIt}}.
 By default the function uses \code{method = "nearest"}, \code{ratio = 1},
-\code{distance = "glm"} to match the data.
+\code{distance = "mahalanobis"} to match the data.
 Exact and near characteristics are accepted for the matching criteria.
 These are passed in the parameters \code{exact} and \code{nearest}, respectively.
-Parameters \code{nearest} and \code{caliper} must be provided together. In this case,
-the calipers must be passed as a named vector containing each of
-the variables provided in \code{nearest}
+The parameter \code{nearest} must be provided together with the calipers
+following as a named vector.
 (e.g. \verb{nearest = c("characteristic1", "characteristic2"), caliper = c(characteristic1 = n1, characteristic2 = n2)},
 where \code{n1} and \code{n2} are the calipers).
-\code{caliper} is ignored (set to NULL) when \code{nearest} is not provided.
 }
-\examples{
-# load package example data for cohort studies
-data("cohortdata")
-
-# assign vaccination status
-cohortdata$vaccine_status <- set_status(
-  data = cohortdata,
-  col_names = c("vaccine_date_1", "vaccine_date_2"),
-  status = c("v", "u")
-)
-
-# match cohort
-matched_cohort <- match_cohort(data = cohortdata,
-  status_vacc_col = "vaccine_status",
-  nearest = c(age = 1),
-  exact = "sex"
-)
-
-# view matched data
-head(matched_cohort)
-}
+\keyword{internal}

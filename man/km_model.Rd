@@ -35,10 +35,11 @@ event (most be a binary column)}
 status}
 }
 \value{
-Data frame with data from KM model:
-time to event
-survivial probability (CI95\%)
-cumulative incidence (CI95\%)
+Data frame with data from KM model
+"time", "date", "strata",
+"n.risk", "n.event", "n.censor",
+"surv", "lower", "upper",
+"cumincidence", "cumincidence_lower", "cumincidence_upper"
 }
 \description{
 Internal function to calculate Kapplan-Meier model and related metrics.

@@ -17,10 +17,11 @@ extract_surv_model <- function(model, start_cohort, end_cohort) {
 #' Internal function to calculate Kapplan-Meier model and related metrics.
 #'
 #' @inheritParams coh_effectiveness
-#' @return Data frame with data from KM model:
-#' time to event
-#' survivial probability (CI95%)
-#' cumulative incidence (CI95%)
+#' @return Data frame with data from KM model
+#' "time", "date", "strata",
+#' "n.risk", "n.event", "n.censor",
+#' "surv", "lower", "upper",
+#' "cumincidence", "cumincidence_lower", "cumincidence_upper"
 #' @keywords internal
 km_model <- function(data,
                      outcome_status_col,
@@ -189,7 +190,9 @@ cox_model <- function(data,
 #'   data = cohortdata,
 #'   outcome_status_col = "death_status",
 #'   time_to_event_col = "time_to_death",
-#'   vacc_status_col = "vaccine_status"
+#'   vacc_status_col = "vaccine_status",
+#'   start_cohort = start_cohort,
+#'   end_cohort = end_cohort
 #' )
 #' @export
 coh_effectiveness <- function(data,
@@ -244,8 +247,8 @@ coh_effectiveness <- function(data,
   # Vaccine effectiveness = 1 - HR
   effectiveness <- data.frame(
     VE = 1 - cx$hr,
-    `lower .95` = 1 - cx$upper,
-    `upper .95` = 1 - cx$lower
+    lower.95 = 1 - cx$upper,
+    upper.95 = 1 - cx$lower
   )
 
   # p-value for Schoenfeld test

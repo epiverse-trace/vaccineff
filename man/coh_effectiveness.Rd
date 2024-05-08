@@ -90,6 +90,8 @@ coh_effectiveness(
   data = cohortdata,
   outcome_status_col = "death_status",
   time_to_event_col = "time_to_death",
-  vacc_status_col = "vaccine_status"
+  vacc_status_col = "vaccine_status",
+  start_cohort = start_cohort,
+  end_cohort = end_cohort
 )
 }

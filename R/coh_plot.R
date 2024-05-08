@@ -43,21 +43,11 @@ plot_loglog <- function(km,
 #' It is possible to manipulate the colors, labels, legend and most of
 #' the graphic elements.
 #' @importFrom rlang .data
-#' @param data dataset with cohort information (see example)
-#' @param outcome_status_col name of the column containing status of the
-#' event (most be a binary column)
-#' @param time_to_event_col name of the column containing the time-to-event
-#' @param vacc_status_col name of the column containing the vaccination
-#' status
-#' @param vaccinated_status string assigned to the vaccinated population
-#' @param unvaccinated_status string assigned to the unvaccinated population
+#' @inheritParams coh_effectiveness
 #' @param vaccinated_color color assigned to the vaccinated population
 #' @param unvaccinated_color color assigned to the unvaccinated population
-#' @param start_cohort start date of the study
-#' @param end_cohort end date of the study
 #' @param percentage if TRUE returns probability in percentage
 #' @param cumulative if TRUE returns cumulative Hazards
-#' @param loglog if TRUE returns loglog plot for testing proportional hazards
 #' @return ggplot2 plot of survival/cumulative hazard
 #' @examples
 #' # load example package data
@@ -108,8 +98,7 @@ plot_loglog <- function(km,
 #'   start_cohort = start_cohort,
 #'   end_cohort = end_cohort,
 #'   percentage = TRUE,
-#'   cumulative = TRUE,
-#'   loglog = FALSE
+#'   cumulative = TRUE
 #' )
 #' @export
 plot_survival <- function(data, outcome_status_col,
@@ -122,8 +111,7 @@ plot_survival <- function(data, outcome_status_col,
                           start_cohort,
                           end_cohort,
                           percentage = TRUE,
-                          cumulative = FALSE,
-                          loglog = FALSE) {
+                          cumulative = FALSE) {
   # input checking
   checkmate::assert_data_frame(
     data,

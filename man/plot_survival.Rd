@@ -16,8 +16,7 @@ plot_survival(
   start_cohort,
   end_cohort,
   percentage = TRUE,
-  cumulative = FALSE,
-  loglog = FALSE
+  cumulative = FALSE
 )
 }
 \arguments{
@@ -28,8 +27,7 @@ event (most be a binary column)}
 
 \item{time_to_event_col}{name of the column containing the time-to-event}
 
-\item{vacc_status_col}{name of the column containing the vaccination
-status}
+\item{vacc_status_col}{name of the column containing the vaccination}
 
 \item{vaccinated_status}{string assigned to the vaccinated population}
 
@@ -41,13 +39,12 @@ status}
 
 \item{start_cohort}{start date of the study}
 
-\item{end_cohort}{end date of the study}
+\item{end_cohort}{end date of the study
+status}
 
 \item{percentage}{if TRUE returns probability in percentage}
 
 \item{cumulative}{if TRUE returns cumulative Hazards}
-
-\item{loglog}{if TRUE returns loglog plot for testing proportional hazards}
 }
 \value{
 ggplot2 plot of survival/cumulative hazard
@@ -110,7 +107,6 @@ plot_survival(
   start_cohort = start_cohort,
   end_cohort = end_cohort,
   percentage = TRUE,
-  cumulative = TRUE,
-  loglog = FALSE
+  cumulative = TRUE
 )
 }

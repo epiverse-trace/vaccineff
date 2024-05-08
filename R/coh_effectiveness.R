@@ -94,13 +94,11 @@ cox_model <- function(data,
   )
 
   # Cox model time to event, outcome ~ vaccine status
-  indiv_survival <- survival::Surv( # nolint
-    data[[time_to_event_col]], data[[outcome_status_col]]
-  )
-
   # Regression
   model <- survival::coxph(
-    indiv_survival ~ data[[vacc_status_col]]
+    survival::Surv( # nolint
+      data[[time_to_event_col]], data[[outcome_status_col]]
+    ) ~ data[[vacc_status_col]]
   )
 
   ## Hazard ratio
@@ -250,6 +248,7 @@ coh_effectiveness <- function(data,
     lower.95 = 1 - cx$upper,
     upper.95 = 1 - cx$lower
   )
+  row.names(effectiveness) <- NULL
 
   # p-value for Schoenfeld test
   test <- paste0("Schoenfeld test for Proportional Hazards hypothesis: ",
@@ -258,6 +257,7 @@ coh_effectiveness <- function(data,
 
   # output
   ve <- list(
+    call = cx$model$call,
     ve = effectiveness,
     prop_hazards = test,
     loglog = loglog

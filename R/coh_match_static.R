@@ -94,14 +94,12 @@ static_match <- function(data,
                          censoring_date_col,
                          immunization_date_col,
                          vacc_status_col,
-                         vacc_status_col,
-                         unvaccinated_status,
                          start_cohort,
                          end_cohort,
                          nearest,
                          exact) {
   # match cohort
-  matched_cohort <- match_cohort(
+  matched <- match_cohort(
     data = data,
     vacc_status_col = vacc_status_col,
     nearest = nearest,
@@ -109,7 +107,7 @@ static_match <- function(data,
   )
 
   # adjust exposition times of cohort
-  adjusted <- adjust_exposition(matched_cohort = matched_cohort,
+  adjusted <- adjust_exposition(matched_cohort = matched,
     outcome_date_col = outcome_date_col,
     censoring_date_col = censoring_date_col,
     immunization_date = immunization_date_col,
@@ -119,7 +117,7 @@ static_match <- function(data,
 
   # Matching summary
   summary <- match_summary(all = data,
-    matched = matched_cohort,
+    matched = matched,
     adjusted = adjusted,
     vacc_status_col = vacc_status_col
   )

@@ -99,7 +99,7 @@ static_match <- function(data,
                          nearest,
                          exact) {
   # match cohort
-  matched <- match_cohort(
+  matched <- match_cohort_(
     data = data,
     vacc_status_col = vacc_status_col,
     nearest = nearest,
@@ -140,7 +140,7 @@ static_match <- function(data,
     match = adjusted,
     summary = summary,
     balance_all = balace_all,
-    balace_match = balace_match
+    balance_match = balace_match
   )
 
   return(match)

@@ -24,10 +24,10 @@
 #' `prop_score` (propensity score of the match),
 #' `subclass` (id of matched couple)
 #' @keywords internal
-match_cohort <- function(data,
-                         vacc_status_col,
-                         exact = NULL,
-                         nearest = NULL) {
+match_cohort_ <- function(data,
+                          vacc_status_col,
+                          exact = NULL,
+                          nearest = NULL) {
 
   # input checking
   checkmate::assert_data_frame(

@@ -166,3 +166,51 @@ match_summary <- function(all,
 
   return(summ)
 }
+
+#' @title Balance summary
+#'
+#' @description This function creates a summary after matching.
+#' @inheritParams match_cohort
+#' @param data data frame to asset balance
+#' cases. Default Null returns 0.
+#' @return summary data frame with balance of each variable by vaccine status.
+#' numeric variables are presented with mean and std and categorical/factor
+#' are counted.
+#' @keywords internal
+balance_summary <- function(data,
+                            nearest,
+                            exact,
+                            vacc_status_col) {
+  columns <- c(names(nearest), exact)
+  numeric <- columns[sapply(data[columns], is.numeric)]
+
+  categorical <- columns[sapply(data[columns], is.character)]
+  factor <- columns[sapply(data[columns], is.factor)]
+  categorical <- c(categorical, factor)
+
+  # balance for numeric variables
+  balance_num <- data.frame()
+  for (n in numeric) {
+    temp <- as.data.frame(aggregate(
+      data[n], list(data[[vacc_status_col]]),
+      FUN = function(x) c(mean = mean(x), sd = sd(x))
+    ))
+    index <- temp[, 1]
+    temp <- temp[, -1]
+    rownames(temp) <- index
+    colnames(temp) <- paste(n, colnames(temp), sep = "_")
+    temp <- t(temp)
+    balance_num <- rbind(balance_num, temp)
+  }
+
+  # balance for categorical/factor variables
+  balance_cat <- data.frame()
+  for (c in categorical) {
+    temp <- as.data.frame(rbind(table(data[[c]], data[[vacc_status_col]])))
+    rownames(temp) <- paste(c, row.names(temp), sep = "_")
+    balance_cat <- rbind(balance_cat, temp)
+  }
+  balance <- rbind(balance_num, balance_cat)
+
+  return(balance)
+}

@@ -135,3 +135,34 @@ match_couple_info <- function(data,
   # return data matched by subclass
   return(matched_info[data$subclass])
 }
+
+
+#' @title Match summary
+#'
+#' @description This function creates a summary after matching.
+#' @inheritParams coh_effectiveness
+#' @param all data frame with cohort
+#' @param matched data frame with matched cohort
+#' @param adjusted data frame with adjusted cohort to calculate removed
+#' cases. Default Null returns 0.
+#' @return summary data frame with counts by vaccine status for: all, matched,
+#' unmatched and removed.
+#' @keywords internal
+match_summary <- function(all,
+                          matched,
+                          adjusted = NULL,
+                          vacc_status_col) {
+  summ_all <- as.data.frame(rbind(table(all[[vacc_status_col]])))
+  summ_matched <- as.data.frame(rbind(table(matched[[vacc_status_col]])))
+  summ_unmatched <- summ_all - summ_matched
+  if (!is.null(adjusted)) {
+    summ_removed <- summ_matched -
+      as.data.frame(rbind(table(adjusted[[vacc_status_col]])))
+  } else {
+    summ_removed <- setNames(cbind.data.frame(0, 0), names(summ_all))
+  }
+  summ <- rbind(summ_all, summ_matched, summ_unmatched, summ_removed)
+  row.names(summ) <- c("All", "Matched", "Unmatched", "Removed")
+
+  return(summ)
+}

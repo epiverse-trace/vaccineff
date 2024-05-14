@@ -171,8 +171,7 @@ match_summary <- function(all,
 #'
 #' @description This function creates a summary after matching.
 #' @inheritParams match_cohort
-#' @param data data frame to asset balance
-#' cases. Default Null returns 0.
+#' @param data data frame to asset matching balance
 #' @return summary data frame with balance of each variable by vaccine status.
 #' numeric variables are presented with mean and std and categorical/factor
 #' are counted.

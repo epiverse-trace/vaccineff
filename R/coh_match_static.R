@@ -88,3 +88,62 @@ adjust_exposition <- function(matched_cohort,
 
   return(adjusted_match)
 }
+
+static_match <- function(data,
+                         outcome_date_col,
+                         censoring_date_col,
+                         immunization_date_col,
+                         vacc_status_col,
+                         vacc_status_col,
+                         unvaccinated_status,
+                         start_cohort,
+                         end_cohort,
+                         nearest,
+                         exact) {
+  # match cohort
+  matched_cohort <- match_cohort(
+    data = data,
+    vacc_status_col = vacc_status_col,
+    nearest = nearest,
+    exact = exact
+  )
+
+  # adjust exposition times of cohort
+  adjusted <- adjust_exposition(matched_cohort = matched_cohort,
+    outcome_date_col = outcome_date_col,
+    censoring_date_col = censoring_date_col,
+    immunization_date = immunization_date_col,
+    start_cohort = start_cohort,
+    end_cohort = end_cohort
+  )
+
+  # Matching summary
+  summary <- match_summary(all = data,
+    matched = matched_cohort,
+    adjusted = adjusted,
+    vacc_status_col = vacc_status_col
+  )
+
+  # Balance summary all
+  balace_all <- balance_summary(data = data,
+    nearest = nearest,
+    exact = exact,
+    vacc_status_col = vacc_status_col
+  )
+  # Balance summary match
+  balace_match <- balance_summary(data = adjusted,
+    nearest = nearest,
+    exact = exact,
+    vacc_status_col = vacc_status_col
+  )
+
+  # Match object
+  match <- list(
+    match = adjusted,
+    summary = summary,
+    balance_all = balace_all,
+    balace_match = balace_match
+  )
+
+  return(match)
+}

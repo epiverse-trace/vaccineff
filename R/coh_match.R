@@ -32,14 +32,19 @@
 #' and caliper(s) for each variable (e.g., `nearest = c("characteristic1" = n1,
 #' "characteristic2" = n2)`, where `n1` and `n2` are the calipers). Default is
 #' `NULL`.
-#' @return Data frame with matched population. Three columns are added to the
-#' structure provided in `data`: `subclass` (ID of matched couple),
+#' @return `match` object. List with results from static match:
+#' `match`: data frame with adjusted cohort,
+#' `summary`: matching summary,
+#' `balance_all`: balance of the cohort before matching,
+#' `balance_matched`: balance of the cohort after matching.
+#'
+#' Four columns are added to the structure provided in `data`:
+#' `subclass` (ID of matched couple),
 #' `t0_follow_up` (beginning of follow-up period for couple),
 #' `tf_follow_up` (end of follow-up period, this includes censoring dates
-#' inherited from couple),
-#' and `time_to_event` (difference between `t0_follow_up` and `tf_follow_up`).
+#' inherited from couple), and
+#' `time_to_event` (difference between `t0_follow_up` and `tf_follow_up`).
 #' @keywords internal
-
 
 match_cohort <- function(data,
                          outcome_date_col,

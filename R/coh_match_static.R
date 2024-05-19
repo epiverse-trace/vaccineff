@@ -1,14 +1,12 @@
-#' @title Adjust exposition for static matching
+#' @title Adjust Exposition for Static Matching
 #'
 #' @description This function removes the couples whose exposition times
 #' do not match. This happens when the outcome of the unvaccinated individual
 #' occurs before the vaccination date of their partner.
 #'
-#' @inheritParams coh_effectiveness
-#' @param matched_cohort dataset with cohort matched with `match_cohort`
-#' @param immunization_date name of the column that contains the
-#' immunization date to set the beginning of follow-up period (`t0_follow_up`)
-#' @return data frame with matched population and corrected exposure times
+#' @inheritParams match_cohort
+#' @param matched_cohort Dataset with matched cohort from `match_cohort_`.
+#' @return Data frame with matched population and corrected exposure times.
 #' @keywords internal
 
 adjust_exposition <- function(matched_cohort,
@@ -89,6 +87,19 @@ adjust_exposition <- function(matched_cohort,
   return(adjusted_match)
 }
 
+#' @title Static Matching
+#'
+#' @description This function calls `match_cohort_` once and then
+#' removes the couples whose exposition times do not coincide.
+#' It returns the adjusted cohort, a summary of the matching result,
+#' and the balance of the cohort before and after matching.
+#'
+#' @inheritParams match_cohort
+#' @return List with results from static match:
+#' `match`: adjusted cohort, `summary`: matching summary,
+#' `balance_all`: balance of the cohort before matching,
+#' `balance_matched`: balance of the cohort after matching.
+#' @keywords internal
 static_match <- function(data,
                          outcome_date_col,
                          censoring_date_col,

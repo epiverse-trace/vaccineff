@@ -1,74 +1,17 @@
-#' @title Match cohort using mahalanobis distance
+#' @title Match Cohort Using Mahalanobis Distance
 #'
-#' @description This function builds couples of vaccinated - unvaccinated
-#' individuals with similar characteristics. The function relies on  the
-#' matching algorithm implemented in the package `{MatchIt}`.
-#' By default the function uses `method = "nearest"`, `ratio = 1`,
-#' `distance = "mahalanobis"` to match the data.
-#' Exact and near characteristics are accepted for the matching criteria.
-#' These are passed in the parameters `exact` and `nearest`, respectively.
-#' The parameter `nearest` must be provided together with the calipers
-#' following as a named vector.
-#' (e.g. `nearest = c("characteristic1", "characteristic2"),
-#' caliper = c(characteristic1 = n1, characteristic2 = n2)`,
-#' where `n1` and `n2` are the calipers).
-#' @inheritParams coh_effectiveness
-#' @param exact name(s) of column(s) for `exact` matching.
-#' Default to `NULL`.
-#' @param nearest named vector with name(s) of column(s) for `nearest`
-#' matching and caliper(s) for each variable.
-#' e.g. `nearest = c("characteristic1" = n1, "characteristic2" = n2)`,
-#' where `n1` and `n2` are the calipers. Default to `NULL`.
-#' @return data frame with matched population. Two columns are added
-#' to the structure provided in `data`:
-#' `prop_score` (propensity score of the match),
-#' `subclass` (id of matched couple)
+#' @description This function constructs pairs of vaccinated and unvaccinated
+#' individuals with similar characteristics. It relies on the matching
+#' algorithm implemented in the `{MatchIt}` package.
+#' By default, the function uses `method = "nearest"`, `ratio = 1`, and
+#' `distance = "mahalanobis"` to perform the matching.
+#' @inheritParams match_cohort
+#' @return A data frame with the matched population.
 #' @keywords internal
 match_cohort_ <- function(data,
                           vacc_status_col,
                           exact = NULL,
                           nearest = NULL) {
-
-  # input checking
-  checkmate::assert_data_frame(
-    data,
-    min.rows = 1, min.cols = 1
-  )
-  checkmate::assert_character(vacc_status_col,
-    any.missing = FALSE, min.len = 1
-  )
-  checkmate::assert_names(
-    names(data),
-    must.include = c(vacc_status_col)
-  )
-
-  # `exact` and `nearest` cannot be NULL. At least one must be provided
-  stopifnot(
-    "`exact` and `nearest` cannot be NULL. At least one must be provided" =
-      (!missing(nearest) || !missing(exact))
-  )
-
-  # checks for `nearest`
-  if (!is.null(nearest)) {
-    checkmate::assert_numeric(
-      nearest,
-      any.missing = FALSE, min.len = 1, names = "named"
-    )
-    checkmate::assert_names(
-      names(data),
-      must.include = names(nearest)
-    )
-  }
-  # checks for `exact`. Not else, both can be non-NULL
-  if (!is.null(exact)) {
-    checkmate::assert_character(exact,
-      any.missing = FALSE, min.len = 1
-    )
-    checkmate::assert_names(
-      names(data),
-      must.include = exact
-    )
-  }
 
   #Formula
   variables <- c(exact, names(nearest))

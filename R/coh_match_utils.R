@@ -164,10 +164,11 @@ balance_summary <- function(data,
   # balance for categorical/factor variables
   balance_cat <- data.frame()
   for (c in categorical) {
-    # proportions by group
-    temp <- as.data.frame(rbind(table(data[[c]], data[[vacc_status_col]])))
+    # proportion by group
+    temp <- as.data.frame(
+      rbind(prop.table(table(data[[c]], data[[vacc_status_col]]), 2))
+    )
     rownames(temp) <- paste(c, row.names(temp), sep = "_")
-    temp <- temp / rowSums(temp)
 
     # Std. Mean Diff.
     pooled <- sqrt(

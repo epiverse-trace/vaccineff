@@ -142,6 +142,13 @@ match_cohort <- function(data,
   return(match_obj)
 }
 
+#' Summarize Matching Results
+#'
+#' Summarizes the results of `match_cohort`.
+#'
+#' @param match An object of class `match`.
+#' @return A summary of the matching results.
+#' @export
 summary.match <- function(match) {
   # Check if the input object is of class "match"
   if (!inherits(match, "match")) {

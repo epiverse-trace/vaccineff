@@ -17,8 +17,8 @@
 #' The function returns a matched and adjusted by exposition cohort, with
 #' information of the beginning of follow-up period (`t0_follow_up`) of couples,
 #' corresponding to the vaccination date of the vaccinated individual,
-#' the end of the follow-up period (`tf_follow_up`) of each individual,
-#' and their time-to-event (`time_to_event`).
+#' and the individual time-to-event that takes into account right-censoring
+#' dates (`time_to_event`).
 #' Couples are censored if the vaccinated or unvaccinated partner was previously
 #' censored (i.e., if `censoring_date_col` is informed) and the censor occurs
 #' before their outcomes.
@@ -39,11 +39,9 @@
 #' `balance_matched`: balance of the cohort after matching.
 #'
 #' Four columns are added to the structure provided in `data`:
-#' `subclass` (ID of matched couple),
-#' `t0_follow_up` (beginning of follow-up period for couple),
-#' `tf_follow_up` (end of follow-up period, this includes censoring dates
-#' inherited from couple), and
-#' `time_to_event` (difference between `t0_follow_up` and `tf_follow_up`).
+#' `subclass`: ID of matched couple,
+#' `t0_follow_up`: beginning of follow-up period for couple, and
+#' `time_to_event`: time to event.
 #' @keywords internal
 
 match_cohort <- function(data,
@@ -149,6 +147,7 @@ match_cohort <- function(data,
 #' @param match An object of class `match`.
 #' @return A summary of the matching results.
 #' @export
+
 summary.match <- function(match) {
   # Check if the input object is of class "match"
   if (!inherits(match, "match")) {

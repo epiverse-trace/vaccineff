@@ -54,8 +54,73 @@ match_cohort <- function(data,
                          start_cohort,
                          end_cohort,
                          method = "static",
-                         nearest,
-                         exact) {
+                         nearest = NULL,
+                         exact = NULL) {
+  # input checking
+  checkmate::assert_data_frame(
+    data,
+    min.rows = 1, min.cols = 1
+  )
+  checkmate::assert_character(vacc_status_col,
+    any.missing = FALSE, min.len = 1
+  )
+  checkmate::assert_names(
+    names(data),
+    must.include = c(outcome_date_col, vacc_status_col)
+  )
+
+  checkmate::assert_date(
+    data[[outcome_date_col]]
+  )
+
+  #Checks of censoring_date_col if provided
+  if (!is.null(censoring_date_col)) {
+    checkmate::assert_names(
+      colnames(data),
+      must.include = censoring_date_col
+    )
+    checkmate::assert_date(
+      data[[censoring_date_col]]
+    )
+    checkmate::assert_string(censoring_date_col)
+  }
+
+  # `exact` and `nearest` cannot be NULL. At least one must be provided
+  stopifnot(
+    "`exact` and `nearest` cannot be NULL. At least one must be provided" =
+      (!missing(nearest) || !missing(exact))
+  )
+
+  # checks for `nearest`
+  if (!is.null(nearest)) {
+    checkmate::assert_numeric(
+      nearest,
+      any.missing = FALSE, min.len = 1, names = "named"
+    )
+    checkmate::assert_names(
+      names(data),
+      must.include = names(nearest)
+    )
+  }
+  # checks for `exact`. Not else, both can be non-NULL
+  if (!is.null(exact)) {
+    checkmate::assert_character(exact,
+      any.missing = FALSE, min.len = 1
+    )
+    checkmate::assert_names(
+      names(data),
+      must.include = exact
+    )
+  }
+
+  # check date types
+  checkmate::assert_date(
+    start_cohort, any.missing = FALSE, len = 1
+  )
+  checkmate::assert_date(
+    end_cohort, any.missing = FALSE, len = 1
+  )
+
   if (method == "static") {
     match_obj <- static_match(data,
                               outcome_date_col,

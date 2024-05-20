@@ -110,19 +110,22 @@ match_summary <- function(all,
   return(summ)
 }
 
-#' @title Balance summary
+#' @title Balance of Vaccinated/Unvaccinated Groups
 #'
 #' @description This function creates a summary after matching.
 #' @inheritParams match_cohort
-#' @param data data frame to asset matching balance
-#' @return summary data frame with balance of each variable by vaccine status.
-#' numeric variables are presented with mean and std and categorical/factor
-#' are counted.
+#' @param data A data frame to assess matching balance.
+#' @return A summary data frame with the balance of each variable by
+#' vaccine status. Numeric variables are reported with means, and
+#' categorical/factor variables are reported with proportions.
+#' In both cases, the Standardized Mean Difference (SMD) is calculated.
 #' @keywords internal
 balance_summary <- function(data,
                             nearest,
                             exact,
-                            vacc_status_col) {
+                            vacc_status_col,
+                            vaccinated_status,
+                            unvaccinated_status) {
   columns <- c(names(nearest), exact)
   numeric <- columns[sapply(data[columns], is.numeric)]
 
@@ -133,25 +136,49 @@ balance_summary <- function(data,
   # balance for numeric variables
   balance_num <- data.frame()
   for (n in numeric) {
+    # mean and sd
     temp <- as.data.frame(aggregate(
-      data[n], list(data[[vacc_status_col]]),
+      data[n], list(data$vaccine_status),
       FUN = function(x) c(mean = mean(x), sd = sd(x))
     ))
-    index <- temp[, 1]
-    temp <- temp[, -1]
-    rownames(temp) <- index
-    colnames(temp) <- paste(n, colnames(temp), sep = "_")
-    temp <- t(temp)
-    balance_num <- rbind(balance_num, temp)
+    temp <- do.call(data.frame, temp)
+    # Std. Mean Diff.
+    mean_v <- temp[2][temp$Group.1  == vaccinated_status, ]
+    sd_v <- temp[3][temp$Group.1  == vaccinated_status, ]
+    mean_u <- temp[2][temp$Group.1  == unvaccinated_status, ]
+    sd_u <- temp[3][temp$Group.1  == unvaccinated_status, ]
+    smd <- (mean_v - mean_u) / sqrt((sd_v^2 + sd_u^2) / 2)
+
+    # Results
+    summ_num <- data.frame(
+      u = c(mean_u),
+      v = c(mean_v),
+      smd = c(smd)
+    )
+    colnames(summ_num) <- c(unvaccinated_status, vaccinated_status, "smd")
+    rownames(summ_num) <- n
+
+    balance_num <- rbind(balance_num, summ_num)
   }
 
   # balance for categorical/factor variables
   balance_cat <- data.frame()
   for (c in categorical) {
+    # proportions by group
     temp <- as.data.frame(rbind(table(data[[c]], data[[vacc_status_col]])))
     rownames(temp) <- paste(c, row.names(temp), sep = "_")
+    temp <- temp / rowSums(temp)
+
+    # Std. Mean Diff.
+    pooled <- sqrt(
+      (temp[[vaccinated_status]] * (1 - temp[[vaccinated_status]]) +
+         temp[[unvaccinated_status]] * (1 - temp[[unvaccinated_status]])) / 2
+    )
+    temp$smd <- temp[[vaccinated_status]] - temp[[unvaccinated_status]] / pooled
+    # Results
     balance_cat <- rbind(balance_cat, temp)
   }
+
   balance <- rbind(balance_num, balance_cat)
 
   return(balance)

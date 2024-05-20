@@ -51,6 +51,8 @@ match_cohort <- function(data,
                          censoring_date_col,
                          immunization_date_col,
                          vacc_status_col,
+                         vaccinated_status = "v",
+                         unvaccinated_status = "u",
                          start_cohort,
                          end_cohort,
                          method = "static",
@@ -122,15 +124,19 @@ match_cohort <- function(data,
   )
 
   if (method == "static") {
-    match_obj <- static_match(data,
-                              outcome_date_col,
-                              censoring_date_col,
-                              immunization_date_col,
-                              vacc_status_col,
-                              start_cohort,
-                              end_cohort,
-                              nearest,
-                              exact)
+    match_obj <- static_match(
+      data = data,
+      outcome_date_col = outcome_date_col,
+      censoring_date_col = censoring_date_col,
+      immunization_date_col = immunization_date_col,
+      vacc_status_col = vacc_status_col,
+      vaccinated_status = vaccinated_status,
+      unvaccinated_status = unvaccinated_status,
+      start_cohort = start_cohort,
+      end_cohort = end_cohort,
+      nearest = nearest,
+      exact = exact
+    )
   }
   class(match_obj) <- "match"
   return(match_obj)

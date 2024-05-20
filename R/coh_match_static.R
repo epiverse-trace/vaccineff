@@ -105,6 +105,8 @@ static_match <- function(data,
                          censoring_date_col,
                          immunization_date_col,
                          vacc_status_col,
+                         vaccinated_status,
+                         unvaccinated_status,
                          start_cohort,
                          end_cohort,
                          nearest,
@@ -137,13 +139,17 @@ static_match <- function(data,
   balace_all <- balance_summary(data = data,
     nearest = nearest,
     exact = exact,
-    vacc_status_col = vacc_status_col
+    vacc_status_col = vacc_status_col,
+    vaccinated_status = vaccinated_status,
+    unvaccinated_status = unvaccinated_status
   )
   # Balance summary match
   balace_match <- balance_summary(data = adjusted,
     nearest = nearest,
     exact = exact,
-    vacc_status_col = vacc_status_col
+    vacc_status_col = vacc_status_col,
+    vaccinated_status = vaccinated_status,
+    unvaccinated_status = unvaccinated_status
   )
 
   # Match object

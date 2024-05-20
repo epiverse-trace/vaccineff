@@ -162,7 +162,16 @@ summary.match <- function(match) {
   print(match$summary)
 }
 
-data.match <- function(match) {
+#' @title Function for Extracting Matched Dataset
+#'
+#' @description This function extracts the matched datasets generated
+#' by `match_cohort`.
+#'
+#' @param match An object of class `match`.
+#' @return The dataset extracted from `match_cohort`.
+#' @export
+
+dataset.match <- function(match) {
   # Check if the input object is of class "match"
   if (!inherits(match, "match")) {
     stop("Input must be an object of class 'match'")

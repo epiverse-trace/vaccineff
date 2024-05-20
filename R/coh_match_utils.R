@@ -174,7 +174,8 @@ balance_summary <- function(data,
       (temp[[vaccinated_status]] * (1 - temp[[vaccinated_status]]) +
          temp[[unvaccinated_status]] * (1 - temp[[unvaccinated_status]])) / 2
     )
-    temp$smd <- temp[[vaccinated_status]] - temp[[unvaccinated_status]] / pooled
+    temp$smd <-
+      (temp[[vaccinated_status]] - temp[[unvaccinated_status]]) / pooled
     # Results
     balance_cat <- rbind(balance_cat, temp)
   }

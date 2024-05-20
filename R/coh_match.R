@@ -61,16 +61,27 @@ match_cohort <- function(data,
     data,
     min.rows = 1, min.cols = 1
   )
-  checkmate::assert_character(vacc_status_col,
-    any.missing = FALSE, min.len = 1
-  )
+
   checkmate::assert_names(
     names(data),
-    must.include = c(outcome_date_col, vacc_status_col)
+    must.include = c(outcome_date_col, immunization_date_col, vacc_status_col)
   )
 
   checkmate::assert_date(
     data[[outcome_date_col]]
+  )
+
+  checkmate::assert_date(
+    data[[immunization_date_col]]
+  )
+
+  checkmate::assert_character(vacc_status_col,
+    any.missing = FALSE, min.len = 1
+  )
+
+  checkmate::assert_names(
+    data[[vacc_status_col]],
+    must.include = c(vaccinated_status, unvaccinated_status)
   )
 
   #Checks of censoring_date_col if provided

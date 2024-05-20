@@ -151,9 +151,9 @@ match_cohort <- function(data,
   return(match_obj)
 }
 
-#' Summarize Matching Results
+#' @title Summarize Matching Results
 #'
-#' Summarizes the results of `match_cohort`.
+#' @description Summarizes the results of `match_cohort`.
 #'
 #' @param match An object of class `match`.
 #' @return A summary of the matching results.

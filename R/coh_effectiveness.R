@@ -75,7 +75,8 @@ effectiveness <- function(data,
                           vaccinated_status,
                           unvaccinated_status,
                           start_cohort,
-                          end_cohort) {
+                          end_cohort,
+                          method = "HR") {
 
   # input checking
   checkmate::assert_data_frame(
@@ -91,10 +92,30 @@ effectiveness <- function(data,
     must.include = c(vaccinated_status, unvaccinated_status)
   )
 
-  # class effectiveness
+  # check date types
+  checkmate::assert_date(
+    start_cohort, any.missing = FALSE, len = 1
+  )
+  checkmate::assert_date(
+    end_cohort, any.missing = FALSE, len = 1
+  )
 
   # select estimation method
-
+  if (method == "HR") {
+    eff_obj <- coh_eff_hr(
+      data = data,
+      outcome_status_col = outcome_status_col,
+      time_to_event_col = time_to_event_col,
+      vacc_status_col = vacc_status_col,
+      vaccinated_status = vaccinated_status,
+      unvaccinated_status = unvaccinated_status,
+      start_cohort = start_cohort,
+      end_cohort = end_cohort
+    )
+  }
   # effectiveness object
-  
+  class(eff_obj) <- "effectiveness"
+
+  # return
+  return(eff_obj)
 }

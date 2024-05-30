@@ -91,3 +91,27 @@ effectiveness <- function(data,
   # return
   return(eff_obj)
 }
+
+#' @title Summarize VE Results
+#'
+#' @description Summarizes the results of `effectiveness`.
+#'
+#' @param effectiveness An object of class `effectiveness`.
+#' @return A summary of the results from effectiveness.
+#' @export
+
+summary.effectiveness <- function(effectiveness) {
+  # Check if the input object is of class "effectiveness"
+  if (!inherits(effectiveness, "effectiveness")) {
+    stop("Input must be an object of class 'effectiveness'")
+  }
+  cat(
+    sprintf("Vaccine Effectiveness computed as VE = 1 - %s:\n",
+            effectiveness$method)
+  )
+  print(effectiveness$ve)
+  if (effectiveness$method == "HR") {
+    cat("\nSchoenfeld test for Proportional Hazards hypothesis:\n")
+    cat(sprintf("p-value = %s\n", effectiveness$test))
+  }
+}

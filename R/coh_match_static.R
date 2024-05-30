@@ -74,7 +74,14 @@ adjust_exposition <- function(matched_cohort,
     matched_cohort$min_exposure_time_couple > 0,
   ]
 
-  # 7. Remove unnecessary columns and reorder
+  # 7. Generate outcome status
+  adjusted_match$outcome_status <- set_event_status(
+    data = adjusted_match,
+    outcome_date_col = outcome_date_col,
+    censoring_date_col = "censoring_accepted"
+  )
+
+  # 8. Remove unnecessary columns and reorder
   col_names <- names(adjusted_match)
   col_names <- col_names[! col_names %in%
       c("censoring_individual",

@@ -1,7 +1,7 @@
 #' @title Estimate Vaccine Effectiveness (VE)
 #'
-#' This function provides methods for estimating VE. It relies on the
-#' implementation of the Kaplan-Meier estimator and the Cox model for
+#' @description  This function provides methods for estimating VE. It relies
+#' on the implementation of the Kaplan-Meier estimator and the Cox model for
 #' proportional hazards in the package `{survival}`. Currently, the default
 #' method of the function is `HR` (Hazard Ratio). Thus, the VE = 1 - HR, where
 #' HR is calculated using the Cox model. The proportional hazards hypothesis is

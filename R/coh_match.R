@@ -24,8 +24,9 @@
 #' future releases.
 #'
 #' @inheritParams coh_effectiveness
-#' @param immunization_date Name of the column that contains the immunization
-#' date to set the beginning of the follow-up period (`t0_follow_up`).
+#' @param immunization_date_col Name of the column that contains the
+#' immunization date to set the beginning of the follow-up period
+#' (`t0_follow_up`). Default is `immunization_date`.
 #' @param exact Name(s) of column(s) for `exact` matching. Default is `NULL`.
 #' @param nearest Named vector with name(s) of column(s) for `nearest` matching
 #' and caliper(s) for each variable (e.g., `nearest = c("characteristic1" = n1,
@@ -45,15 +46,15 @@
 match_cohort <- function(data,
                          outcome_date_col,
                          censoring_date_col,
-                         immunization_date_col,
-                         vacc_status_col,
-                         vaccinated_status = "v",
-                         unvaccinated_status = "u",
                          start_cohort,
                          end_cohort,
                          method = "static",
                          nearest = NULL,
-                         exact = NULL) {
+                         exact = NULL,
+                         immunization_date_col = "immunization_date",
+                         vacc_status_col = "vaccine_status",
+                         vaccinated_status = "v",
+                         unvaccinated_status = "u") {
   # input checking
   checkmate::assert_data_frame(
     data,

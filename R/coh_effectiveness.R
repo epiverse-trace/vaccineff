@@ -115,3 +115,20 @@ summary.effectiveness <- function(effectiveness) {
     cat(sprintf("p-value = %s\n", effectiveness$test))
   }
 }
+
+#' @title Function for Extracting VE plot
+#'
+#' @description This function extracts the plot generated
+#' by `effectiveness`.
+#'
+#' @param effectiveness An object of class `effectiveness`.
+#' @return Plot extracted from `effectiveness`.
+#' @export
+
+plot.effectiveness <- function(effectiveness) {
+  # Check if the input object is of class "effectiveness"
+  if (!inherits(effectiveness, "effectiveness")) {
+    stop("Input must be an object of class 'effectiveness'")
+  }
+  return(effectiveness$plot)
+}

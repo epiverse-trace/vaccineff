@@ -61,10 +61,10 @@ coh_eff_hr <- function(data,
   # output
   ve <- list(
     call = cx$model$call,
+    method = "HR",
     ve = eff,
     test = cx$p_value,
-    plot = loglog,
-    method = "HR"
+    plot = loglog
   )
 
   return(ve)

@@ -23,7 +23,7 @@
 #' before their outcomes. Rolling calendar matching method will be included in
 #' future releases.
 #'
-#' @inheritParams coh_effectiveness
+#' @inheritParams effectiveness
 #' @param immunization_date_col Name of the column that contains the
 #' immunization date to set the beginning of the follow-up period
 #' (`t0_follow_up`). Default is `immunization_date`.

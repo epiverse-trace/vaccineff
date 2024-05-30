@@ -43,7 +43,7 @@ plot_loglog <- function(km,
 #' It is possible to manipulate the colors, labels, legend and most of
 #' the graphic elements.
 #' @importFrom rlang .data
-#' @inheritParams coh_effectiveness
+#' @inheritParams effectiveness
 #' @param vaccinated_color color assigned to the vaccinated population
 #' @param unvaccinated_color color assigned to the unvaccinated population
 #' @param percentage if TRUE returns probability in percentage

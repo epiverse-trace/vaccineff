@@ -1,9 +1,9 @@
 pandoc: 3.1.11
 pkgdown: 2.0.9.9000
-pkgdown_sha: 2239e649f5893447ad804c5f4a0d3a48d29bd90f
+pkgdown_sha: 85411c1fd8762723a40d0941d8bfec1b481daa67
 articles:
   vaccineff: vaccineff.html
-last_built: 2024-05-06T13:19Z
+last_built: 2024-05-31T16:11Z
 urls:
   reference: https://epiverse-trace.github.io/vaccineff/reference
   article: https://epiverse-trace.github.io/vaccineff/articles

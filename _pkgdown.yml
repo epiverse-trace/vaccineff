@@ -1,4 +1,7 @@
 url: https://epiverse-trace.github.io/vaccineff/
 template:
   package: epiversetheme
+development:
+  mode: auto
+
 

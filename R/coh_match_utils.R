@@ -24,7 +24,6 @@ match_cohort_ <- function(data,
     }
   }
   formula_eval <- eval(parse(text = formula))
-  data[[vacc_status_col]] <- as.factor(data[[vacc_status_col]])
 
   #Matching
   matchit <- MatchIt::matchit(

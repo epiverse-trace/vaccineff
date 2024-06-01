@@ -35,9 +35,53 @@
 #' @return `effectiveness` object: list with results from estimation of VE.
 #' `call`: call of survival method,
 #' `ve`: data frame with VE(CI95%),
-#' `test`: result from test of performane,
+#' `test`: result from test of performance,
 #' `plot`: plot of method,
 #' `method`: name of the method used for the estimation.
+#' @examples
+#' # Define start and end dates of the study
+#' start_cohort <- as.Date("2044-01-01")
+#' end_cohort <- as.Date("2044-12-31")
+#'
+#' # Create data frame with information of immunization
+#' cohortdata <- make_immunization(
+#'   data = cohortdata,
+#'   outcome_date_col = "death_date",
+#'   censoring_date_col = "death_other_causes",
+#'   immunization_delay = 14,
+#'   vacc_date_col = c("vaccine_date_2"),
+#'   end_cohort = end_cohort,
+#'   take_first = FALSE
+#' )
+#' head(cohortdata)
+#'
+#' # Match the data
+#' matching <- match_cohort(
+#'   data = cohortdata,
+#'   outcome_date_col = "death_date",
+#'   censoring_date_col = "death_other_causes",
+#'   start_cohort = start_cohort,
+#'   end_cohort = end_cohort,
+#'   method = "static",
+#'   exact = "sex",
+#'   nearest = c(age = 1)
+#' )
+#'
+#' # Extract matched data
+#' matched_data <- dataset(matched)
+#'
+#' # Calculate vaccine effectiveness
+#' ve <- effectiveness(
+#'   data = matched_data,
+#'   start_cohort = start_cohort,
+#'   end_cohort = end_cohort
+#' )
+#'
+#' # View summary of VE
+#' summary(ve)
+#'
+#' # Generate plot of method
+#' plot(ve)
 #' @export
 
 effectiveness <- function(data,

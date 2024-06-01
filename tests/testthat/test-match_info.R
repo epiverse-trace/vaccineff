@@ -1,5 +1,4 @@
-#### Tests for get_censoring_date_match()
-
+#### Tests for match_info()
 ## prepare data
 data("cohortdata")
 start_cohort <- as.Date("2044-01-01")
@@ -17,19 +16,21 @@ sample_cohort$vaccine_status <- set_status(
   col_names = "vaccine_date_2",
   status = c("v", "u")
 )
+
 # match cohort
 matched_cohort <- match_cohort_(data = sample_cohort,
   vacc_status_col = "vaccine_status",
   exact = "sex"
 )
-# add column with censoring date for couple
+
+# add column with minimum censoring date for couple
 matched_cohort$censoring_couple <-  as.Date(match_couple_info(
   data = matched_cohort,
   column_to_match = "death_other_causes",
   criteria = "min"
 ))
 
-# snapshot test basic expectations
+# Basic expectations
 test_that("`get_censoring_date_match`: basic expectations", {
   # expect date
   expect_vector(
@@ -75,12 +76,13 @@ matched_cohort$censoring_couple_max <-  as.Date(match_couple_info(
 test_that("`get_censoring_date_match`: take maximum censoring date", {
   censored_twodates <-
     matched_cohort[!is.na(matched_cohort$censoring_couple_max)  &
-                     !is.na(matched_cohort$death_other_causes),
+      !is.na(matched_cohort$death_other_causes),
     ]
 
   expect_true(
     all(
-      censored_twodates$censoring_couple_max <= censored_twodates$death_other_causes
+      censored_twodates$censoring_couple_max <=
+        censored_twodates$death_other_causes
     )
   )
 })

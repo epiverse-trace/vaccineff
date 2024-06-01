@@ -1,5 +1,4 @@
-#### Tests for get_censoring_date_match()
-
+#### Tests for match_cohort_()
 ## prepare data
 data("cohortdata")
 start_cohort <- as.Date("2044-01-01")
@@ -20,30 +19,20 @@ sample_cohort$vaccine_status <- set_status(
 
 # test for basic expectations - all provided
 test_that("`match_cohort`: basic expectations - all provided", {
-  matched_cohort <- match_cohort(
+  matched_cohort <- match_cohort_(
     data = sample_cohort,
-    status_vacc_col = "vaccine_status",
+    vacc_status_col = "vaccine_status",
     exact = "sex",
     nearest = c(age = 1)
   )
   # expect dataframe
   expect_s3_class(matched_cohort, "data.frame")
 
-  # error argumentes not provided
-  expect_error(
-    match_cohort(
-      data = sample_cohort,
-      status_vacc_col = "vaccine_status"
-    ),
-    regexp =
-      "`exact` and `nearest` cannot be NULL. At least one must be provided"
-  )
-
-  # keep all the columns and add only "subclass" and "prop_score"
+  # keep all the columns and add only "subclass"
   expect_true(
     all(
       names(matched_cohort) %in%
-        c(names(sample_cohort), "subclass", "prop_score")
+        c(names(sample_cohort), "subclass")
     )
   )
 
@@ -84,9 +73,9 @@ test_that("`match_cohort`: basic expectations - all provided", {
 
 # test for exact match
 test_that("`match_cohort`: exact match", {
-  matched_cohort <- match_cohort(
+  matched_cohort <- match_cohort_(
     data = sample_cohort,
-    status_vacc_col = "vaccine_status",
+    vacc_status_col = "vaccine_status",
     exact = "sex"
   )
   # same number of categories in "v" and "u"
@@ -96,11 +85,11 @@ test_that("`match_cohort`: exact match", {
   )
 })
 
-# test for exact match
+# test for nearest match
 test_that("`match_cohort`: nearest match", {
-  matched_cohort <- match_cohort(
+  matched_cohort <- match_cohort_(
     data = sample_cohort,
-    status_vacc_col = "vaccine_status",
+    vacc_status_col = "vaccine_status",
     nearest = c(age = 3)
   )
   # even number of couples

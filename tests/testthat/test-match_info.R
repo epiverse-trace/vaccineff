@@ -5,7 +5,7 @@ data("cohortdata")
 start_cohort <- as.Date("2044-01-01")
 end_cohort <- as.Date("2044-12-31")
 
-# sample cohort to make tests faster - take a bigger sample
+# sample cohort to make tests faster
 sample_size <- 5000
 sample_indices <- sample(nrow(cohortdata), sample_size)
 sample_cohort <- cohortdata[sample_indices, ]
@@ -18,22 +18,22 @@ sample_cohort$vaccine_status <- set_status(
   status = c("v", "u")
 )
 # match cohort
-matched_cohort <- match_cohort(data = sample_cohort,
-  status_vacc_col = "vaccine_status",
+matched_cohort <- match_cohort_(data = sample_cohort,
+  vacc_status_col = "vaccine_status",
   exact = "sex"
 )
-# add column with censoring date for match
-matched_cohort$censoring_date <- get_censoring_date_match(
+# add column with censoring date for couple
+matched_cohort$censoring_couple <-  as.Date(match_couple_info(
   data = matched_cohort,
-  outcome_date_col = "death_date",
-  censoring_date_col = "death_other_causes"
-)
+  column_to_match = "death_other_causes",
+  criteria = "min"
+))
 
 # snapshot test basic expectations
 test_that("`get_censoring_date_match`: basic expectations", {
   # expect date
   expect_vector(
-    matched_cohort$censoring_date,
+    matched_cohort$censoring_couple,
     ptype = as.Date("2045-01-01")
   )
   # filter registers with censoring date informed
@@ -41,7 +41,7 @@ test_that("`get_censoring_date_match`: basic expectations", {
     matched_cohort[!is.na(matched_cohort$death_other_causes), ]
   # filter registers with censoring date created after matching
   censored_match <-
-    matched_cohort[!is.na(matched_cohort$censoring_date), ]
+    matched_cohort[!is.na(matched_cohort$censoring_couple), ]
 
   # All the subclass IDs in censored_match must be contained in
   # censored_original
@@ -50,32 +50,37 @@ test_that("`get_censoring_date_match`: basic expectations", {
   )
 })
 
-# Always take the minimum censoring date per couple
+# Check for minimum censoring date per couple
 test_that("`get_censoring_date_match`: take minimum censoring date", {
   censored_twodates <-
-    matched_cohort[!is.na(matched_cohort$censoring_date)  &
+    matched_cohort[!is.na(matched_cohort$censoring_couple)  &
       !is.na(matched_cohort$death_other_causes),
     ]
 
   expect_true(
     all(
-      censored_twodates$censoring_date <= censored_twodates$death_other_causes
+      censored_twodates$censoring_couple <= censored_twodates$death_other_causes
     )
   )
 })
 
-# If one of the members of the couple has an outcome date before
-# the censoring date of the other. Do not censor, set censoring date
-# for the member with outcome as NA
-test_that("`get_censoring_date_match`: not censoring cases", {
-  censored_and_outcome <-
-    matched_cohort[!is.na(matched_cohort$censoring_date)  &
-      !is.na(matched_cohort$death_date),
+# Check for maximum censoring date per couple
+# add column with censoring date for couple
+matched_cohort$censoring_couple_max <-  as.Date(match_couple_info(
+  data = matched_cohort,
+  column_to_match = "death_other_causes",
+  criteria = "max"
+))
+
+test_that("`get_censoring_date_match`: take maximum censoring date", {
+  censored_twodates <-
+    matched_cohort[!is.na(matched_cohort$censoring_couple_max)  &
+                     !is.na(matched_cohort$death_other_causes),
     ]
 
   expect_true(
     all(
-      censored_and_outcome$censoring_date > censored_and_outcome$death_date
+      censored_twodates$censoring_couple_max <= censored_twodates$death_other_causes
     )
   )
 })

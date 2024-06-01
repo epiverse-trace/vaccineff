@@ -1,5 +1,6 @@
 #### Tests for plot_survival()
-
+## This test uses directly the internal functions of the package
+## to avoid running the matching functions
 ## prepare data
 data("cohortdata")
 start_cohort <- as.Date("2044-01-01")
@@ -10,7 +11,6 @@ cohortdata$immunization <-
   get_immunization_date(
     data = cohortdata,
     outcome_date_col = "death_date",
-    outcome_delay = 0,
     immunization_delay = 14,
     vacc_date_col = c("vaccine_date_1", "vaccine_date_2"),
     end_cohort = end_cohort,
@@ -53,8 +53,7 @@ test_that("`plot_survival`: default params", {
     start_cohort = start_cohort,
     end_cohort = end_cohort,
     percentage = TRUE,
-    cumulative = FALSE,
-    loglog = FALSE
+    cumulative = FALSE
   )
 
   expect_identical(plt$labels$y, "Survival probability")
@@ -78,8 +77,7 @@ test_that("`plot_survival`: integer scale", {
     start_cohort = start_cohort,
     end_cohort = end_cohort,
     percentage = FALSE,
-    cumulative = TRUE,
-    loglog = FALSE
+    cumulative = TRUE
   )
 
   expect_s3_class(ggplot2::layer_scales(plt)$y, "ScaleContinuous")
@@ -99,30 +97,8 @@ test_that("`plot_survival`: Snapshot test", {
     start_cohort = start_cohort,
     end_cohort = end_cohort,
     percentage = TRUE,
-    cumulative = TRUE,
-    loglog = FALSE
+    cumulative = TRUE
   )
 
-  expect_identical(plt$labels$y, "Cumulative hazard")
-})
-
-# test for loglog plot
-test_that("`plot_survival`: loglog plot", {
-  plt <- plot_survival(
-    data = cohortdata,
-    outcome_status_col = "death_status",
-    time_to_event_col = "time_to_death",
-    vacc_status_col = "vaccine_status",
-    vaccinated_status = "v",
-    unvaccinated_status = "u",
-    vaccinated_color = "steelblue",
-    unvaccinated_color = "darkred",
-    start_cohort = start_cohort,
-    end_cohort = end_cohort,
-    percentage = TRUE,
-    cumulative = TRUE,
-    loglog = TRUE
-  )
-
-  expect_identical(plt$labels$y, "Log[-Log[Surv.]]")
+  expect_identical(plt$labels$y, "Cumulative incidence")
 })

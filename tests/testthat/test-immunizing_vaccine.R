@@ -6,7 +6,6 @@ data("cohortdata")
 cohortdata$immunization <- get_immunization_date(
   data = cohortdata,
   outcome_date_col = "death_date",
-  outcome_delay = 0,
   immunization_delay = 14,
   vacc_date_col = c("vaccine_date_1", "vaccine_date_2"),
   end_cohort = as.Date("2044-12-31"),

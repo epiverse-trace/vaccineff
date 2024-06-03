@@ -196,9 +196,9 @@ match_cohort <- function(data,
 
 summary.match <- function(match) {
   # Check if the input object is of class "match"
-  if (!inherits(match, "match")) {
-    stop("Input must be an object of class 'match'")
-  }
+  stopifnot("Input must be an object of class 'match'" =
+      checkmate::assert_class(match, "match")
+  )
   cat("Balance all:\n")
   print(match$balance_all)
   cat("\nBalance matched:\n")
@@ -218,8 +218,8 @@ summary.match <- function(match) {
 
 dataset.match <- function(match) {
   # Check if the input object is of class "match"
-  if (!inherits(match, "match")) {
-    stop("Input must be an object of class 'match'")
-  }
+  stopifnot("Input must be an object of class 'match'" =
+      checkmate::assert_class(match, "match")
+  )
   return(match$match)
 }

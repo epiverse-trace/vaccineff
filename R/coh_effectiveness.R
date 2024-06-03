@@ -146,9 +146,9 @@ effectiveness <- function(data,
 
 summary.effectiveness <- function(effectiveness) {
   # Check if the input object is of class "effectiveness"
-  if (!inherits(effectiveness, "effectiveness")) {
-    stop("Input must be an object of class 'effectiveness'")
-  }
+  stopifnot("Input must be an object of class 'effectiveness'" =
+      checkmate::assert_class(effectiveness, "effectiveness")
+  )
   cat(
     sprintf("Vaccine Effectiveness computed as VE = 1 - %s:\n",
             effectiveness$method)
@@ -171,8 +171,8 @@ summary.effectiveness <- function(effectiveness) {
 
 plot.effectiveness <- function(effectiveness) {
   # Check if the input object is of class "effectiveness"
-  if (!inherits(effectiveness, "effectiveness")) {
-    stop("Input must be an object of class 'effectiveness'")
-  }
+  stopifnot("Input must be an object of class 'effectiveness'" =
+      checkmate::assert_class(effectiveness, "effectiveness")
+  )
   return(effectiveness$plot)
 }

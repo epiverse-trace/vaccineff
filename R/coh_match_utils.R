@@ -129,10 +129,10 @@ balance_summary <- function(data,
                             vaccinated_status,
                             unvaccinated_status) {
   columns <- c(names(nearest), exact)
-  numeric <- columns[sapply(data[columns], is.numeric)]
+  numeric <- columns[vapply(data[columns], is.numeric, logical(1))]
 
-  categorical <- columns[sapply(data[columns], is.character)]
-  factor <- columns[sapply(data[columns], is.factor)]
+  categorical <- columns[vapply(data[columns], is.character, logical(1))]
+  factor <- columns[vapply(data[columns], is.factor, logical(1))]
   categorical <- c(categorical, factor)
 
   # balance for numeric variables

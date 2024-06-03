@@ -81,7 +81,7 @@ test_that("`effectiveness`: test for input validation", {
   )
 })
 
-#### Basi expectations: summary and plot methods
+#### Basic expectations: summary and plot methods
 test_that("`effectiveness`: basic expectations", {
 
   eff <- effectiveness(
@@ -99,5 +99,4 @@ test_that("`effectiveness`: basic expectations", {
   plt <- plot.effectiveness(eff)
   expect_identical(plt$labels$y, "Log[-Log[Surv.]]")
   expect_s3_class(plt, "ggplot")
-
 })

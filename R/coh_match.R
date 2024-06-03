@@ -73,7 +73,7 @@
 #'
 #' # Extract matched data
 #' cohortdata_match <- dataset(matching)
-#' 
+#'
 #' # View of mached cohort
 #' head(cohortdata_match)
 #'

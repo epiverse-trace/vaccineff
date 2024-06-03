@@ -92,7 +92,7 @@ test_that("`effectiveness`: basic expectations", {
   )
 
   # snapshot for summary
-  invisible(capture.output(summ <- summary.effectiveness(eff))) #nolint
+  summ <- capture.output(summary.effectiveness(eff))
   expect_snapshot(summ)
 
   # tes for loglog plot

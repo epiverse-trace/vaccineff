@@ -66,9 +66,6 @@ adjust_exposition <- function(matched_cohort,
     column_to_match = "time_to_event",
     criteria = "min"
   )
-  neg_times <- matched_cohort[matched_cohort$min_exposure_time_couple < 0, ]
-
-  head(neg_times[order(neg_times$subclass), ], n = 4)
 
   adjusted_match <- matched_cohort[
     matched_cohort$min_exposure_time_couple > 0,

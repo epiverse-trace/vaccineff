@@ -104,7 +104,7 @@ match_summary <- function(all,
     summ_removed <- summ_matched -
       as.data.frame(rbind(table(adjusted[[vacc_status_col]])))
   } else {
-    summ_removed <- setNames(cbind.data.frame(0, 0), names(summ_all))
+    summ_removed <- stats::setNames(cbind.data.frame(0, 0), names(summ_all))
   }
   summ <- rbind(summ_all, summ_matched, summ_unmatched, summ_removed)
   row.names(summ) <- c("All", "Matched", "Unmatched", "Removed")
@@ -139,9 +139,9 @@ balance_summary <- function(data,
   balance_num <- data.frame()
   for (n in numeric) {
     # mean and sd
-    temp <- as.data.frame(aggregate(
+    temp <- as.data.frame(stats::aggregate(
       data[n], list(data$vaccine_status),
-      FUN = function(x) c(mean = mean(x), sd = sd(x))
+      FUN = function(x) c(mean = mean(x), sd = stats::sd(x))
     ))
     temp <- do.call(data.frame, temp)
     # Std. Mean Diff.

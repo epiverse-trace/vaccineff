@@ -97,11 +97,11 @@ matching <- match_cohort(
 )
 
 # Extract matched data
-matched_data <- dataset(matched)
+cohortdata_match <- dataset(matching)
 
 # Calculate vaccine effectiveness
 ve <- effectiveness(
-  data = matched_data,
+  data = cohortdata_match,
   start_cohort = start_cohort,
   end_cohort = end_cohort
 )

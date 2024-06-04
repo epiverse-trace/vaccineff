@@ -47,12 +47,12 @@ $$h_g(t,s)=h_{0,g}\exp(\beta s)$$
 
 Where the hazards are modeled in terms of the status of vaccination. The proportional hazards hypothesis is checked using the Schoenfeld test. If the hypothesis is not satisfied, it is recommended to stratify the population into smaller groups (g) using the confounding variables. 
 
-### Test Negative Design
+### Test Negative Design (Future releases)
 
 The test negative design is a modified case-control design. The vaccine effectiveness is estimated using the odds ratio (OR) of vaccination among cases divided into the OR of vaccination among controls. 
 $$VE = 1- \frac{\text{Vaccination OR among cases}}{\text{Vaccination OR among controls}}\times 100$$
 
-### Screening Method
+### Screening Method (Future releases)
 
 The screening method estimates the VE using the proportion of cases vaccinated (PCV)  and the proportion of the population vaccinated (PPV) using the following expression:
 $$VE = \frac{\text{PCV}}{1-\text{PCV}} \times \frac{1-\text{PPV}}{\text{PPV}} \times 100$$
@@ -70,7 +70,7 @@ Data disaggregated at individual level to follow up vaccinated and unvaccinated 
 - Date(s) of outcome(s). The package estimates the vaccine effectiveness against several outcomes.
 Individuals’ demographic information (e.g. sex, age-group, health regime) can be specify depending on the confounding variables that will be introduced in the model.
 
-### Data for Test-negative design
+### Data for Test-negative design (Future releases)
 
 Data disaggregated at individual level to correlate vaccination and disease status for each case. The data set must contain the following information:
 
@@ -78,7 +78,7 @@ Data disaggregated at individual level to correlate vaccination and disease stat
 - Result of gold-standard test for pathogen of interest. Molecular test as PCR o multiplex-PCR are the most common used test to determine etiology agents in TND studies. 
 - Individuals demographic information (e.g. sex, age, health insurance) others can be specify depending on the confounding variables that will be introduced in the model.
 
-### Data for Screening method design
+### Data for Screening method design (Future releases)
 
 - Vaccination status for each case or age group. Consider time since vaccination to determine as vaccinated or unvaccinated. If vaccine of interest required several doses for maximum efficacy exclude patients with incomplete schemes. 
 - Proportion of population vaccinated. Data can be administrated as people with complete vaccination and people without complete vaccination or the proportion of people vaccinated. 
@@ -96,45 +96,53 @@ The integrated data set `cohortdata` provides a minimal example of the input of 
 ```{r cohortdata, include = TRUE, echo = TRUE}
 data("cohortdata")
 
-cohortdata$immunization <-
-  get_immunization_date(
-    data = cohortdata,
-    outcome_date_col = "death_date",
-    censoring_date_col = "death_other_causes",
-    outcome_delay = 0,
-    immunization_delay = 14,
-    vacc_date_col = c("vaccine_date_1", "vaccine_date_2"),
-    end_cohort = as.Date("2044-12-31"),
-    take_first = FALSE
-  )
+# Define start and end dates of the study
+start_cohort <- as.Date("2044-01-01")
+end_cohort <- as.Date("2044-12-31")
 
-cohortdata$vaccine_status <- set_status(
-  data = cohortdata,
-  col_names = "immunization",
-  status = c("v", "u")
-)
-
-cohortdata$death_status <- set_event_status(
-  data = cohortdata,
-  outcome_date_col = "death_date",
-  censoring_date_col = "death_other_causes"
-)
-
-cohortdata$time_to_death <- get_time_to_event(
+# Create data frame with information of immunization
+cohortdata <- make_immunization(
   data = cohortdata,
   outcome_date_col = "death_date",
   censoring_date_col = "death_other_causes",
-  start_cohort = as.Date("2044-01-01"),
-  end_cohort = as.Date("2044-12-31"),
-  start_from_immunization = FALSE
+  immunization_delay = 14,
+  vacc_date_col = "vaccine_date_2",
+  end_cohort = end_cohort,
+  take_first = FALSE
+)
+head(cohortdata)
+
+# Match the data
+matching <- match_cohort(
+  data = cohortdata,
+  outcome_date_col = "death_date",
+  censoring_date_col = "death_other_causes",
+  start_cohort = start_cohort,
+  end_cohort = end_cohort,
+  method = "static",
+  exact = "sex",
+  nearest = c(age = 1)
 )
 
-coh_eff_noconf(
-  data = cohortdata,
-  outcome_status_col = "death_status",
-  time_to_event_col = "time_to_death",
-  vacc_status_col = "vaccine_status"
+# Check matching balance aand summary
+summary(matching)
+
+# Extract matched data
+cohortdata_match <- dataset(matching)
+
+# Calculate vaccine effectiveness
+ve <- effectiveness(
+  data = cohortdata_match,
+  start_cohort = start_cohort,
+  end_cohort = end_cohort,
+  method = "HR"
 )
+
+# View summary of VE
+summary(ve)
+
+# Generate plot of method
+plot(ve)
 ```
 
 ## References

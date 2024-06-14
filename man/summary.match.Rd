@@ -4,10 +4,12 @@
 \alias{summary.match}
 \title{Summarize Matching Results}
 \usage{
-\method{summary}{match}(match)
+\method{summary}{match}(object, ...)
 }
 \arguments{
-\item{match}{An object of class \code{match}.}
+\item{object}{An object of class \code{match}.}
+
+\item{...}{Additional arguments passed to other functions.}
 }
 \value{
 A summary of the results from matching.

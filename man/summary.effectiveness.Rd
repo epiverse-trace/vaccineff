@@ -4,10 +4,12 @@
 \alias{summary.effectiveness}
 \title{Summarize VE Results}
 \usage{
-\method{summary}{effectiveness}(effectiveness)
+\method{summary}{effectiveness}(object, ...)
 }
 \arguments{
-\item{effectiveness}{An object of class \code{effectiveness}.}
+\item{object}{An object of class \code{effectiveness}.}
+
+\item{...}{Additional arguments passed to other functions.}
 }
 \value{
 A summary of the results from effectiveness.

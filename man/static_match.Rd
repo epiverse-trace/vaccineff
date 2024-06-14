@@ -21,6 +21,11 @@ static_match(
 \arguments{
 \item{data}{dataset with cohort information (see example).}
 
+\item{outcome_date_col}{Name of the column that contains the outcome dates.}
+
+\item{censoring_date_col}{Name of the column that contains the censoring
+date. NULL by default.}
+
 \item{immunization_date_col}{Name of the column that contains the
 immunization date to set the beginning of the follow-up period
 (\code{t0_follow_up}). Default is \code{immunization_date}.}

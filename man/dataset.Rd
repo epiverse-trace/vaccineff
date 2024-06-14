@@ -8,6 +8,8 @@ dataset(object, ...)
 }
 \arguments{
 \item{object}{An object from which to extract the dataset.}
+
+\item{...}{Additional arguments passed to other functions.}
 }
 \value{
 The dataset extracted from the object.

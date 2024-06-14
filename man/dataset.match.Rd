@@ -4,10 +4,12 @@
 \alias{dataset.match}
 \title{Function for Extracting Matched Dataset}
 \usage{
-\method{dataset}{match}(match)
+\method{dataset}{match}(object, ...)
 }
 \arguments{
-\item{match}{An object of class \code{match}.}
+\item{object}{An object of class \code{match}.}
+
+\item{...}{Additional arguments passed to other functions.}
 }
 \value{
 The dataset extracted from \code{match_cohort}.

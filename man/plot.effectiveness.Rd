@@ -4,10 +4,12 @@
 \alias{plot.effectiveness}
 \title{Function for Extracting VE plot}
 \usage{
-\method{plot}{effectiveness}(effectiveness)
+\method{plot}{effectiveness}(x, ...)
 }
 \arguments{
-\item{effectiveness}{An object of class \code{effectiveness}.}
+\item{x}{An object of class \code{effectiveness}.}
+
+\item{...}{Additional arguments passed to other functions.}
 }
 \value{
 Plot extracted from \code{effectiveness}.

@@ -27,6 +27,15 @@ date. NULL by default.}
 
 \item{vacc_date_col}{Name of the column(s) that contain the vaccine dates.}
 
+\item{vacc_name_col}{Name of the column(s) that contain custom vaccine
+names.}
+
+\item{vaccinated_status}{string assigned to the vaccinated population.
+Default is \code{v}.}
+
+\item{unvaccinated_status}{string assigned to the unvaccinated population.
+Default is \code{u}.}
+
 \item{immunization_delay}{Characteristic time in days before the patient
 is considered immune.}
 

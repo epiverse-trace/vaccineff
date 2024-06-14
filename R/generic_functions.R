@@ -7,6 +7,6 @@
 #' @param object An object from which to extract the dataset.
 #' @return The dataset extracted from the object.
 #' @export
-dataset <- function(object) {
+dataset <- function(object, ...) {
   UseMethod("dataset")
 }

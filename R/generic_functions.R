@@ -5,6 +5,7 @@
 #' on the class of the input object.
 #'
 #' @param object An object from which to extract the dataset.
+#' @param ... Additional arguments passed to other functions.
 #' @return The dataset extracted from the object.
 #' @export
 dataset <- function(object, ...) {

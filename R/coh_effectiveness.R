@@ -140,23 +140,24 @@ effectiveness <- function(data,
 #'
 #' @description Summarizes the results of `effectiveness`.
 #'
-#' @param effectiveness An object of class `effectiveness`.
+#' @param object An object of class `effectiveness`.
+#' @param ... Additional arguments passed to other functions.
 #' @return A summary of the results from effectiveness.
 #' @export
 
-summary.effectiveness <- function(effectiveness) {
+summary.effectiveness <- function(object, ...) {
   # Check if the input object is of class "effectiveness"
   stopifnot("Input must be an object of class 'effectiveness'" =
-      checkmate::test_class(effectiveness, "effectiveness")
+      checkmate::test_class(object, "effectiveness")
   )
   cat(
     sprintf("Vaccine Effectiveness computed as VE = 1 - %s:\n",
-            effectiveness$method)
+            object$method)
   )
-  print(effectiveness$ve)
-  if (effectiveness$method == "HR") {
+  print(object$ve)
+  if (object$method == "HR") {
     cat("\nSchoenfeld test for Proportional Hazards hypothesis:\n")
-    cat(sprintf("p-value = %s\n", effectiveness$test))
+    cat(sprintf("p-value = %s\n", object$test))
   }
 }
 
@@ -165,14 +166,15 @@ summary.effectiveness <- function(effectiveness) {
 #' @description This function extracts the plot generated
 #' by `effectiveness`.
 #'
-#' @param effectiveness An object of class `effectiveness`.
+#' @param x An object of class `effectiveness`.
+#' @param ... Additional arguments passed to other functions.
 #' @return Plot extracted from `effectiveness`.
 #' @export
 
-plot.effectiveness <- function(effectiveness) {
+plot.effectiveness <- function(x, ...) {
   # Check if the input object is of class "effectiveness"
   stopifnot("Input must be an object of class 'effectiveness'" =
-      checkmate::test_class(effectiveness, "effectiveness")
+      checkmate::test_class(x, "effectiveness")
   )
-  return(effectiveness$plot)
+  return(x$plot)
 }

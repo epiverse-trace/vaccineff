@@ -24,6 +24,9 @@
 #' future releases.
 #'
 #' @inheritParams effectiveness
+#' @param outcome_date_col Name of the column that contains the outcome dates.
+#' @param censoring_date_col Name of the column that contains the censoring
+#' date. NULL by default.
 #' @param immunization_date_col Name of the column that contains the
 #' immunization date to set the beginning of the follow-up period
 #' (`t0_follow_up`). Default is `immunization_date`.
@@ -190,21 +193,22 @@ match_cohort <- function(data,
 #'
 #' @description Summarizes the results of `match_cohort`.
 #'
-#' @param match An object of class `match`.
+#' @param object An object of class `match`.
+#' @param ... Additional arguments passed to other functions.
 #' @return A summary of the results from matching.
 #' @export
 
-summary.match <- function(match) {
+summary.match <- function(object, ...) {
   # Check if the input object is of class "match"
   stopifnot("Input must be an object of class 'match'" =
-      checkmate::test_class(match, "match")
+      checkmate::test_class(object, "match")
   )
   cat("Balance all:\n")
-  print(match$balance_all)
+  print(object$balance_all)
   cat("\nBalance matched:\n")
-  print(match$balance_match)
+  print(object$balance_match)
   cat("\nSummary:\n")
-  print(match$summary)
+  print(object$summary)
 }
 
 #' @title Function for Extracting Matched Dataset
@@ -212,14 +216,15 @@ summary.match <- function(match) {
 #' @description This function extracts the matched datasets generated
 #' by `match_cohort`.
 #'
-#' @param match An object of class `match`.
+#' @param object An object of class `match`.
+#' @param ... Additional arguments passed to other functions.
 #' @return The dataset extracted from `match_cohort`.
 #' @export
 
-dataset.match <- function(match) {
+dataset.match <- function(object, ...) {
   # Check if the input object is of class "match"
   stopifnot("Input must be an object of class 'match'" =
-      checkmate::test_class(match, "match")
+      checkmate::test_class(object, "match")
   )
-  return(match$match)
+  return(object$match)
 }

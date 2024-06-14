@@ -36,7 +36,7 @@ earliest vaccine date.}
 immunization date
 }
 \description{
-This function construcs the immunization date per individual
+This function constructs the immunization date per individual
 by searching for the vaccine dates that satisfy the condition:
 \code{vacc_date_col + immunization_delay <= limit_date}, where
 \code{limit_date} is defined following the hierarchy:

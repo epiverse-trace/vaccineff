@@ -2,7 +2,7 @@
 % Please edit documentation in R/coh_eff_utils.R
 \name{km_model}
 \alias{km_model}
-\title{Internal function to calculate Kapplan-Meier model and related metrics.}
+\title{Internal function to calculate Kaplan-Meier model and related metrics.}
 \usage{
 km_model(
   data,
@@ -45,6 +45,6 @@ Data frame with data from KM model
 "cumincidence", "cumincidence_lower", "cumincidence_upper"
 }
 \description{
-Internal function to calculate Kapplan-Meier model and related metrics.
+Internal function to calculate Kaplan-Meier model and related metrics.
 }
 \keyword{internal}

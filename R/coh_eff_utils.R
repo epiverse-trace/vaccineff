@@ -14,7 +14,7 @@ extract_surv_model <- function(model, start_cohort, end_cohort) {
   return(tbl)
 }
 
-#' Internal function to calculate Kapplan-Meier model and related metrics.
+#' Internal function to calculate Kaplan-Meier model and related metrics.
 #'
 #' @inheritParams effectiveness
 #' @return Data frame with data from KM model

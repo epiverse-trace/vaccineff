@@ -193,7 +193,7 @@ make_immunization <- function(data,
 
 #' @title Construct Immunization Date
 #'
-#' @description This function construcs the immunization date per individual
+#' @description This function constructs the immunization date per individual
 #' by searching for the vaccine dates that satisfy the condition:
 #' `vacc_date_col + immunization_delay <= limit_date`, where
 #' `limit_date` is defined following the hierarchy:

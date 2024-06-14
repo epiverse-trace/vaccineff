@@ -8,5 +8,5 @@ test_that("dataset dispatches the correct method", {
   df <- data.frame(x = 1:10)
 
   # Test that the correct method is called for a data.frame
-  expect_equal(dataset(df), "data.frame method called")
+  expect_identical(dataset(df), "data.frame method called")
 })

@@ -24,7 +24,7 @@ coh_eff_hr <- function(data,
                        start_cohort,
                        end_cohort) {
 
-  # Kapplan-Meier model for loglog curve
+  # Kaplan-Meier model for loglog curve
   km <- km_model(data = data,
     outcome_status_col = outcome_status_col,
     time_to_event_col = time_to_event_col,

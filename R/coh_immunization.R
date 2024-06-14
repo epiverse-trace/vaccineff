@@ -31,6 +31,12 @@
 #' @param immunization_delay Characteristic time in days before the patient
 #' is considered immune.
 #' @param vacc_date_col Name of the column(s) that contain the vaccine dates.
+#' @param vacc_name_col Name of the column(s) that contain custom vaccine
+#' names.
+#' @param vaccinated_status string assigned to the vaccinated population.
+#' Default is `v`.
+#' @param unvaccinated_status string assigned to the unvaccinated population.
+#' Default is `u`.
 #' @param end_cohort End date of the study.
 #' @param take_first FALSE: takes the latest vaccine date. TRUE: takes the
 #' earliest vaccine date.

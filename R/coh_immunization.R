@@ -130,11 +130,10 @@ make_immunization <- function(data,
       names(data),
       must.include = c(vacc_name_col)
     )
-    for (i in seq_along(vacc_date_col)) {
-      checkmate::assert_date(
-        data[[vacc_date_col[i]]]
-      )
-    }
+    checkmate::assert_character(
+      vacc_name_col,
+      min.len = length(vacc_date_col)
+    )
   }
 
   # warn on year of cohort end date date
@@ -171,7 +170,7 @@ make_immunization <- function(data,
 
   # name of vaccine
   if (!is.null(vacc_name_col)) {
-    cohortdata$immunizing_vaccine_name <- get_immunization_vaccine(
+    data$immunizing_vaccine_name <- get_immunization_vaccine(
       data = data,
       immunization_date_col = "immunization_date",
       vacc_date_col = vacc_date_col,

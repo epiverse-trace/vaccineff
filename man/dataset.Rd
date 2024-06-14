@@ -4,7 +4,7 @@
 \alias{dataset}
 \title{Generic Function for Extracting Datasets}
 \usage{
-dataset(object)
+dataset(object, ...)
 }
 \arguments{
 \item{object}{An object from which to extract the dataset.}

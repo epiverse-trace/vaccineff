@@ -56,8 +56,8 @@ match_cohort_ <- function(data,
 #' This can be the minimum (min) or maximum (max) value.
 #' @keywords internal
 match_pair_info <- function(data,
-                              column_to_match,
-                              criteria = c("min", "max")) {
+                            column_to_match,
+                            criteria = c("min", "max")) {
   matched_info <- unlist(
     tapply(data[[column_to_match]],
       data$subclass,

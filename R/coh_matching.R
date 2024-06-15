@@ -216,4 +216,3 @@ get_censoring_date_match <- function(data,
     ))
   return(data$censoring_date_match)
 }
-

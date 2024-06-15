@@ -7,18 +7,16 @@
 match_cohort_(data, vacc_status_col, exact = NULL, nearest = NULL)
 }
 \arguments{
-\item{data}{dataset with cohort information (see example)}
+\item{data}{dataset with cohort information (see example).}
 
 \item{vacc_status_col}{name of the column containing the vaccination.
 Default is \code{vaccine_status}.}
 
-\item{exact}{name(s) of column(s) for \code{exact} matching.
-Default to \code{NULL}.}
+\item{exact}{Name(s) of column(s) for \code{exact} matching. Default is \code{NULL}.}
 
-\item{nearest}{named vector with name(s) of column(s) for \code{nearest}
-matching and caliper(s) for each variable.
-e.g. \code{nearest = c("characteristic1" = n1, "characteristic2" = n2)},
-where \code{n1} and \code{n2} are the calipers. Default to \code{NULL}.}
+\item{nearest}{Named vector with name(s) of column(s) for \code{nearest} matching
+and caliper(s) for each variable (e.g., \code{nearest = c("characteristic1" = n1, "characteristic2" = n2)}, where \code{n1} and \code{n2} are the calipers). Default is
+\code{NULL}.}
 }
 \value{
 A data frame with the matched population.

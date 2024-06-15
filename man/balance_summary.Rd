@@ -16,13 +16,11 @@ balance_summary(
 \arguments{
 \item{data}{A data frame to assess matching balance.}
 
-\item{nearest}{named vector with name(s) of column(s) for \code{nearest}
-matching and caliper(s) for each variable.
-e.g. \code{nearest = c("characteristic1" = n1, "characteristic2" = n2)},
-where \code{n1} and \code{n2} are the calipers. Default to \code{NULL}.}
+\item{nearest}{Named vector with name(s) of column(s) for \code{nearest} matching
+and caliper(s) for each variable (e.g., \code{nearest = c("characteristic1" = n1, "characteristic2" = n2)}, where \code{n1} and \code{n2} are the calipers). Default is
+\code{NULL}.}
 
-\item{exact}{name(s) of column(s) for \code{exact} matching.
-Default to \code{NULL}.}
+\item{exact}{Name(s) of column(s) for \code{exact} matching. Default is \code{NULL}.}
 
 \item{vacc_status_col}{name of the column containing the vaccination.
 Default is \code{vaccine_status}.}

@@ -19,7 +19,7 @@ static_match(
 )
 }
 \arguments{
-\item{data}{dataset with cohort information (see example)}
+\item{data}{dataset with cohort information (see example).}
 
 \item{outcome_date_col}{Name of the column that contains the outcome dates.}
 
@@ -43,13 +43,11 @@ Default is \code{u}.}
 
 \item{end_cohort}{end date of the study.}
 
-\item{nearest}{named vector with name(s) of column(s) for \code{nearest}
-matching and caliper(s) for each variable.
-e.g. \code{nearest = c("characteristic1" = n1, "characteristic2" = n2)},
-where \code{n1} and \code{n2} are the calipers. Default to \code{NULL}.}
+\item{nearest}{Named vector with name(s) of column(s) for \code{nearest} matching
+and caliper(s) for each variable (e.g., \code{nearest = c("characteristic1" = n1, "characteristic2" = n2)}, where \code{n1} and \code{n2} are the calipers). Default is
+\code{NULL}.}
 
-\item{exact}{name(s) of column(s) for \code{exact} matching.
-Default to \code{NULL}.}
+\item{exact}{Name(s) of column(s) for \code{exact} matching. Default is \code{NULL}.}
 }
 \value{
 List with results from static match:

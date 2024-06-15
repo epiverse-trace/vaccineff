@@ -2,7 +2,7 @@
 % Please edit documentation in R/coh_match_utils.R
 \name{match_pair_info}
 \alias{match_pair_info}
-\title{Match Information by pair}
+\title{Match Information by Pairs}
 \usage{
 match_pair_info(data, column_to_match, criteria = c("min", "max"))
 }

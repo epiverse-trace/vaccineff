@@ -17,7 +17,8 @@ get_immunization_vaccine(
 
 \item{vacc_date_col}{Name of the column(s) that contain the vaccine dates.}
 
-\item{vacc_name_col}{Name of the column(s) that contain the vaccine names.}
+\item{vacc_name_col}{Name of the column(s) that contain custom vaccine
+names.}
 
 \item{immunization_delay}{Characteristic time in days before the patient
 is considered immune.}

@@ -30,6 +30,19 @@ date. NULL by default.}
 immunization date to set the beginning of the follow-up period
 (\code{t0_follow_up}). Default is \code{immunization_date}.}
 
+\item{vacc_status_col}{name of the column containing the vaccination.
+Default is \code{vaccine_status}.}
+
+\item{vaccinated_status}{string assigned to the vaccinated population.
+Default is \code{v}.}
+
+\item{unvaccinated_status}{string assigned to the unvaccinated population.
+Default is \code{u}.}
+
+\item{start_cohort}{start date of the study.}
+
+\item{end_cohort}{end date of the study.}
+
 \item{nearest}{named vector with name(s) of column(s) for \code{nearest}
 matching and caliper(s) for each variable.
 e.g. \code{nearest = c("characteristic1" = n1, "characteristic2" = n2)},

@@ -13,6 +13,9 @@ match_summary(all, matched, adjusted = NULL, vacc_status_col)
 
 \item{adjusted}{A data frame with the adjusted cohort to
 calculate removed cases. Default is NULL, which returns 0.}
+
+\item{vacc_status_col}{name of the column containing the vaccination.
+Default is \code{vaccine_status}.}
 }
 \value{
 A summary data frame with counts by vaccine status for:

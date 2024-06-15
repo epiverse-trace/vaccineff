@@ -41,7 +41,7 @@ match_cohort_ <- function(data,
   return(match)
 }
 
-#' @title Match Information by pair
+#' @title Match Information by Pairs
 #'
 #' @description This function matches numeric/date information of a
 #' pair provided in the column `column_to_match`. This matching

@@ -9,6 +9,9 @@ match_cohort_(data, vacc_status_col, exact = NULL, nearest = NULL)
 \arguments{
 \item{data}{dataset with cohort information (see example)}
 
+\item{vacc_status_col}{name of the column containing the vaccination.
+Default is \code{vaccine_status}.}
+
 \item{exact}{name(s) of column(s) for \code{exact} matching.
 Default to \code{NULL}.}
 

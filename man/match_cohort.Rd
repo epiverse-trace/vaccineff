@@ -27,9 +27,24 @@ where \code{n1} and \code{n2} are the calipers. Default to \code{NULL}.}
 \item{censoring_date_col}{Name of the column that contains the censoring
 date. NULL by default.}
 
+\item{start_cohort}{start date of the study.}
+
+\item{end_cohort}{end date of the study.}
+
+\item{method}{method to match the cohort. Default is \code{static}.}
+
 \item{immunization_date_col}{Name of the column that contains the
 immunization date to set the beginning of the follow-up period
 (\code{t0_follow_up}). Default is \code{immunization_date}.}
+
+\item{vacc_status_col}{name of the column containing the vaccination.
+Default is \code{vaccine_status}.}
+
+\item{vaccinated_status}{string assigned to the vaccinated population.
+Default is \code{v}.}
+
+\item{unvaccinated_status}{string assigned to the unvaccinated population.
+Default is \code{u}.}
 }
 \value{
 \code{match} object. List with results from static match: \code{match}: data

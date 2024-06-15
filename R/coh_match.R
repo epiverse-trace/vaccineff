@@ -23,18 +23,27 @@
 #' before their outcomes. Rolling calendar matching method will be included in
 #' future releases.
 #'
-#' @inheritParams effectiveness
+#' @param data dataset with cohort information (see example).
 #' @param outcome_date_col Name of the column that contains the outcome dates.
 #' @param censoring_date_col Name of the column that contains the censoring
 #' date. NULL by default.
-#' @param immunization_date_col Name of the column that contains the
-#' immunization date to set the beginning of the follow-up period
-#' (`t0_follow_up`). Default is `immunization_date`.
+#' @param start_cohort start date of the study.
+#' @param end_cohort end date of the study.
+#' @param method method to match the cohort. Default is `static`.
 #' @param exact Name(s) of column(s) for `exact` matching. Default is `NULL`.
 #' @param nearest Named vector with name(s) of column(s) for `nearest` matching
 #' and caliper(s) for each variable (e.g., `nearest = c("characteristic1" = n1,
 #' "characteristic2" = n2)`, where `n1` and `n2` are the calipers). Default is
 #' `NULL`.
+#' @param immunization_date_col Name of the column that contains the
+#' immunization date to set the beginning of the follow-up period
+#' (`t0_follow_up`). Default is `immunization_date`.
+#' @param vacc_status_col name of the column containing the vaccination.
+#' Default is `vaccine_status`.
+#' @param vaccinated_status string assigned to the vaccinated population.
+#' Default is `v`.
+#' @param unvaccinated_status string assigned to the unvaccinated population.
+#' Default is `u`.
 #' @return `match` object. List with results from static match: `match`: data
 #' frame with adjusted cohort, `summary`: matching summary, `balance_all`:
 #' balance of the cohort before matching, `balance_matched`: balance of the

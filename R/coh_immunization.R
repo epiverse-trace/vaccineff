@@ -333,7 +333,6 @@ get_immunization_dose <- function(data,
 #' set in agreement with `get_immunization_date`.
 #'
 #' @inheritParams make_immunization
-#' @param vacc_name_col Name of the column(s) that contain the vaccine names.
 #' @return dose: A column with the names of the columns associated with the
 #' doses of each register.
 #' @return vaccine name

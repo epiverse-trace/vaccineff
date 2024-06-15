@@ -1,4 +1,4 @@
-# `effectiveness`: basic expectations
+# `summary.effectiveness`: basic expectations
 
     Code
       summ

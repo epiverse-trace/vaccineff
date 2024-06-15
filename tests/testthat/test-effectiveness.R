@@ -81,22 +81,38 @@ test_that("`effectiveness`: test for input validation", {
   )
 })
 
-#### Basic expectations: summary and plot methods
-test_that("`effectiveness`: basic expectations", {
+## Tests for generic methods
+eff <- effectiveness(
+  data = cohortdata,
+  start_cohort = start_cohort,
+  end_cohort = end_cohort,
+  method = "HR"
+)
 
-  eff <- effectiveness(
-    data = cohortdata,
-    start_cohort = start_cohort,
-    end_cohort = end_cohort,
-    method = "HR"
-  )
-
+#### Summary
+test_that("`summary.effectiveness`: basic expectations", {
   # snapshot for summary
   summ <- capture.output(summary.effectiveness(eff))
   expect_snapshot(summ)
+})
 
-  # tes for loglog plot
+#### Plot
+test_that("`plot.effectiveness`: basic expectations", {
+  # test for loglog plot
   plt <- plot.effectiveness(eff)
   expect_identical(plt$labels$y, "Log[-Log[Surv.]]")
   expect_s3_class(plt, "ggplot")
+
+  # Create a mock effectiveness object
+  mock_effectiveness <- list(plot = "MockPlot")
+  class(mock_effectiveness) <- "effectiveness"
+
+  # Test that the function returns the correct plot
+  result <- plot.effectiveness(mock_effectiveness)
+  expect_identical(result, "MockPlot")
+
+  # Test that the function throws an error for incorrect input
+  expect_error(plot.effectiveness(list()),
+    "Input must be an object of class 'effectiveness'"
+  )
 })

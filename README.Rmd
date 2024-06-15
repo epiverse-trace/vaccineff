@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-## *{{ packagename }}*: An R package with tools for estimating vaccine effectiveness and vaccine related metrics <img src="man/figures/vaccineff.png" align="right" width="130"/>
+## *{{ packagename }}*: An R package with tools for estimating vaccine effectiveness and vaccine related metrics <img src="man/figures/logo.png" align="right" width="130"/>
 
 <!-- badges: start -->
 
@@ -29,14 +29,10 @@ knitr::opts_chunk$set(
 
 <!-- badges: end -->
 
-*{{ packagename }}* is an R package that offers tools for estimating the
-vaccine effectiveness, using a series of epidemiological designs including cohort studies, test-negative case-control, and screening
-methods [@torvaldsen2020]. The package provides a set of features for preparing the data,
-to analyze different study designs and for assessing the performance of
-the models.
-
 *{{ packagename }}* is developed at [Pontificia Universidad Javeriana](https://www.javeriana.edu.co/inicio) as part of the
 [Epiverse-TRACE initiative](https://data.org/initiatives/epiverse/).
+
+*{{ packagename }}* is an R package that offers tools for estimating vaccine effectiveness, using a series of epidemiological designs including cohort studies, test-negative case-control, and screening methods [@torvaldsen2002]. The current version of the package provides a set of features for preparing, visualizing, and managing cohort data, estimating vaccine effectiveness, and assessing the performance of the models. Test-negative design and screening method will be included in future versions.
 
 ## Installation
 
@@ -53,8 +49,8 @@ pak::pak("{{ gh_repo }}")
 library(vaccineff)
 ```
 
-*{{ packagename }}* provides minimal datasets that can be used to test out
-each design `(cohortdata, testnegdata, screeningdata)`
+*{{ packagename }}* provides a minimal cohort dataset that can be used to test out
+the models.
 
 ```{r example, include = TRUE, echo = TRUE}
 # Load example `cohortdata` included in the package
@@ -74,25 +70,16 @@ To report a bug or to request a new feature please open an [issue](https://githu
 
 Contributions to _{{ packagename }}_ are welcomed. Please follow the [package contributing guide](https://github.com/{{ gh_repo }}/blob/main/.github/CONTRIBUTING.md).
 
+Contributors to the project include:
+
+**Authors**: [David Santiago Quevedo](https://github.com/davidsantiagoquevedo) and [Zulma M. Cucunubá](https://github.com/zmcucunuba) (maintainer)
+
+**Contributors**:
+[Geraldine Gómez](https://github.com/GeraldineGomez), [Pratik Gupte](https://github.com/pratikunterwegs), [Érika J. Cantor](https://github.com/ErikaCantor), [Santiago Loaiza](https://github.com/santilo9513), [Jaime A. Pavlich-Mariscal](https://github.com/jpavlich), [Hugo Gruson](https://github.com/Bisaloo), [Chris Hartgerink](https://github.com/chartgerink), [Felipe Segundo Abril-Bermúdez](https://github.com/fsabrilb)
+
+
 ## Code of conduct
 
 Please note that the _{{ packagename }}_ project is released with a [Contributor Code of Conduct](https://github.com/epiverse-trace/.github/blob/main/CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.
-
-## Contributions
-
-Contributors to the project include:
-
--   [David Santiago Quevedo](https://github.com/davidsantiagoquevedo)
-    (author)
-
--   [Zulma M. Cucunubá](https://github.com/zmcucunuba) (author)
-
--   [Santiago Loaiza](https://github.com/santilo9513) (author)
-
--   [Geraldine Gómez](https://github.com/GeraldineGomez) (contributor)
-
--   [Jaime A. Pavlich-Mariscal](https://github.com/jpavlich) (contributor)
-
--   [Pratik Gupte](https://github.com/pratikunterwegs) (contributor)
 
 ## References

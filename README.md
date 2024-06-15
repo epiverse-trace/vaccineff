@@ -1,5 +1,5 @@
 
-## *vaccineff*: An R package with tools for estimating vaccine effectiveness and vaccine related metrics <img src="man/figures/vaccineff.png" align="right" width="130"/>
+## *vaccineff*: An R package with tools for estimating vaccine effectiveness and vaccine related metrics <img src="man/figures/logo.png" align="right" width="130"/>
 
 <!-- badges: start -->
 
@@ -17,16 +17,18 @@ status](https://www.r-pkg.org/badges/version/vaccineff)](https://CRAN.R-project.
 
 <!-- badges: end -->
 
-*vaccineff* is an R package that offers tools for estimating the vaccine
-effectiveness, using a series of epidemiological designs including
-cohort studies, test-negative case-control, and screening methods
-([Torvaldsen and McIntyre 2020](#ref-torvaldsen2020)). The package
-provides a set of features for preparing the data, to analyze different
-study designs and for assessing the performance of the models.
-
 *vaccineff* is developed at [Pontificia Universidad
 Javeriana](https://www.javeriana.edu.co/inicio) as part of the
 [Epiverse-TRACE initiative](https://data.org/initiatives/epiverse/).
+
+*vaccineff* is an R package that offers tools for estimating vaccine
+effectiveness, using a series of epidemiological designs including
+cohort studies, test-negative case-control, and screening methods
+([Torvaldsen and McIntyre 2002](#ref-torvaldsen2002)). The current
+version of the package provides a set of features for preparing,
+visualizing, and managing cohort data, estimating vaccine effectiveness,
+and assessing the performance of the models. Test-negative design and
+screening method will be included in future versions.
 
 ## Installation
 
@@ -40,19 +42,25 @@ pak::pak("epiverse-trace/vaccineff")
 
 ## Quick start
 
-*vaccineff* provides minimal datasets that can be used to test out each
-design `(cohortdata, testnegdata, screeningdata)`
+*vaccineff* provides a minimal cohort dataset that can be used to test
+out the models.
 
 ``` r
 # Load example `cohortdata` included in the package
 data("cohortdata")
 head(cohortdata, 5)
-#>   sex age subsidy death_date vaccine_date_1 vaccine_date_2 vaccine_1 vaccine_2
-#> 1   F   6       0       <NA>           <NA>           <NA>      <NA>      <NA>
-#> 2   M  79       0       <NA>     2044-03-31     2044-05-07    BRAND2    BRAND2
-#> 3   F  34       0       <NA>     2044-07-26     2044-09-03    BRAND2    BRAND2
-#> 4   M  26       0       <NA>           <NA>           <NA>      <NA>      <NA>
-#> 5   F  66       0       <NA>     2044-05-20     2044-06-17    BRAND2    BRAND2
+#>         id sex age death_date death_other_causes vaccine_date_1 vaccine_date_2
+#> 1 afade1b2   F  37       <NA>               <NA>           <NA>           <NA>
+#> 2 556c8c76   M  19       <NA>               <NA>           <NA>           <NA>
+#> 3 04edf85a   M  50       <NA>               <NA>           <NA>           <NA>
+#> 4 7e51a18e   F   8       <NA>               <NA>           <NA>           <NA>
+#> 5 c5a83f56   M  66       <NA>               <NA>           <NA>           <NA>
+#>   vaccine_1 vaccine_2
+#> 1      <NA>      <NA>
+#> 2      <NA>      <NA>
+#> 3      <NA>      <NA>
+#> 4      <NA>      <NA>
+#> 5      <NA>      <NA>
 ```
 
 ## Package vignettes
@@ -73,6 +81,21 @@ Contributions to *vaccineff* are welcomed. Please follow the [package
 contributing
 guide](https://github.com/epiverse-trace/vaccineff/blob/main/.github/CONTRIBUTING.md).
 
+Contributors to the project include:
+
+**Authors**: [David Santiago
+Quevedo](https://github.com/davidsantiagoquevedo) and [Zulma M.
+Cucunubá](https://github.com/zmcucunuba) (maintainer)
+
+**Contributors**: [Geraldine Gómez](https://github.com/GeraldineGomez),
+[Pratik Gupte](https://github.com/pratikunterwegs), [Érika J.
+Cantor](https://github.com/ErikaCantor), [Santiago
+Loaiza](https://github.com/santilo9513), [Jaime A.
+Pavlich-Mariscal](https://github.com/jpavlich), [Hugo
+Gruson](https://github.com/Bisaloo), [Chris
+Hartgerink](https://github.com/chartgerink), [Felipe Segundo
+Abril-Bermúdez](https://github.com/fsabrilb)
+
 ## Code of conduct
 
 Please note that the *vaccineff* project is released with a [Contributor
@@ -80,33 +103,17 @@ Code of
 Conduct](https://github.com/epiverse-trace/.github/blob/main/CODE_OF_CONDUCT.md).
 By contributing to this project, you agree to abide by its terms.
 
-## Contributions
-
-Contributors to the project include:
-
-- [David Santiago Quevedo](https://github.com/davidsantiagoquevedo)
-  (author)
-
-- [Zulma M. Cucunubá](https://github.com/zmcucunuba) (author)
-
-- [Santiago Loaiza](https://github.com/santilo9513) (author)
-
-- [Geraldine Gómez](https://github.com/GeraldineGomez) (contributor)
-
-- [Jaime A. Pavlich-Mariscal](https://github.com/jpavlich) (contributor)
-
-- [Pratik Gupte](https://github.com/pratikunterwegs) (contributor)
-
 ## References
 
-<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="refs" class="references csl-bib-body hanging-indent"
+entry-spacing="0">
 
-<div id="ref-torvaldsen2020" class="csl-entry">
+<div id="ref-torvaldsen2002" class="csl-entry">
 
-Torvaldsen, S., and P. B. McIntyre. 2020. “Observational Methods in
+Torvaldsen, S., and P. B. McIntyre. 2002. “Observational Methods in
 Epidemiologic Assessment of Vaccine Effectiveness.” *Communicable
 Diseases Intelligence Quarterly Report* 26 (3).
-<https://doi.org/10.3316/informit.511798489353134>.
+<https://pubmed.ncbi.nlm.nih.gov/12416713/>.
 
 </div>
 

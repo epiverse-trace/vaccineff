@@ -2,18 +2,29 @@ Package: vaccineff
 Title: Estimate Vaccine Effectiveness Based on Different Study Designs
 Version: 0.0.1
 Authors@R: c(
-    person(given = "Zulma M.", family = "Cucunubá", email = "zulma.cucunuba@javeriana.edu.co", role = c("aut", "cre"),
-        comment = c(ORCID = "0000-0002-8165-3198")),
     person(given = "David Santiago", family = "Quevedo", email = "ex-dsquevedo@javeriana.edu.co", role = c("aut"),
         comment = c(ORCID = "0000-0003-1583-4262")),
-    person(given = "Santiago", family = "Loaiza", email = "santiago.loaiza@javeriana.edu.co", role = c("aut"),
-        comment = c(ORCID = "0000-0002-2092-3262")),
+    person(given = "Zulma M.", family = "Cucunubá", email = "zulma.cucunuba@javeriana.edu.co", role = c("aut", "cre"),
+        comment = c(ORCID = "0000-0002-8165-3198")),
+    person("International Development Research Center (IDRC)", role = c("fnd")),
     person(given = "Geraldine", family = "Gómez Millán", email = "geralidine.gomez@javeriana.edu.co", role = c("ctb"),
         comment = c(ORCID = "0009-0007-8701-0568")),
     person(given = "Pratik", family = "Gupte", email = "pratik.gupte@lshtm.ac.uk", role = c("ctb"), 
-           comment = c(ORCID = "0000-0001-5294-7819"))
+        comment = c(ORCID = "0000-0001-5294-7819")),
+    person(given = "Érika J", family = "Cantor", email = "erika.cantor@javeriana.edu.co", role = c("ctb"), 
+        comment = c(ORCID = "0000-0003-3320-6032")),
+    person(given = "Santiago", family = "Loaiza", email = "santiago.loaiza@javeriana.edu.co", role = c("ctb"),
+        comment = c(ORCID = "0000-0002-2092-3262")),
+    person(given = "Jaime", family = "Pavlich-Mariscal", email = "jpavlich@javeriana.edu.co", role = c("ctb"),
+           comment = c(ORCID = "0000-0002-3892-6680")),
+    person(given = "Hugo", family = "Gruson", email = "hugo.gruson@data.org", role = c("ctb"),
+           comment = c(ORCID = "0000-0002-4094-1476")),
+    person(given = "Chris", family = "Hartgerink", email = "chris@data.org", role = "ctb",
+           comment = c(ORCID = "0000-0003-1050-6809")),
+    person(given = "Felipe Segundo", family = "Abril", email = "fsabrilb@unal.edu.co", role = "ctb",
+           comment = c(ORCID = "0000-0002-2512-4929"))
   )
-Description: Estimate vaccine effectiveness based on different observational study designs, as discussed in Torvaldsen and McIntyre (2020) <doi:10.3316/informit.511798489353134>.
+Description: R package with tools for estimating vaccine effectiveness and vaccine related metrics.
 URL: https://github.com/epiverse-trace/vaccineff, https://epiverse-trace.github.io/vaccineff/
 BugReports: https://github.com/epiverse-trace/vaccineff/issues
 License: MIT + file LICENSE

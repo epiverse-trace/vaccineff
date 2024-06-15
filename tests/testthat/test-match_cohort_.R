@@ -36,7 +36,7 @@ test_that("`match_cohort`: basic expectations - all provided", {
     )
   )
 
-  # even number of couples
+  # even number of pairs
   expect_setequal(
     nrow(matched_cohort),
     length(unique(matched_cohort$subclass)) * 2
@@ -92,7 +92,7 @@ test_that("`match_cohort`: nearest match", {
     vacc_status_col = "vaccine_status",
     nearest = c(age = 3)
   )
-  # even number of couples
+  # even number of pairs
   expect_setequal(
     nrow(matched_cohort),
     length(unique(matched_cohort$subclass)) * 2

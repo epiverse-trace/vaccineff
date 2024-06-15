@@ -19,7 +19,7 @@ static_match(
 )
 }
 \arguments{
-\item{data}{dataset with cohort information (see example).}
+\item{data}{dataset with cohort information (see example)}
 
 \item{outcome_date_col}{Name of the column that contains the outcome dates.}
 
@@ -30,24 +30,13 @@ date. NULL by default.}
 immunization date to set the beginning of the follow-up period
 (\code{t0_follow_up}). Default is \code{immunization_date}.}
 
-\item{vacc_status_col}{name of the column containing the vaccination.
-Default is \code{vaccine_status}.}
+\item{nearest}{named vector with name(s) of column(s) for \code{nearest}
+matching and caliper(s) for each variable.
+e.g. \code{nearest = c("characteristic1" = n1, "characteristic2" = n2)},
+where \code{n1} and \code{n2} are the calipers. Default to \code{NULL}.}
 
-\item{vaccinated_status}{string assigned to the vaccinated population.
-Default is \code{v}.}
-
-\item{unvaccinated_status}{string assigned to the unvaccinated population.
-Default is \code{u}.}
-
-\item{start_cohort}{start date of the study.}
-
-\item{end_cohort}{end date of the study.}
-
-\item{nearest}{Named vector with name(s) of column(s) for \code{nearest} matching
-and caliper(s) for each variable (e.g., \code{nearest = c("characteristic1" = n1, "characteristic2" = n2)}, where \code{n1} and \code{n2} are the calipers). Default is
-\code{NULL}.}
-
-\item{exact}{Name(s) of column(s) for \code{exact} matching. Default is \code{NULL}.}
+\item{exact}{name(s) of column(s) for \code{exact} matching.
+Default to \code{NULL}.}
 }
 \value{
 List with results from static match:
@@ -57,7 +46,7 @@ List with results from static match:
 }
 \description{
 This function calls \code{match_cohort_} once and then
-removes the couples whose exposition times do not coincide.
+removes the pairs whose exposition times do not coincide.
 It returns the adjusted cohort, a summary of the matching result,
 and the balance of the cohort before and after matching.
 }

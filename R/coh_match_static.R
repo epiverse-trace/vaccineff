@@ -1,6 +1,6 @@
 #' @title Adjust Exposition for Static Matching
 #'
-#' @description This function removes the couples whose exposition times
+#' @description This function removes the pairs whose exposition times
 #' do not match. This happens when the outcome of the unvaccinated individual
 #' occurs before the vaccination date of their partner.
 #'
@@ -24,26 +24,26 @@ adjust_exposition <- function(matched_cohort,
     as.Date(NA)
   ))
 
-  # 2. Match minimum censoring date as censoring date for couple
-  matched_cohort$censoring_couple <-  as.Date(match_couple_info(
+  # 2. Match minimum censoring date as censoring date for pair
+  matched_cohort$censoring_pair <-  as.Date(match_pair_info(
     data = matched_cohort,
     column_to_match = "censoring_individual",
     criteria = "min"
   ))
 
-  # 3. If an outcome happens before censoring_couple
+  # 3. If an outcome happens before censoring_pair
   # no censoring must be assigned
   matched_cohort$censoring_accepted <-
     as.Date(ifelse(
-      (matched_cohort$censoring_couple > matched_cohort[[outcome_date_col]]) &
-        (!is.na(matched_cohort$censoring_couple)) &
+      (matched_cohort$censoring_pair > matched_cohort[[outcome_date_col]]) &
+        (!is.na(matched_cohort$censoring_pair)) &
         (!is.na(matched_cohort[[outcome_date_col]])),
       as.Date(NA),
-      as.character(matched_cohort$censoring_couple)
+      as.character(matched_cohort$censoring_pair)
     ))
 
-  # 4. Beginning of the follow-up period for couples is the immunization date
-  matched_cohort$t0_follow_up <-  as.Date(match_couple_info(
+  # 4. Beginning of the follow-up period for pairs is the immunization date
+  matched_cohort$t0_follow_up <-  as.Date(match_pair_info(
     data = matched_cohort,
     column_to_match = immunization_date,
     criteria = "min"
@@ -60,15 +60,15 @@ adjust_exposition <- function(matched_cohort,
     immunization_date_col = "t0_follow_up"
   )
 
-  # 6. Individuals with negative exposure and their couples must be removed
-  matched_cohort$min_exposure_time_couple <- match_couple_info(
+  # 6. Individuals with negative exposure and their pairs must be removed
+  matched_cohort$min_exposure_time_pair <- match_pair_info(
     data = matched_cohort,
     column_to_match = "time_to_event",
     criteria = "min"
   )
 
   adjusted_match <- matched_cohort[
-    matched_cohort$min_exposure_time_couple > 0,
+    matched_cohort$min_exposure_time_pair > 0,
   ]
 
   # 7. Generate outcome status
@@ -82,8 +82,8 @@ adjust_exposition <- function(matched_cohort,
   col_names <- names(adjusted_match)
   col_names <- col_names[! col_names %in%
       c("censoring_individual",
-        "censoring_couple", "censoring_accepted",
-        "min_exposure_time_couple")
+        "censoring_pair", "censoring_accepted",
+        "min_exposure_time_pair")
   ]
 
   adjusted_match <- subset(adjusted_match, select = col_names)
@@ -94,7 +94,7 @@ adjust_exposition <- function(matched_cohort,
 #' @title Static Matching
 #'
 #' @description This function calls `match_cohort_` once and then
-#' removes the couples whose exposition times do not coincide.
+#' removes the pairs whose exposition times do not coincide.
 #' It returns the adjusted cohort, a summary of the matching result,
 #' and the balance of the cohort before and after matching.
 #'

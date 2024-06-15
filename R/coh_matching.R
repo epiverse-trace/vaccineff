@@ -1,6 +1,6 @@
 #' @title Static match of cohort
 #'
-#' @description This function builds couples of vaccinated - unvaccinated
+#' @description This function builds pairs of vaccinated - unvaccinated
 #' individuals with similar characteristics. The function relies on  the
 #' propensity score matching algorithm implemented in MatchIt package.
 #' By default the function uses `method = "nearest"`, `ratio = 1`,
@@ -27,7 +27,7 @@
 #' @return data frame with matched population. Two columns are added
 #' to the structure provided in `data`:
 #' `prop_score` (propensity score of the match),
-#' `subclass` (id of matched couple)
+#' `subclass` (id of matched pair)
 #' @examples
 #' # load package example data for cohort studies
 #' data("cohortdata")
@@ -129,10 +129,10 @@ match_cohort <- function(data,
   return(match)
 }
 
-#' @title Censor couple after matching
+#' @title Censor pair after matching
 #'
-#' @description This function censors a couple whether the case or the control
-#' have a censoring date. It imputes the censoring date to the whole couple
+#' @description This function censors a pair whether the case or the control
+#' have a censoring date. It imputes the censoring date to the whole pair
 #' using the matching id provided in subclass. This column comes with the output
 #' of `match_cohort`.
 #'
@@ -188,7 +188,7 @@ get_censoring_date_match <- function(data,
   checkmate::assert_date(data[[outcome_date_col]])
   checkmate::assert_date(data[[censoring_date_col]])
 
-  # create censoring date for every couple indexed by subclass
+  # create censoring date for every pair indexed by subclass
   censoring_date <- unlist(
     tapply(data[[censoring_date_col]],
       data$subclass,

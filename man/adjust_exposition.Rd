@@ -20,16 +20,12 @@ adjust_exposition(
 
 \item{censoring_date_col}{Name of the column that contains the censoring
 date. NULL by default.}
-
-\item{start_cohort}{start date of the study.}
-
-\item{end_cohort}{end date of the study.}
 }
 \value{
 Data frame with matched population and corrected exposure times.
 }
 \description{
-This function removes the couples whose exposition times
+This function removes the pairs whose exposition times
 do not match. This happens when the outcome of the unvaccinated individual
 occurs before the vaccination date of their partner.
 }

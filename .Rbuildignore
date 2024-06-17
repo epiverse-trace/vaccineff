@@ -9,3 +9,4 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^scratch\.R$
+^CITATION\.cff$

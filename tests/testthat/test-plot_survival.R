@@ -1,5 +1,6 @@
 #### Tests for plot_survival()
-
+## This test uses directly the internal functions of the package
+## to avoid running the matching functions
 ## prepare data
 data("cohortdata")
 start_cohort <- as.Date("2044-01-01")
@@ -10,7 +11,6 @@ cohortdata$immunization <-
   get_immunization_date(
     data = cohortdata,
     outcome_date_col = "death_date",
-    outcome_delay = 0,
     immunization_delay = 14,
     vacc_date_col = c("vaccine_date_1", "vaccine_date_2"),
     end_cohort = end_cohort,
@@ -100,5 +100,5 @@ test_that("`plot_survival`: Snapshot test", {
     cumulative = TRUE
   )
 
-  expect_identical(plt$labels$y, "Cumulative hazard")
+  expect_identical(plt$labels$y, "Cumulative incidence")
 })

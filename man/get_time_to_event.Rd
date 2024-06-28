@@ -2,7 +2,7 @@
 % Please edit documentation in R/coh_data_wrangling.R
 \name{get_time_to_event}
 \alias{get_time_to_event}
-\title{Function to construct the time-to-event}
+\title{Construct Time-to-Event}
 \usage{
 get_time_to_event(
   data,
@@ -15,61 +15,34 @@ get_time_to_event(
 )
 }
 \arguments{
-\item{data}{dataset with cohort information (see example)}
+\item{data}{Dataset with cohort information (see example).}
 
-\item{outcome_date_col}{name of the column that contains
-the outcome dates}
+\item{outcome_date_col}{Name of the column that contains the outcome dates.}
 
-\item{censoring_date_col}{name of the column that contains
-the censoring date. NULL by default}
+\item{censoring_date_col}{Name of the column that contains the censoring
+date. NULL by default.}
 
-\item{start_cohort}{start date of the study}
+\item{start_cohort}{Start date of the study.}
 
-\item{end_cohort}{end date of the study}
+\item{end_cohort}{End date of the study.}
 
-\item{start_from_immunization}{TRUE: starts counting time-to-event from
-immunization date if available
-FALSE: starts counting time-to-event from the start date of the cohort study}
+\item{start_from_immunization}{TRUE: starts counting time-to-event from the
+immunization date if available. FALSE: starts counting time-to-event from
+the start date of the cohort study.}
 
-\item{immunization_date_col}{name of the column that contains the
-immunization date. Required if start_from_immunization = TRUE}
+\item{immunization_date_col}{Name of the column that contains the
+immunization date. Required if start_from_immunization = TRUE.}
 }
 \value{
 time-to-event
 }
 \description{
-This function returns a column with the time-to-event in days occurred
+This function returns a column with the time-to-event in days
 until a reference outcome. The starting point to count the time-to-event
-can be the immunization date, supposing that the vaccinate population
-enters to the study, when they are vaccinated
-(start_from_immunization=TRUE). Or the beginning of the study, if all the
-cohort is known at this point (start_from_immunization=FALSE). In this last
-case, it is not necessary to pass the argument {immunization_date_col}
+can be the immunization date, assuming that the vaccinated population enters
+the study when they are vaccinated (start_from_immunization=TRUE). Or the
+beginning of the study, if all the cohort is known at this point
+(start_from_immunization=FALSE). In this last case, it is not necessary to
+pass the argument \code{immunization_date_col}.
 }
-\examples{
-# load package example data
-data("cohortdata")
-# define start and end dates of the study as type date
-start_cohort <- as.Date("2044-01-01")
-end_cohort <- as.Date("2044-12-31")
-cohortdata$immunization <- get_immunization_date(
-  data = cohortdata,
-  outcome_date_col = "death_date",
-  outcome_delay = 0,
-  immunization_delay = 14,
-  vacc_date_col = c("vaccine_date_1", "vaccine_date_2"),
-  end_cohort = end_cohort,
-  take_first = FALSE
-)
-cohortdata$time_to_death <- get_time_to_event(
-  data = cohortdata,
-  outcome_date_col = "death_date",
-  start_cohort = start_cohort,
-  end_cohort = end_cohort,
-  start_from_immunization = TRUE,
-  immunization_date_col = "immunization"
-)
-
-# view data
-head(cohortdata)
-}
+\keyword{internal}

@@ -6,6 +6,8 @@
 \alias{vaccineff-package}
 \title{vaccineff: Estimate Vaccine Effectiveness Based on Different Study Designs}
 \description{
+\if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
+
 R package with tools for estimating vaccine effectiveness and vaccine related metrics.
 }
 \seealso{

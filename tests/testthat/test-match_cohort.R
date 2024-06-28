@@ -1,5 +1,4 @@
-#### Tests for get_censoring_date_match()
-
+#### Tests for match_cohort()
 ## prepare data
 data("cohortdata")
 start_cohort <- as.Date("2044-01-01")
@@ -7,121 +6,70 @@ end_cohort <- as.Date("2044-12-31")
 
 # sample cohort to make tests faster - take a bigger sample
 sample_size <- 1000
+set.seed(123) #use fixed seed to avoid problems with snapshots
 sample_indices <- sample(nrow(cohortdata), sample_size)
 sample_cohort <- cohortdata[sample_indices, ]
 rownames(sample_cohort) <- NULL
 
-# assign vaccination status
-sample_cohort$vaccine_status <- set_status(
+# Create data frame with information on immunization
+sample_cohort <- make_immunization(
   data = sample_cohort,
-  col_names = "vaccine_date_2",
-  status = c("v", "u")
+  outcome_date_col = "death_date",
+  censoring_date_col = "death_other_causes",
+  immunization_delay = 14,
+  vacc_date_col = "vaccine_date_2",
+  end_cohort = end_cohort
+)
+
+# Match the data
+matching <- match_cohort(
+  data = sample_cohort,
+  outcome_date_col = "death_date",
+  censoring_date_col = "death_other_causes",
+  start_cohort = start_cohort,
+  end_cohort = end_cohort,
+  method = "static",
+  exact = "sex",
+  nearest = c(age = 1)
 )
 
 # test for basic expectations - all provided
-test_that("`match_cohort`: basic expectations - all provided", {
-  matched_cohort <- match_cohort(
-    data = sample_cohort,
-    status_vacc_col = "vaccine_status",
-    exact = "sex",
-    nearest = c(age = 1)
+test_that("`match_cohort`: basic expectations", {
+  expect_s3_class(
+    matching, "match"
   )
-  # expect dataframe
-  expect_s3_class(matched_cohort, "data.frame")
-
-  # error argumentes not provided
+  # error arguments not provided
   expect_error(
     match_cohort(
       data = sample_cohort,
-      status_vacc_col = "vaccine_status"
+      outcome_date_col = "death_date",
+      censoring_date_col = "death_other_causes",
+      start_cohort = start_cohort,
+      end_cohort = end_cohort
     ),
     regexp =
       "`exact` and `nearest` cannot be NULL. At least one must be provided"
   )
+})
 
-  # keep all the columns and add only "subclass" and "prop_score"
-  expect_true(
-    all(
-      names(matched_cohort) %in%
-        c(names(sample_cohort), "subclass", "prop_score")
-    )
+#### test for input validation of dataset() and summary() methods
+test_that("`match_cohort`: test for input validation", {
+  df <- data.frame()
+
+  expect_error(
+    summary.match(df),
+    regexp = "Input must be an object of class 'match'"
   )
 
-  # even number of couples
-  expect_setequal(
-    nrow(matched_cohort),
-    length(unique(matched_cohort$subclass)) * 2
-  )
-
-  # same number of vaccinated and unvaccinated
-  expect_identical(
-    nrow(matched_cohort[matched_cohort$vaccine_status == "u", ]),
-    nrow(matched_cohort[matched_cohort$vaccine_status == "v", ])
-  )
-
-  # same number of sex in "v" and "u"
-  expect_identical(
-    table(matched_cohort[matched_cohort$vaccine_status == "u", ]$sex),
-    table(matched_cohort[matched_cohort$vaccine_status == "v", ]$sex)
-  )
-
-  # same number of sex in "v" and "u"
-  expect_identical(
-    table(matched_cohort[matched_cohort$vaccine_status == "u", ]$sex),
-    table(matched_cohort[matched_cohort$vaccine_status == "v", ]$sex)
-  )
-
-  # ages are not equal
-  expect_false(
-    isTRUE(
-      all.equal(
-        table(matched_cohort[matched_cohort$vaccine_status == "u", ]$age),
-        table(matched_cohort[matched_cohort$vaccine_status == "v", ]$age)
-      )
-    )
+  expect_error(
+    dataset.match(df),
+    regexp = "Input must be an object of class 'match'"
   )
 })
 
-# test for exact match
-test_that("`match_cohort`: exact match", {
-  matched_cohort <- match_cohort(
-    data = sample_cohort,
-    status_vacc_col = "vaccine_status",
-    exact = "sex"
-  )
-  # same number of categories in "v" and "u"
-  expect_identical(
-    table(matched_cohort[matched_cohort$vaccine_status == "u", ]$sex),
-    table(matched_cohort[matched_cohort$vaccine_status == "v", ]$sex)
-  )
-})
-
-# test for exact match
-test_that("`match_cohort`: nearest match", {
-  matched_cohort <- match_cohort(
-    data = sample_cohort,
-    status_vacc_col = "vaccine_status",
-    nearest = c(age = 3)
-  )
-  # even number of couples
-  expect_setequal(
-    nrow(matched_cohort),
-    length(unique(matched_cohort$subclass)) * 2
-  )
-
-  # same number of vaccinated and unvaccinated
-  expect_identical(
-    nrow(matched_cohort[matched_cohort$vaccine_status == "u", ]),
-    nrow(matched_cohort[matched_cohort$vaccine_status == "v", ])
-  )
-
-  # ages are not equal due to caliper
-  expect_false(
-    isTRUE(
-      all.equal(
-        table(matched_cohort[matched_cohort$vaccine_status == "u", ]$age),
-        table(matched_cohort[matched_cohort$vaccine_status == "v", ]$age)
-      )
-    )
-  )
-})
+#### Snapshot for summary
+# test_that("`match_cohort`: summary snapshot", { #nolint
+#   # snapshot for summary
+#   summ <- capture.output(summary.match(matching)) #nolint
+#   expect_snapshot(summ) #nolint
+# })

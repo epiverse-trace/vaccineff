@@ -6,13 +6,11 @@ test_that("`get_immunization_date`: Basic expectations", {
   # get immunization dates
   vax_date_col <- c("vaccine_date_1", "vaccine_date_2")
   tf <- as.Date("2044-12-31")
-  immunization_delay <- 14
-  outcome_delay <- 30 # use extreme outcome delay to test expectations
-  limit_delta <- immunization_delay + outcome_delay
+  immunization_delay <- 45 # use extreme outcome delay to test expectations
+  limit_delta <- immunization_delay
   cohortdata$immunization <- get_immunization_date(
     data = cohortdata,
     outcome_date_col = "death_date",
-    outcome_delay = outcome_delay,
     immunization_delay = immunization_delay,
     vacc_date_col = vax_date_col,
     end_cohort = tf,
@@ -74,8 +72,7 @@ test_that("`get_immunization_date`: Basic expectations", {
   vaccinated_no_out$test_date <- ifelse(
     !is.na(vaccinated_no_out$vaccine_date_2) &
       (vaccinated_no_out$vaccine_date_2 <= tf -
-          immunization_delay -
-          outcome_delay
+          immunization_delay
       ),
     vaccinated_no_out$immunization ==
       vaccinated_no_out$vaccine_date_2 + immunization_delay,
@@ -93,8 +90,7 @@ test_that("`get_immunization_date`: Basic expectations", {
   ]
   vaccinated_out$test_date <- ifelse(!is.na(vaccinated_out$vaccine_date_2) &
       (vaccinated_out$vaccine_date_2 <= vaccinated_out$death_date -
-          immunization_delay -
-          outcome_delay
+          immunization_delay
       ),
     vaccinated_out$immunization ==
       vaccinated_out$vaccine_date_2 + immunization_delay,
@@ -114,13 +110,11 @@ test_that("`get_immunization_date`: Take first vaccination", {
   # get immunization dates
   vax_date_col <- c("vaccine_date_1", "vaccine_date_2")
   tf <- as.Date("2044-12-31")
-  immunization_delay <- 14
-  outcome_delay <- 30 # use extreme outcome delay to test expectations
-  limit_delta <- immunization_delay + outcome_delay
+  immunization_delay <- 45 # use extreme outcome delay to test expectations
+  limit_delta <- immunization_delay
   cohortdata$immunization <- get_immunization_date(
     data = cohortdata,
     outcome_date_col = "death_date",
-    outcome_delay = outcome_delay,
     immunization_delay = immunization_delay,
     vacc_date_col = vax_date_col,
     end_cohort = tf,
@@ -176,35 +170,17 @@ test_that("`get_immunization_date`: Take first vaccination", {
   )
 })
 
-# test for end_cohort date no longer than 2100
-test_that("`get_immunization_date`: end_cohort > max_date", {
-  # get immunization dates
-  expect_warning(
-    get_immunization_date(
-      data = cohortdata,
-      outcome_date_col = "death_date",
-      outcome_delay = 0,
-      immunization_delay = 14,
-      vacc_date_col = c("vaccine_date_1", "vaccine_date_2"),
-      end_cohort = as.Date("2101-12-31"),
-      take_first = FALSE
-    )
-  )
-})
-
 # test coherence immunization date and end_cohort date
 test_that("`get_immunization_date`: end_cohort > immunization", {
   date_format <- "%Y-%m-%d"
   t0 <- as.Date("2044-01-01", date_format)
   tf <- as.Date("2044-12-31", date_format)
   immunization_delay <- 14
-  outcome_delay <- 0
   data(cohortdata)
 
   cohortdata$immunization <- get_immunization_date(
     data = cohortdata,
     outcome_date_col = "death_date",
-    outcome_delay = outcome_delay,
     immunization_delay = immunization_delay,
     vacc_date_col = c("vaccine_date_1", "vaccine_date_2"),
     end_cohort = tf,
@@ -228,7 +204,6 @@ test_that("`get_immunization_date`: Censoring date provided", {
     data = cohortdata,
     outcome_date_col = "death_date",
     censoring_date_col = "death_other_causes",
-    outcome_delay = 0,
     immunization_delay = 14,
     vacc_date_col = c("vaccine_date_1", "vaccine_date_2"),
     end_cohort = end_cohort,

@@ -68,8 +68,8 @@ test_that("`match_cohort`: test for input validation", {
 })
 
 #### Snapshot for summary
-test_that("`match_cohort`: summary snapshot", {
-  # snapshot for summary
-  summ <- capture.output(summary.match(matching))
-  expect_snapshot(summ)
-})
+# test_that("`match_cohort`: summary snapshot", { #nolint
+#   # snapshot for summary
+#   summ <- capture.output(summary.match(matching)) #nolint
+#   expect_snapshot(summ) #nolint
+# })

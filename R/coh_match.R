@@ -180,6 +180,11 @@ match_cohort <- function(data,
     end_cohort, any.missing = FALSE, len = 1
   )
 
+  # check method
+  checkmate::assert_choice(
+    method, choices = "static"
+  )
+
   if (method == "static") {
     match_obj <- static_match(
       data = data,

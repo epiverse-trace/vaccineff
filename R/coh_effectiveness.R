@@ -117,6 +117,11 @@ effectiveness <- function(data,
     end_cohort, any.missing = FALSE, len = 1
   )
 
+  # check method
+  checkmate::assert_choice(
+    method, choices = "HR"
+  )
+
   # select estimation method
   if (method == "HR") {
     eff_obj <- coh_eff_hr(

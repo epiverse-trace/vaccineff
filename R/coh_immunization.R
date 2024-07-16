@@ -247,16 +247,11 @@ get_immunization_date <- function(data,
   # get differences from vaccination dates
   cols_delta <- sprintf("delta_%i", seq_along(vacc_date_col))
 
-  for (i in seq_along(cols_delta)) {
-    # calculate values
-    vals <- as.numeric(
-      data$imm_limit - data[[vacc_date_col[i]]]
-    )
-    # set any values less than 0 to NA
+  data[cols_delta] <- lapply(vacc_date_col, function(col) {
+    vals <- as.numeric(data$imm_limit - data[[col]])
     vals[vals < 0] <- NA
-    # assign values
-    data[[cols_delta[i]]] <- vals
-  }
+    vals
+  })
 
   # assign the lower value as delta_imm, keeping NAs where
   # only NAs are present

@@ -5,7 +5,7 @@
 \title{Construct Vaccine Name Associated to Immunizing Vaccine}
 \usage{
 get_immunization_vaccine(
-  data,
+  data_set,
   immunization_date_col,
   vacc_date_col,
   vacc_name_col,
@@ -13,7 +13,7 @@ get_immunization_vaccine(
 )
 }
 \arguments{
-\item{data}{\code{data.frame} with cohort information (see example).}
+\item{data_set}{\code{data.frame} with cohort information (see example).}
 
 \item{vacc_date_col}{Name of the column(s) that contain the vaccine dates.}
 

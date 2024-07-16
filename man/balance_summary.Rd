@@ -5,7 +5,7 @@
 \title{Balance of Vaccinated/Unvaccinated Groups}
 \usage{
 balance_summary(
-  data,
+  data_set,
   nearest,
   exact,
   vacc_status_col,
@@ -14,7 +14,7 @@ balance_summary(
 )
 }
 \arguments{
-\item{data}{\code{data.frame} to assess matching balance.}
+\item{data_set}{\code{data.frame} to assess matching balance.}
 
 \item{nearest}{Named vector with name(s) of column(s) for \code{nearest} matching
 and caliper(s) for each variable (e.g., \code{nearest = c("characteristic1" = n1, "characteristic2" = n2)}, where \code{n1} and \code{n2} are the calipers). Default is

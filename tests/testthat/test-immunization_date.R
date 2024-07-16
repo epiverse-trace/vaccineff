@@ -9,7 +9,7 @@ test_that("`get_immunization_date`: Basic expectations", {
   immunization_delay <- 45 # use extreme outcome delay to test expectations
   limit_delta <- immunization_delay
   cohortdata$immunization <- get_immunization_date(
-    data = cohortdata,
+    data_set = cohortdata,
     outcome_date_col = "death_date",
     immunization_delay = immunization_delay,
     vacc_date_col = vax_date_col,
@@ -60,7 +60,7 @@ test_that("`get_immunization_date`: Basic expectations", {
   # If not available: immunization must be vaccine_date_1 + immunization_delay
   cohortdata$vaccine_status <-
     set_status(
-      data = cohortdata,
+      data_set = cohortdata,
       col_names = "immunization",
       status = c("v", "u")
     )
@@ -113,7 +113,7 @@ test_that("`get_immunization_date`: Take first vaccination", {
   immunization_delay <- 45 # use extreme outcome delay to test expectations
   limit_delta <- immunization_delay
   cohortdata$immunization <- get_immunization_date(
-    data = cohortdata,
+    data_set = cohortdata,
     outcome_date_col = "death_date",
     immunization_delay = immunization_delay,
     vacc_date_col = vax_date_col,
@@ -157,7 +157,7 @@ test_that("`get_immunization_date`: Take first vaccination", {
   # equal vaccine_date_1 + immunization_delay
   cohortdata$vaccine_status <-
     set_status(
-      data = cohortdata,
+      data_set = cohortdata,
       col_names = "immunization",
       status = c("v", "u")
     )
@@ -179,7 +179,7 @@ test_that("`get_immunization_date`: end_cohort > immunization", {
   data(cohortdata)
 
   cohortdata$immunization <- get_immunization_date(
-    data = cohortdata,
+    data_set = cohortdata,
     outcome_date_col = "death_date",
     immunization_delay = immunization_delay,
     vacc_date_col = c("vaccine_date_1", "vaccine_date_2"),
@@ -201,7 +201,7 @@ test_that("`get_immunization_date`: Censoring date provided", {
 
   # assign immunization date
   cohortdata$immunization_c <- get_immunization_date(
-    data = cohortdata,
+    data_set = cohortdata,
     outcome_date_col = "death_date",
     censoring_date_col = "death_other_causes",
     immunization_delay = 14,

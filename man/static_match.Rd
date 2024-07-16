@@ -5,7 +5,7 @@
 \title{Static Matching}
 \usage{
 static_match(
-  data,
+  data_set,
   outcome_date_col,
   censoring_date_col,
   immunization_date_col,
@@ -19,7 +19,7 @@ static_match(
 )
 }
 \arguments{
-\item{data}{\code{data.frame} with cohort information (see example).}
+\item{data_set}{\code{data.frame} with cohort information (see example).}
 
 \item{outcome_date_col}{Name of the column that contains the outcome dates.}
 

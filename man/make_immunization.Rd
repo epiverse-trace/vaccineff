@@ -5,7 +5,7 @@
 \title{Construct Information of Immunization}
 \usage{
 make_immunization(
-  data,
+  data_set,
   outcome_date_col,
   censoring_date_col = NULL,
   vacc_date_col,
@@ -18,7 +18,7 @@ make_immunization(
 )
 }
 \arguments{
-\item{data}{\code{data.frame} with cohort information (see example).}
+\item{data_set}{\code{data.frame} with cohort information (see example).}
 
 \item{outcome_date_col}{Name of the column that contains the outcome dates.}
 
@@ -45,7 +45,7 @@ is considered immune.}
 earliest vaccine date.}
 }
 \value{
-Original \code{data.frame} passed in \code{data} and additional columns
+Original \code{data.frame} passed in \code{data_set} and additional columns
 containing information on the immunization.
 }
 \description{
@@ -82,7 +82,7 @@ end_cohort <- as.Date("2044-12-31")
 
 # Create `data.frame` with information of immunization
 cohortdata <- make_immunization(
-  data = cohortdata,
+  data_set = cohortdata,
   outcome_date_col = "death_date",
   censoring_date_col = "death_other_causes",
   immunization_delay = 14,

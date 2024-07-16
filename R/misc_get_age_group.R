@@ -11,7 +11,7 @@
 #' step. In that case the last interval is truncated to the upper value
 #' closest to max_val for which (closest_upper - min_val) is multiple of step.
 #'
-#' @param data `data.frame` with at least a column containing the age
+#' @param data_set `data.frame` with at least a column containing the age
 #' information
 #' @param col_age Name of the column containing the age
 #' information
@@ -19,7 +19,7 @@
 #' @param step Step used to split the age interval
 #' @param min_val Minimum value of age interval to split
 #' @return Column of type `factor` with the same length as the number of rows
-#' in `data`, with levels corresponding to age bins between `min_val` and
+#' in `data_set`, with levels corresponding to age bins between `min_val` and
 #' `max_val`. Ages above `max_val` are represented as `>max_val`.
 #' @export
 #' @examples
@@ -28,7 +28,7 @@
 #'
 #' # assign age groups as a column of the `data.frame`
 #' cohortdata$age_group <- get_age_group(
-#'   data = cohortdata,
+#'   data_set = cohortdata,
 #'   col_age = "age",
 #'   max_val = 80,
 #'   step = 10
@@ -36,15 +36,15 @@
 #'
 #' # view the `data.frame` with new column
 #' head(cohortdata)
-get_age_group <- function(data, col_age, max_val, min_val = 0, step) {
+get_age_group <- function(data_set, col_age, max_val, min_val = 0, step) {
   # input checking
   checkmate::assert_data_frame(
-    data,
+    data_set,
     min.rows = 1, min.cols = 1
   )
   checkmate::assert_string(col_age)
   checkmate::assert_names(
-    names(data),
+    names(data_set),
     must.include = col_age
   )
   checkmate::assert_int(min_val, lower = 0)
@@ -76,7 +76,7 @@ get_age_group <- function(data, col_age, max_val, min_val = 0, step) {
   }
 
   # cut the age data and apply labels
-  age_group <- cut(data[[col_age]],
+  age_group <- cut(data_set[[col_age]],
     breaks = lim_breaks,
     labels = lim_labels
   )

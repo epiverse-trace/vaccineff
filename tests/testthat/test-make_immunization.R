@@ -8,7 +8,7 @@ end_cohort <- as.Date("2044-12-31")
 test_that("`make_immunization`: basic expectations", {
   # Create rows with information on immunization
   cohortdata <- make_immunization(
-    data = cohortdata,
+    data_set = cohortdata,
     outcome_date_col = "death_date",
     censoring_date_col = "death_other_causes",
     immunization_delay = 14,
@@ -20,7 +20,7 @@ test_that("`make_immunization`: basic expectations", {
   )
   # custom names for vaccine status
   cohortdata <- make_immunization(
-    data = cohortdata,
+    data_set = cohortdata,
     outcome_date_col = "death_date",
     censoring_date_col = "death_other_causes",
     immunization_delay = 14,
@@ -42,7 +42,7 @@ test_that("`make_immunization`: input validation", {
   # Function does not find columns in df
   expect_error(
     make_immunization(
-      data = df,
+      data_set = df,
       outcome_date_col = "death_date",
       censoring_date_col = "death_other_causes",
       immunization_delay = 14,
@@ -54,7 +54,7 @@ test_that("`make_immunization`: input validation", {
   # non-integer delay
   expect_error(
     make_immunization(
-      data = df,
+      data_set = df,
       outcome_date_col = "death_date",
       censoring_date_col = "death_other_causes",
       immunization_delay = 14.7,
@@ -66,7 +66,7 @@ test_that("`make_immunization`: input validation", {
   # vacc_name col must be same length as vacc_date_col
   expect_error(
     make_immunization(
-      data = cohortdata,
+      data_set = cohortdata,
       outcome_date_col = "death_date",
       censoring_date_col = "death_other_causes",
       immunization_delay = 14,
@@ -79,7 +79,7 @@ test_that("`make_immunization`: input validation", {
   # test for end_cohort date no longer than 2100
   expect_warning(
     make_immunization(
-      data = cohortdata,
+      data_set = cohortdata,
       outcome_date_col = "death_date",
       immunization_delay = 14,
       vacc_date_col = c("vaccine_date_1", "vaccine_date_2"),
@@ -92,7 +92,7 @@ test_that("`make_immunization`: input validation", {
 test_that("`make_immunization`: two vaccination columns", {
   # Create rows with information on immunizing vaccine
   cohortdata <- make_immunization(
-    data = cohortdata,
+    data_set = cohortdata,
     outcome_date_col = "death_date",
     censoring_date_col = "death_other_causes",
     immunization_delay = 14,
@@ -112,7 +112,7 @@ test_that("`make_immunization`: two vaccination columns", {
 test_that("`make_immunization`: vaccine names provided", {
   # vaccine name provided
   cohortdata <- make_immunization(
-    data = cohortdata,
+    data_set = cohortdata,
     outcome_date_col = "death_date",
     censoring_date_col = "death_other_causes",
     immunization_delay = 14,

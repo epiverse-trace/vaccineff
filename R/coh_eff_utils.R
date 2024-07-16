@@ -23,7 +23,7 @@ extract_surv_model <- function(model, start_cohort, end_cohort) {
 #' "surv", "lower", "upper",
 #' "cumincidence", "cumincidence_lower", "cumincidence_upper"
 #' @keywords internal
-km_model <- function(data,
+km_model <- function(data_set,
                      outcome_status_col,
                      time_to_event_col,
                      vacc_status_col,
@@ -34,9 +34,9 @@ km_model <- function(data,
   # KM model time to event, outcome ~ vaccine status
   model <- survival::survfit(
     survival::Surv(
-      data[[time_to_event_col]],
-      data[[outcome_status_col]]
-    ) ~ data[[vacc_status_col]]
+      data_set[[time_to_event_col]],
+      data_set[[outcome_status_col]]
+    ) ~ data_set[[vacc_status_col]]
   )
   # Extract data from `{survival}` object
   km <- extract_surv_model(model, start_cohort, end_cohort)
@@ -49,8 +49,8 @@ km_model <- function(data,
   # Construct strata data
   km$strata <- factor(km$strata,
     levels = c(
-      paste0("data[[vacc_status_col]]=", vaccinated_status),
-      paste0("data[[vacc_status_col]]=", unvaccinated_status)
+      paste0("data_set[[vacc_status_col]]=", vaccinated_status),
+      paste0("data_set[[vacc_status_col]]=", unvaccinated_status)
     )
   )
   levels(km$strata) <- c(vaccinated_status, unvaccinated_status)
@@ -75,7 +75,7 @@ km_model <- function(data,
 #' `{survival}` object with model
 #' `{survival}` object with Schoenfeld test
 #' @keywords internal
-cox_model <- function(data,
+cox_model <- function(data_set,
                       outcome_status_col,
                       time_to_event_col,
                       vacc_status_col,
@@ -83,22 +83,22 @@ cox_model <- function(data,
                       unvaccinated_status) {
 
   # Prepare data for model
-  data[[vacc_status_col]] <- factor(
-    data[[vacc_status_col]],
+  data_set[[vacc_status_col]] <- factor(
+    data_set[[vacc_status_col]],
     levels = c(vaccinated_status, unvaccinated_status),
     ordered = FALSE
   )
 
-  data[[vacc_status_col]] <- stats::relevel(
-    data[[vacc_status_col]], ref = unvaccinated_status
+  data_set[[vacc_status_col]] <- stats::relevel(
+    data_set[[vacc_status_col]], ref = unvaccinated_status
   )
 
   # Cox model time to event, outcome ~ vaccine status
   # Regression
   model <- survival::coxph(
     survival::Surv( # nolint
-      data[[time_to_event_col]], data[[outcome_status_col]]
-    ) ~ data[[vacc_status_col]]
+      data_set[[time_to_event_col]], data_set[[outcome_status_col]]
+    ) ~ data_set[[vacc_status_col]]
   )
 
   ## Hazard ratio

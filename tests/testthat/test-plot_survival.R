@@ -9,7 +9,7 @@ end_cohort <- as.Date("2044-12-31")
 ## get immunization date to death
 cohortdata$immunization <-
   get_immunization_date(
-    data = cohortdata,
+    data_set = cohortdata,
     outcome_date_col = "death_date",
     immunization_delay = 14,
     vacc_date_col = c("vaccine_date_1", "vaccine_date_2"),
@@ -19,20 +19,20 @@ cohortdata$immunization <-
 
 ## set vaccine status based on immunization date
 cohortdata$vaccine_status <- set_status(
-  data = cohortdata,
+  data_set = cohortdata,
   col_names = "immunization",
   status = c("v", "u")
 )
 
 ## set outcome status
 cohortdata$death_status <- set_status(
-  data = cohortdata,
+  data_set = cohortdata,
   col_names = "death_date"
 )
 
 ## get time to event
 cohortdata$time_to_death <- get_time_to_event(
-  data = cohortdata,
+  data_set = cohortdata,
   outcome_date_col = "death_date",
   start_cohort = start_cohort,
   end_cohort = end_cohort,
@@ -42,7 +42,7 @@ cohortdata$time_to_death <- get_time_to_event(
 # test to test default options
 test_that("`plot_survival`: default params", {
   plt <- plot_survival(
-    data = cohortdata,
+    data_set = cohortdata,
     outcome_status_col = "death_status",
     time_to_event_col = "time_to_death",
     vacc_status_col = "vaccine_status",
@@ -66,7 +66,7 @@ test_that("`plot_survival`: default params", {
 # test to test integer scale y axis
 test_that("`plot_survival`: integer scale", {
   plt <- plot_survival(
-    data = cohortdata,
+    data_set = cohortdata,
     outcome_status_col = "death_status",
     time_to_event_col = "time_to_death",
     vacc_status_col = "vaccine_status",
@@ -86,7 +86,7 @@ test_that("`plot_survival`: integer scale", {
 # test to test non-percentage
 test_that("`plot_survival`: Snapshot test", {
   plt <- plot_survival(
-    data = cohortdata,
+    data_set = cohortdata,
     outcome_status_col = "death_status",
     time_to_event_col = "time_to_death",
     vacc_status_col = "vaccine_status",

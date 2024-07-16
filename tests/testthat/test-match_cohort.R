@@ -13,7 +13,7 @@ rownames(sample_cohort) <- NULL
 
 # Create `data.frame` with information on immunization
 sample_cohort <- make_immunization(
-  data = sample_cohort,
+  data_set = sample_cohort,
   outcome_date_col = "death_date",
   censoring_date_col = "death_other_causes",
   immunization_delay = 14,
@@ -23,7 +23,7 @@ sample_cohort <- make_immunization(
 
 # Match the data
 matching <- match_cohort(
-  data = sample_cohort,
+  data_set = sample_cohort,
   outcome_date_col = "death_date",
   censoring_date_col = "death_other_causes",
   start_cohort = start_cohort,
@@ -41,7 +41,7 @@ test_that("`match_cohort`: basic expectations", {
   # error arguments not provided
   expect_error(
     match_cohort(
-      data = sample_cohort,
+      data_set = sample_cohort,
       outcome_date_col = "death_date",
       censoring_date_col = "death_other_causes",
       start_cohort = start_cohort,
@@ -52,7 +52,7 @@ test_that("`match_cohort`: basic expectations", {
   )
 })
 
-#### test for input validation of dataset() and summary() methods
+#### test for input validation of get_dataset() and summary() methods
 test_that("`match_cohort`: test for input validation", {
   df <- data.frame()
 
@@ -62,7 +62,7 @@ test_that("`match_cohort`: test for input validation", {
   )
 
   expect_error(
-    dataset.match(df),
+    get_dataset.match(df),
     regexp = "Input must be an object of class 'match'"
   )
 })

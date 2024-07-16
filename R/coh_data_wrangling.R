@@ -13,7 +13,7 @@
 #' and `1` means the opposite. However, it can also receive custom
 #' options, e.g., `c("v", "u")` for vaccinated and unvaccinated.
 #'
-#' @param data `data.frame` with at least one column from which to
+#' @param data_set `data.frame` with at least one column from which to
 #' generate the status specified in `status`.
 #' @param col_names Name(s) of the column(s) as a string or a character
 #' vector containing the information from which the status is calculated.
@@ -26,18 +26,18 @@
 #' @return Status
 #' @keywords internal
 
-set_status <- function(data,
+set_status <- function(data_set,
                        col_names,
                        operator = c("&", "|"),
                        status = c(1, 0)) {
   # input checking
   checkmate::assert_data_frame(
-    data,
+    data_set,
     min.rows = 1, min.cols = 1
   )
   checkmate::assert_character(col_names, any.missing = FALSE, min.len = 1)
   checkmate::assert_names(
-    names(data),
+    names(data_set),
     must.include = col_names
   )
 
@@ -55,7 +55,7 @@ set_status <- function(data,
     any.missing = FALSE
   )
   condition <- "ifelse("
-  int0 <- "(!is.na(data[["
+  int0 <- "(!is.na(data_set[["
   intf <- "]]))"
   i <- 1
   for (col_name in col_names) {
@@ -88,21 +88,21 @@ set_status <- function(data,
 #' @return Status
 #' @keywords internal
 
-set_event_status <- function(data,
+set_event_status <- function(data_set,
                              outcome_date_col,
                              censoring_date_col = NULL) {
   checkmate::assert_data_frame(
-    data,
+    data_set,
     min.rows = 1, min.cols = 1
   )
   checkmate::assert_character(outcome_date_col,
     any.missing = FALSE, min.len = 1
   )
   checkmate::assert_names(
-    names(data), must.include = outcome_date_col
+    names(data_set), must.include = outcome_date_col
   )
 
-  data$outcome_status <- set_status(data = data,
+  data_set$outcome_status <- set_status(data_set = data_set,
     col_names = outcome_date_col,
     status = c(1, 0)
   )
@@ -111,17 +111,17 @@ set_event_status <- function(data,
       any.missing = FALSE, min.len = 1
     )
     checkmate::assert_names(
-      names(data), must.include = censoring_date_col
+      names(data_set), must.include = censoring_date_col
     )
-    data$outcome_status <- ifelse(
-      (!is.na(data[[censoring_date_col]])) &
-        (!is.na(data[[outcome_date_col]])) &
-        (data[[censoring_date_col]] <= data[[outcome_date_col]]),
+    data_set$outcome_status <- ifelse(
+      (!is.na(data_set[[censoring_date_col]])) &
+        (!is.na(data_set[[outcome_date_col]])) &
+        (data_set[[censoring_date_col]] <= data_set[[outcome_date_col]]),
       yes = "0",
-      no = data$outcome_status
+      no = data_set$outcome_status
     )
   }
-  return(data$outcome_status)
+  return(data_set$outcome_status)
 }
 
 #' @title Construct Time-to-Event
@@ -144,7 +144,7 @@ set_event_status <- function(data,
 #' @return Time-to-event
 #' @keywords internal
 
-get_time_to_event <- function(data,
+get_time_to_event <- function(data_set,
                               outcome_date_col,
                               censoring_date_col = NULL,
                               start_cohort, end_cohort,
@@ -152,14 +152,14 @@ get_time_to_event <- function(data,
                               immunization_date_col) {
   # add input checking
   checkmate::assert_data_frame(
-    data,
+    data_set,
     min.rows = 1L
   )
 
   checkmate::assert_string(outcome_date_col)
 
   checkmate::assert_names(
-    colnames(data),
+    colnames(data_set),
     must.include = outcome_date_col
   )
   # check date types
@@ -172,7 +172,7 @@ get_time_to_event <- function(data,
 
   # check if date columns are date type
   checkmate::assert_date(
-    data[[outcome_date_col]]
+    data_set[[outcome_date_col]]
   )
 
   checkmate::assert_logical(
@@ -183,11 +183,11 @@ get_time_to_event <- function(data,
   #Checks of censoring_date_col if provided
   if (!is.null(censoring_date_col)) {
     checkmate::assert_names(
-      colnames(data),
+      colnames(data_set),
       must.include = censoring_date_col
     )
     checkmate::assert_date(
-      data[[censoring_date_col]]
+      data_set[[censoring_date_col]]
     )
     checkmate::assert_string(censoring_date_col)
   }
@@ -195,41 +195,41 @@ get_time_to_event <- function(data,
   # check immnunization date col if asked
   if (start_from_immunization) {
     stopifnot(
-      "`immunization_date_col` must be provided, and a column name in `data`" =
+      "`immunization_date_col` must be provided, and a column name in `data_set`" = #nolint
         (!missing(immunization_date_col) &&
          checkmate::test_string(immunization_date_col) &&
-         immunization_date_col %in% colnames(data))
+         immunization_date_col %in% colnames(data_set))
     )
 
     # Check for date type column
     checkmate::assert_date(
-      data[[immunization_date_col]]
+      data_set[[immunization_date_col]]
     )
   }
 
   # Initialize vector with start point to calculate time-to-event
   # cohort start by default
-  t0 <- rep(start_cohort, nrow(data))
+  t0 <- rep(start_cohort, nrow(data_set))
   if (start_from_immunization) {
     # if start from immunization replace informed immunization dates
-    t0 <- as.Date(ifelse(is.na(data[[immunization_date_col]]),
+    t0 <- as.Date(ifelse(is.na(data_set[[immunization_date_col]]),
       yes = as.character(t0),
-      no = as.character(data[[immunization_date_col]])
+      no = as.character(data_set[[immunization_date_col]])
     ))
   }
 
   # Initialize vector with end point to calculate time-to-event
   # cohort end by default
-  tf <- rep(end_cohort, nrow(data))
+  tf <- rep(end_cohort, nrow(data_set))
   # replace informed outcome dates
-  tf <- as.Date(ifelse(!is.na(data[[outcome_date_col]]),
-    yes = as.character(data[[outcome_date_col]]),
+  tf <- as.Date(ifelse(!is.na(data_set[[outcome_date_col]]),
+    yes = as.character(data_set[[outcome_date_col]]),
     no = as.character(tf)
   ))
   # replace censoring dates if provided
   if (!is.null(censoring_date_col)) {
-    tf <- as.Date(ifelse(!is.na(data[[censoring_date_col]]),
-      yes = as.character(data[[censoring_date_col]]),
+    tf <- as.Date(ifelse(!is.na(data_set[[censoring_date_col]]),
+      yes = as.character(data_set[[censoring_date_col]]),
       no = as.character(tf)
     ))
   }

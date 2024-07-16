@@ -5,7 +5,7 @@
 \title{Plot Vaccine Coverage}
 \usage{
 plot_coverage(
-  data,
+  data_set,
   vacc_date_col,
   unit = c("day", "month", "year"),
   doses_count_color = "steelblue",
@@ -15,7 +15,7 @@ plot_coverage(
 )
 }
 \arguments{
-\item{data}{\code{data.frame} with cohort information (see example).}
+\item{data_set}{\code{data.frame} with cohort information (see example).}
 
 \item{vacc_date_col}{Name of the column(s) that contain the vaccine date to
 calculate the coverage.}
@@ -57,7 +57,7 @@ date_interval <- c(start_cohort, end_cohort)
 
 # Plot coverage
 plot_coverage(
-  data = cohortdata,
+  data_set = cohortdata,
   vacc_date_col = "vaccine_date_1",
   unit = "month",
   doses_count_color = "steelblue",

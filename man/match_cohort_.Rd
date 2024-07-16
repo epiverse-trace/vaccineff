@@ -4,10 +4,10 @@
 \alias{match_cohort_}
 \title{Match Cohort Using Mahalanobis Distance}
 \usage{
-match_cohort_(data, vacc_status_col, exact = NULL, nearest = NULL)
+match_cohort_(data_set, vacc_status_col, exact = NULL, nearest = NULL)
 }
 \arguments{
-\item{data}{\code{data.frame} with cohort information (see example).}
+\item{data_set}{\code{data.frame} with cohort information (see example).}
 
 \item{vacc_status_col}{Name of the column containing the vaccination.
 Default is \code{vaccine_status}.}

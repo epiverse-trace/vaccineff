@@ -23,7 +23,7 @@
 #' before their outcomes. Rolling calendar matching method will be included in
 #' future releases.
 #'
-#' @param data `data.frame` with cohort information (see example).
+#' @param data_set `data.frame` with cohort information (see example).
 #' @param outcome_date_col Name of the column that contains the outcome dates.
 #' @param censoring_date_col Name of the column that contains the censoring
 #' date. `NULL` by default.
@@ -50,9 +50,11 @@
 #' `balance_all`: balance of the cohort before matching,
 #' `balance_matched`: balance of the cohort after matching.
 #'
-#' Four columns are added to the structure provided in `data`: `subclass`: ID of
-#' matched pair, `t0_follow_up`: beginning of follow-up period for pair,
-#' `time_to_event`: time to event, and `outcome_status`: outcome status
+#' Four columns are added to the structure provided in `data_set`:
+#' `subclass`: ID of, matched pair,
+#' `t0_follow_up`: beginning of follow-up period for pair,
+#' `time_to_event`: time to event,
+#' and `outcome_status`: outcome status
 #' (1:positive, 0: negative).
 #' @examples
 #' # Define start and end dates of the study
@@ -61,7 +63,7 @@
 #'
 #' # Create `data.frame` with information on immunization
 #' cohortdata <- make_immunization(
-#'   data = cohortdata,
+#'   data_set = cohortdata,
 #'   outcome_date_col = "death_date",
 #'   censoring_date_col = "death_other_causes",
 #'   immunization_delay = 14,
@@ -69,9 +71,9 @@
 #'   end_cohort = end_cohort
 #' )
 #'
-#' # Match the data
+#' # Match the data_set
 #' matching <- match_cohort(
-#'   data = cohortdata,
+#'   data_set = cohortdata,
 #'   outcome_date_col = "death_date",
 #'   censoring_date_col = "death_other_causes",
 #'   start_cohort = start_cohort,
@@ -85,14 +87,14 @@
 #' summary(matching)
 #'
 #' # Extract matched data
-#' cohortdata_match <- dataset(matching)
+#' cohortdata_match <- get_dataset(matching)
 #'
 #' # View of mached cohort
 #' head(cohortdata_match)
 #'
 #' @export
 
-match_cohort <- function(data,
+match_cohort <- function(data_set,
                          outcome_date_col,
                          censoring_date_col,
                          start_cohort,
@@ -106,21 +108,21 @@ match_cohort <- function(data,
                          unvaccinated_status = "u") {
   # input checking
   checkmate::assert_data_frame(
-    data,
+    data_set,
     min.rows = 1, min.cols = 1
   )
 
   checkmate::assert_names(
-    names(data),
+    names(data_set),
     must.include = c(outcome_date_col, immunization_date_col, vacc_status_col)
   )
 
   checkmate::assert_date(
-    data[[outcome_date_col]]
+    data_set[[outcome_date_col]]
   )
 
   checkmate::assert_date(
-    data[[immunization_date_col]]
+    data_set[[immunization_date_col]]
   )
 
   checkmate::assert_character(vacc_status_col,
@@ -128,18 +130,18 @@ match_cohort <- function(data,
   )
 
   checkmate::assert_names(
-    data[[vacc_status_col]],
+    data_set[[vacc_status_col]],
     must.include = c(vaccinated_status, unvaccinated_status)
   )
 
   #Checks of censoring_date_col if provided
   if (!is.null(censoring_date_col)) {
     checkmate::assert_names(
-      colnames(data),
+      colnames(data_set),
       must.include = censoring_date_col
     )
     checkmate::assert_date(
-      data[[censoring_date_col]]
+      data_set[[censoring_date_col]]
     )
     checkmate::assert_string(censoring_date_col)
   }
@@ -157,7 +159,7 @@ match_cohort <- function(data,
       any.missing = FALSE, min.len = 1, names = "named"
     )
     checkmate::assert_names(
-      names(data),
+      names(data_set),
       must.include = names(nearest)
     )
   }
@@ -167,7 +169,7 @@ match_cohort <- function(data,
       any.missing = FALSE, min.len = 1
     )
     checkmate::assert_names(
-      names(data),
+      names(data_set),
       must.include = exact
     )
   }
@@ -187,7 +189,7 @@ match_cohort <- function(data,
 
   if (method == "static") {
     match_obj <- static_match(
-      data = data,
+      data_set = data_set,
       outcome_date_col = outcome_date_col,
       censoring_date_col = censoring_date_col,
       immunization_date_col = immunization_date_col,
@@ -236,7 +238,7 @@ summary.match <- function(object, ...) {
 #' @return `data.frame` extracted from `match_cohort`.
 #' @export
 
-dataset.match <- function(object, ...) {
+get_dataset.match <- function(object, ...) {
   # Check if the input object is of class "match"
   stopifnot("Input must be an object of class 'match'" =
       checkmate::test_class(object, "match")

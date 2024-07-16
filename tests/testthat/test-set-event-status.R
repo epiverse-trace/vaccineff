@@ -9,7 +9,7 @@ test_that("`set_event_status`: Basic expectations", {
   # runs without errors
   expect_no_condition(
     set_event_status(
-      data = cohortdata,
+      data_set = cohortdata,
       outcome_date_col = "death_date",
       censoring_date_col = "death_other_causes"
     )

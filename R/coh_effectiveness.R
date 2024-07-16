@@ -18,7 +18,7 @@
 #' a suitable plot for the method.
 #' The object returned is compatible with the methods `summary` and `plot`.
 #'
-#' @param data `data.frame` with cohort information (see example).
+#' @param data_set `data.frame` with cohort information (see example).
 #' @param start_cohort Start date of the study.
 #' @param end_cohort End date of the study.
 #' @param method Method to estimate VE. Default is `HR`.
@@ -46,7 +46,7 @@
 #'
 #' # Create `data.frame` with information of immunization
 #' cohortdata <- make_immunization(
-#'   data = cohortdata,
+#'   data_set = cohortdata,
 #'   outcome_date_col = "death_date",
 #'   censoring_date_col = "death_other_causes",
 #'   immunization_delay = 14,
@@ -58,7 +58,7 @@
 #'
 #' # Match the data
 #' matching <- match_cohort(
-#'   data = cohortdata,
+#'   data_set = cohortdata,
 #'   outcome_date_col = "death_date",
 #'   censoring_date_col = "death_other_causes",
 #'   start_cohort = start_cohort,
@@ -69,11 +69,11 @@
 #' )
 #'
 #' # Extract matched data
-#' cohortdata_match <- dataset(matching)
+#' cohortdata_match <- get_dataset(matching)
 #'
 #' # Calculate vaccine effectiveness
 #' ve <- effectiveness(
-#'   data = cohortdata_match,
+#'   data_set = cohortdata_match,
 #'   start_cohort = start_cohort,
 #'   end_cohort = end_cohort
 #' )
@@ -85,7 +85,7 @@
 #' plot(ve)
 #' @export
 
-effectiveness <- function(data,
+effectiveness <- function(data_set,
                           start_cohort,
                           end_cohort,
                           method = "HR",
@@ -97,15 +97,15 @@ effectiveness <- function(data,
 
   # input checking
   checkmate::assert_data_frame(
-    data,
+    data_set,
     min.rows = 1L
   )
   checkmate::assert_names(
-    names(data),
+    names(data_set),
     must.include = c(outcome_status_col, time_to_event_col, vacc_status_col)
   )
   checkmate::assert_names(
-    data[[vacc_status_col]],
+    data_set[[vacc_status_col]],
     must.include = c(vaccinated_status, unvaccinated_status)
   )
 
@@ -125,7 +125,7 @@ effectiveness <- function(data,
   # select estimation method
   if (method == "HR") {
     eff_obj <- coh_eff_hr(
-      data = data,
+      data_set = data_set,
       outcome_status_col = outcome_status_col,
       time_to_event_col = time_to_event_col,
       vacc_status_col = vacc_status_col,

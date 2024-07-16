@@ -11,7 +11,7 @@ end_cohort <- as.Date("2044-12-31")
 
 # add immunization dates
 cohortdata$immunization <- get_immunization_date(
-  data = cohortdata,
+  data_set = cohortdata,
   outcome_date_col = "death_date",
   immunization_delay = 14,
   vacc_date_col = c("vaccine_date_1", "vaccine_date_2"),
@@ -21,20 +21,20 @@ cohortdata$immunization <- get_immunization_date(
 
 # add vaccine status
 cohortdata$vaccine_status <- set_status(
-  data = cohortdata,
+  data_set = cohortdata,
   col_names = "immunization",
   status = c("v", "u")
 )
 
 # add death status
 cohortdata$outcome_status <- set_status(
-  data = cohortdata,
+  data_set = cohortdata,
   col_names = "death_date"
 )
 
 # add time to death
 cohortdata$time_to_event <- get_time_to_event(
-  data = cohortdata,
+  data_set = cohortdata,
   outcome_date_col = "death_date",
   start_cohort = start_cohort,
   end_cohort = end_cohort,
@@ -47,7 +47,7 @@ test_that("`effectiveness`: basic expectations", {
   # runs without conditions
   expect_no_condition(
     effectiveness(
-      data = cohortdata,
+      data_set = cohortdata,
       start_cohort = start_cohort,
       end_cohort = end_cohort,
       method = "HR"
@@ -56,7 +56,7 @@ test_that("`effectiveness`: basic expectations", {
 
   # returns `effectiveness` s3class object
   eff <- effectiveness(
-    data = cohortdata,
+    data_set = cohortdata,
     start_cohort = start_cohort,
     end_cohort = end_cohort,
     method = "HR"
@@ -83,7 +83,7 @@ test_that("`effectiveness`: test for input validation", {
 
 ## Tests for generic methods
 eff <- effectiveness(
-  data = cohortdata,
+  data_set = cohortdata,
   start_cohort = start_cohort,
   end_cohort = end_cohort,
   method = "HR"

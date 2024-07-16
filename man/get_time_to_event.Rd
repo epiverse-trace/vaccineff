@@ -5,7 +5,7 @@
 \title{Construct Time-to-Event}
 \usage{
 get_time_to_event(
-  data,
+  data_set,
   outcome_date_col,
   censoring_date_col = NULL,
   start_cohort,
@@ -15,7 +15,7 @@ get_time_to_event(
 )
 }
 \arguments{
-\item{data}{\code{data.frame} with cohort information (see example).}
+\item{data_set}{\code{data.frame} with cohort information (see example).}
 
 \item{outcome_date_col}{Name of the column that contains the outcome dates.}
 

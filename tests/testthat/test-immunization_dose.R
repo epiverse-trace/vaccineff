@@ -5,7 +5,7 @@ data("cohortdata")
 
 # calculate immunization date
 cohortdata$immunization <- get_immunization_date(
-  data = cohortdata,
+  data_set = cohortdata,
   outcome_date_col = "death_date",
   immunization_delay = 14,
   vacc_date_col = c("vaccine_date_1", "vaccine_date_2"),
@@ -16,7 +16,7 @@ cohortdata$immunization <- get_immunization_date(
 # get the immunization dose
 vacc_date_col <- c("vaccine_date_1", "vaccine_date_2")
 immunization_dose <- get_immunization_dose(
-  data = cohortdata,
+  data_set = cohortdata,
   immunization_date_col = "immunization",
   vacc_date_col = vacc_date_col,
   immunization_delay = 14

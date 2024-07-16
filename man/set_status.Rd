@@ -4,10 +4,10 @@
 \alias{set_status}
 \title{Create Status Column}
 \usage{
-set_status(data, col_names, operator = c("&", "|"), status = c(1, 0))
+set_status(data_set, col_names, operator = c("&", "|"), status = c(1, 0))
 }
 \arguments{
-\item{data}{\code{data.frame} with at least one column from which to
+\item{data_set}{\code{data.frame} with at least one column from which to
 generate the status specified in \code{status}.}
 
 \item{col_names}{Name(s) of the column(s) as a string or a character

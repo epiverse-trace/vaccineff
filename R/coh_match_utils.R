@@ -8,7 +8,7 @@
 #' @inheritParams match_cohort
 #' @return `data.frame` with the matched population.
 #' @keywords internal
-match_cohort_ <- function(data,
+match_cohort_ <- function(data_set,
                           vacc_status_col,
                           exact = NULL,
                           nearest = NULL) {
@@ -28,7 +28,7 @@ match_cohort_ <- function(data,
   #Matching
   matchit <- MatchIt::matchit(
     formula_eval,
-    data = data,
+    data = data_set,
     method = "nearest",
     ratio = 1,
     exact = exact,
@@ -55,12 +55,12 @@ match_cohort_ <- function(data,
 #' @param criteria Selection criteria when both individuals provide information.
 #' This can be the minimum (min) or maximum (max) value.
 #' @keywords internal
-match_pair_info <- function(data,
+match_pair_info <- function(data_set,
                             column_to_match,
                             criteria = c("min", "max")) {
   matched_info <- unlist(
-    tapply(data[[column_to_match]],
-      data$subclass,
+    tapply(data_set[[column_to_match]],
+      data_set$subclass,
       function(x) {
         if (all(is.na(x))) {
           return(NA)
@@ -75,7 +75,7 @@ match_pair_info <- function(data,
     )
   )
   # return data matched by subclass
-  return(matched_info[data$subclass])
+  return(matched_info[data_set$subclass])
 }
 
 #' @title Constructs Summary with Results from Matching
@@ -116,23 +116,23 @@ match_summary <- function(all,
 #'
 #' @description This function creates a summary after matching.
 #' @inheritParams match_cohort
-#' @param data `data.frame` to assess matching balance.
+#' @param data_set `data.frame` to assess matching balance.
 #' @return Summary `data.frame` with the balance of each variable by
 #' vaccine status. Numeric variables are reported with means, and
 #' categorical/factor variables are reported with proportions.
 #' In both cases, the Standardized Mean Difference (SMD) is calculated.
 #' @keywords internal
-balance_summary <- function(data,
+balance_summary <- function(data_set,
                             nearest,
                             exact,
                             vacc_status_col,
                             vaccinated_status,
                             unvaccinated_status) {
   columns <- c(names(nearest), exact)
-  numeric <- columns[vapply(data[columns], is.numeric, logical(1))]
+  numeric <- columns[vapply(data_set[columns], is.numeric, logical(1))]
 
-  categorical <- columns[vapply(data[columns], is.character, logical(1))]
-  factor <- columns[vapply(data[columns], is.factor, logical(1))]
+  categorical <- columns[vapply(data_set[columns], is.character, logical(1))]
+  factor <- columns[vapply(data_set[columns], is.factor, logical(1))]
   categorical <- c(categorical, factor)
 
   # balance for numeric variables
@@ -140,7 +140,7 @@ balance_summary <- function(data,
   for (n in numeric) {
     # mean and sd
     temp <- as.data.frame(stats::aggregate(
-      data[n], list(data$vaccine_status),
+      data_set[n], list(data_set$vaccine_status),
       FUN = function(x) c(mean = mean(x), sd = stats::sd(x))
     ))
     temp <- do.call(data.frame, temp)
@@ -168,7 +168,8 @@ balance_summary <- function(data,
   for (c in categorical) {
     # proportion by group
     temp <- as.data.frame(
-      rbind(prop.table(table(data[[c]], data[[vacc_status_col]]), 2))
+      rbind(prop.table(table(data_set[[c]], data_set[[vacc_status_col]]),
+                       2))
     )
     rownames(temp) <- paste(c, row.names(temp), sep = "_")
 

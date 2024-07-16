@@ -10,7 +10,7 @@ test_that("`get_age_groups`: basic expectations", {
   step_size <- 10
 
   age_groups <- get_age_group(
-    data = cohortdata,
+    data_set = cohortdata,
     col_age = "age",
     max_val = max_val,
     step = step_size
@@ -40,7 +40,7 @@ test_that("`get_age_groups`: basic expectations", {
   # expect 0-50 and >80
   expect_warning(
     get_age_group(
-      data = cohortdata,
+      data_set = cohortdata,
       col_age = "age",
       max_val = 80,
       step = 50
@@ -53,7 +53,7 @@ test_that("`get_age_groups`: Input checking", {
   # `data.frame` is not passed
   expect_error(
     get_age_group(
-      data = "data",
+      data_set = "data",
       col_age = "age",
       max_val = 80,
       step = 7
@@ -64,7 +64,7 @@ test_that("`get_age_groups`: Input checking", {
   # age column not present
   expect_error(
     get_age_group(
-      data = cohortdata,
+      data_set = cohortdata,
       col_age = "somecol",
       max_val = 80,
       step = 7
@@ -76,7 +76,7 @@ test_that("`get_age_groups`: Input checking", {
   min_age <- 10
   expect_error(
     get_age_group(
-      data = cohortdata,
+      data_set = cohortdata,
       col_age = "age",
       min_val = min_age,
       max_val = 1,
@@ -91,7 +91,7 @@ test_that("`get_age_groups`: Input checking", {
   # max age is missing
   expect_error(
     get_age_group(
-      data = cohortdata,
+      data_set = cohortdata,
       col_age = "age",
       step = 1
     ),
@@ -101,7 +101,7 @@ test_that("`get_age_groups`: Input checking", {
   # minimum age is badly formed
   expect_error(
     get_age_group(
-      data = cohortdata,
+      data_set = cohortdata,
       col_age = "age",
       min_val = NA_integer_,
       max_val = 1,
@@ -113,7 +113,7 @@ test_that("`get_age_groups`: Input checking", {
   # non-integer values passed
   expect_error(
     get_age_group(
-      data = cohortdata,
+      data_set = cohortdata,
       col_age = "age",
       min_val = 0.7,
       max_val = 1,
@@ -127,7 +127,7 @@ test_that("`get_age_groups`: Input checking", {
   min_age <- 1
   expect_error(
     get_age_group(
-      data = cohortdata,
+      data_set = cohortdata,
       col_age = "age",
       min_val = min_age,
       max_val = max_age,
@@ -144,7 +144,7 @@ test_that("`get_age_groups`: Input checking", {
 test_that("`get_age_groups`: non-zero min_val", {
   min_val <- 10
   cohortdata$age_group <- get_age_group(
-    data = cohortdata,
+    data_set = cohortdata,
     col_age = "age",
     max_val = 80,
     min_val = min_val,

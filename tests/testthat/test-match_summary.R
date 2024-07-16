@@ -13,7 +13,7 @@ rownames(sample_cohort) <- NULL
 
 # Create `data.frame` with information on immunization
 sample_cohort <- make_immunization(
-  data = sample_cohort,
+  data_set = sample_cohort,
   outcome_date_col = "death_date",
   censoring_date_col = "death_other_causes",
   immunization_delay = 14,
@@ -23,7 +23,7 @@ sample_cohort <- make_immunization(
 
 # Match the data
 matching <- match_cohort(
-  data = sample_cohort,
+  data_set = sample_cohort,
   outcome_date_col = "death_date",
   censoring_date_col = "death_other_causes",
   start_cohort = start_cohort,
@@ -36,7 +36,7 @@ matching <- match_cohort(
 #### Snapshot for summary comparing only two dataframes
 test_that("`match_cohort`: summary snapshot", {
   # snapshot for summary
-  matched <- dataset.match(matching)
+  matched <- get_dataset.match(matching)
   summary <- match_summary(all = sample_cohort,
     matched = matched,
     vacc_status_col = "vaccine_status"

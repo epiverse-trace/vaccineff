@@ -24,7 +24,7 @@
 #' vaccine selected as immunizing. This information must be passed in the
 #' parameter `vacc_name_col`, as a vector in the same order as `vacc_date_col`.
 #'
-#' @param data `data.frame` with cohort information (see example).
+#' @param data_set `data.frame` with cohort information (see example).
 #' @param outcome_date_col Name of the column that contains the outcome dates.
 #' @param censoring_date_col Name of the column that contains the censoring
 #' date. NULL by default.
@@ -40,7 +40,7 @@
 #' @param end_cohort End date of the study.
 #' @param take_first `FALSE`: takes the latest vaccine date. `TRUE`: takes the
 #' earliest vaccine date.
-#' @return Original `data.frame` passed in `data` and additional columns
+#' @return Original `data.frame` passed in `data_set` and additional columns
 #' containing information on the immunization.
 #' @examples
 #' # Load data
@@ -51,7 +51,7 @@
 #'
 #' # Create `data.frame` with information of immunization
 #' cohortdata <- make_immunization(
-#'   data = cohortdata,
+#'   data_set = cohortdata,
 #'   outcome_date_col = "death_date",
 #'   censoring_date_col = "death_other_causes",
 #'   immunization_delay = 14,
@@ -62,7 +62,7 @@
 #' head(cohortdata)
 #' @export
 
-make_immunization <- function(data,
+make_immunization <- function(data_set,
                               outcome_date_col,
                               censoring_date_col = NULL,
                               vacc_date_col,
@@ -74,7 +74,7 @@ make_immunization <- function(data,
                               take_first = FALSE) {
   # check inputs
   checkmate::assert_data_frame(
-    data,
+    data_set,
     min.rows = 1L
   )
   checkmate::assert_string(
@@ -87,17 +87,17 @@ make_immunization <- function(data,
 
   # check data has expected column names
   checkmate::assert_names(
-    names(data),
+    names(data_set),
     must.include = c(outcome_date_col, vacc_date_col)
   )
 
   # check if date columns are date type
   checkmate::assert_date(
-    data[[outcome_date_col]]
+    data_set[[outcome_date_col]]
   )
   for (i in seq_along(vacc_date_col)) {
     checkmate::assert_date(
-      data[[vacc_date_col[i]]]
+      data_set[[vacc_date_col[i]]]
     )
   }
 
@@ -122,11 +122,11 @@ make_immunization <- function(data,
   # check censoring_date_col if provided
   if (!is.null(censoring_date_col)) {
     checkmate::assert_names(
-      colnames(data),
+      colnames(data_set),
       must.include = censoring_date_col
     )
     checkmate::assert_date(
-      data[[censoring_date_col]]
+      data_set[[censoring_date_col]]
     )
     checkmate::assert_string(censoring_date_col)
   }
@@ -134,7 +134,7 @@ make_immunization <- function(data,
   # check vacc_name_col if provided
   if (!is.null(vacc_name_col)) {
     checkmate::assert_names(
-      names(data),
+      names(data_set),
       must.include = c(vacc_name_col)
     )
     checkmate::assert_character(
@@ -156,8 +156,8 @@ make_immunization <- function(data,
   }
 
   # get immunization date
-  data$immunization_date <- get_immunization_date(
-    data = data,
+  data_set$immunization_date <- get_immunization_date(
+    data_set = data_set,
     outcome_date_col = outcome_date_col,
     immunization_delay = immunization_delay,
     vacc_date_col = vacc_date_col,
@@ -167,8 +167,8 @@ make_immunization <- function(data,
 
   # name of column
   if (length(vacc_date_col) > 1) {
-    data$immunizing_vaccine <- get_immunization_dose(
-      data = data,
+    data_set$immunizing_vaccine <- get_immunization_dose(
+      data_set = data_set,
       immunization_date_col = "immunization_date",
       vacc_date_col = vacc_date_col,
       immunization_delay = immunization_delay
@@ -177,8 +177,8 @@ make_immunization <- function(data,
 
   # name of vaccine
   if (!is.null(vacc_name_col)) {
-    data$immunizing_vaccine_name <- get_immunization_vaccine(
-      data = data,
+    data_set$immunizing_vaccine_name <- get_immunization_vaccine(
+      data_set = data_set,
       immunization_date_col = "immunization_date",
       vacc_date_col = vacc_date_col,
       vacc_name_col = vacc_name_col,
@@ -187,14 +187,14 @@ make_immunization <- function(data,
   }
 
   # set vaccine status
-  data$vaccine_status <- set_status(
-    data = data,
+  data_set$vaccine_status <- set_status(
+    data_set = data_set,
     col_names = "immunization_date",
     status = c(vaccinated_status, unvaccinated_status)
   )
 
   # return `data.frame` with information on immunization
-  return(data)
+  return(data_set)
 
 }
 
@@ -213,7 +213,7 @@ make_immunization <- function(data,
 #' @inheritParams make_immunization
 #' @return Immunization date
 #' @keywords internal
-get_immunization_date <- function(data,
+get_immunization_date <- function(data_set,
                                   outcome_date_col,
                                   censoring_date_col = NULL,
                                   immunization_delay,
@@ -228,27 +228,27 @@ get_immunization_date <- function(data,
 
   # Limit date
   # If censoring date provided, use it. If not, use outcome date
-  limit_date <- data[[outcome_date_col]]
+  limit_date <- data_set[[outcome_date_col]]
 
   if (!is.null(censoring_date_col)) {
-    limit_date <- as.Date(ifelse(!is.na(data[[censoring_date_col]]),
-      yes = as.character(data[[censoring_date_col]]),
+    limit_date <- as.Date(ifelse(!is.na(data_set[[censoring_date_col]]),
+      yes = as.character(data_set[[censoring_date_col]]),
       no = as.character(limit_date)
     ))
   }
 
   # get difference with outcome date
 
-  data$imm_limit <- limit_date - delta_limit
+  data_set$imm_limit <- limit_date - delta_limit
 
   # all other individuals' limit is set to end_cohort
-  data[is.na(data$imm_limit), "imm_limit"] <- end_cohort - delta_limit
+  data_set[is.na(data_set$imm_limit), "imm_limit"] <- end_cohort - delta_limit
 
   # get differences from vaccination dates
   cols_delta <- sprintf("delta_%i", seq_along(vacc_date_col))
 
-  data[cols_delta] <- lapply(vacc_date_col, function(col) {
-    vals <- as.numeric(data$imm_limit - data[[col]])
+  data_set[cols_delta] <- lapply(vacc_date_col, function(col) {
+    vals <- as.numeric(data_set$imm_limit - data_set[[col]])
     vals[vals < 0] <- NA
     vals
   })
@@ -257,12 +257,12 @@ get_immunization_date <- function(data,
   # only NAs are present
   # this `apply` replaces the earlier implementation and avoids
   # a dependency
-  data$delta_imm <- apply(
-    # apply min over each row of a dataframe of the delta columns
+  data_set$delta_imm <- apply(
+    # apply min over each row of a `data.frame` of the delta columns
     # returning a vector of minimum delta values or NAs
-    # set data[, cols_delta] as dataframe to avoid errors when
+    # set data_set[, cols_delta] as dataframe to avoid errors when
     # working with only one vaccination column
-    data.frame(data[, cols_delta]),
+    data.frame(data_set[, cols_delta]),
     MARGIN = 1, FUN = function(x) {
       #When several vaccines the function returns the first date
       #that satisfies the limit date constraint if take_first = TRUE
@@ -281,7 +281,8 @@ get_immunization_date <- function(data,
   )
 
   # immunization outcome as a vector
-  imm_out_date <- data$imm_limit - data$delta_imm + immunization_delay
+  imm_out_date <- data_set$imm_limit - data_set$delta_imm +
+    immunization_delay
 
   return(imm_out_date)
 }
@@ -296,7 +297,7 @@ get_immunization_date <- function(data,
 #' @inheritParams make_immunization
 #' @return Name of the column taken as immunizing vaccine for each register.
 #' @keywords internal
-get_immunization_dose <- function(data,
+get_immunization_dose <- function(data_set,
                                   immunization_date_col,
                                   vacc_date_col,
                                   immunization_delay) {
@@ -304,17 +305,20 @@ get_immunization_dose <- function(data,
   vacc_date_col_ <- vacc_date_col # hard coded to return right error message
   for (vacc_date_col in vacc_date_col_) {
     checkmate::assert_date(
-      data[[vacc_date_col]]
+      data_set[[vacc_date_col]]
     )
   }
 
   # calculate the expected date of immunizing vaccination
-  data$delta_imm <- data[[immunization_date_col]] - immunization_delay
+  data_set$delta_imm <- data_set[[immunization_date_col]] -
+    immunization_delay
 
   # get the first dose corresponding to immunization date - delay
-  dose_number <- apply(data[, c(vacc_date_col_, "delta_imm")], 1, function(x) {
-    which(x == x[length(x)])[1] # hard coded to get first value
-  })
+  dose_number <- apply(data_set[, c(vacc_date_col_, "delta_imm")], 1,
+    function(x) {
+      which(x == x[length(x)])[1] # hard coded to get first value
+    }
+  )
 
   # get names of the vaccination columns corresponding to the dose
   return(vacc_date_col_[dose_number])
@@ -331,7 +335,7 @@ get_immunization_dose <- function(data,
 #' @return Custom vaccine names of the immunizing vaccine.
 #' @keywords internal
 
-get_immunization_vaccine <- function(data,
+get_immunization_vaccine <- function(data_set,
                                      immunization_date_col,
                                      vacc_date_col,
                                      vacc_name_col,
@@ -339,17 +343,17 @@ get_immunization_vaccine <- function(data,
 
   # get the vaccine date corresponding to the immunizing dose
   immunizing_dose <- get_immunization_dose(
-    data,
+    data_set,
     immunization_date_col = immunization_date_col,
     vacc_date_col = vacc_date_col, immunization_delay = immunization_delay
   )
 
   # position of immunizing dose
-  data$dose_index <- match(immunizing_dose, vacc_date_col)
+  data_set$dose_index <- match(immunizing_dose, vacc_date_col)
 
   # get the vaccine name at the immunizing dose index
   immunizing_vaccine <- apply(
-    data[, c(vacc_name_col, "dose_index")],
+    data_set[, c(vacc_name_col, "dose_index")],
     MARGIN = 1, FUN = function(x) {
       index <- as.numeric(x[length(x)])
       x[index]

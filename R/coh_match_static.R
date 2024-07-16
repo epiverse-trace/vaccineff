@@ -26,7 +26,7 @@ adjust_exposition <- function(matched_cohort,
 
   # 2. Match minimum censoring date as censoring date for pair
   matched_cohort$censoring_pair <-  as.Date(match_pair_info(
-    data = matched_cohort,
+    data_set = matched_cohort,
     column_to_match = "censoring_individual",
     criteria = "min"
   ))
@@ -44,14 +44,14 @@ adjust_exposition <- function(matched_cohort,
 
   # 4. Beginning of the follow-up period for pairs is the immunization date
   matched_cohort$t0_follow_up <-  as.Date(match_pair_info(
-    data = matched_cohort,
+    data_set = matched_cohort,
     column_to_match = immunization_date,
     criteria = "min"
   ))
 
   # 5. Calculate time-to-event
   matched_cohort$time_to_event <- get_time_to_event(
-    data = matched_cohort,
+    data_set = matched_cohort,
     outcome_date_col = outcome_date_col,
     censoring_date_col = "censoring_accepted",
     start_cohort = start_cohort,
@@ -62,7 +62,7 @@ adjust_exposition <- function(matched_cohort,
 
   # 6. Individuals with negative exposure and their pairs must be removed
   matched_cohort$min_exposure_time_pair <- match_pair_info(
-    data = matched_cohort,
+    data_set = matched_cohort,
     column_to_match = "time_to_event",
     criteria = "min"
   )
@@ -73,7 +73,7 @@ adjust_exposition <- function(matched_cohort,
 
   # 7. Generate outcome status
   adjusted_match$outcome_status <- set_event_status(
-    data = adjusted_match,
+    data_set = adjusted_match,
     outcome_date_col = outcome_date_col,
     censoring_date_col = "censoring_accepted"
   )
@@ -104,7 +104,7 @@ adjust_exposition <- function(matched_cohort,
 #' `balance_all`: balance of the cohort before matching,
 #' `balance_matched`: balance of the cohort after matching.
 #' @keywords internal
-static_match <- function(data,
+static_match <- function(data_set,
                          outcome_date_col,
                          censoring_date_col,
                          immunization_date_col,
@@ -117,7 +117,7 @@ static_match <- function(data,
                          exact) {
   # match cohort
   matched <- match_cohort_(
-    data = data,
+    data_set = data_set,
     vacc_status_col = vacc_status_col,
     nearest = nearest,
     exact = exact
@@ -133,14 +133,14 @@ static_match <- function(data,
   )
 
   # Matching summary
-  summary <- match_summary(all = data,
+  summary <- match_summary(all = data_set,
     matched = matched,
     adjusted = adjusted,
     vacc_status_col = vacc_status_col
   )
 
   # Balance summary all
-  balace_all <- balance_summary(data = data,
+  balace_all <- balance_summary(data_set = data_set,
     nearest = nearest,
     exact = exact,
     vacc_status_col = vacc_status_col,
@@ -148,7 +148,7 @@ static_match <- function(data,
     unvaccinated_status = unvaccinated_status
   )
   # Balance summary match
-  balace_match <- balance_summary(data = adjusted,
+  balace_match <- balance_summary(data_set = adjusted,
     nearest = nearest,
     exact = exact,
     vacc_status_col = vacc_status_col,

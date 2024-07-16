@@ -5,14 +5,14 @@
 \title{Return Column Name Associated to Immunizing Vaccine}
 \usage{
 get_immunization_dose(
-  data,
+  data_set,
   immunization_date_col,
   vacc_date_col,
   immunization_delay
 )
 }
 \arguments{
-\item{data}{\code{data.frame} with cohort information (see example).}
+\item{data_set}{\code{data.frame} with cohort information (see example).}
 
 \item{vacc_date_col}{Name of the column(s) that contain the vaccine dates.}
 

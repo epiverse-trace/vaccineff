@@ -12,20 +12,20 @@ rownames(sample_cohort) <- NULL
 
 # assign vaccination status
 sample_cohort$vaccine_status <- set_status(
-  data = sample_cohort,
+  data_set = sample_cohort,
   col_names = "vaccine_date_2",
   status = c("v", "u")
 )
 
 # match cohort
-matched_cohort <- match_cohort_(data = sample_cohort,
+matched_cohort <- match_cohort_(data_set = sample_cohort,
   vacc_status_col = "vaccine_status",
   exact = "sex"
 )
 
 # add column with minimum censoring date for pair
 matched_cohort$censoring_pair <-  as.Date(match_pair_info(
-  data = matched_cohort,
+  data_set = matched_cohort,
   column_to_match = "death_other_causes",
   criteria = "min"
 ))
@@ -68,7 +68,7 @@ test_that("`get_censoring_date_match`: take minimum censoring date", {
 # Check for maximum censoring date per pair
 # add column with censoring date for pair
 matched_cohort$censoring_pair_max <-  as.Date(match_pair_info(
-  data = matched_cohort,
+  data_set = matched_cohort,
   column_to_match = "death_other_causes",
   criteria = "max"
 ))

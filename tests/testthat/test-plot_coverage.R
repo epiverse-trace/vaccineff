@@ -8,7 +8,7 @@ end_cohort <- as.Date("2044-12-31")
 # snapshot test to test default options
 test_that("`plot_coverage`: default plot", {
   plt <- plot_coverage(
-    data = cohortdata,
+    data_set = cohortdata,
     vacc_date_col = "vaccine_date_1",
     unit = "month",
     doses_count_color = "steelblue",
@@ -24,7 +24,7 @@ test_that("`plot_coverage`: default plot", {
 # snapshot test to test cumulative
 test_that("`plot_coverage`: cumulative plot", {
   plt <- plot_coverage(
-    data = cohortdata,
+    data_set = cohortdata,
     vacc_date_col = "vaccine_date_1",
     unit = "month",
     doses_count_color = "steelblue",
@@ -43,7 +43,7 @@ test_that("`plot_coverage`: fixed interval", {
   end <- as.Date("2044-12-31")
   date_interval <- c(start, end)
   plt <- plot_coverage(
-    data = cohortdata,
+    data_set = cohortdata,
     vacc_date_col = "vaccine_date_1",
     unit = "month",
     doses_count_color = "steelblue",

@@ -5,7 +5,7 @@
 \title{Match Cohort to Reduce Observational Bias}
 \usage{
 match_cohort(
-  data,
+  data_set,
   outcome_date_col,
   censoring_date_col,
   start_cohort,
@@ -20,7 +20,7 @@ match_cohort(
 )
 }
 \arguments{
-\item{data}{\code{data.frame} with cohort information (see example).}
+\item{data_set}{\code{data.frame} with cohort information (see example).}
 
 \item{outcome_date_col}{Name of the column that contains the outcome dates.}
 
@@ -59,9 +59,11 @@ object of the class \code{match}. List with results from static match:
 \code{balance_all}: balance of the cohort before matching,
 \code{balance_matched}: balance of the cohort after matching.
 
-Four columns are added to the structure provided in \code{data}: \code{subclass}: ID of
-matched pair, \code{t0_follow_up}: beginning of follow-up period for pair,
-\code{time_to_event}: time to event, and \code{outcome_status}: outcome status
+Four columns are added to the structure provided in \code{data_set}:
+\code{subclass}: ID of, matched pair,
+\code{t0_follow_up}: beginning of follow-up period for pair,
+\code{time_to_event}: time to event,
+and \code{outcome_status}: outcome status
 (1:positive, 0: negative).
 }
 \description{
@@ -95,7 +97,7 @@ end_cohort <- as.Date("2044-12-31")
 
 # Create `data.frame` with information on immunization
 cohortdata <- make_immunization(
-  data = cohortdata,
+  data_set = cohortdata,
   outcome_date_col = "death_date",
   censoring_date_col = "death_other_causes",
   immunization_delay = 14,
@@ -103,9 +105,9 @@ cohortdata <- make_immunization(
   end_cohort = end_cohort
 )
 
-# Match the data
+# Match the data_set
 matching <- match_cohort(
-  data = cohortdata,
+  data_set = cohortdata,
   outcome_date_col = "death_date",
   censoring_date_col = "death_other_causes",
   start_cohort = start_cohort,
@@ -119,7 +121,7 @@ matching <- match_cohort(
 summary(matching)
 
 # Extract matched data
-cohortdata_match <- dataset(matching)
+cohortdata_match <- get_dataset(matching)
 
 # View of mached cohort
 head(cohortdata_match)

@@ -12,7 +12,7 @@ rownames(sample_cohort) <- NULL
 
 # assign vaccination status
 sample_cohort$vaccine_status <- set_status(
-  data = sample_cohort,
+  data_set = sample_cohort,
   col_names = "vaccine_date_2",
   status = c("v", "u")
 )
@@ -20,7 +20,7 @@ sample_cohort$vaccine_status <- set_status(
 # test for basic expectations - all provided
 test_that("`match_cohort`: basic expectations - all provided", {
   matched_cohort <- match_cohort_(
-    data = sample_cohort,
+    data_set = sample_cohort,
     vacc_status_col = "vaccine_status",
     exact = "sex",
     nearest = c(age = 1)
@@ -74,7 +74,7 @@ test_that("`match_cohort`: basic expectations - all provided", {
 # test for exact match
 test_that("`match_cohort`: exact match", {
   matched_cohort <- match_cohort_(
-    data = sample_cohort,
+    data_set = sample_cohort,
     vacc_status_col = "vaccine_status",
     exact = "sex"
   )
@@ -88,7 +88,7 @@ test_that("`match_cohort`: exact match", {
 # test for nearest match
 test_that("`match_cohort`: nearest match", {
   matched_cohort <- match_cohort_(
-    data = sample_cohort,
+    data_set = sample_cohort,
     vacc_status_col = "vaccine_status",
     nearest = c(age = 3)
   )

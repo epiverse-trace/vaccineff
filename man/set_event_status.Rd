@@ -4,10 +4,10 @@
 \alias{set_event_status}
 \title{Create Event Status}
 \usage{
-set_event_status(data, outcome_date_col, censoring_date_col = NULL)
+set_event_status(data_set, outcome_date_col, censoring_date_col = NULL)
 }
 \arguments{
-\item{data}{\code{data.frame} with cohort information (see example).}
+\item{data_set}{\code{data.frame} with cohort information (see example).}
 
 \item{outcome_date_col}{Name of the column that contains the outcome dates.}
 

@@ -5,7 +5,7 @@
 \title{Estimate Vaccine Effectiveness (VE)}
 \usage{
 effectiveness(
-  data,
+  data_set,
   start_cohort,
   end_cohort,
   method = "HR",
@@ -17,7 +17,7 @@ effectiveness(
 )
 }
 \arguments{
-\item{data}{\code{data.frame} with cohort information (see example).}
+\item{data_set}{\code{data.frame} with cohort information (see example).}
 
 \item{start_cohort}{Start date of the study.}
 
@@ -75,7 +75,7 @@ end_cohort <- as.Date("2044-12-31")
 
 # Create `data.frame` with information of immunization
 cohortdata <- make_immunization(
-  data = cohortdata,
+  data_set = cohortdata,
   outcome_date_col = "death_date",
   censoring_date_col = "death_other_causes",
   immunization_delay = 14,
@@ -87,7 +87,7 @@ head(cohortdata)
 
 # Match the data
 matching <- match_cohort(
-  data = cohortdata,
+  data_set = cohortdata,
   outcome_date_col = "death_date",
   censoring_date_col = "death_other_causes",
   start_cohort = start_cohort,
@@ -98,11 +98,11 @@ matching <- match_cohort(
 )
 
 # Extract matched data
-cohortdata_match <- dataset(matching)
+cohortdata_match <- get_dataset(matching)
 
 # Calculate vaccine effectiveness
 ve <- effectiveness(
-  data = cohortdata_match,
+  data_set = cohortdata_match,
   start_cohort = start_cohort,
   end_cohort = end_cohort
 )

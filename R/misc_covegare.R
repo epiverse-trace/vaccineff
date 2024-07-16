@@ -6,7 +6,7 @@
 #' records for some dates, the function assigns 0 instead of NA to calculate
 #' the cumulative coverage.
 #'
-#' @param data `data.frame` with cohort information (see example).
+#' @param data_set `data.frame` with cohort information (see example).
 #' @param vacc_date_col Name of the column(s) that contain the vaccine date to
 #' calculate the coverage.
 #' @param unit Aggregation unit, must be either "year", "month", or "day".
@@ -27,19 +27,19 @@
 #'
 #' # Calculate coverage
 #' coh_coverage(
-#'   data = cohortdata,
+#'   data_set = cohortdata,
 #'   vacc_date_col = "vaccine_date_1",
 #'   unit = "month",
 #'   date_interval = date_interval
 #' )
 #' @export
 
-coh_coverage <- function(data,
+coh_coverage <- function(data_set,
                          vacc_date_col,
                          unit = c("day", "month", "year"),
                          date_interval = NULL) {
   checkmate::assert_data_frame(
-    data,
+    data_set,
     min.rows = 1L
   )
   checkmate::assert_character(
@@ -47,11 +47,11 @@ coh_coverage <- function(data,
     min.len = 1L
   )
   checkmate::assert_names(
-    colnames(data),
+    colnames(data_set),
     must.include = c(vacc_date_col)
   )
   checkmate::assert_date(
-    data[[vacc_date_col]]
+    data_set[[vacc_date_col]]
   )
   unit <- match.arg(unit, several.ok = FALSE)
   checkmate::assert_string(
@@ -60,10 +60,10 @@ coh_coverage <- function(data,
 
   # Create continuous date column
   # For fixed intervals, use date_intervales
-  # In other case use min and max of data
+  # In other case use min and max of data_set
   if (is.null(date_interval)) {
-    start <- min(data[[vacc_date_col]], na.rm = TRUE)
-    end <- max(data[[vacc_date_col]], na.rm = TRUE)
+    start <- min(data_set[[vacc_date_col]], na.rm = TRUE)
+    end <- max(data_set[[vacc_date_col]], na.rm = TRUE)
   } else {
     checkmate::assert_date(
       date_interval
@@ -77,7 +77,7 @@ coh_coverage <- function(data,
 
   count <- as.data.frame(
     table(
-      cut(data[[vacc_date_col]], breaks = unit),
+      cut(data_set[[vacc_date_col]], breaks = unit),
       dnn = "date"
     ),
     responseName = "doses"
@@ -88,7 +88,7 @@ coh_coverage <- function(data,
   )
   coverage$doses[is.na(coverage$doses)] <- 0
   coverage$cum_doses <- cumsum(coverage$doses)
-  coverage$coverage <- coverage$cum_doses / nrow(data)
+  coverage$coverage <- coverage$cum_doses / nrow(data_set)
   return(coverage)
 }
 
@@ -119,7 +119,7 @@ coh_coverage <- function(data,
 #'
 #' # Plot coverage
 #' plot_coverage(
-#'   data = cohortdata,
+#'   data_set = cohortdata,
 #'   vacc_date_col = "vaccine_date_1",
 #'   unit = "month",
 #'   doses_count_color = "steelblue",
@@ -129,7 +129,7 @@ coh_coverage <- function(data,
 #' )
 #' @export
 
-plot_coverage <- function(data,
+plot_coverage <- function(data_set,
                           vacc_date_col,
                           unit = c("day", "month", "year"),
                           doses_count_color = "steelblue",
@@ -137,7 +137,7 @@ plot_coverage <- function(data,
                           date_interval = NULL,
                           cumulative = FALSE) {
   checkmate::assert_data_frame(
-    data,
+    data_set,
     min.rows = 1L
   )
   checkmate::assert_character(
@@ -145,11 +145,11 @@ plot_coverage <- function(data,
     min.len = 1L
   )
   checkmate::assert_names(
-    colnames(data),
+    colnames(data_set),
     must.include = c(vacc_date_col)
   )
   checkmate::assert_date(
-    data[[vacc_date_col]]
+    data_set[[vacc_date_col]]
   )
   unit <- match.arg(unit, several.ok = FALSE)
   checkmate::assert_string(
@@ -164,7 +164,7 @@ plot_coverage <- function(data,
   )
 
   coverage <- coh_coverage(
-    data = data,
+    data_set = data_set,
     vacc_date_col = vacc_date_col,
     unit = unit,
     date_interval = date_interval

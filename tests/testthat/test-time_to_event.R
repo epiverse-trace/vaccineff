@@ -5,7 +5,7 @@ data("cohortdata")
 
 # assign immunization date
 cohortdata$immunization <- get_immunization_date(
-  data = cohortdata,
+  data_set = cohortdata,
   outcome_date_col = "death_date",
   immunization_delay = 14,
   vacc_date_col = c("vaccine_date_1", "vaccine_date_2"),
@@ -18,7 +18,7 @@ test_that("Snapshot test for get_time_to_event", {
 
   # calculate time to death
   time_to_death <- get_time_to_event(
-    data = cohortdata,
+    data_set = cohortdata,
     outcome_date_col = "death_date",
     start_cohort = as.Date("2044-01-01"),
     end_cohort = as.Date("2044-12-31"),
@@ -39,7 +39,7 @@ test_that("`get_time_to_event`: Basic expectations", {
 
   # calculate time to death
   time_to_death <- get_time_to_event(
-    data = cohortdata,
+    data_set = cohortdata,
     outcome_date_col = "death_date",
     start_cohort = start_cohort,
     end_cohort = end_cohort,
@@ -65,7 +65,7 @@ test_that("`get_time_to_event`: Censoring provided", {
 
   # assign immunization date
   cohortdata$immunization_c <- get_immunization_date(
-    data = cohortdata,
+    data_set = cohortdata,
     outcome_date_col = "death_date",
     censoring_date_col = "death_other_causes",
     immunization_delay = 14,
@@ -76,7 +76,7 @@ test_that("`get_time_to_event`: Censoring provided", {
 
   # calculate time to death using censoring data
   time_to_death_c <- get_time_to_event(
-    data = cohortdata,
+    data_set = cohortdata,
     outcome_date_col = "death_date",
     censoring_date_col = "death_other_causes",
     start_cohort = start_cohort,

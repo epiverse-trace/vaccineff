@@ -16,7 +16,7 @@
 #' @keywords internal
 
 
-coh_eff_hr <- function(data,
+coh_eff_hr <- function(data_set,
                        outcome_status_col,
                        time_to_event_col,
                        vacc_status_col,
@@ -26,7 +26,7 @@ coh_eff_hr <- function(data,
                        end_cohort) {
 
   # Kaplan-Meier model for loglog curve
-  km <- km_model(data = data,
+  km <- km_model(data_set = data_set,
     outcome_status_col = outcome_status_col,
     time_to_event_col = time_to_event_col,
     vacc_status_col = vacc_status_col,
@@ -43,7 +43,7 @@ coh_eff_hr <- function(data,
   )
 
   # Cox model
-  cx <- cox_model(data = data,
+  cx <- cox_model(data_set = data_set,
     outcome_status_col = outcome_status_col,
     time_to_event_col = time_to_event_col,
     vacc_status_col = vacc_status_col,

@@ -5,7 +5,7 @@
 \title{Internal function to calculate Kaplan-Meier model and related metrics.}
 \usage{
 km_model(
-  data,
+  data_set,
   outcome_status_col,
   time_to_event_col,
   vacc_status_col,
@@ -16,7 +16,7 @@ km_model(
 )
 }
 \arguments{
-\item{data}{\code{data.frame} with cohort information (see example).}
+\item{data_set}{\code{data.frame} with cohort information (see example).}
 
 \item{outcome_status_col}{Name of the column containing status of the event
 (must be a binary column). Default is \code{outcome_status}.}

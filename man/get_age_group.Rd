@@ -4,10 +4,10 @@
 \alias{get_age_group}
 \title{Construct age-group variable from age column}
 \usage{
-get_age_group(data, col_age, max_val, min_val = 0, step)
+get_age_group(data_set, col_age, max_val, min_val = 0, step)
 }
 \arguments{
-\item{data}{\code{data.frame} with at least a column containing the age
+\item{data_set}{\code{data.frame} with at least a column containing the age
 information}
 
 \item{col_age}{Name of the column containing the age
@@ -21,7 +21,7 @@ information}
 }
 \value{
 Column of type \code{factor} with the same length as the number of rows
-in \code{data}, with levels corresponding to age bins between \code{min_val} and
+in \code{data_set}, with levels corresponding to age bins between \code{min_val} and
 \code{max_val}. Ages above \code{max_val} are represented as \verb{>max_val}.
 }
 \description{
@@ -42,7 +42,7 @@ data(cohortdata)
 
 # assign age groups as a column of the `data.frame`
 cohortdata$age_group <- get_age_group(
-  data = cohortdata,
+  data_set = cohortdata,
   col_age = "age",
   max_val = 80,
   step = 10

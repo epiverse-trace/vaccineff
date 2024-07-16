@@ -15,7 +15,7 @@ plot_coverage(
 )
 }
 \arguments{
-\item{data}{Dataset with cohort information (see example).}
+\item{data}{\code{data.frame} with cohort information (see example).}
 
 \item{vacc_date_col}{Name of the column(s) that contain the vaccine date to
 calculate the coverage.}
@@ -31,7 +31,7 @@ based on the min() and max() of the \code{vacc_date_col}. It is also possible to
 pass a custom date interval to truncate or expand the date interval (see
 example).}
 
-\item{cumulative}{If TRUE, returns the cumulative number of doses over the
+\item{cumulative}{If \code{TRUE}, returns the cumulative number of doses over the
 time window.}
 }
 \value{

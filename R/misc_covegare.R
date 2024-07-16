@@ -6,7 +6,7 @@
 #' records for some dates, the function assigns 0 instead of NA to calculate
 #' the cumulative coverage.
 #'
-#' @param data Dataset with cohort information (see example).
+#' @param data `data.frame` with cohort information (see example).
 #' @param vacc_date_col Name of the column(s) that contain the vaccine date to
 #' calculate the coverage.
 #' @param unit Aggregation unit, must be either "year", "month", or "day".
@@ -105,7 +105,7 @@ coh_coverage <- function(data,
 #' @inheritParams coh_coverage
 #' @param doses_count_color Color assigned to the doses count.
 #' @param coverage_color Color assigned to the coverage calculation.
-#' @param cumulative If TRUE, returns the cumulative number of doses over the
+#' @param cumulative If `TRUE`, returns the cumulative number of doses over the
 #' time window.
 #' @return 2-axis ggplot2 plot of vaccine coverage and daily doses.
 #' @examples

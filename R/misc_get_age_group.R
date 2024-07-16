@@ -11,22 +11,22 @@
 #' step. In that case the last interval is truncated to the upper value
 #' closest to max_val for which (closest_upper - min_val) is multiple of step.
 #'
-#' @param data dataset with at least a column containing the age
+#' @param data `data.frame` with at least a column containing the age
 #' information
-#' @param col_age name of the column containing the age
+#' @param col_age Name of the column containing the age
 #' information
-#' @param max_val maximum value of age interval to split
-#' @param step step used to split the age interval
-#' @param min_val minimum value of age interval to split
-#' @return A `factor` object of the same length as the number of rows in `data`,
-#' with levels corresponding to age bins between `min_val` and `max_val`.
-#' Ages above `max_val` are represented as `>max_val`.
+#' @param max_val Maximum value of age interval to split
+#' @param step Step used to split the age interval
+#' @param min_val Minimum value of age interval to split
+#' @return Column of type `factor` with the same length as the number of rows
+#' in `data`, with levels corresponding to age bins between `min_val` and
+#' `max_val`. Ages above `max_val` are represented as `>max_val`.
 #' @export
 #' @examples
 #' # load data provided with the package
 #' data(cohortdata)
 #'
-#' # assign age groups as a column of the data frame
+#' # assign age groups as a column of the `data.frame`
 #' cohortdata$age_group <- get_age_group(
 #'   data = cohortdata,
 #'   col_age = "age",
@@ -34,7 +34,7 @@
 #'   step = 10
 #' )
 #'
-#' # view the data frame with new column
+#' # view the `data.frame` with new column
 #' head(cohortdata)
 get_age_group <- function(data, col_age, max_val, min_val = 0, step) {
   # input checking

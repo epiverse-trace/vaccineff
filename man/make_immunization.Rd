@@ -18,7 +18,7 @@ make_immunization(
 )
 }
 \arguments{
-\item{data}{Dataset with cohort information (see example).}
+\item{data}{\code{data.frame} with cohort information (see example).}
 
 \item{outcome_date_col}{Name of the column that contains the outcome dates.}
 
@@ -28,12 +28,12 @@ date. NULL by default.}
 \item{vacc_date_col}{Name of the column(s) that contain the vaccine dates.}
 
 \item{vacc_name_col}{Name of the column(s) that contain custom vaccine
-names.}
+names for the vaccines (e.g. brand name, type of vaccine)}
 
-\item{vaccinated_status}{string assigned to the vaccinated population.
+\item{vaccinated_status}{Status assigned to the vaccinated population.
 Default is \code{v}.}
 
-\item{unvaccinated_status}{string assigned to the unvaccinated population.
+\item{unvaccinated_status}{Status assigned to the unvaccinated population.
 Default is \code{u}.}
 
 \item{immunization_delay}{Characteristic time in days before the patient
@@ -41,14 +41,15 @@ is considered immune.}
 
 \item{end_cohort}{End date of the study.}
 
-\item{take_first}{FALSE: takes the latest vaccine date. TRUE: takes the
+\item{take_first}{\code{FALSE}: takes the latest vaccine date. \code{TRUE}: takes the
 earliest vaccine date.}
 }
 \value{
-Immunization date.
+Original \code{data.frame} passed in \code{data} and additional columns
+containing information on the immunization.
 }
 \description{
-This function returns a data frame with the relevant
+This function returns a \code{data.frame} with the relevant
 information on immunization for the study. An individual is considered
 immunized after the characteristic time for the immune response of the
 vaccine passes. This time is provided to the function by the parameter
@@ -79,7 +80,7 @@ data(cohort_data)
 start_cohort <- as.Date("2044-01-01")
 end_cohort <- as.Date("2044-12-31")
 
-# Create data frame with information of immunization
+# Create `data.frame` with information of immunization
 cohortdata <- make_immunization(
   data = cohortdata,
   outcome_date_col = "death_date",

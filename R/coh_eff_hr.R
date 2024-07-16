@@ -1,7 +1,7 @@
 #' @title Function to Estimate the Vaccine Effectiveness Using Hazard Ratio
 #'
 #' @description The function relies on the implementation of the Cox model for
-#' proportional hazards from the survival package. The proportional hazards
+#' proportional hazards from the package `{survival}` The proportional hazards
 #' hypothesis is tested using the Schoenfeld test, and the resultant p-value is
 #' provided in the results. Log-log plots are also calculated using the
 #' Kaplan-Meier survival estimator to provide a visual test for the proportional
@@ -10,8 +10,9 @@
 #' plot.
 #'
 #' @inheritParams effectiveness
-#' @return method called, VE (CI95%), p-value from Schoenfeld test, and
-#' log-log plot for proportional hazards
+#' @return Method call from `{survival}`, VE (CI95%),
+#' p-value of Schoenfeld test,
+#' and log-log plot for proportional hazards
 #' @keywords internal
 
 

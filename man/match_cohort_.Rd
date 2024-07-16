@@ -7,9 +7,9 @@
 match_cohort_(data, vacc_status_col, exact = NULL, nearest = NULL)
 }
 \arguments{
-\item{data}{dataset with cohort information (see example).}
+\item{data}{\code{data.frame} with cohort information (see example).}
 
-\item{vacc_status_col}{name of the column containing the vaccination.
+\item{vacc_status_col}{Name of the column containing the vaccination.
 Default is \code{vaccine_status}.}
 
 \item{exact}{Name(s) of column(s) for \code{exact} matching. Default is \code{NULL}.}
@@ -19,12 +19,12 @@ and caliper(s) for each variable (e.g., \code{nearest = c("characteristic1" = n1
 \code{NULL}.}
 }
 \value{
-A data frame with the matched population.
+\code{data.frame} with the matched population.
 }
 \description{
 This function constructs pairs of vaccinated and unvaccinated
 individuals with similar characteristics. It relies on the matching
-algorithm implemented in the \code{{MatchIt}} package.
+algorithm implemented in the package \code{{MatchIt}}.
 By default, the function uses \code{method = "nearest"}, \code{ratio = 1}, and
 \code{distance = "mahalanobis"} to perform the matching.
 }

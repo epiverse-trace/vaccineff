@@ -97,7 +97,7 @@ Data disaggregated at the individual level to correlate vaccination and disease 
 
 ### VE for Cohort design
 
-The current release of the package bases the estimation of $VE$ in the cohort design on the assumption of proportional hazards between vaccinated and unvaccinated populations. The hazard ratio is estimated using the Cox proportional hazards model implemented in the R package `survival`.
+The current release of the package bases the estimation of $VE$ in the cohort design on the assumption of proportional hazards between vaccinated and unvaccinated populations. The hazard ratio is estimated using the Cox proportional hazards model implemented in the R package `{survival}`.
 
 The integrated dataset `cohortdata` serves as a minimal example of the package's input. The data is accessed using `data("cohortdata")`.
 
@@ -117,7 +117,7 @@ data("cohortdata")
 start_cohort <- as.Date("2044-01-01")
 end_cohort <- as.Date("2044-12-31")
 
-# Create data frame with information of immunization
+# Create `data.frame` with information of immunization
 cohortdata <- make_immunization(
   data = cohortdata,
   outcome_date_col = "death_date",

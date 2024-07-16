@@ -50,7 +50,7 @@ test_that("`get_age_groups`: basic expectations", {
 
 # tests to check for abuse cases
 test_that("`get_age_groups`: Input checking", {
-  # data frame is not passed
+  # `data.frame` is not passed
   expect_error(
     get_age_group(
       data = "data",

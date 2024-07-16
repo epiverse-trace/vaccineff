@@ -2,7 +2,7 @@
 #'
 #' @description This function builds pairs of vaccinated and unvaccinated
 #' individuals with similar characteristics. The function relies on the matching
-#' algorithm implemented in the `{MatchIt}` package, setting, by default,
+#' algorithm implemented in the package `{MatchIt}`, setting, by default,
 #' `method = "nearest"`, `ratio = 1`, and `distance = "mahalanobis"`.
 #' Exact and near characteristics are accepted, passed in the parameters `exact`
 #' and `nearest`, respectively. The parameter `nearest` must be provided
@@ -18,18 +18,18 @@
 #' corresponding to the vaccination date of the vaccinated individual, the
 #' individual time-to-event (`time_to_event`) and the outcome status
 #' (`outcome_status`), both taking into account the right-censoring dates.
-#' pairs are censored if the vaccinated or unvaccinated partner was previously
+#' Pairs are censored if the vaccinated or unvaccinated partner was previously
 #' censored (i.e., if `censoring_date_col` is informed) and the censor occurs
 #' before their outcomes. Rolling calendar matching method will be included in
 #' future releases.
 #'
-#' @param data dataset with cohort information (see example).
+#' @param data `data.frame` with cohort information (see example).
 #' @param outcome_date_col Name of the column that contains the outcome dates.
 #' @param censoring_date_col Name of the column that contains the censoring
-#' date. NULL by default.
-#' @param start_cohort start date of the study.
-#' @param end_cohort end date of the study.
-#' @param method method to match the cohort. Default is `static`.
+#' date. `NULL` by default.
+#' @param start_cohort Start date of the study.
+#' @param end_cohort End date of the study.
+#' @param method Method to match the cohort. Default is `static`.
 #' @param exact Name(s) of column(s) for `exact` matching. Default is `NULL`.
 #' @param nearest Named vector with name(s) of column(s) for `nearest` matching
 #' and caliper(s) for each variable (e.g., `nearest = c("characteristic1" = n1,
@@ -38,16 +38,17 @@
 #' @param immunization_date_col Name of the column that contains the
 #' immunization date to set the beginning of the follow-up period
 #' (`t0_follow_up`). Default is `immunization_date`.
-#' @param vacc_status_col name of the column containing the vaccination.
+#' @param vacc_status_col Name of the column containing the vaccination.
 #' Default is `vaccine_status`.
-#' @param vaccinated_status string assigned to the vaccinated population.
+#' @param vaccinated_status Status assigned to the vaccinated population.
 #' Default is `v`.
-#' @param unvaccinated_status string assigned to the unvaccinated population.
+#' @param unvaccinated_status Status assigned to the unvaccinated population.
 #' Default is `u`.
-#' @return `match` object. List with results from static match: `match`: data
-#' frame with adjusted cohort, `summary`: matching summary, `balance_all`:
-#' balance of the cohort before matching, `balance_matched`: balance of the
-#' cohort after matching.
+#' @return object of the class `match`. List with results from static match:
+#' `match`: `data.frame` with adjusted cohort,
+#' `summary`: matching summary,
+#' `balance_all`: balance of the cohort before matching,
+#' `balance_matched`: balance of the cohort after matching.
 #'
 #' Four columns are added to the structure provided in `data`: `subclass`: ID of
 #' matched pair, `t0_follow_up`: beginning of follow-up period for pair,
@@ -58,7 +59,7 @@
 #' start_cohort <- as.Date("2044-01-01")
 #' end_cohort <- as.Date("2044-12-31")
 #'
-#' # Create data frame with information on immunization
+#' # Create `data.frame` with information on immunization
 #' cohortdata <- make_immunization(
 #'   data = cohortdata,
 #'   outcome_date_col = "death_date",
@@ -202,9 +203,9 @@ match_cohort <- function(data,
 #'
 #' @description Summarizes the results of `match_cohort`.
 #'
-#' @param object An object of class `match`.
+#' @param object Object of the class `match`.
 #' @param ... Additional arguments passed to other functions.
-#' @return A summary of the results from matching.
+#' @return Summary of the results from matching.
 #' @export
 
 summary.match <- function(object, ...) {
@@ -225,9 +226,9 @@ summary.match <- function(object, ...) {
 #' @description This function extracts the matched datasets generated
 #' by `match_cohort`.
 #'
-#' @param object An object of class `match`.
+#' @param object Object of the class `match`.
 #' @param ... Additional arguments passed to other functions.
-#' @return The dataset extracted from `match_cohort`.
+#' @return `data.frame` extracted from `match_cohort`.
 #' @export
 
 dataset.match <- function(object, ...) {

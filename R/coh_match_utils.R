@@ -2,11 +2,11 @@
 #'
 #' @description This function constructs pairs of vaccinated and unvaccinated
 #' individuals with similar characteristics. It relies on the matching
-#' algorithm implemented in the `{MatchIt}` package.
+#' algorithm implemented in the package `{MatchIt}`.
 #' By default, the function uses `method = "nearest"`, `ratio = 1`, and
 #' `distance = "mahalanobis"` to perform the matching.
 #' @inheritParams match_cohort
-#' @return A data frame with the matched population.
+#' @return `data.frame` with the matched population.
 #' @keywords internal
 match_cohort_ <- function(data,
                           vacc_status_col,
@@ -86,11 +86,11 @@ match_pair_info <- function(data,
 #' and the records removed in case of adjusting the exposure time.
 #'
 #' @inheritParams match_cohort
-#' @param all A data frame with the entire cohort.
-#' @param matched A data frame with the matched cohort.
-#' @param adjusted A data frame with the adjusted cohort to
+#' @param all `data.frame` with the entire cohort.
+#' @param matched `data.frame` with the matched cohort.
+#' @param adjusted `data.frame` with the adjusted cohort to
 #' calculate removed cases. Default is NULL, which returns 0.
-#' @return A summary data frame with counts by vaccine status for:
+#' @return Summary `data.frame` with counts by vaccine status for:
 #' all, matched, unmatched, and removed.
 #' @keywords internal
 match_summary <- function(all,
@@ -116,8 +116,8 @@ match_summary <- function(all,
 #'
 #' @description This function creates a summary after matching.
 #' @inheritParams match_cohort
-#' @param data A data frame to assess matching balance.
-#' @return A summary data frame with the balance of each variable by
+#' @param data `data.frame` to assess matching balance.
+#' @return Summary `data.frame` with the balance of each variable by
 #' vaccine status. Numeric variables are reported with means, and
 #' categorical/factor variables are reported with proportions.
 #' In both cases, the Standardized Mean Difference (SMD) is calculated.

@@ -2,21 +2,21 @@
 % Please edit documentation in R/coh_eff_utils.R
 \name{extract_surv_model}
 \alias{extract_surv_model}
-\title{Internal function to extract summary output from survival models.}
+\title{Internal function to extract summary output from \code{{survival}} models.}
 \usage{
 extract_surv_model(model, start_cohort, end_cohort)
 }
 \arguments{
-\item{model}{survival object with model}
+\item{model}{\code{{survival}} object containing the model}
 
-\item{start_cohort}{start date of the study.}
+\item{start_cohort}{Start date of the study.}
 
-\item{end_cohort}{end date of the study.}
+\item{end_cohort}{End date of the study.}
 }
 \value{
-Data frame with survival data
+\code{data.frame} with survival data
 }
 \description{
-Internal function to extract summary output from survival models.
+Internal function to extract summary output from \code{{survival}} models.
 }
 \keyword{internal}

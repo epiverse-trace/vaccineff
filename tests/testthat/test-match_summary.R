@@ -11,7 +11,7 @@ sample_indices <- sample(nrow(cohortdata), sample_size)
 sample_cohort <- cohortdata[sample_indices, ]
 rownames(sample_cohort) <- NULL
 
-# Create data frame with information on immunization
+# Create `data.frame` with information on immunization
 sample_cohort <- make_immunization(
   data = sample_cohort,
   outcome_date_col = "death_date",

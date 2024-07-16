@@ -7,12 +7,12 @@
 \method{dataset}{match}(object, ...)
 }
 \arguments{
-\item{object}{An object of class \code{match}.}
+\item{object}{Object of the class \code{match}.}
 
 \item{...}{Additional arguments passed to other functions.}
 }
 \value{
-The dataset extracted from \code{match_cohort}.
+\code{data.frame} extracted from \code{match_cohort}.
 }
 \description{
 This function extracts the matched datasets generated

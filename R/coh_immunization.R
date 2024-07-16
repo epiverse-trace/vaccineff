@@ -1,6 +1,6 @@
 #' @title Construct Information of Immunization
 #'
-#' @description This function returns a data frame with the relevant
+#' @description This function returns a `data.frame` with the relevant
 #' information on immunization for the study. An individual is considered
 #' immunized after the characteristic time for the immune response of the
 #' vaccine passes. This time is provided to the function by the parameter
@@ -24,7 +24,7 @@
 #' vaccine selected as immunizing. This information must be passed in the
 #' parameter `vacc_name_col`, as a vector in the same order as `vacc_date_col`.
 #'
-#' @param data Dataset with cohort information (see example).
+#' @param data `data.frame` with cohort information (see example).
 #' @param outcome_date_col Name of the column that contains the outcome dates.
 #' @param censoring_date_col Name of the column that contains the censoring
 #' date. NULL by default.
@@ -32,15 +32,16 @@
 #' is considered immune.
 #' @param vacc_date_col Name of the column(s) that contain the vaccine dates.
 #' @param vacc_name_col Name of the column(s) that contain custom vaccine
-#' names.
-#' @param vaccinated_status string assigned to the vaccinated population.
+#' names for the vaccines (e.g. brand name, type of vaccine)
+#' @param vaccinated_status Status assigned to the vaccinated population.
 #' Default is `v`.
-#' @param unvaccinated_status string assigned to the unvaccinated population.
+#' @param unvaccinated_status Status assigned to the unvaccinated population.
 #' Default is `u`.
 #' @param end_cohort End date of the study.
-#' @param take_first FALSE: takes the latest vaccine date. TRUE: takes the
+#' @param take_first `FALSE`: takes the latest vaccine date. `TRUE`: takes the
 #' earliest vaccine date.
-#' @return Immunization date.
+#' @return Original `data.frame` passed in `data` and additional columns
+#' containing information on the immunization.
 #' @examples
 #' # Load data
 #' data(cohort_data)
@@ -48,7 +49,7 @@
 #' start_cohort <- as.Date("2044-01-01")
 #' end_cohort <- as.Date("2044-12-31")
 #'
-#' # Create data frame with information of immunization
+#' # Create `data.frame` with information of immunization
 #' cohortdata <- make_immunization(
 #'   data = cohortdata,
 #'   outcome_date_col = "death_date",
@@ -192,7 +193,7 @@ make_immunization <- function(data,
     status = c(vaccinated_status, unvaccinated_status)
   )
 
-  # return data frame with information on immunization
+  # return `data.frame` with information on immunization
   return(data)
 
 }
@@ -210,7 +211,7 @@ make_immunization <- function(data,
 #' select the first vaccine date by setting `take_first = TRUE`.
 #'
 #' @inheritParams make_immunization
-#' @return immunization date
+#' @return Immunization date
 #' @keywords internal
 get_immunization_date <- function(data,
                                   outcome_date_col,
@@ -298,8 +299,7 @@ get_immunization_date <- function(data,
 #' `get_immunization_date`.
 #'
 #' @inheritParams make_immunization
-#' @return dose: a column with the names of the columns that are associated
-#' with the doses of each register.
+#' @return Name of the column taken as immunizing vaccine for each register.
 #' @keywords internal
 get_immunization_dose <- function(data,
                                   immunization_date_col,
@@ -333,9 +333,7 @@ get_immunization_dose <- function(data,
 #' set in agreement with `get_immunization_date`.
 #'
 #' @inheritParams make_immunization
-#' @return dose: A column with the names of the columns associated with the
-#' doses of each register.
-#' @return vaccine name
+#' @return Custom vaccine names of the immunizing vaccine.
 #' @keywords internal
 
 get_immunization_vaccine <- function(data,

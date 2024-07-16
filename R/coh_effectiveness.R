@@ -18,23 +18,24 @@
 #' a suitable plot for the method.
 #' The object returned is compatible with the methods `summary` and `plot`.
 #'
-#' @param data dataset with cohort information (see example).
-#' @param start_cohort start date of the study.
-#' @param end_cohort end date of the study.
-#' @param method method to estimate VE. Default is `HR`.
-#' @param outcome_status_col name of the column containing status of the event
+#' @param data `data.frame` with cohort information (see example).
+#' @param start_cohort Start date of the study.
+#' @param end_cohort End date of the study.
+#' @param method Method to estimate VE. Default is `HR`.
+#' @param outcome_status_col Name of the column containing status of the event
 #' (must be a binary column). Default is `outcome_status`.
-#' @param time_to_event_col name of the column containing the time-to-event.
+#' @param time_to_event_col Name of the column containing the time-to-event.
 #' Default is `time_to_event`.
-#' @param vacc_status_col name of the column containing the vaccination.
+#' @param vacc_status_col Name of the column containing the vaccination.
 #' Default is `vaccine_status`.
-#' @param vaccinated_status string assigned to the vaccinated population.
+#' @param vaccinated_status Status assigned to the vaccinated population.
 #' Default is `v`.
-#' @param unvaccinated_status string assigned to the unvaccinated population.
+#' @param unvaccinated_status Status assigned to the unvaccinated population.
 #' Default is `u`.
-#' @return `effectiveness` object: list with results from estimation of VE.
-#' `call`: call of survival method,
-#' `ve`: data frame with VE(CI95%),
+#' @return Object of the class `effectiveness`: list with results from
+#' estimation of VE.
+#' `call`: call of `{survival}` method,
+#' `ve`: `data.frame` with VE(CI95%),
 #' `test`: result from test of performance,
 #' `plot`: plot of method,
 #' `method`: name of the method used for the estimation.
@@ -43,7 +44,7 @@
 #' start_cohort <- as.Date("2044-01-01")
 #' end_cohort <- as.Date("2044-12-31")
 #'
-#' # Create data frame with information of immunization
+#' # Create `data.frame` with information of immunization
 #' cohortdata <- make_immunization(
 #'   data = cohortdata,
 #'   outcome_date_col = "death_date",
@@ -140,9 +141,9 @@ effectiveness <- function(data,
 #'
 #' @description Summarizes the results of `effectiveness`.
 #'
-#' @param object An object of class `effectiveness`.
+#' @param object Object of the class `effectiveness`.
 #' @param ... Additional arguments passed to other functions.
-#' @return A summary of the results from effectiveness.
+#' @return Summary of the results from effectiveness.
 #' @export
 
 summary.effectiveness <- function(object, ...) {
@@ -166,7 +167,7 @@ summary.effectiveness <- function(object, ...) {
 #' @description This function extracts the plot generated
 #' by `effectiveness`.
 #'
-#' @param x An object of class `effectiveness`.
+#' @param x Object of the class `effectiveness`.
 #' @param ... Additional arguments passed to other functions.
 #' @return Plot extracted from `effectiveness`.
 #' @export

@@ -7,12 +7,12 @@
 \method{summary}{effectiveness}(object, ...)
 }
 \arguments{
-\item{object}{An object of class \code{effectiveness}.}
+\item{object}{Object of the class \code{effectiveness}.}
 
 \item{...}{Additional arguments passed to other functions.}
 }
 \value{
-A summary of the results from effectiveness.
+Summary of the results from effectiveness.
 }
 \description{
 Summarizes the results of \code{effectiveness}.

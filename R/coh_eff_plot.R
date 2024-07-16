@@ -41,7 +41,7 @@ plot_loglog <- function(km,
 #' @title Plot the Survival Probability Based on the Kaplan-Meier Model
 #'
 #' @description This function relies on the implementation of the Kaplan-Meier
-#' model from the survival package. It returns a plot of the Survival
+#' model from the package `{survival}`. It returns a plot of the Survival
 #' Probability or the Cumulative Hazard (if cumulative = TRUE).
 #' The return is a ggplot2 element of the curves with 95% C.I. It is possible
 #' to manipulate the colors, labels, legend, and most of the graphic elements.
@@ -50,15 +50,15 @@ plot_loglog <- function(km,
 #' @inheritParams effectiveness
 #' @param vaccinated_color Color assigned to the vaccinated population.
 #' @param unvaccinated_color Color assigned to the unvaccinated population.
-#' @param percentage If TRUE, returns probability in percentage.
-#' @param cumulative If TRUE, returns cumulative hazards.
-#' @return ggplot2 plot of survival/cumulative hazard.
+#' @param percentage If `TRUE`, returns probability in percentage.
+#' @param cumulative If `TRUE`, returns cumulative hazards.
+#' @return `{ggplot2}` object with plot of survival or cumulative incidence.
 #' @examples
 #' # Define start and end dates of the study
 #' start_cohort <- as.Date("2044-01-01")
 #' end_cohort <- as.Date("2044-12-31")
 #'
-#' # Create data frame with information on immunization
+#' # Create `data.frame` with information on immunization
 #' cohortdata <- make_immunization(
 #'   data = cohortdata,
 #'   outcome_date_col = "death_date",

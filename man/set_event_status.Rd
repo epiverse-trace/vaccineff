@@ -7,7 +7,7 @@
 set_event_status(data, outcome_date_col, censoring_date_col = NULL)
 }
 \arguments{
-\item{data}{Dataset with cohort information (see example).}
+\item{data}{\code{data.frame} with cohort information (see example).}
 
 \item{outcome_date_col}{Name of the column that contains the outcome dates.}
 
@@ -15,7 +15,7 @@ set_event_status(data, outcome_date_col, censoring_date_col = NULL)
 date. NULL by default.}
 }
 \value{
-status
+Status
 }
 \description{
 This function generates a binary status (1,0) associated

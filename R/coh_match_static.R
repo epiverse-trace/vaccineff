@@ -5,8 +5,8 @@
 #' occurs before the vaccination date of their partner.
 #'
 #' @inheritParams match_cohort
-#' @param matched_cohort Dataset with matched cohort from `match_cohort_`.
-#' @return Data frame with matched population and corrected exposure times.
+#' @param matched_cohort `data.frame` with matched cohort from `match_cohort_`.
+#' @return `data.frame` with matched population and corrected exposure times.
 #' @keywords internal
 
 adjust_exposition <- function(matched_cohort,

@@ -12,7 +12,7 @@ get_immunization_dose(
 )
 }
 \arguments{
-\item{data}{Dataset with cohort information (see example).}
+\item{data}{\code{data.frame} with cohort information (see example).}
 
 \item{vacc_date_col}{Name of the column(s) that contain the vaccine dates.}
 
@@ -20,8 +20,7 @@ get_immunization_dose(
 is considered immune.}
 }
 \value{
-dose: a column with the names of the columns that are associated
-with the doses of each register.
+Name of the column taken as immunizing vaccine for each register.
 }
 \description{
 This function is used in cases where several columns with

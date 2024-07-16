@@ -13,21 +13,18 @@ get_immunization_vaccine(
 )
 }
 \arguments{
-\item{data}{Dataset with cohort information (see example).}
+\item{data}{\code{data.frame} with cohort information (see example).}
 
 \item{vacc_date_col}{Name of the column(s) that contain the vaccine dates.}
 
 \item{vacc_name_col}{Name of the column(s) that contain custom vaccine
-names.}
+names for the vaccines (e.g. brand name, type of vaccine)}
 
 \item{immunization_delay}{Characteristic time in days before the patient
 is considered immune.}
 }
 \value{
-dose: A column with the names of the columns associated with the
-doses of each register.
-
-vaccine name
+Custom vaccine names of the immunizing vaccine.
 }
 \description{
 This function is used in cases where several columns with

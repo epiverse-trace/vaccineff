@@ -20,18 +20,18 @@ match_cohort(
 )
 }
 \arguments{
-\item{data}{dataset with cohort information (see example).}
+\item{data}{\code{data.frame} with cohort information (see example).}
 
 \item{outcome_date_col}{Name of the column that contains the outcome dates.}
 
 \item{censoring_date_col}{Name of the column that contains the censoring
-date. NULL by default.}
+date. \code{NULL} by default.}
 
-\item{start_cohort}{start date of the study.}
+\item{start_cohort}{Start date of the study.}
 
-\item{end_cohort}{end date of the study.}
+\item{end_cohort}{End date of the study.}
 
-\item{method}{method to match the cohort. Default is \code{static}.}
+\item{method}{Method to match the cohort. Default is \code{static}.}
 
 \item{nearest}{Named vector with name(s) of column(s) for \code{nearest} matching
 and caliper(s) for each variable (e.g., \code{nearest = c("characteristic1" = n1, "characteristic2" = n2)}, where \code{n1} and \code{n2} are the calipers). Default is
@@ -43,20 +43,21 @@ and caliper(s) for each variable (e.g., \code{nearest = c("characteristic1" = n1
 immunization date to set the beginning of the follow-up period
 (\code{t0_follow_up}). Default is \code{immunization_date}.}
 
-\item{vacc_status_col}{name of the column containing the vaccination.
+\item{vacc_status_col}{Name of the column containing the vaccination.
 Default is \code{vaccine_status}.}
 
-\item{vaccinated_status}{string assigned to the vaccinated population.
+\item{vaccinated_status}{Status assigned to the vaccinated population.
 Default is \code{v}.}
 
-\item{unvaccinated_status}{string assigned to the unvaccinated population.
+\item{unvaccinated_status}{Status assigned to the unvaccinated population.
 Default is \code{u}.}
 }
 \value{
-\code{match} object. List with results from static match: \code{match}: data
-frame with adjusted cohort, \code{summary}: matching summary, \code{balance_all}:
-balance of the cohort before matching, \code{balance_matched}: balance of the
-cohort after matching.
+object of the class \code{match}. List with results from static match:
+\code{match}: \code{data.frame} with adjusted cohort,
+\code{summary}: matching summary,
+\code{balance_all}: balance of the cohort before matching,
+\code{balance_matched}: balance of the cohort after matching.
 
 Four columns are added to the structure provided in \code{data}: \code{subclass}: ID of
 matched pair, \code{t0_follow_up}: beginning of follow-up period for pair,
@@ -66,7 +67,7 @@ matched pair, \code{t0_follow_up}: beginning of follow-up period for pair,
 \description{
 This function builds pairs of vaccinated and unvaccinated
 individuals with similar characteristics. The function relies on the matching
-algorithm implemented in the \code{{MatchIt}} package, setting, by default,
+algorithm implemented in the package \code{{MatchIt}}, setting, by default,
 \code{method = "nearest"}, \code{ratio = 1}, and \code{distance = "mahalanobis"}.
 Exact and near characteristics are accepted, passed in the parameters \code{exact}
 and \code{nearest}, respectively. The parameter \code{nearest} must be provided
@@ -82,7 +83,7 @@ information of the beginning of follow-up period of pairs (\code{t0_follow_up}),
 corresponding to the vaccination date of the vaccinated individual, the
 individual time-to-event (\code{time_to_event}) and the outcome status
 (\code{outcome_status}), both taking into account the right-censoring dates.
-pairs are censored if the vaccinated or unvaccinated partner was previously
+Pairs are censored if the vaccinated or unvaccinated partner was previously
 censored (i.e., if \code{censoring_date_col} is informed) and the censor occurs
 before their outcomes. Rolling calendar matching method will be included in
 future releases.
@@ -92,7 +93,7 @@ future releases.
 start_cohort <- as.Date("2044-01-01")
 end_cohort <- as.Date("2044-12-31")
 
-# Create data frame with information on immunization
+# Create `data.frame` with information on immunization
 cohortdata <- make_immunization(
   data = cohortdata,
   outcome_date_col = "death_date",

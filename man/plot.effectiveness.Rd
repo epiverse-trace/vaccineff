@@ -7,7 +7,7 @@
 \method{plot}{effectiveness}(x, ...)
 }
 \arguments{
-\item{x}{An object of class \code{effectiveness}.}
+\item{x}{Object of the class \code{effectiveness}.}
 
 \item{...}{Additional arguments passed to other functions.}
 }

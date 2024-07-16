@@ -14,19 +14,19 @@ adjust_exposition(
 )
 }
 \arguments{
-\item{matched_cohort}{Dataset with matched cohort from \code{match_cohort_}.}
+\item{matched_cohort}{\code{data.frame} with matched cohort from \code{match_cohort_}.}
 
 \item{outcome_date_col}{Name of the column that contains the outcome dates.}
 
 \item{censoring_date_col}{Name of the column that contains the censoring
-date. NULL by default.}
+date. \code{NULL} by default.}
 
-\item{start_cohort}{start date of the study.}
+\item{start_cohort}{Start date of the study.}
 
-\item{end_cohort}{end date of the study.}
+\item{end_cohort}{End date of the study.}
 }
 \value{
-Data frame with matched population and corrected exposure times.
+\code{data.frame} with matched population and corrected exposure times.
 }
 \description{
 This function removes the pairs whose exposition times

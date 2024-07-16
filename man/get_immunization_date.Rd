@@ -15,7 +15,7 @@ get_immunization_date(
 )
 }
 \arguments{
-\item{data}{Dataset with cohort information (see example).}
+\item{data}{\code{data.frame} with cohort information (see example).}
 
 \item{outcome_date_col}{Name of the column that contains the outcome dates.}
 
@@ -29,11 +29,11 @@ is considered immune.}
 
 \item{end_cohort}{End date of the study.}
 
-\item{take_first}{FALSE: takes the latest vaccine date. TRUE: takes the
+\item{take_first}{\code{FALSE}: takes the latest vaccine date. \code{TRUE}: takes the
 earliest vaccine date.}
 }
 \value{
-immunization date
+Immunization date
 }
 \description{
 This function constructs the immunization date per individual

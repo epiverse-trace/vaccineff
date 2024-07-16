@@ -16,34 +16,35 @@ coh_eff_hr(
 )
 }
 \arguments{
-\item{data}{dataset with cohort information (see example).}
+\item{data}{\code{data.frame} with cohort information (see example).}
 
-\item{outcome_status_col}{name of the column containing status of the event
+\item{outcome_status_col}{Name of the column containing status of the event
 (must be a binary column). Default is \code{outcome_status}.}
 
-\item{time_to_event_col}{name of the column containing the time-to-event.
+\item{time_to_event_col}{Name of the column containing the time-to-event.
 Default is \code{time_to_event}.}
 
-\item{vacc_status_col}{name of the column containing the vaccination.
+\item{vacc_status_col}{Name of the column containing the vaccination.
 Default is \code{vaccine_status}.}
 
-\item{vaccinated_status}{string assigned to the vaccinated population.
+\item{vaccinated_status}{Status assigned to the vaccinated population.
 Default is \code{v}.}
 
-\item{unvaccinated_status}{string assigned to the unvaccinated population.
+\item{unvaccinated_status}{Status assigned to the unvaccinated population.
 Default is \code{u}.}
 
-\item{start_cohort}{start date of the study.}
+\item{start_cohort}{Start date of the study.}
 
-\item{end_cohort}{end date of the study.}
+\item{end_cohort}{End date of the study.}
 }
 \value{
-method called, VE (CI95\%), p-value from Schoenfeld test, and
-log-log plot for proportional hazards
+Method call from \code{{survival}}, VE (CI95\%),
+p-value of Schoenfeld test,
+and log-log plot for proportional hazards
 }
 \description{
 The function relies on the implementation of the Cox model for
-proportional hazards from the survival package. The proportional hazards
+proportional hazards from the package \code{{survival}} The proportional hazards
 hypothesis is tested using the Schoenfeld test, and the resultant p-value is
 provided in the results. Log-log plots are also calculated using the
 Kaplan-Meier survival estimator to provide a visual test for the proportional

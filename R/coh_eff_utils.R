@@ -1,8 +1,8 @@
-#' Internal function to extract summary output from survival models.
+#' @title Internal function to extract summary output from `{survival}` models.
 #'
 #' @inheritParams effectiveness
-#' @param model survival object with model
-#' @return Data frame with survival data
+#' @param model `{survival}` object containing the model
+#' @return `data.frame` with survival data
 #' @keywords internal
 extract_surv_model <- function(model, start_cohort, end_cohort) {
   days <- end_cohort - start_cohort
@@ -14,10 +14,10 @@ extract_surv_model <- function(model, start_cohort, end_cohort) {
   return(tbl)
 }
 
-#' Internal function to calculate Kaplan-Meier model and related metrics.
+#' @title Internal function to calculate Kaplan-Meier model and related metrics.
 #'
 #' @inheritParams effectiveness
-#' @return Data frame with data from KM model
+#' @return `data.frame` with data from KM model:
 #' "time", "date", "strata",
 #' "n.risk", "n.event", "n.censor",
 #' "surv", "lower", "upper",
@@ -38,7 +38,7 @@ km_model <- function(data,
       data[[outcome_status_col]]
     ) ~ data[[vacc_status_col]]
   )
-  # Extract data from survival element
+  # Extract data from `{survival}` object
   km <- extract_surv_model(model, start_cohort, end_cohort)
 
   # Construct cumulative incidence = 1 - S
@@ -66,14 +66,14 @@ km_model <- function(data,
   return(km)
 }
 
-#' Internal function to calculate Cox-PH model and related metrics.
+#' @title Internal function to calculate Cox-PH model and related metrics.
 #'
 #' @inheritParams effectiveness
 #' @return List with data from Cox model:
 #' hr - hazard ratio (CI95%)
 #' p_value
-#' survival object with model
-#' survival object with Schoenfeld test
+#' `{survival}` object with model
+#' `{survival}` object with Schoenfeld test
 #' @keywords internal
 cox_model <- function(data,
                       outcome_status_col,

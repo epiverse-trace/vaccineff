@@ -15,7 +15,7 @@ get_time_to_event(
 )
 }
 \arguments{
-\item{data}{Dataset with cohort information (see example).}
+\item{data}{\code{data.frame} with cohort information (see example).}
 
 \item{outcome_date_col}{Name of the column that contains the outcome dates.}
 
@@ -26,15 +26,15 @@ date. NULL by default.}
 
 \item{end_cohort}{End date of the study.}
 
-\item{start_from_immunization}{TRUE: starts counting time-to-event from the
-immunization date if available. FALSE: starts counting time-to-event from
+\item{start_from_immunization}{\code{TRUE}: starts counting time-to-event from the
+immunization date if available. \code{FALSE}: starts counting time-to-event from
 the start date of the cohort study.}
 
 \item{immunization_date_col}{Name of the column that contains the
 immunization date. Required if start_from_immunization = TRUE.}
 }
 \value{
-time-to-event
+Time-to-event
 }
 \description{
 This function returns a column with the time-to-event in days

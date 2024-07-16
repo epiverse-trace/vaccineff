@@ -14,29 +14,29 @@ cox_model(
 )
 }
 \arguments{
-\item{data}{dataset with cohort information (see example).}
+\item{data}{\code{data.frame} with cohort information (see example).}
 
-\item{outcome_status_col}{name of the column containing status of the event
+\item{outcome_status_col}{Name of the column containing status of the event
 (must be a binary column). Default is \code{outcome_status}.}
 
-\item{time_to_event_col}{name of the column containing the time-to-event.
+\item{time_to_event_col}{Name of the column containing the time-to-event.
 Default is \code{time_to_event}.}
 
-\item{vacc_status_col}{name of the column containing the vaccination.
+\item{vacc_status_col}{Name of the column containing the vaccination.
 Default is \code{vaccine_status}.}
 
-\item{vaccinated_status}{string assigned to the vaccinated population.
+\item{vaccinated_status}{Status assigned to the vaccinated population.
 Default is \code{v}.}
 
-\item{unvaccinated_status}{string assigned to the unvaccinated population.
+\item{unvaccinated_status}{Status assigned to the unvaccinated population.
 Default is \code{u}.}
 }
 \value{
 List with data from Cox model:
 hr - hazard ratio (CI95\%)
 p_value
-survival object with model
-survival object with Schoenfeld test
+\code{{survival}} object with model
+\code{{survival}} object with Schoenfeld test
 }
 \description{
 Internal function to calculate Cox-PH model and related metrics.

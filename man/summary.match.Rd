@@ -7,12 +7,12 @@
 \method{summary}{match}(object, ...)
 }
 \arguments{
-\item{object}{An object of class \code{match}.}
+\item{object}{Object of the class \code{match}.}
 
 \item{...}{Additional arguments passed to other functions.}
 }
 \value{
-A summary of the results from matching.
+Summary of the results from matching.
 }
 \description{
 Summarizes the results of \code{match_cohort}.

@@ -7,22 +7,22 @@
 get_age_group(data, col_age, max_val, min_val = 0, step)
 }
 \arguments{
-\item{data}{dataset with at least a column containing the age
+\item{data}{\code{data.frame} with at least a column containing the age
 information}
 
-\item{col_age}{name of the column containing the age
+\item{col_age}{Name of the column containing the age
 information}
 
-\item{max_val}{maximum value of age interval to split}
+\item{max_val}{Maximum value of age interval to split}
 
-\item{min_val}{minimum value of age interval to split}
+\item{min_val}{Minimum value of age interval to split}
 
-\item{step}{step used to split the age interval}
+\item{step}{Step used to split the age interval}
 }
 \value{
-A \code{factor} object of the same length as the number of rows in \code{data},
-with levels corresponding to age bins between \code{min_val} and \code{max_val}.
-Ages above \code{max_val} are represented as \verb{>max_val}.
+Column of type \code{factor} with the same length as the number of rows
+in \code{data}, with levels corresponding to age bins between \code{min_val} and
+\code{max_val}. Ages above \code{max_val} are represented as \verb{>max_val}.
 }
 \description{
 This method splits an age interval from \code{min_val} to \code{max_val}
@@ -40,7 +40,7 @@ closest to max_val for which (closest_upper - min_val) is multiple of step.
 # load data provided with the package
 data(cohortdata)
 
-# assign age groups as a column of the data frame
+# assign age groups as a column of the `data.frame`
 cohortdata$age_group <- get_age_group(
   data = cohortdata,
   col_age = "age",
@@ -48,6 +48,6 @@ cohortdata$age_group <- get_age_group(
   step = 10
 )
 
-# view the data frame with new column
+# view the `data.frame` with new column
 head(cohortdata)
 }

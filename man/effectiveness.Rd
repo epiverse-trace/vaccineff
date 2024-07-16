@@ -17,33 +17,34 @@ effectiveness(
 )
 }
 \arguments{
-\item{data}{dataset with cohort information (see example).}
+\item{data}{\code{data.frame} with cohort information (see example).}
 
-\item{start_cohort}{start date of the study.}
+\item{start_cohort}{Start date of the study.}
 
-\item{end_cohort}{end date of the study.}
+\item{end_cohort}{End date of the study.}
 
-\item{method}{method to estimate VE. Default is \code{HR}.}
+\item{method}{Method to estimate VE. Default is \code{HR}.}
 
-\item{outcome_status_col}{name of the column containing status of the event
+\item{outcome_status_col}{Name of the column containing status of the event
 (must be a binary column). Default is \code{outcome_status}.}
 
-\item{time_to_event_col}{name of the column containing the time-to-event.
+\item{time_to_event_col}{Name of the column containing the time-to-event.
 Default is \code{time_to_event}.}
 
-\item{vacc_status_col}{name of the column containing the vaccination.
+\item{vacc_status_col}{Name of the column containing the vaccination.
 Default is \code{vaccine_status}.}
 
-\item{vaccinated_status}{string assigned to the vaccinated population.
+\item{vaccinated_status}{Status assigned to the vaccinated population.
 Default is \code{v}.}
 
-\item{unvaccinated_status}{string assigned to the unvaccinated population.
+\item{unvaccinated_status}{Status assigned to the unvaccinated population.
 Default is \code{u}.}
 }
 \value{
-\code{effectiveness} object: list with results from estimation of VE.
-\code{call}: call of survival method,
-\code{ve}: data frame with VE(CI95\%),
+Object of the class \code{effectiveness}: list with results from
+estimation of VE.
+\code{call}: call of \code{{survival}} method,
+\code{ve}: \code{data.frame} with VE(CI95\%),
 \code{test}: result from test of performance,
 \code{plot}: plot of method,
 \code{method}: name of the method used for the estimation.
@@ -72,7 +73,7 @@ The object returned is compatible with the methods \code{summary} and \code{plot
 start_cohort <- as.Date("2044-01-01")
 end_cohort <- as.Date("2044-12-31")
 
-# Create data frame with information of immunization
+# Create `data.frame` with information of immunization
 cohortdata <- make_immunization(
   data = cohortdata,
   outcome_date_col = "death_date",

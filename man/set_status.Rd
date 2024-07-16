@@ -7,7 +7,7 @@
 set_status(data, col_names, operator = c("&", "|"), status = c(1, 0))
 }
 \arguments{
-\item{data}{Dataset, as a \code{data.frame} with at least one column from which to
+\item{data}{\code{data.frame} with at least one column from which to
 generate the status specified in \code{status}.}
 
 \item{col_names}{Name(s) of the column(s) as a string or a character
@@ -22,7 +22,7 @@ satisfied, i.e., vaccinated, while the second element is the value indicating
 that the individual is not vaccinated.}
 }
 \value{
-status
+Status
 }
 \description{
 This function generates a binary status column using the set of

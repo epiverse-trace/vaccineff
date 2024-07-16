@@ -20,41 +20,41 @@ plot_survival(
 )
 }
 \arguments{
-\item{data}{dataset with cohort information (see example).}
+\item{data}{\code{data.frame} with cohort information (see example).}
 
-\item{start_cohort}{start date of the study.}
+\item{start_cohort}{Start date of the study.}
 
-\item{end_cohort}{end date of the study.}
+\item{end_cohort}{End date of the study.}
 
-\item{outcome_status_col}{name of the column containing status of the event
+\item{outcome_status_col}{Name of the column containing status of the event
 (must be a binary column). Default is \code{outcome_status}.}
 
-\item{time_to_event_col}{name of the column containing the time-to-event.
+\item{time_to_event_col}{Name of the column containing the time-to-event.
 Default is \code{time_to_event}.}
 
-\item{vacc_status_col}{name of the column containing the vaccination.
+\item{vacc_status_col}{Name of the column containing the vaccination.
 Default is \code{vaccine_status}.}
 
-\item{vaccinated_status}{string assigned to the vaccinated population.
+\item{vaccinated_status}{Status assigned to the vaccinated population.
 Default is \code{v}.}
 
-\item{unvaccinated_status}{string assigned to the unvaccinated population.
+\item{unvaccinated_status}{Status assigned to the unvaccinated population.
 Default is \code{u}.}
 
 \item{vaccinated_color}{Color assigned to the vaccinated population.}
 
 \item{unvaccinated_color}{Color assigned to the unvaccinated population.}
 
-\item{percentage}{If TRUE, returns probability in percentage.}
+\item{percentage}{If \code{TRUE}, returns probability in percentage.}
 
-\item{cumulative}{If TRUE, returns cumulative hazards.}
+\item{cumulative}{If \code{TRUE}, returns cumulative hazards.}
 }
 \value{
-ggplot2 plot of survival/cumulative hazard.
+\code{{ggplot2}} object with plot of survival or cumulative incidence.
 }
 \description{
 This function relies on the implementation of the Kaplan-Meier
-model from the survival package. It returns a plot of the Survival
+model from the package \code{{survival}}. It returns a plot of the Survival
 Probability or the Cumulative Hazard (if cumulative = TRUE).
 The return is a ggplot2 element of the curves with 95\% C.I. It is possible
 to manipulate the colors, labels, legend, and most of the graphic elements.
@@ -64,7 +64,7 @@ to manipulate the colors, labels, legend, and most of the graphic elements.
 start_cohort <- as.Date("2044-01-01")
 end_cohort <- as.Date("2044-12-31")
 
-# Create data frame with information on immunization
+# Create `data.frame` with information on immunization
 cohortdata <- make_immunization(
   data = cohortdata,
   outcome_date_col = "death_date",

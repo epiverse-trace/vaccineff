@@ -13,7 +13,7 @@
 #' and `1` means the opposite. However, it can also receive custom
 #' options, e.g., `c("v", "u")` for vaccinated and unvaccinated.
 #'
-#' @param data Dataset, as a `data.frame` with at least one column from which to
+#' @param data `data.frame` with at least one column from which to
 #' generate the status specified in `status`.
 #' @param col_names Name(s) of the column(s) as a string or a character
 #' vector containing the information from which the status is calculated.
@@ -23,7 +23,7 @@
 #' first element of the vector must be the status when the condition is
 #' satisfied, i.e., vaccinated, while the second element is the value indicating
 #' that the individual is not vaccinated.
-#' @return status
+#' @return Status
 #' @keywords internal
 
 set_status <- function(data,
@@ -85,7 +85,7 @@ set_status <- function(data,
 #' period. If the outcome occurs and the register is not censored, the value
 #' returned is 1.
 #' @inheritParams get_immunization_date
-#' @return status
+#' @return Status
 #' @keywords internal
 
 set_event_status <- function(data,
@@ -136,12 +136,12 @@ set_event_status <- function(data,
 #'
 #' @inheritParams get_immunization_date
 #' @param start_cohort Start date of the study.
-#' @param start_from_immunization TRUE: starts counting time-to-event from the
-#' immunization date if available. FALSE: starts counting time-to-event from
+#' @param start_from_immunization `TRUE`: starts counting time-to-event from the
+#' immunization date if available. `FALSE`: starts counting time-to-event from
 #' the start date of the cohort study.
 #' @param immunization_date_col Name of the column that contains the
 #' immunization date. Required if start_from_immunization = TRUE.
-#' @return time-to-event
+#' @return Time-to-event
 #' @keywords internal
 
 get_time_to_event <- function(data,

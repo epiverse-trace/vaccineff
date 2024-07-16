@@ -12,7 +12,7 @@ coh_coverage(
 )
 }
 \arguments{
-\item{data}{Dataset with cohort information (see example).}
+\item{data}{\code{data.frame} with cohort information (see example).}
 
 \item{vacc_date_col}{Name of the column(s) that contain the vaccine date to
 calculate the coverage.}

@@ -14,7 +14,7 @@ balance_summary(
 )
 }
 \arguments{
-\item{data}{A data frame to assess matching balance.}
+\item{data}{\code{data.frame} to assess matching balance.}
 
 \item{nearest}{Named vector with name(s) of column(s) for \code{nearest} matching
 and caliper(s) for each variable (e.g., \code{nearest = c("characteristic1" = n1, "characteristic2" = n2)}, where \code{n1} and \code{n2} are the calipers). Default is
@@ -22,17 +22,17 @@ and caliper(s) for each variable (e.g., \code{nearest = c("characteristic1" = n1
 
 \item{exact}{Name(s) of column(s) for \code{exact} matching. Default is \code{NULL}.}
 
-\item{vacc_status_col}{name of the column containing the vaccination.
+\item{vacc_status_col}{Name of the column containing the vaccination.
 Default is \code{vaccine_status}.}
 
-\item{vaccinated_status}{string assigned to the vaccinated population.
+\item{vaccinated_status}{Status assigned to the vaccinated population.
 Default is \code{v}.}
 
-\item{unvaccinated_status}{string assigned to the unvaccinated population.
+\item{unvaccinated_status}{Status assigned to the unvaccinated population.
 Default is \code{u}.}
 }
 \value{
-A summary data frame with the balance of each variable by
+Summary \code{data.frame} with the balance of each variable by
 vaccine status. Numeric variables are reported with means, and
 categorical/factor variables are reported with proportions.
 In both cases, the Standardized Mean Difference (SMD) is calculated.

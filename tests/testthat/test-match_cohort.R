@@ -68,8 +68,15 @@ test_that("`match_cohort`: test for input validation", {
 })
 
 #### Snapshot for summary
-# test_that("`match_cohort`: summary snapshot", { #nolint
-#   # snapshot for summary
-#   summ <- capture.output(summary.match(matching)) #nolint
-#   expect_snapshot(summ) #nolint
-# })
+test_that("`match_cohort`: summary snapshot", { # nolint
+  for (column in c("balance_all", "balance_match", "summary")) {
+    expect_similar_dataframes(
+      column, matching$balance_match,
+      list(
+        u = equal_with_tolerance(),
+        v = equal_with_tolerance(),
+        smd = equal_with_tolerance()
+      )
+    )
+  }
+})

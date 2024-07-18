@@ -9,7 +9,7 @@ extract_surv_model <- function(model, start_cohort, end_cohort) {
   tte <- seq(0, as.numeric(days) - 1, by = 1)
   res <- summary(model, times = tte, scale = 1)
   cols <- lapply(c(2:6, 8:16), function(x) res[x])
-  tbl <- do.call(data.frame, cols)
+  tbl <- data.frame(cols)
   tbl$date <- tbl$time + start_cohort
   return(tbl)
 }

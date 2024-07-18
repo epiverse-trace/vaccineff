@@ -106,13 +106,15 @@ set_event_status <- function(data_set,
     col_names = outcome_date_col,
     status = c(1, 0)
   )
+
+  checkmate::assert_character(censoring_date_col,
+                              any.missing = FALSE, min.len = 1, null.ok = TRUE
+  )
+  checkmate::assert_names(
+    names(data_set), must.include = censoring_date_col
+  )
+
   if (!is.null(censoring_date_col)) {
-    checkmate::assert_character(censoring_date_col,
-      any.missing = FALSE, min.len = 1
-    )
-    checkmate::assert_names(
-      names(data_set), must.include = censoring_date_col
-    )
     data_set$outcome_status <- ifelse(
       (!is.na(data_set[[censoring_date_col]])) &
         (!is.na(data_set[[outcome_date_col]])) &
@@ -181,15 +183,15 @@ get_time_to_event <- function(data_set,
   )
 
   #Checks of censoring_date_col if provided
+  checkmate::assert_string(censoring_date_col, null.ok = TRUE)
+  checkmate::assert_names(
+    colnames(data_set),
+    must.include = censoring_date_col
+  )
   if (!is.null(censoring_date_col)) {
-    checkmate::assert_names(
-      colnames(data_set),
-      must.include = censoring_date_col
-    )
     checkmate::assert_date(
       data_set[[censoring_date_col]]
     )
-    checkmate::assert_string(censoring_date_col)
   }
 
   # check immnunization date col if asked

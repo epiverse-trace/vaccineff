@@ -135,15 +135,15 @@ match_cohort <- function(data_set,
   )
 
   #Checks of censoring_date_col if provided
+  checkmate::assert_string(censoring_date_col, null.ok = TRUE)
+  checkmate::assert_names(
+    colnames(data_set),
+    must.include = censoring_date_col
+  )
   if (!is.null(censoring_date_col)) {
-    checkmate::assert_names(
-      colnames(data_set),
-      must.include = censoring_date_col
-    )
     checkmate::assert_date(
       data_set[[censoring_date_col]]
     )
-    checkmate::assert_string(censoring_date_col)
   }
 
   # `exact` and `nearest` cannot be NULL. At least one must be provided
@@ -153,26 +153,23 @@ match_cohort <- function(data_set,
   )
 
   # checks for `nearest`
-  if (!is.null(nearest)) {
-    checkmate::assert_numeric(
-      nearest,
-      any.missing = FALSE, min.len = 1, names = "named"
-    )
-    checkmate::assert_names(
-      names(data_set),
-      must.include = names(nearest)
-    )
-  }
-  # checks for `exact`. Not else, both can be non-NULL
-  if (!is.null(exact)) {
-    checkmate::assert_character(exact,
-      any.missing = FALSE, min.len = 1
-    )
-    checkmate::assert_names(
-      names(data_set),
-      must.include = exact
-    )
-  }
+  checkmate::assert_numeric(
+    nearest,
+    any.missing = FALSE, min.len = 1, names = "named", null.ok = TRUE
+  )
+  checkmate::assert_names(
+    names(data_set),
+    must.include = names(nearest)
+  )
+
+  # checks for `exact`
+  checkmate::assert_character(exact,
+    any.missing = FALSE, min.len = 1, null.ok = TRUE
+  )
+  checkmate::assert_names(
+    names(data_set),
+    must.include = exact
+  )
 
   # check date types
   checkmate::assert_date(

@@ -119,29 +119,28 @@ make_immunization <- function(data_set,
     len = 1L
   )
 
+  checkmate::assert_string(censoring_date_col, null.ok = TRUE)
+  checkmate::assert_names(
+    colnames(data_set),
+    must.include = censoring_date_col
+  )
   # check censoring_date_col if provided
   if (!is.null(censoring_date_col)) {
-    checkmate::assert_names(
-      colnames(data_set),
-      must.include = censoring_date_col
-    )
     checkmate::assert_date(
       data_set[[censoring_date_col]]
     )
-    checkmate::assert_string(censoring_date_col)
   }
 
   # check vacc_name_col if provided
-  if (!is.null(vacc_name_col)) {
-    checkmate::assert_names(
-      names(data_set),
-      must.include = c(vacc_name_col)
-    )
-    checkmate::assert_character(
-      vacc_name_col,
-      min.len = length(vacc_date_col)
-    )
-  }
+  checkmate::assert_character(
+    vacc_name_col,
+    min.len = length(vacc_date_col),
+    null.ok = TRUE
+  )
+  checkmate::assert_names(
+    names(data_set),
+    must.include = c(vacc_name_col)
+  )
 
   # warn on year of cohort end date date
   max_year <- 2100 # a plausible maximum year

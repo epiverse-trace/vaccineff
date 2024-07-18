@@ -15,14 +15,7 @@ match_cohort_ <- function(data_set,
 
   #Formula
   variables <- c(exact, names(nearest))
-  formula <- paste0(vacc_status_col, " ~ ")
-  for (v in seq_along(variables)) {
-    if (v == 1) {
-      formula <- paste0(formula, variables[v])
-    } else {
-      formula <- paste0(formula, " + ", variables[v])
-    }
-  }
+  formula <- paste(vacc_status_col, "~", paste(variables, collapse = " + "))
   formula_eval <- eval(parse(text = formula))
 
   #Matching

@@ -6,7 +6,7 @@ end_cohort <- as.Date("2044-12-31")
 
 # sample cohort to make tests faster - take a bigger sample
 sample_size <- 1000
-set.seed(123) #use fixed seed to avoid problems with snapshots
+set.seed(123) # use fixed seed to avoid problems with snapshots
 sample_indices <- sample(nrow(cohortdata), sample_size)
 sample_cohort <- cohortdata[sample_indices, ]
 rownames(sample_cohort) <- NULL
@@ -68,8 +68,8 @@ test_that("`match_cohort`: test for input validation", {
 })
 
 #### Snapshot for summary
-# test_that("`match_cohort`: summary snapshot", { #nolint
-#   # snapshot for summary
-#   summ <- capture.output(summary.match(matching)) #nolint
-#   expect_snapshot(summ) #nolint
-# })
+test_that("`match_cohort`: summary snapshot", { # nolint
+  for (column in c("balance_all", "balance_match", "summary")) {
+    expect_snapshot_value(matching[column], style = "json2", tolerance = 1e-2)
+  }
+})

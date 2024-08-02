@@ -108,7 +108,7 @@ set_event_status <- function(data_set,
   )
 
   checkmate::assert_character(censoring_date_col,
-                              any.missing = FALSE, min.len = 1, null.ok = TRUE
+    any.missing = FALSE, min.len = 1, null.ok = TRUE
   )
   checkmate::assert_names(
     names(data_set), must.include = censoring_date_col

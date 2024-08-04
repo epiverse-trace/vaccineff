@@ -88,19 +88,12 @@ match_pair_info <- function(data_set,
 #' @keywords internal
 match_summary <- function(all,
                           matched,
-                          adjusted = NULL,
                           vacc_status_col) {
   summ_all <- as.data.frame(rbind(table(all[[vacc_status_col]])))
   summ_matched <- as.data.frame(rbind(table(matched[[vacc_status_col]])))
   summ_unmatched <- summ_all - summ_matched
-  if (!is.null(adjusted)) {
-    summ_removed <- summ_matched -
-      as.data.frame(rbind(table(adjusted[[vacc_status_col]])))
-  } else {
-    summ_removed <- stats::setNames(cbind.data.frame(0, 0), names(summ_all))
-  }
-  summ <- rbind(summ_all, summ_matched, summ_unmatched, summ_removed)
-  row.names(summ) <- c("All", "Matched", "Unmatched", "Removed")
+  summ <- rbind(summ_all, summ_matched, summ_unmatched)
+  row.names(summ) <- c("All", "Matched", "Unmatched")
 
   return(summ)
 }

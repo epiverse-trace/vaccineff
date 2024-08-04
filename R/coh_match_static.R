@@ -41,8 +41,7 @@ static_match <- function(data_set,
 
   # Matching summary
   summary <- match_summary(all = data_set,
-    matched = matched,
-    adjusted = adjusted,
+    matched = adjusted,
     vacc_status_col = vacc_status_col
   )
 

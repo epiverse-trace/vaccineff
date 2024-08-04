@@ -66,7 +66,8 @@ rematch_ <- function(all,
     }, error = function(e) {
       # MatchIt returns error if there are no enough individuals
       # from both groups to match
-      warning("Error at iteration ", im, ": ", e$message, "- skipping to next")
+      warning("Error at iteration ", im, ": ", e$message,
+              "- skipping to next \n")
     })
     # Control for new matched and adjusted population
     # Add new matches for removed unvaccinated if:

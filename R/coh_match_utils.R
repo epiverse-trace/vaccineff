@@ -75,13 +75,11 @@ match_pair_info <- function(data_set,
 #'
 #' @description This function creates a summary for the results from
 #' cohort matching. It provides counts grouped by vaccine status for
-#' the entire population, the matched and unmatched populations,
-#' and the records removed in case of adjusting the exposure time.
+#' the entire population, the matched and unmatched populations.
 #'
 #' @inheritParams match_cohort
 #' @param all `data.frame` with the entire cohort.
 #' @param matched `data.frame` with the matched cohort.
-#' @param adjusted `data.frame` with the adjusted cohort to
 #' calculate removed cases. Default is NULL, which returns 0.
 #' @return Summary `data.frame` with counts by vaccine status for:
 #' all, matched, unmatched, and removed.

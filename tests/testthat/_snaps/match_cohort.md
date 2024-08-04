@@ -125,7 +125,7 @@
             "row.names": {
               "type": "character",
               "attributes": {},
-              "value": ["All", "Matched", "Unmatched", "Removed"]
+              "value": ["All", "Matched", "Unmatched"]
             },
             "class": {
               "type": "character",
@@ -137,12 +137,12 @@
             {
               "type": "integer",
               "attributes": {},
-              "value": [619, 338, 281, 4]
+              "value": [619, 334, 285]
             },
             {
               "type": "integer",
               "attributes": {},
-              "value": [381, 338, 43, 4]
+              "value": [381, 334, 47]
             }
           ]
         }

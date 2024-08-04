@@ -22,6 +22,9 @@ static_match <- function(data_set,
                          end_cohort,
                          nearest,
                          exact) {
+  # create temporal id for match
+  data_set$match_id <- seq_len(nrow(data_set))
+
   # match cohort
   matched <- match_cohort_(
     data_set = data_set,
@@ -31,17 +34,41 @@ static_match <- function(data_set,
   )
 
   # adjust exposition times of cohort
-  adjusted <- adjust_exposition(matched_cohort = matched,
+  adjusted_0 <- adjust_exposition(matched_cohort = matched,
     outcome_date_col = outcome_date_col,
     censoring_date_col = censoring_date_col,
     immunization_date = immunization_date_col,
     start_cohort = start_cohort,
     end_cohort = end_cohort
   )
+  removed_0 <- nrow(matched) - nrow(adjusted_0)
+  warning_1 <- paste("Matches before iterating:",  nrow(adjusted_0), "\n")
+  warning_2 <- paste("Removed before iterating", removed_0, "\n")
+
+  # iterate match after first exposition times adjusting
+  adjusted_f <- iterate_match(
+    all = data_set,
+    matched = matched,
+    adjusted = adjusted_0,
+    outcome_date_col = outcome_date_col,
+    censoring_date_col = censoring_date_col,
+    immunization_date_col = immunization_date_col,
+    vacc_status_col = vacc_status_col,
+    vaccinated_status = vaccinated_status,
+    unvaccinated_status = unvaccinated_status,
+    nearest = nearest,
+    exact = exact,
+    start_cohort = start_cohort,
+    end_cohort = end_cohort
+  )
+  removed_f <- nrow(matched) - nrow(adjusted_f)
+  warning_3 <- paste("Matches after iterating:",  nrow(adjusted_f), "\n")
+  warning_4 <- paste("Removed after iterating", removed_f, "\n")
+
 
   # Matching summary
   summary <- match_summary(all = data_set,
-    matched = adjusted,
+    matched = adjusted_f,
     vacc_status_col = vacc_status_col
   )
 
@@ -53,8 +80,9 @@ static_match <- function(data_set,
     vaccinated_status = vaccinated_status,
     unvaccinated_status = unvaccinated_status
   )
+
   # Balance summary match
-  balace_match <- balance_summary(data_set = adjusted,
+  balace_match <- balance_summary(data_set = adjusted_f,
     nearest = nearest,
     exact = exact,
     vacc_status_col = vacc_status_col,
@@ -62,9 +90,16 @@ static_match <- function(data_set,
     unvaccinated_status = unvaccinated_status
   )
 
+  # Remove match_id col
+  adjusted_f <- adjusted_f[, -which(names(adjusted_f) == "match_id")]
+
+  warning(
+    warning_1, warning_2, warning_3, warning_4
+  )
+
   # Match object
   match <- list(
-    match = adjusted,
+    match = adjusted_f,
     summary = summary,
     balance_all = balace_all,
     balance_match = balace_match

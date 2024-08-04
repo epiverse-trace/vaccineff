@@ -185,7 +185,7 @@ match_cohort <- function(data_set,
   )
 
   if (method == "static") {
-    match_obj <- static_match(
+    output <- capture_warnings(static_match(
       data_set = data_set,
       outcome_date_col = outcome_date_col,
       censoring_date_col = censoring_date_col,
@@ -197,7 +197,9 @@ match_cohort <- function(data_set,
       end_cohort = end_cohort,
       nearest = nearest,
       exact = exact
-    )
+    ))
+    match_obj <- output$result
+    match_obj$warnings_log <- output$warnings
   }
   class(match_obj) <- "match"
   return(match_obj)
@@ -223,6 +225,8 @@ summary.match <- function(object, ...) {
   print(object$balance_match)
   cat("\nSummary:\n")
   print(object$summary)
+  cat("\nWarnings:\n")
+  cat(object$warnings_log, sep = "")
 }
 
 #' @title Function for Extracting Matched Dataset

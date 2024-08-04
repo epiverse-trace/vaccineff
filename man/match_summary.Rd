@@ -4,14 +4,12 @@
 \alias{match_summary}
 \title{Constructs Summary with Results from Matching}
 \usage{
-match_summary(all, matched, adjusted = NULL, vacc_status_col)
+match_summary(all, matched, vacc_status_col)
 }
 \arguments{
 \item{all}{\code{data.frame} with the entire cohort.}
 
-\item{matched}{\code{data.frame} with the matched cohort.}
-
-\item{adjusted}{\code{data.frame} with the adjusted cohort to
+\item{matched}{\code{data.frame} with the matched cohort.
 calculate removed cases. Default is NULL, which returns 0.}
 
 \item{vacc_status_col}{Name of the column containing the vaccination.
@@ -24,7 +22,6 @@ all, matched, unmatched, and removed.
 \description{
 This function creates a summary for the results from
 cohort matching. It provides counts grouped by vaccine status for
-the entire population, the matched and unmatched populations,
-and the records removed in case of adjusting the exposure time.
+the entire population, the matched and unmatched populations.
 }
 \keyword{internal}

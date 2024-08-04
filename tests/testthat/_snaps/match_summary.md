@@ -7,5 +7,4 @@
       All       619 381
       Matched   334 334
       Unmatched 285  47
-      Removed     0   0
 

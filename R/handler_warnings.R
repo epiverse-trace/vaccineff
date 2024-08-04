@@ -7,7 +7,7 @@
 #' an iterative routine).
 #'
 #' @param expr An expression to evaluate.
-#' #' @param warn_env An optional environment to store the warnings.
+#' @param warn_env An optional environment to store the warnings.
 #' If not provided, a new environment is created.
 #' @return A list containing two elements:
 #'   \item{result}{The result of evaluating the expression.}

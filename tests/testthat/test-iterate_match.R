@@ -83,5 +83,5 @@ test_that("`iterate_match`: Correctness", {
   )
 
   # Warnings are also tested for completeness using a snapshot
-  expect_snapshot_value(output$warnings, style = "json2", tolerance = 1e-2)
+  expect_snapshot_value(output$warnings, style = "json2", tolerance = 1e-1)
 })

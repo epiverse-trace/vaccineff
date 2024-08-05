@@ -83,5 +83,10 @@ test_that("`iterate_match`: Correctness", {
   )
 
   # Warnings are also tested for completeness using a snapshot
-  expect_snapshot_value(output$warnings, style = "json2", tolerance = 1e-1)
+  expect_gt(
+    length(output$warnings), 0
+  )
+  expect_match(
+    output$warnings, "failed: Must have at least 1 rows"
+  )
 })

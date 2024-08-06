@@ -66,7 +66,6 @@ check_vaccineff_inputs <- function(data_set,
                 vacc_date_col, vacc_name_col)
   )
 
-
   # Check variable types
   checkmate::assert_date(
     data_set[[outcome_date_col]]
@@ -84,8 +83,11 @@ check_vaccineff_inputs <- function(data_set,
     )
   }
 
-  # check immunization delay
   stopifnot(
+    # check for vaccinated/unvaccinated statues
+    "`vaccinated_status` and `unvaccinated_status` cannot be equal" =
+      (vaccinated_status != unvaccinated_status),
+    # check immunization delay
     "Please provide a non-null integer number greater or equal than 0
     in `immunization_delay`. Use round(`immunization_delay`,0)" =
       checkmate::test_integerish(immunization_delay, lower = 0, null.ok = FALSE)
@@ -112,11 +114,16 @@ check_vaccineff_inputs <- function(data_set,
   }
 
   # Checks for match if provided
-  if (!is.null(match)) {
+  checkmate::assert_logical(
+    match,
+    len = 1L
+  )
+
+  if (match) {
     # `exact` and `nearest` cannot be NULL. At least one must be provided
     stopifnot(
       "`exact` and `nearest` cannot be NULL. At least one must be provided" =
-        (!missing(nearest) || !missing(exact))
+        (missing(nearest) & missing(exact))
     )
 
     # checks for `nearest`

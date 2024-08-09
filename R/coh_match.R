@@ -210,11 +210,12 @@ match_cohort <- function(data_set,
 #' @description Summarizes the results of `match_cohort`.
 #'
 #' @param object Object of the class `match`.
+#' @param warnings_log If `TRUE`, prints the warnings log.
 #' @param ... Additional arguments passed to other functions.
 #' @return Summary of the results from matching.
 #' @export
 
-summary.match <- function(object, ...) {
+summary.match <- function(object, warnings_log = FALSE, ...) {
   # Check if the input object is of class "match"
   stopifnot("Input must be an object of class 'match'" =
       checkmate::test_class(object, "match")
@@ -225,8 +226,10 @@ summary.match <- function(object, ...) {
   print(object$balance_match)
   cat("\nSummary:\n")
   print(object$summary)
-  cat("\nWarnings:\n")
-  cat(object$warnings_log, sep = "")
+  if (warnings_log) {
+    cat("\nWarnings:\n")
+    cat(object$warnings_log, sep = "")
+  }
 }
 
 #' @title Function for Extracting Matched Dataset

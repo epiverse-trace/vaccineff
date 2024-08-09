@@ -185,7 +185,7 @@ match_cohort <- function(data_set,
   )
 
   if (method == "static") {
-    match_obj <- static_match(
+    output <- capture_warnings(static_match(
       data_set = data_set,
       outcome_date_col = outcome_date_col,
       censoring_date_col = censoring_date_col,
@@ -197,7 +197,9 @@ match_cohort <- function(data_set,
       end_cohort = end_cohort,
       nearest = nearest,
       exact = exact
-    )
+    ))
+    match_obj <- output$result
+    match_obj$warnings_log <- output$warnings
   }
   class(match_obj) <- "match"
   return(match_obj)
@@ -208,11 +210,12 @@ match_cohort <- function(data_set,
 #' @description Summarizes the results of `match_cohort`.
 #'
 #' @param object Object of the class `match`.
+#' @param warnings_log If `TRUE`, prints the warnings log.
 #' @param ... Additional arguments passed to other functions.
 #' @return Summary of the results from matching.
 #' @export
 
-summary.match <- function(object, ...) {
+summary.match <- function(object, warnings_log = FALSE, ...) {
   # Check if the input object is of class "match"
   stopifnot("Input must be an object of class 'match'" =
       checkmate::test_class(object, "match")
@@ -223,6 +226,10 @@ summary.match <- function(object, ...) {
   print(object$balance_match)
   cat("\nSummary:\n")
   print(object$summary)
+  if (warnings_log) {
+    cat("\nWarnings:\n")
+    cat(object$warnings_log, sep = "")
+  }
 }
 
 #' @title Function for Extracting Matched Dataset

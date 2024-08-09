@@ -1,96 +1,3 @@
-#' @title Adjust Exposition for Static Matching
-#'
-#' @description This function removes the pairs whose exposition times
-#' do not match. This happens when the outcome of the unvaccinated individual
-#' occurs before the vaccination date of their partner.
-#'
-#' @inheritParams match_cohort
-#' @param matched_cohort `data.frame` with matched cohort from `match_cohort_`.
-#' @return `data.frame` with matched population and corrected exposure times.
-#' @keywords internal
-
-adjust_exposition <- function(matched_cohort,
-                              outcome_date_col,
-                              censoring_date_col,
-                              immunization_date,
-                              start_cohort,
-                              end_cohort) {
-  # 1. Check that individual censoring occurs before event
-  matched_cohort$censoring_individual <- as.Date(ifelse(
-    (matched_cohort[[censoring_date_col]] <
-       matched_cohort[[outcome_date_col]]) |
-      is.na(matched_cohort[[outcome_date_col]]),
-    as.character(matched_cohort[[censoring_date_col]]),
-    as.Date(NA)
-  ))
-
-  # 2. Match minimum censoring date as censoring date for pair
-  matched_cohort$censoring_pair <-  as.Date(match_pair_info(
-    data_set = matched_cohort,
-    column_to_match = "censoring_individual",
-    criteria = "min"
-  ))
-
-  # 3. If an outcome happens before censoring_pair
-  # no censoring must be assigned
-  matched_cohort$censoring_accepted <-
-    as.Date(ifelse(
-      (matched_cohort$censoring_pair > matched_cohort[[outcome_date_col]]) &
-        (!is.na(matched_cohort$censoring_pair)) &
-        (!is.na(matched_cohort[[outcome_date_col]])),
-      as.Date(NA),
-      as.character(matched_cohort$censoring_pair)
-    ))
-
-  # 4. Beginning of the follow-up period for pairs is the immunization date
-  matched_cohort$t0_follow_up <-  as.Date(match_pair_info(
-    data_set = matched_cohort,
-    column_to_match = immunization_date,
-    criteria = "min"
-  ))
-
-  # 5. Calculate time-to-event
-  matched_cohort$time_to_event <- get_time_to_event(
-    data_set = matched_cohort,
-    outcome_date_col = outcome_date_col,
-    censoring_date_col = "censoring_accepted",
-    start_cohort = start_cohort,
-    end_cohort = end_cohort,
-    start_from_immunization = TRUE,
-    immunization_date_col = "t0_follow_up"
-  )
-
-  # 6. Individuals with negative exposure and their pairs must be removed
-  matched_cohort$min_exposure_time_pair <- match_pair_info(
-    data_set = matched_cohort,
-    column_to_match = "time_to_event",
-    criteria = "min"
-  )
-
-  adjusted_match <- matched_cohort[
-    matched_cohort$min_exposure_time_pair > 0,
-  ]
-
-  # 7. Generate outcome status
-  adjusted_match$outcome_status <- set_event_status(
-    data_set = adjusted_match,
-    outcome_date_col = outcome_date_col,
-    censoring_date_col = "censoring_accepted"
-  )
-
-  # 8. Remove unnecessary columns and reorder
-  col_names <- names(adjusted_match)
-  col_names <- col_names[! col_names %in%
-      c("censoring_individual",
-        "censoring_pair", "censoring_accepted",
-        "min_exposure_time_pair")
-  ]
-
-  adjusted_match <- subset(adjusted_match, select = col_names)
-
-  return(adjusted_match)
-}
-
 #' @title Static Matching
 #'
 #' @description This function calls `match_cohort_` once and then
@@ -115,6 +22,9 @@ static_match <- function(data_set,
                          end_cohort,
                          nearest,
                          exact) {
+  # create temporal id for match
+  data_set$match_id <- seq_len(nrow(data_set))
+
   # match cohort
   matched <- match_cohort_(
     data_set = data_set,
@@ -124,18 +34,41 @@ static_match <- function(data_set,
   )
 
   # adjust exposition times of cohort
-  adjusted <- adjust_exposition(matched_cohort = matched,
+  adjusted_0 <- adjust_exposition(matched_cohort = matched,
     outcome_date_col = outcome_date_col,
     censoring_date_col = censoring_date_col,
     immunization_date = immunization_date_col,
     start_cohort = start_cohort,
     end_cohort = end_cohort
   )
+  removed_0 <- nrow(matched) - nrow(adjusted_0)
+  warning_1 <- paste("Matches before iterating:",  nrow(adjusted_0), "\n")
+  warning_2 <- paste("Removed before iterating", removed_0, "\n")
+
+  # iterate match after first exposition times adjusting
+  adjusted_f <- iterate_match(
+    all = data_set,
+    matched = matched,
+    adjusted = adjusted_0,
+    outcome_date_col = outcome_date_col,
+    censoring_date_col = censoring_date_col,
+    immunization_date_col = immunization_date_col,
+    vacc_status_col = vacc_status_col,
+    vaccinated_status = vaccinated_status,
+    unvaccinated_status = unvaccinated_status,
+    nearest = nearest,
+    exact = exact,
+    start_cohort = start_cohort,
+    end_cohort = end_cohort
+  )
+  removed_f <- nrow(matched) - nrow(adjusted_f)
+  warning_3 <- paste("Matches after iterating:",  nrow(adjusted_f), "\n")
+  warning_4 <- paste("Removed after iterating", removed_f, "\n")
+
 
   # Matching summary
   summary <- match_summary(all = data_set,
-    matched = matched,
-    adjusted = adjusted,
+    matched = adjusted_f,
     vacc_status_col = vacc_status_col
   )
 
@@ -147,8 +80,9 @@ static_match <- function(data_set,
     vaccinated_status = vaccinated_status,
     unvaccinated_status = unvaccinated_status
   )
+
   # Balance summary match
-  balace_match <- balance_summary(data_set = adjusted,
+  balace_match <- balance_summary(data_set = adjusted_f,
     nearest = nearest,
     exact = exact,
     vacc_status_col = vacc_status_col,
@@ -156,9 +90,16 @@ static_match <- function(data_set,
     unvaccinated_status = unvaccinated_status
   )
 
+  # Remove match_id col
+  adjusted_f <- adjusted_f[, -which(names(adjusted_f) == "match_id")]
+
+  warning(
+    warning_1, warning_2, warning_3, warning_4
+  )
+
   # Match object
   match <- list(
-    match = adjusted,
+    match = adjusted_f,
     summary = summary,
     balance_all = balace_all,
     balance_match = balace_match

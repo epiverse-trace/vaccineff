@@ -60,4 +60,69 @@ make_vaccineff_data <- function(data_set,
     nearest = nearest,
     take_first = take_first
   )
+
+  cohort_data <- linelist::make_linelist(
+    x = as.data.frame(
+      make_immunization(
+        data_set = data_set,
+        outcome_date_col = outcome_date_col,
+        censoring_date_col = censoring_date_col,
+        vacc_date_col = vacc_date_col,
+        vacc_name_col = vacc_name_col,
+        vaccinated_status = vaccinated_status,
+        unvaccinated_status = unvaccinated_status,
+        immunization_delay = immunization_delay,
+        end_cohort = end_cohort,
+        take_first = take_first
+      )
+    )
+  )
+
+  cohort_data <- linelist::set_tags(
+    x = cohort_data,
+    outcome_date_col = outcome_date_col,
+    censoring_date_col = censoring_date_col,
+    vacc_date_col = vacc_date_col,
+    vacc_name_col = vacc_name_col,
+    immunization_date_col = "immunization_date",
+    vacc_status_col = "vaccine_status",
+    allow_extra = TRUE
+  )
+
+  matching <- match_cohort(
+    data_set = cohort_data,
+    outcome_date_col = outcome_date_col,
+    censoring_date_col = censoring_date_col,
+    start_cohort = start_cohort,
+    end_cohort = end_cohort,
+    method = "static",
+    exact = exact,
+    nearest = nearest
+  )
+
+  matching <- match_cohort(
+    data_set = cohort_data,
+    outcome_date_col = outcome_date_col,
+    censoring_date_col = censoring_date_col,
+    start_cohort = start_cohort,
+    end_cohort = end_cohort,
+    method = "static",
+    exact = exact,
+    nearest = nearest,
+    immunization_date_col = "immunization_date",
+    vacc_status_col = "vaccine_status",
+    vaccinated_status = vaccinated_status,
+    unvaccinated_status = unvaccinated_status
+  )
+  vaccineff_data <- list(
+    cohort_data = cohort_data,
+    start_cohort = start_cohort,
+    end_cohort = end_cohort,
+    vaccinated_status = vaccinated_status,
+    unvaccinated_status = unvaccinated_status,
+    immunization_delay = immunization_delay,
+    matching = matching$match
+  )
+
+  return(vaccineff_data)
 }

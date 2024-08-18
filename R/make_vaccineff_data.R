@@ -15,7 +15,7 @@
 #' @param unvaccinated_status Status assigned to the unvaccinated population.
 #' Default is `u`.
 #' @param immunization_delay Characteristic time in days before the patient
-#' is considered immune.
+#' is considered immune. Default is 0.
 #' @param start_cohort Start date of the study.
 #' @param end_cohort End date of the study.
 #' @param method `TRUE`: cohort matching is performed. Default is `FALSE`
@@ -97,23 +97,13 @@ make_vaccineff_data <- function(data_set,
     end_cohort = end_cohort,
     method = "static",
     exact = exact,
-    nearest = nearest
-  )
-
-  matching <- match_cohort(
-    data_set = cohort_data,
-    outcome_date_col = outcome_date_col,
-    censoring_date_col = censoring_date_col,
-    start_cohort = start_cohort,
-    end_cohort = end_cohort,
-    method = "static",
-    exact = exact,
     nearest = nearest,
     immunization_date_col = "immunization_date",
     vacc_status_col = "vaccine_status",
     vaccinated_status = vaccinated_status,
     unvaccinated_status = unvaccinated_status
   )
+
   vaccineff_data <- list(
     cohort_data = cohort_data,
     start_cohort = start_cohort,
@@ -121,8 +111,10 @@ make_vaccineff_data <- function(data_set,
     vaccinated_status = vaccinated_status,
     unvaccinated_status = unvaccinated_status,
     immunization_delay = immunization_delay,
-    matching = matching$match
+    matching = matching
   )
+
+  class(vaccineff_data) <- "vaccineff_data"
 
   return(vaccineff_data)
 }

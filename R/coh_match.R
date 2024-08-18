@@ -84,7 +84,9 @@
 #' )
 #'
 #' # Check match balance and summary
-#' summary(matching)
+#' # `warnings_log = TRUE` displays the log created
+#' # during the iterative process.
+#' summary(matching, warnings_log = TRUE)
 #'
 #' # Extract matched data
 #' cohortdata_match <- get_dataset(matching)

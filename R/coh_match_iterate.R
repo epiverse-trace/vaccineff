@@ -140,7 +140,7 @@ iterate_match <- function(all,
 
   # Iterate until threshold
   # or until the procedure generates zero adjusted population
-  while ((nrow(adjusted_i) != 0) && (im < thershold)) { #nolint
+  while ((nrow(adjusted_i) != 0) && (im < thershold)) {
     # Iteration for unvaccinated
     new_match <- rematch_(
       all = all,

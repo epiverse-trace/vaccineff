@@ -73,7 +73,8 @@ static_match <- function(data_set,
   )
 
   # Balance summary all
-  balace_all <- balance_summary(data_set = data_set,
+  balace_all <- balance_summary(
+    data_set = as.data.frame(data_set),
     nearest = nearest,
     exact = exact,
     vacc_status_col = vacc_status_col,
@@ -82,7 +83,8 @@ static_match <- function(data_set,
   )
 
   # Balance summary match
-  balace_match <- balance_summary(data_set = adjusted_f,
+  balace_match <- balance_summary(
+    data_set = as.data.frame(adjusted_f),
     nearest = nearest,
     exact = exact,
     vacc_status_col = vacc_status_col,

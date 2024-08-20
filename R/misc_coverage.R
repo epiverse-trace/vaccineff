@@ -131,8 +131,6 @@ coh_coverage <- function(data_set,
 
 plot_coverage <- function(vaccineff_data,
                           unit = c("day", "month", "year"),
-                          doses_count_color = "steelblue",
-                          coverage_color = "mediumpurple",
                           date_interval = NULL,
                           cumulative = FALSE) {
   stopifnot("Input must be an object of class 'vaccineff_data'" =
@@ -146,9 +144,6 @@ plot_coverage <- function(vaccineff_data,
   checkmate::assert_logical(
     cumulative,
     len = 1
-  )
-  checkmate::assert_character(
-    c(doses_count_color, coverage_color)
   )
 
   tags <- linelist::tags(vaccineff_data$cohort_data)
@@ -174,13 +169,13 @@ plot_coverage <- function(vaccineff_data,
         y = .data$coverage * max(.data$dose_plot),
         fill = "Coverage"
       ),
-      alpha = 0.6
+      alpha = 0.68
     ) +
     ggplot2::geom_col(data = coverage,
       ggplot2::aes(
         x = .data$date,
         y = .data$dose_plot,
-        fill = "Doses"
+        fill = "Total doses"
       ),
       alpha = 0.47
     ) +
@@ -203,7 +198,12 @@ plot_coverage <- function(vaccineff_data,
       date_interval = date_interval
     )
 
-    doses_count_color <- c(doses_count_color, "green")
+    colors <- c(
+      "Total doses" = "steelblue",
+      "Matched doses" = "green",
+      Coverage = "mediumpurple"
+    )
+
     if (cumulative) {
       coverage_match$dose_plot <- coverage_match$cum_doses
     } else {
@@ -219,11 +219,16 @@ plot_coverage <- function(vaccineff_data,
       ),
       alpha = 0.3
     )
+  } else {
+    colors <- c(
+      "Total doses" = "steelblue",
+      Coverage = "mediumpurple"
+    )
   }
 
   plt <- plt +
     ggplot2::scale_fill_manual(
-      name = NULL, values = c(coverage_color, doses_count_color)
+      name = NULL, values = colors
     ) +
     ggplot2::theme_classic() +
     ggplot2::theme(legend.position = "top")

@@ -67,7 +67,6 @@ references:
     name: R Foundation for Statistical Computing
     address: Vienna, Austria
   year: '2024'
-  doi: 10.32614/CRAN.package.stats
 - type: software
   title: checkmate
   abstract: 'checkmate: Fast and Versatile Argument Checks'

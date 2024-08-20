@@ -82,7 +82,7 @@ future releases.'><meta property="og:image" content="https://epiverse-trace.gith
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Match Cohort to Reduce Observational Bias</h1>
-      <small class="dont-index">Source: <a href="https://github.com/epiverse-trace/vaccineff/blob/v0.0.2/R/coh_match.R" class="external-link"><code>R/coh_match.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/epiverse-trace/vaccineff/blob/main/R/coh_match.R" class="external-link"><code>R/coh_match.R</code></a></small>
       <div class="d-none name"><code>match_cohort.Rd</code></div>
     </div>
 
@@ -233,7 +233,9 @@ and <code>outcome_status</code>: outcome status
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Check match balance and summary</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">matching</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># `warnings_log = TRUE` displays the logs created</span></span></span>
+<span class="r-in"><span><span class="co"># during the iterative process.</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">matching</span>, warnings_log <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Balance all:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                u          v        smd</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> age   30.9928364 48.1656078  0.8599792</span>
@@ -242,16 +244,26 @@ and <code>outcome_status</code>: outcome status
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Balance matched:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                u          v       smd</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> age   43.1684794 45.5828764 0.1305452</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sex_F  0.5563668  0.5563668 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sex_M  0.4436332  0.4436332 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> age   43.1952984 45.6560579 0.1330454</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sex_F  0.5555154  0.5555154 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sex_M  0.4444846  0.4444846 0.0000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Summary:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>               u     v</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> All       62538 37462</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Matched   33480 33480</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Unmatched 29058  3982</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Removed     473   473</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Matched   33180 33180</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Unmatched 29358  4282</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Warnings:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Error at iteration 2: Assertion on 'data_set' failed: Must have at least 1 rows, but has 0 rows.- skipping to next </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Error at iteration 3: Assertion on 'data_set' failed: Must have at least 1 rows, but has 0 rows.- skipping to next </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Error at iteration 4: Assertion on 'data_set' failed: Must have at least 1 rows, but has 0 rows.- skipping to next </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Error at iteration 5: Assertion on 'data_set' failed: Must have at least 1 rows, but has 0 rows.- skipping to next </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Error at iteration 5: Assertion on 'data_set' failed: Must have at least 1 rows, but has 0 rows.- skipping to next </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Matches before iterating: 66014 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Removed before iterating 946 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Matches after iterating: 66360 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Removed after iterating 600 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Extract matched data</span></span></span>
 <span class="r-in"><span><span class="va">cohortdata_match</span> <span class="op">&lt;-</span> <span class="fu"><a href="get_dataset.html">get_dataset</a></span><span class="op">(</span><span class="va">matching</span><span class="op">)</span></span></span>

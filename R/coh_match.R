@@ -215,21 +215,18 @@ match_cohort <- function(data_set,
 #' @return Summary of the results from matching.
 #' @export
 
-summary.match <- function(object, warnings_log = FALSE, ...) {
+summary.match <- function(object, ...) {
   # Check if the input object is of class "match"
   stopifnot("Input must be an object of class 'match'" =
       checkmate::test_class(object, "match")
   )
-  cat("Balance all:\n")
+  cat(paste0("Number of iterations: ", object$iterations, "\n"))
+  cat("\nBalance all:\n")
   print(object$balance_all)
   cat("\nBalance matched:\n")
   print(object$balance_match)
   cat("\nSummary:\n")
   print(object$summary)
-  if (warnings_log) {
-    cat("\nWarnings:\n")
-    cat(object$warnings_log, sep = "")
-  }
 }
 
 #' @title Function for Extracting Matched Dataset

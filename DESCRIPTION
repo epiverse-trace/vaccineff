@@ -1,6 +1,6 @@
 Package: vaccineff
 Title: Estimate Vaccine Effectiveness Based on Different Study Designs
-Version: 0.0.1
+Version: 0.0.2
 Authors@R: c(
     person(given = "David Santiago", family = "Quevedo", email = "ex-dsquevedo@javeriana.edu.co", role = c("aut"),
         comment = c(ORCID = "0000-0003-1583-4262")),

@@ -123,7 +123,7 @@ check_vaccineff_inputs <- function(data_set,
     # `exact` and `nearest` cannot be NULL. At least one must be provided
     stopifnot(
       "`exact` and `nearest` cannot be NULL. At least one must be provided" =
-        (missing(nearest) & missing(exact))
+        (!missing(nearest) || !missing(exact))
     )
 
     # checks for `nearest`

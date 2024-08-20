@@ -46,7 +46,7 @@ static_match <- function(data_set,
   warning_2 <- paste("Removed before iterating", removed_0, "\n")
 
   # iterate match after first exposition times adjusting
-  adjusted_f <- iterate_match(
+  results_iteration <- iterate_match(
     all = data_set,
     matched = matched,
     adjusted = adjusted_0,
@@ -61,6 +61,9 @@ static_match <- function(data_set,
     start_cohort = start_cohort,
     end_cohort = end_cohort
   )
+  adjusted_f <- results_iteration$adjusted
+  iterations <- results_iteration$iterations
+
   removed_f <- nrow(matched) - nrow(adjusted_f)
   warning_3 <- paste("Matches after iterating:",  nrow(adjusted_f), "\n")
   warning_4 <- paste("Removed after iterating", removed_f, "\n")
@@ -104,7 +107,8 @@ static_match <- function(data_set,
     match = adjusted_f,
     summary = summary,
     balance_all = balace_all,
-    balance_match = balace_match
+    balance_match = balace_match,
+    iterations = iterations
   )
 
   return(match)

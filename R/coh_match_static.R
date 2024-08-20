@@ -61,6 +61,7 @@ static_match <- function(data_set,
     start_cohort = start_cohort,
     end_cohort = end_cohort
   )
+
   adjusted_f <- results_iteration$adjusted
   iterations <- results_iteration$iterations
 

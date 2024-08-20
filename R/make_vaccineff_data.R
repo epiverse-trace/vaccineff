@@ -104,6 +104,14 @@ make_vaccineff_data <- function(data_set,
     unvaccinated_status = unvaccinated_status
   )
 
+  matching$match <- linelist::set_tags(
+    x = matching$match,
+    time_to_event_col = "time_to_event",
+    outcome_status_col = "outcome_status",
+    t0_follow_up_col = "t0_follow_up",
+    allow_extra = TRUE
+  )
+
   vaccineff_data <- list(
     cohort_data = cohort_data,
     start_cohort = start_cohort,

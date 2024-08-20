@@ -129,28 +129,16 @@ coh_coverage <- function(data_set,
 #' )
 #' @export
 
-plot_coverage <- function(data_set,
-                          vacc_date_col,
+plot_coverage <- function(vaccineff_data,
                           unit = c("day", "month", "year"),
                           doses_count_color = "steelblue",
                           coverage_color = "mediumpurple",
                           date_interval = NULL,
                           cumulative = FALSE) {
-  checkmate::assert_data_frame(
-    data_set,
-    min.rows = 1L
+  stopifnot("Input must be an object of class 'vaccineff_data'" =
+      checkmate::test_class(vaccineff_data, "vaccineff_data")
   )
-  checkmate::assert_character(
-    vacc_date_col,
-    min.len = 1L
-  )
-  checkmate::assert_names(
-    colnames(data_set),
-    must.include = c(vacc_date_col)
-  )
-  checkmate::assert_date(
-    data_set[[vacc_date_col]]
-  )
+
   unit <- match.arg(unit, several.ok = FALSE)
   checkmate::assert_string(
     unit
@@ -163,9 +151,11 @@ plot_coverage <- function(data_set,
     c(doses_count_color, coverage_color)
   )
 
+  tags <- linelist::tags(vaccineff_data$cohort_data)
+
   coverage <- coh_coverage(
-    data_set = data_set,
-    vacc_date_col = vacc_date_col,
+    data_set = vaccineff_data$cohort_data,
+    vacc_date_col = tags$vacc_date_col,
     unit = unit,
     date_interval = date_interval
   )
@@ -176,23 +166,23 @@ plot_coverage <- function(data_set,
     coverage$dose_plot <- coverage$doses
   }
 
-  plt <- ggplot2::ggplot(coverage) +
-    ggplot2::geom_col(
+  plt <- ggplot2::ggplot() +
+
+    ggplot2::geom_col(data = coverage,
+      ggplot2::aes(
+        x = .data$date,
+        y = .data$coverage * max(.data$dose_plot),
+        fill = "Coverage"
+      ),
+      alpha = 0.6
+    ) +
+    ggplot2::geom_col(data = coverage,
       ggplot2::aes(
         x = .data$date,
         y = .data$dose_plot,
         fill = "Doses"
       ),
-      alpha = 0.6
-    ) +
-    ggplot2::geom_line(
-      ggplot2::aes(
-        x = .data$date,
-        y = .data$coverage * max(.data$dose_plot),
-        group = 1,
-        colour = "Coverage"
-      ),
-      linetype = "dashed"
+      alpha = 0.47
     ) +
     ggplot2::scale_x_date(name = NULL, date_labels = "%b %Y") +
     ggplot2::scale_y_continuous(
@@ -203,12 +193,37 @@ plot_coverage <- function(data_set,
       sec.axis = ggplot2::sec_axis(~. / max(coverage$dose_plot),
                                    labels = scales::percent,
                                    name = "Percentage of coverage")
-    ) +
+    )
+
+  if (!is.null(vaccineff_data$matching)) {
+    coverage_match <- coh_coverage(
+      data_set = vaccineff_data$matching$match,
+      vacc_date_col = tags$vacc_date_col,
+      unit = unit,
+      date_interval = date_interval
+    )
+
+    doses_count_color <- c(doses_count_color, "green")
+    if (cumulative) {
+      coverage_match$dose_plot <- coverage_match$cum_doses
+    } else {
+      coverage_match$dose_plot <- coverage_match$doses
+    }
+
+    plt <- plt + ggplot2::geom_col(
+      data = coverage_match,
+      ggplot2::aes(
+        x = .data$date,
+        y = .data$dose_plot,
+        fill = "Matched doses"
+      ),
+      alpha = 0.3
+    )
+  }
+
+  plt <- plt +
     ggplot2::scale_fill_manual(
-      name = NULL, values = doses_count_color
-    ) +
-    ggplot2::scale_color_manual(
-      name = NULL, values = coverage_color
+      name = NULL, values = c(coverage_color, doses_count_color)
     ) +
     ggplot2::theme_classic() +
     ggplot2::theme(legend.position = "top")

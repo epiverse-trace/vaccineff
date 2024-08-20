@@ -118,3 +118,52 @@ make_vaccineff_data <- function(data_set,
 
   return(vaccineff_data)
 }
+
+#' @title Summarize Vaccineff Data
+#'
+#' @description Summarizes the results of `make_vaccineff_data`.
+#'
+#' @param object Object of the class `vaccineff_data`.
+#' @param warnings_log If `TRUE`, prints the warnings log.
+#' @param ... Additional arguments passed to other functions.
+#' @return Summary of the results from vaccinef data
+#' @export
+
+summary.vaccineff_data <- function(object, warnings_log = FALSE, ...) {
+  # Check if the input object is of class "match"
+  stopifnot("Input must be an object of class 'vaccineff_data'" =
+      checkmate::test_class(object, "vaccineff_data")
+  )
+
+  cat(paste0("\nCohort start: ", object$start_cohort))
+  cat(paste0("\nCohort end: ", object$end_cohort, "\n"))
+
+  # Extract tags
+  tags <- linelist::tags(object$cohort_data)
+
+  # Summary
+  if (!is.null(object$matching)) {
+    cat("\nNearest neighbors matching iteratively performed.\n")
+    summary.match(object$matching)
+  } else {
+    summ_cohort <- match_summary(
+      all = object$cohort_data,
+      matched = NULL,
+      vacc_status_col = tags$vacc_status_col
+    )
+    cat("\nNo matching routine invoked.\n")
+    print(summ_cohort)
+  }
+
+  # Print tags from linelist object
+  tags_txt <- paste(names(tags), unlist(tags), sep = ":", collapse = ", ")
+  if (tags_txt == "") {
+    tags_txt <- "[no tagged variable]"
+  }
+  cat("\n// tags:", tags_txt, "\n")
+
+  if (warnings_log && !is.null(object$matching)) {
+    cat("\nWarnings:\n")
+    cat(object$matching$warnings_log, sep = "")
+  }
+}

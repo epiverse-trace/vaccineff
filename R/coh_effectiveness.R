@@ -85,36 +85,11 @@
 #' plot(ve)
 #' @export
 
-effectiveness <- function(data_set,
-                          start_cohort,
-                          end_cohort,
-                          method = "HR",
-                          outcome_status_col = "outcome_status",
-                          time_to_event_col = "time_to_event",
-                          vacc_status_col = "vaccine_status",
-                          vaccinated_status = "v",
-                          unvaccinated_status = "u") {
+effectiveness <- function(vaccineff_data,
+                          method = "HR") {
 
-  # input checking
-  checkmate::assert_data_frame(
-    data_set,
-    min.rows = 1L
-  )
-  checkmate::assert_names(
-    names(data_set),
-    must.include = c(outcome_status_col, time_to_event_col, vacc_status_col)
-  )
-  checkmate::assert_names(
-    data_set[[vacc_status_col]],
-    must.include = c(vaccinated_status, unvaccinated_status)
-  )
-
-  # check date types
-  checkmate::assert_date(
-    start_cohort, any.missing = FALSE, len = 1
-  )
-  checkmate::assert_date(
-    end_cohort, any.missing = FALSE, len = 1
+  stopifnot("Input must be an object of class 'vaccineff_data'" =
+      checkmate::test_class(vaccineff_data, "vaccineff_data")
   )
 
   # check method
@@ -122,17 +97,22 @@ effectiveness <- function(data_set,
     method, choices = "HR"
   )
 
+  if (!is.null(vaccineff_data$matching)) {
+    data_set <- vaccineff_data$matching$match
+    tags <- linelist::tags(vaccineff_data$matching$match)
+  }
+
   # select estimation method
   if (method == "HR") {
     eff_obj <- coh_eff_hr(
       data_set = data_set,
-      outcome_status_col = outcome_status_col,
-      time_to_event_col = time_to_event_col,
-      vacc_status_col = vacc_status_col,
-      vaccinated_status = vaccinated_status,
-      unvaccinated_status = unvaccinated_status,
-      start_cohort = start_cohort,
-      end_cohort = end_cohort
+      outcome_status_col = tags$outcome_status_col,
+      time_to_event_col = tags$time_to_event_col,
+      vacc_status_col = tags$vacc_status_col,
+      vaccinated_status = vaccineff_data$vaccinated_status,
+      unvaccinated_status = vaccineff_data$unvaccinated_status,
+      start_cohort = vaccineff_data$start_cohort,
+      end_cohort = vaccineff_data$end_cohort
     )
   }
   # effectiveness object

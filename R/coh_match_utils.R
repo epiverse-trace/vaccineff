@@ -88,7 +88,14 @@ match_summary <- function(all,
                           matched,
                           vacc_status_col) {
   summ_all <- as.data.frame(rbind(table(all[[vacc_status_col]])))
-  summ_matched <- as.data.frame(rbind(table(matched[[vacc_status_col]])))
+  if (is.null(matched)) {
+    summ_matched <- data.frame(
+      u = 0,
+      v = 0
+    )
+  } else {
+    summ_matched <- as.data.frame(rbind(table(matched[[vacc_status_col]])))
+  }
   summ_unmatched <- summ_all - summ_matched
   summ <- rbind(summ_all, summ_matched, summ_unmatched)
   row.names(summ) <- c("All", "Matched", "Unmatched")

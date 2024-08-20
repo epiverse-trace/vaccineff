@@ -209,5 +209,5 @@ iterate_match <- function(all,
     # update iteration number
     im <- im + 1
   }
-  return(adjusted)
+  return(list(adjusted = adjusted, iterations = im))
 }

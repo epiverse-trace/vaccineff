@@ -3,24 +3,25 @@
 #' @description This function uses the return from the Kaplan-Meier model
 #' to create a log-log plot. It calculates log(-log(Survival Probability))
 #' and log(Time).
-#'
-#' @inheritParams plot_survival
+#' @importFrom rlang .data
+#' @param km Kapplan-Meier estimation created with `km_model`.
 #' @return Log-log plot.
 #' @keywords internal
 
-plot_loglog <- function(km,
-                        vaccinated_status,
-                        unvaccinated_status) {
+plot_loglog <- function(km) {
   # Calculate log-variables
   km$loglog <- log(-log(km$surv))
   km$logtime <- log(km$time)
 
+  # strata levels were defined as order actors to extract like this
+  vaccinated_status <- km$strata[1]
+  unvaccinated_status <- km$strata[2]
   # Plot colors
   vaccinated_color <- "steelblue"
   unvaccinated_color <- "darkred"
 
   # Plot
-  plt_loglog <- ggplot2::ggplot(data = km) +
+  plt <- ggplot2::ggplot(data = km) +
     ggplot2::geom_step(ggplot2::aes(x = .data$logtime,
                                     y = .data$loglog,
                                     color = .data$strata)
@@ -34,7 +35,7 @@ plot_loglog <- function(km,
       values = c(vaccinated_color, unvaccinated_color),
       labels = c(vaccinated_status, unvaccinated_status)
     )
-  return(plt_loglog)
+  return(plt)
 }
 
 #' @title Plot the Survival Probability Based on the Kaplan-Meier Model
@@ -47,105 +48,15 @@ plot_loglog <- function(km,
 #'
 #' @importFrom rlang .data
 #' @inheritParams effectiveness
-#' @param vaccinated_color Color assigned to the vaccinated population.
-#' @param unvaccinated_color Color assigned to the unvaccinated population.
+#' @param km Kapplan-Meier estimation created with `km_model`.
 #' @param percentage If `TRUE`, returns probability in percentage.
-#' @param cumulative If `TRUE`, returns cumulative hazards.
+#' @param cumulative If `TRUE`, returns cumulative incidence
 #' @return `{ggplot2}` object with plot of survival or cumulative incidence.
-#' @examples
-#' # Define start and end dates of the study
-#' start_cohort <- as.Date("2044-01-01")
-#' end_cohort <- as.Date("2044-12-31")
-#'
-#' # Create `data.frame` with information on immunization
-#' cohortdata <- make_immunization(
-#'   data_set = cohortdata,
-#'   outcome_date_col = "death_date",
-#'   censoring_date_col = "death_other_causes",
-#'   immunization_delay = 14,
-#'   vacc_date_col = "vaccine_date_2",
-#'   end_cohort = end_cohort
-#' )
-#'
-#' # Match the data
-#' matching <- match_cohort(
-#'   data_set = cohortdata,
-#'   outcome_date_col = "death_date",
-#'   censoring_date_col = "death_other_causes",
-#'   start_cohort = start_cohort,
-#'   end_cohort = end_cohort,
-#'   method = "static",
-#'   exact = "sex",
-#'   nearest = c(age = 1)
-#' )
-#'
-#' # Extract matched data
-#' cohortdata_match <- get_dataset(matching)
-#'
-#' # Plot survival curve
-#' plot_survival(
-#'   data_set = cohortdata_match,
-#'   start_cohort = start_cohort,
-#'   end_cohort = end_cohort
-#' )
-#' @export
+#' @keywords internal
 
-plot_survival <- function(data_set,
-                          start_cohort,
-                          end_cohort,
-                          outcome_status_col = "outcome_status",
-                          time_to_event_col = "time_to_event",
-                          vacc_status_col = "vaccine_status",
-                          vaccinated_status = "v",
-                          unvaccinated_status = "u",
-                          vaccinated_color = "steelblue",
-                          unvaccinated_color = "darkred",
+plot_survival <- function(km,
                           percentage = TRUE,
                           cumulative = FALSE) {
-  # input checking
-  checkmate::assert_data_frame(
-    data_set,
-    min.rows = 1L
-  )
-  checkmate::assert_names(
-    names(data_set),
-    must.include = c(outcome_status_col, time_to_event_col, vacc_status_col)
-  )
-  checkmate::assert_character(
-    c(vaccinated_color, unvaccinated_color)
-  )
-  checkmate::assert_logical(
-    percentage,
-    len = 1
-  )
-  checkmate::assert_logical(
-    cumulative,
-    len = 1
-  )
-  # check date types
-  checkmate::assert_date(
-    start_cohort,
-    any.missing = FALSE, len = 1
-  )
-  checkmate::assert_date(
-    end_cohort,
-    any.missing = FALSE, len = 1
-  )
-  checkmate::assert_names(
-    data_set[[vacc_status_col]],
-    must.include = c(vaccinated_status, unvaccinated_status)
-  )
-
-  # KM model
-  km <- km_model(data_set = data_set,
-    outcome_status_col = outcome_status_col,
-    time_to_event_col = time_to_event_col,
-    vacc_status_col = vacc_status_col,
-    vaccinated_status = vaccinated_status,
-    unvaccinated_status = unvaccinated_status,
-    start_cohort = start_cohort,
-    end_cohort = end_cohort
-  )
 
   if (cumulative) {
     km$plot <- km$cumincidence
@@ -157,10 +68,15 @@ plot_survival <- function(data_set,
     km$plot_upper <- km$lower
   }
 
-  # set colour names for vaccination status
+  # strata levels were defined as order actors to extract like this
+  vaccinated_status <- km$strata[1]
+  unvaccinated_status <- km$strata[2]
+  # Plot colors
+  vaccinated_color <- "steelblue"
+  unvaccinated_color <- "darkred"
+
   colors <- c(vaccinated_color, unvaccinated_color)
   vacc_status <- c(vaccinated_status, unvaccinated_status)
-  names(colors) <- c(vaccinated_status, unvaccinated_status)
 
   plt <-
     ggplot2::ggplot(data = km) +

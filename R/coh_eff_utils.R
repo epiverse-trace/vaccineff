@@ -53,7 +53,10 @@ km_model <- function(data_set,
       paste0("data_set[[vacc_status_col]]=", unvaccinated_status)
     )
   )
-  levels(km$strata) <- c(vaccinated_status, unvaccinated_status)
+  levels(km$strata) <- factor(
+    c(vaccinated_status, unvaccinated_status),
+    order = TRUE
+  )
 
   km <- subset(km,
     select = c("time", "date", "strata",

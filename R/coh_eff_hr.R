@@ -10,9 +10,9 @@
 #' plot.
 #'
 #' @inheritParams effectiveness
-#' @return Method call from `{survival}`, VE (CI95%),
-#' p-value of Schoenfeld test,
-#' and log-log plot for proportional hazards
+#' @return VE (CI95%),
+#' output from `cox_model`,
+#' and output from `km_model`
 #' @keywords internal
 
 
@@ -36,12 +36,6 @@ coh_eff_hr <- function(data_set,
     end_cohort = end_cohort
   )
 
-  # loglog plot
-  loglog <- plot_loglog(km,
-    vaccinated_status = vaccinated_status,
-    unvaccinated_status = unvaccinated_status
-  )
-
   # Cox model
   cx <- cox_model(data_set = data_set,
     outcome_status_col = outcome_status_col,
@@ -61,11 +55,9 @@ coh_eff_hr <- function(data_set,
 
   # output
   ve <- list(
-    call = cx$model$call,
-    method = "HR",
     ve = eff,
-    test = cx$p_value,
-    plot = loglog
+    cox_model = cx,
+    kaplan_meier = km
   )
 
   return(ve)

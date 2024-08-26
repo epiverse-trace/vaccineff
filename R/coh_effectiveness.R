@@ -1,85 +1,86 @@
 #' @title Estimate Vaccine Effectiveness (VE)
 #'
-#' @description  This function provides methods for estimating VE. It relies
-#' on the implementation of the Kaplan-Meier estimator and the Cox model for
-#' proportional hazards in the package `{survival}`. Currently, the default
-#' method of the function is VE = 1 - HR, where HR is the Hazard Ratio
-#' calculated using the Cox model. The proportional hazards hypothesis is
-#' tested using the Schoenfeld test, and the resultant p-value is provided in
-#' the results. Log-log plots are also generated using the Kaplan-Meier
-#' survival estimator to provide a visual test for the proportional hazards
-#' hypothesis. The functions uses the names of columns provided in the tags
-#' outcome_status_col, time_to_event_col and vaccine_status_col of the
-#' `linelist` object and the status names provided in `make_vaccineff_data`.
-#' The return is an `S3 class` object with the VE (CI95%),
-#' the result of Cox model and the Kaplan-Meier estimator.
-#' This object is compatible with the methods `summary` and `plot`.
+#' @description This function provides methods for estimating VE. It relies on
+#' the Kaplan-Meier estimator and the Cox model for proportional hazards
+#' from the `{survival}` package. Currently, the default method is VE = 1 - HR,
+#' where HR is the Hazard Ratio calculated using the Cox model. The
+#' proportional hazards assumption is tested using the Schoenfeld test,
+#' with the p-value provided in the results. Log-log plots are also generated
+#' using the Kaplan-Meier estimator for a visual test of the proportional
+#' hazards hypothesis. The function uses column names provided in the tags
+#' `outcome_status_col`, `time_to_event_col`, and `vaccine_status_col` of the
+#' `linelist` object and status names from `make_vaccineff_data`.
+#' The return is an `S3 class` object with the VE (CI95%), results from the Cox
+#' model, and the Kaplan-Meier estimator. This object is compatible with
+#' `summary` and `plot` methods.
 #'
-#' @param vaccineff_data Object of the class `vaccineff_data`, with the
-#' cohort information.
-#' @return Object of the class `effectiveness`: list with results from
+#' @param vaccineff_data Object of the class `vaccineff_data` with
+#' vaccineff data.
+#' @param at Number of days at which VE is estimated from the beginning of the
+#' follow-up period. If NULL, effectiveness is estimated at the end of the
+#' study, assigned as `end_cohort`. Default is NULL.
+#' @return Object of the class `effectiveness`: a list with results from the
 #' estimation of VE.
-#' `ve`: `data.frame` with VE(CI95%),
-#' `cox_model`: `survival` object with results for cox model
+#' `ve`: `data.frame` with VE(CI95%)
+#' `cox_model`: `survival` object with Cox model results
 #' `kaplan_meier`: `survival` object with Kaplan-Meier estimator
 #' @examples
-#' # Define start and end dates of the study
-#' start_cohort <- as.Date("2044-01-01")
-#' end_cohort <- as.Date("2044-12-31")
+#' # Load example data
+#' data("cohortdata")
 #'
-#' # Create `data.frame` with information of immunization
-#' cohortdata <- make_immunization(
-#'   data_set = cohortdata,
+#' # Create `vaccineff_data`
+#' vaccineff_data <- make_vaccineff_data(data_set = cohortdata,
 #'   outcome_date_col = "death_date",
 #'   censoring_date_col = "death_other_causes",
-#'   immunization_delay = 14,
-#'   vacc_date_col = c("vaccine_date_2"),
-#'   end_cohort = end_cohort,
-#'   take_first = FALSE
-#' )
-#' head(cohortdata)
-#'
-#' # Match the data
-#' matching <- match_cohort(
-#'   data_set = cohortdata,
-#'   outcome_date_col = "death_date",
-#'   censoring_date_col = "death_other_causes",
-#'   start_cohort = start_cohort,
-#'   end_cohort = end_cohort,
-#'   method = "static",
-#'   exact = "sex",
-#'   nearest = c(age = 1)
+#'   vacc_date_col = "vaccine_date_2",
+#'   vaccinated_status = "v",
+#'   unvaccinated_status = "u",
+#'   immunization_delay = 15,
+#'   start_cohort = as.Date("2044-01-01"),
+#'   end_cohort = as.Date("2044-12-31"),
+#'   match = TRUE,
+#'   exact = c("age", "sex"),
+#'   nearest = NULL
 #' )
 #'
-#' # Extract matched data
-#' cohortdata_match <- get_dataset(matching)
+#' # Estimate the Vaccinef Effectiveness (VE)
+#' ve <- effectiveness(vaccineff_data, 90)
 #'
-#' # Calculate vaccine effectiveness
-#' ve <- effectiveness(
-#'   data_set = cohortdata_match,
-#'   start_cohort = start_cohort,
-#'   end_cohort = end_cohort
-#' )
-#'
-#' # View summary of VE
+#' # Print summary of VE
 #' summary(ve)
 #'
-#' # Generate plot of method
-#' plot(ve)
+#' # Generate loglog plot to check proportional hazards
+#' plot(ve, type = "loglog")
+#'
+#' # Generate Survival plot
+#' plot(ve, type = "surv", percentage = FALSE, cumulative = FALSE)
 #' @export
 
-effectiveness <- function(vaccineff_data) {
+effectiveness <- function(vaccineff_data,
+                          at = NULL) {
 
   stopifnot("Input must be an object of class 'vaccineff_data'" =
       checkmate::test_class(vaccineff_data, "vaccineff_data")
   )
 
+  # Check numeric argument for at
+  checkmate::test_integerish(at, lower = 0, null.ok = TRUE)
+
   if (!is.null(vaccineff_data$matching)) {
     data_set <- vaccineff_data$matching$match
-    tags <- linelist::tags(data_set)
   } else {
     data_set <- vaccineff_data$cohort_data
-    tags <- linelist::tags(data_set)
+  }
+
+  tags <- linelist::tags(data_set)
+
+  if (!is.null(at)) {
+    data_set <- truncate_tte_at(
+      data_set = data_set,
+      outcome_date_col = tags$outcome_date_col,
+      end_cohort = vaccineff_data$end_cohort,
+      at = at
+    )
   }
 
   eff_obj <- coh_eff_hr(
@@ -92,6 +93,8 @@ effectiveness <- function(vaccineff_data) {
     start_cohort = vaccineff_data$start_cohort,
     end_cohort = vaccineff_data$end_cohort
   )
+  # Estimation at
+  eff_obj$at <- at
   # effectiveness object
   class(eff_obj) <- "effectiveness"
 
@@ -113,20 +116,35 @@ summary.effectiveness <- function(object, ...) {
   stopifnot("Input must be an object of class 'effectiveness'" =
       checkmate::test_class(object, "effectiveness")
   )
-  cat(
-    "Vaccine Effectiveness computed as VE = 1 - HR:\n"
-  )
+  if (!is.null(object$at)) {
+    cat(
+      sprintf("Vaccine Effectiveness at %i days computed as VE = 1 - HR:\n",
+              object$at)
+    )
+  } else {
+    cat(
+      "Vaccine Effectiveness computed as VE = 1 - HR:\n"
+    )
+  }
+
   print(object$ve)
   cat("\nSchoenfeld test for Proportional Hazards hypothesis:\n")
   cat(sprintf("p-value = %s\n", object$cox_model$p_value))
 }
 
-#' @title Function for Extracting VE plot
+#' @title Function for Extracting VE Plot
 #'
-#' @description This function extracts the plot generated
-#' by `effectiveness`.
+#' @description This function creates plots from an object of class
+#' `effectiveness`. It returns a Log-Log plot when `type = "loglog"`,
+#' and a Survival curve when `type = "surv"`. Survival plots can be
+#' shown as cumulative incidence (`cumulative = TRUE`), and using
+#' percentages (`percentage = TRUE`).
 #'
-#' @param x Object of the class `effectiveness`.
+#' @param x Object of class `effectiveness`.
+#' @param type Type of plot. Options are `loglog` and `surv`.
+#' @param cumulative If `TRUE`, the survival curve is shown as cumulative
+#' incidence.
+#' @param percentage If `TRUE`, results are shown on a percentage scale.
 #' @param ... Additional arguments passed to other functions.
 #' @return Plot extracted from `effectiveness`.
 #' @export

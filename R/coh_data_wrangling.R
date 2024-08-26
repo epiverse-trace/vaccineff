@@ -123,7 +123,7 @@ set_event_status <- function(data_set,
       no = data_set$outcome_status
     )
   }
-  return(data_set$outcome_status)
+  return(as.numeric(data_set$outcome_status))
 }
 
 #' @title Construct Time-to-Event

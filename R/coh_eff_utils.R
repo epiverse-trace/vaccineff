@@ -55,7 +55,7 @@ km_model <- function(data_set,
   )
   levels(km$strata) <- factor(
     c(vaccinated_status, unvaccinated_status),
-    order = TRUE
+    ordered = TRUE
   )
 
   km <- subset(km,

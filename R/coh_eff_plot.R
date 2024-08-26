@@ -4,7 +4,7 @@
 #' to create a log-log plot. It calculates log(-log(Survival Probability))
 #' and log(Time).
 #' @importFrom rlang .data
-#' @param km Kapplan-Meier estimation created with `km_model`.
+#' @param km Kaplan-Meier estimation created with `km_model`.
 #' @return Log-log plot.
 #' @keywords internal
 
@@ -48,7 +48,7 @@ plot_loglog <- function(km) {
 #'
 #' @importFrom rlang .data
 #' @inheritParams effectiveness
-#' @param km Kapplan-Meier estimation created with `km_model`.
+#' @param km Kaplan-Meier estimation created with `km_model`.
 #' @param percentage If `TRUE`, returns probability in percentage.
 #' @param cumulative If `TRUE`, returns cumulative incidence
 #' @return `{ggplot2}` object with plot of survival or cumulative incidence.

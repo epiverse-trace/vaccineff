@@ -3,42 +3,25 @@
 #' @description  This function provides methods for estimating VE. It relies
 #' on the implementation of the Kaplan-Meier estimator and the Cox model for
 #' proportional hazards in the package `{survival}`. Currently, the default
-#' method of the function is `HR` (Hazard Ratio). Thus, the VE = 1 - HR, where
-#' HR is calculated using the Cox model. The proportional hazards hypothesis is
+#' method of the function is VE = 1 - HR, where HR is the Hazard Ratio
+#' calculated using the Cox model. The proportional hazards hypothesis is
 #' tested using the Schoenfeld test, and the resultant p-value is provided in
 #' the results. Log-log plots are also generated using the Kaplan-Meier
 #' survival estimator to provide a visual test for the proportional hazards
-#' hypothesis. The functions uses the default name of columns
-#' `outcome_status`, `time_to_event` and `vaccine_status`, and the  default
-#' status names `v` and `u`. However, custom names can be provided through the
-#' parameters `outcome_status_col`, `time_to_event_col`, `vacc_status_col`,
-#' `vaccinated_status` and `unvaccinated_status`.
-#' The return is a list with the call and the name of the method used for
-#' the estimation of VE (CI95%), the result of the performance test, and
-#' a suitable plot for the method.
-#' The object returned is compatible with the methods `summary` and `plot`.
+#' hypothesis. The functions uses the names of columns provided in the tags
+#' outcome_status_col, time_to_event_col and vaccine_status_col of the
+#' `linelist` object and the status names provided in `make_vaccineff_data`.
+#' The return is an `S3 class` object with the VE (CI95%),
+#' the result of Cox model and the Kaplan-Meier estimator.
+#' This object is compatible with the methods `summary` and `plot`.
 #'
-#' @param data_set `data.frame` with cohort information (see example).
-#' @param start_cohort Start date of the study.
-#' @param end_cohort End date of the study.
-#' @param method Method to estimate VE. Default is `HR`.
-#' @param outcome_status_col Name of the column containing status of the event
-#' (must be a binary column). Default is `outcome_status`.
-#' @param time_to_event_col Name of the column containing the time-to-event.
-#' Default is `time_to_event`.
-#' @param vacc_status_col Name of the column containing the vaccination.
-#' Default is `vaccine_status`.
-#' @param vaccinated_status Status assigned to the vaccinated population.
-#' Default is `v`.
-#' @param unvaccinated_status Status assigned to the unvaccinated population.
-#' Default is `u`.
+#' @param vaccineff_data Object of the class `vaccineff_data`, with the
+#' cohort information.
 #' @return Object of the class `effectiveness`: list with results from
 #' estimation of VE.
-#' `call`: call of `{survival}` method,
 #' `ve`: `data.frame` with VE(CI95%),
-#' `test`: result from test of performance,
-#' `plot`: plot of method,
-#' `method`: name of the method used for the estimation.
+#' `cox_model`: `survival` object with results for cox model
+#' `kaplan_meier`: `survival` object with Kaplan-Meier estimator
 #' @examples
 #' # Define start and end dates of the study
 #' start_cohort <- as.Date("2044-01-01")
@@ -85,36 +68,30 @@
 #' plot(ve)
 #' @export
 
-effectiveness <- function(vaccineff_data,
-                          method = "HR") {
+effectiveness <- function(vaccineff_data) {
 
   stopifnot("Input must be an object of class 'vaccineff_data'" =
       checkmate::test_class(vaccineff_data, "vaccineff_data")
   )
 
-  # check method
-  checkmate::assert_choice(
-    method, choices = "HR"
-  )
-
   if (!is.null(vaccineff_data$matching)) {
     data_set <- vaccineff_data$matching$match
-    tags <- linelist::tags(vaccineff_data$matching$match)
+    tags <- linelist::tags(data_set)
+  } else {
+    data_set <- vaccineff_data$cohort_data
+    tags <- linelist::tags(data_set)
   }
 
-  # select estimation method
-  if (method == "HR") {
-    eff_obj <- coh_eff_hr(
-      data_set = data_set,
-      outcome_status_col = tags$outcome_status_col,
-      time_to_event_col = tags$time_to_event_col,
-      vacc_status_col = tags$vacc_status_col,
-      vaccinated_status = vaccineff_data$vaccinated_status,
-      unvaccinated_status = vaccineff_data$unvaccinated_status,
-      start_cohort = vaccineff_data$start_cohort,
-      end_cohort = vaccineff_data$end_cohort
-    )
-  }
+  eff_obj <- coh_eff_hr(
+    data_set = data_set,
+    outcome_status_col = tags$outcome_status_col,
+    time_to_event_col = tags$time_to_event_col,
+    vacc_status_col = tags$vacc_status_col,
+    vaccinated_status = vaccineff_data$vaccinated_status,
+    unvaccinated_status = vaccineff_data$unvaccinated_status,
+    start_cohort = vaccineff_data$start_cohort,
+    end_cohort = vaccineff_data$end_cohort
+  )
   # effectiveness object
   class(eff_obj) <- "effectiveness"
 
@@ -137,14 +114,11 @@ summary.effectiveness <- function(object, ...) {
       checkmate::test_class(object, "effectiveness")
   )
   cat(
-    sprintf("Vaccine Effectiveness computed as VE = 1 - %s:\n",
-            object$method)
+    "Vaccine Effectiveness computed as VE = 1 - HR:\n"
   )
   print(object$ve)
-  if (object$method == "HR") {
-    cat("\nSchoenfeld test for Proportional Hazards hypothesis:\n")
-    cat(sprintf("p-value = %s\n", object$test))
-  }
+  cat("\nSchoenfeld test for Proportional Hazards hypothesis:\n")
+  cat(sprintf("p-value = %s\n", object$cox_model$p_value))
 }
 
 #' @title Function for Extracting VE plot
@@ -157,10 +131,37 @@ summary.effectiveness <- function(object, ...) {
 #' @return Plot extracted from `effectiveness`.
 #' @export
 
-plot.effectiveness <- function(x, ...) {
+plot.effectiveness <- function(x,
+                               type = c("loglog", "surv"),
+                               cumulative = FALSE,
+                               percentage = FALSE,
+                               ...) {
   # Check if the input object is of class "effectiveness"
   stopifnot("Input must be an object of class 'effectiveness'" =
       checkmate::test_class(x, "effectiveness")
   )
-  return(x$plot)
+  # Check plot type options
+  type <- match.arg(type)
+
+  # Check percentage
+  checkmate::assert_logical(
+    percentage,
+    len = 1L
+  )
+
+  # Check cumulative
+  checkmate::assert_logical(
+    cumulative,
+    len = 1L
+  )
+
+  if (type == "loglog") {
+    plt <- plot_loglog(x$kaplan_meier)
+  } else if (type == "surv") {
+    plt <- plot_survival(x$kaplan_meier,
+      percentage = percentage,
+      cumulative = cumulative
+    )
+  }
+  return(plt)
 }

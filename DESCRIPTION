@@ -41,7 +41,8 @@ Imports:
     ggplot2,
     scales,
     rlang,
-    MatchIt
+    MatchIt,
+    linelist
 Suggests: 
     knitr,
     rmarkdown,

@@ -120,11 +120,12 @@ check_vaccineff_inputs <- function(data_set,
   )
 
   if (match) {
-    # `exact` and `nearest` cannot be NULL. At least one must be provided
-    stopifnot(
-      "`exact` and `nearest` cannot be NULL. At least one must be provided" =
-        (!missing(nearest) || !missing(exact))
-    )
+    # Check if both 'exact' and 'nearest' are NULL or missing
+    if (is.null(nearest) && is.null(exact)) {
+      stop(
+        "`exact` and `nearest` cannot be NULL. At least one must be provided"
+      )
+    }
 
     # checks for `nearest`
     checkmate::assert_numeric(

@@ -3,79 +3,51 @@
 ## to avoid running the matching functions
 ## prepare data
 data("cohortdata")
-start_cohort <- as.Date("2044-01-01")
-end_cohort <- as.Date("2044-12-31")
 
-## get immunization date to death
-cohortdata$immunization <-
-  get_immunization_date(
-    data_set = cohortdata,
-    outcome_date_col = "death_date",
-    immunization_delay = 14,
-    vacc_date_col = c("vaccine_date_1", "vaccine_date_2"),
-    end_cohort = end_cohort,
-    take_first = FALSE
-  )
+# sample cohort to make tests faster - take a bigger sample
+sample_size <- 15000 # Minimum sample size that contains outcomes
+set.seed(123) # use fixed seed to avoid problems with snapshots
+sample_indices <- sample(nrow(cohortdata), sample_size)
+sample_cohort <- cohortdata[sample_indices, ]
+rownames(sample_cohort) <- NULL
 
-## set vaccine status based on immunization date
-cohortdata$vaccine_status <- set_status(
-  data_set = cohortdata,
-  col_names = "immunization",
-  status = c("v", "u")
-)
-
-## set outcome status
-cohortdata$death_status <- set_status(
-  data_set = cohortdata,
-  col_names = "death_date"
-)
-
-## get time to event
-cohortdata$time_to_death <- get_time_to_event(
-  data_set = cohortdata,
+# avoid warnings from p_value in this test
+output <- capture_warnings(make_vaccineff_data(
+  data_set = sample_cohort,
   outcome_date_col = "death_date",
-  start_cohort = start_cohort,
-  end_cohort = end_cohort,
-  start_from_immunization = FALSE
-)
+  censoring_date_col = "death_other_causes",
+  vacc_date_col = "vaccine_date_2",
+  vaccinated_status = "v",
+  unvaccinated_status = "u",
+  immunization_delay = 15,
+  start_cohort = as.Date("2044-01-01"),
+  end_cohort = as.Date("2044-12-31"),
+  match = TRUE,
+  exact = c("age", "sex"),
+  nearest = NULL
+))
+
+vaccineff_data <- output$result
+ve <- effectiveness(vaccineff_data)
 
 # test to test default options
 test_that("`plot_survival`: default params", {
   plt <- plot_survival(
-    data_set = cohortdata,
-    outcome_status_col = "death_status",
-    time_to_event_col = "time_to_death",
-    vacc_status_col = "vaccine_status",
-    vaccinated_status = "v",
-    unvaccinated_status = "u",
-    vaccinated_color = "steelblue",
-    unvaccinated_color = "darkred",
-    start_cohort = start_cohort,
-    end_cohort = end_cohort,
+    km = ve$kaplan_meier,
     percentage = TRUE,
     cumulative = FALSE
   )
 
   expect_identical(plt$labels$y, "Survival probability")
-  expect_setequal(
-    unique(plt$data$strata),
-    c("v", "u")
+  expect_true(
+    all(levels(plt$data$strata) %in% c("v", "u"))
   )
 })
 
 # test to test integer scale y axis
 test_that("`plot_survival`: integer scale", {
   plt <- plot_survival(
-    data_set = cohortdata,
-    outcome_status_col = "death_status",
-    time_to_event_col = "time_to_death",
-    vacc_status_col = "vaccine_status",
-    vaccinated_status = "v",
-    unvaccinated_status = "u",
-    vaccinated_color = "steelblue",
-    unvaccinated_color = "darkred",
-    start_cohort = start_cohort,
-    end_cohort = end_cohort,
+    km = ve$kaplan_meier,
     percentage = FALSE,
     cumulative = TRUE
   )
@@ -86,16 +58,7 @@ test_that("`plot_survival`: integer scale", {
 # test to test non-percentage
 test_that("`plot_survival`: Snapshot test", {
   plt <- plot_survival(
-    data_set = cohortdata,
-    outcome_status_col = "death_status",
-    time_to_event_col = "time_to_death",
-    vacc_status_col = "vaccine_status",
-    vaccinated_status = "v",
-    unvaccinated_status = "u",
-    vaccinated_color = "steelblue",
-    unvaccinated_color = "darkred",
-    start_cohort = start_cohort,
-    end_cohort = end_cohort,
+    km = ve$kaplan_meier,
     percentage = TRUE,
     cumulative = TRUE
   )

@@ -47,7 +47,6 @@ plot_loglog <- function(km) {
 #' to manipulate the colors, labels, legend, and most of the graphic elements.
 #'
 #' @importFrom rlang .data
-#' @inheritParams effectiveness
 #' @param km Kaplan-Meier estimation created with `km_model`.
 #' @param percentage If `TRUE`, returns probability in percentage.
 #' @param cumulative If `TRUE`, returns cumulative incidence

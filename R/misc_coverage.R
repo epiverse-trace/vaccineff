@@ -83,7 +83,6 @@ coh_coverage <- function(data_set,
 #' element with the number of vaccines per date on the left axis and the
 #' coverage per date on the right axis. When a matching routine is performed,
 #' the left axis also accounts for the doses of the matched cohort.
-#' @importFrom rlang .data
 #' @inheritParams coh_coverage
 #' @param vaccineff_data Object of the class `vaccineff_data` with
 #' vaccineff data.
@@ -115,17 +114,16 @@ coh_coverage <- function(data_set,
 #' @export
 
 plot_coverage <- function(vaccineff_data,
-                          unit = c("day", "month", "year"),
                           date_interval = NULL,
                           cumulative = FALSE) {
   stopifnot("Input must be an object of class 'vaccineff_data'" =
       checkmate::test_class(vaccineff_data, "vaccineff_data")
   )
 
-  unit <- match.arg(unit, several.ok = FALSE)
-  checkmate::assert_string(
-    unit
-  )
+
+  # Deprecated by scales 1.3.0 unit = c("day", "month", "year")
+  unit <- "day"
+
   checkmate::assert_logical(
     cumulative,
     len = 1
@@ -203,12 +201,23 @@ plot_coverage <- function(vaccineff_data,
         fill = "Matched doses"
       ),
       alpha = 0.3
-    )
+    ) +
+      ggplot2::guides(
+        color = ggplot2::guide_legend(
+          override.aes = list(alpha = c(0.68, 0.47, 0.3))
+        )
+      )
   } else {
     colors <- c(
       "Total doses" = "steelblue",
       Coverage = "mediumpurple"
     )
+    plt <- plt +
+      ggplot2::guides(
+        color = ggplot2::guide_legend(
+          override.aes = list(alpha = c(0.68, 0.47, 0.3))
+        )
+      )
   }
 
   plt <- plt +

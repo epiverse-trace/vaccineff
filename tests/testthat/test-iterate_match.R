@@ -74,12 +74,12 @@ test_that("`iterate_match`: Correctness", {
 
   expect_gt(
     # new cohort must contain new pairs
-    nrow(output$result), nrow(adjusted_0)
+    nrow(output$result$adjusted), nrow(adjusted_0)
   )
 
   expect_true(
     # new cohort must contain previous cohort
-    all(adjusted_0$match_id %in% output$result$match_id)
+    all(adjusted_0$match_id %in% output$result$adjusted$match_id)
   )
 
   # Warnings are also tested for completeness using a snapshot

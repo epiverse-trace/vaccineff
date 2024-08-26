@@ -14,8 +14,8 @@ plot_loglog <- function(km) {
   km$logtime <- log(km$time)
 
   # strata levels were defined as order actors to extract like this
-  vaccinated_status <- km$strata[1]
-  unvaccinated_status <- km$strata[2]
+  vaccinated_status <- levels(km$strata)[1]
+  unvaccinated_status <- levels(km$strata)[2]
   # Plot colors
   vaccinated_color <- "steelblue"
   unvaccinated_color <- "darkred"
@@ -68,8 +68,8 @@ plot_survival <- function(km,
   }
 
   # strata levels were defined as order actors to extract like this
-  vaccinated_status <- km$strata[1]
-  unvaccinated_status <- km$strata[2]
+  vaccinated_status <- levels(km$strata)[1]
+  unvaccinated_status <- levels(km$strata)[2]
   # Plot colors
   vaccinated_color <- "steelblue"
   unvaccinated_color <- "darkred"

@@ -123,7 +123,7 @@ summary.effectiveness <- function(object, ...) {
     )
   } else {
     cat(
-      "Vaccine Effectiveness computed as VE = 1 - HR:\n"
+      "Vaccine Effectiveness at the end of study computed as VE = 1 - HR:\n"
     )
   }
 

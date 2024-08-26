@@ -4,14 +4,14 @@
 \alias{summary.match}
 \title{Summarize Matching Results}
 \usage{
-\method{summary}{match}(object, warnings_log = FALSE, ...)
+\method{summary}{match}(object, ...)
 }
 \arguments{
 \item{object}{Object of the class \code{match}.}
 
-\item{warnings_log}{If \code{TRUE}, prints the warnings log.}
-
 \item{...}{Additional arguments passed to other functions.}
+
+\item{warnings_log}{If \code{TRUE}, prints the warnings log.}
 }
 \value{
 Summary of the results from matching.

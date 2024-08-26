@@ -8,10 +8,6 @@ extract_surv_model(model, start_cohort, end_cohort)
 }
 \arguments{
 \item{model}{\code{{survival}} object containing the model}
-
-\item{start_cohort}{Start date of the study.}
-
-\item{end_cohort}{End date of the study.}
 }
 \value{
 \code{data.frame} with survival data

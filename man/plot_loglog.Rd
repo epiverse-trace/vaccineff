@@ -4,14 +4,10 @@
 \alias{plot_loglog}
 \title{Plot Log-Log Test for Proportional Hazards Hypothesis}
 \usage{
-plot_loglog(km, vaccinated_status, unvaccinated_status)
+plot_loglog(km)
 }
 \arguments{
-\item{vaccinated_status}{Status assigned to the vaccinated population.
-Default is \code{v}.}
-
-\item{unvaccinated_status}{Status assigned to the unvaccinated population.
-Default is \code{u}.}
+\item{km}{Kaplan-Meier estimation created with \code{km_model}.}
 }
 \value{
 Log-log plot.

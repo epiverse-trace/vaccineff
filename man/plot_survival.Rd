@@ -4,50 +4,14 @@
 \alias{plot_survival}
 \title{Plot the Survival Probability Based on the Kaplan-Meier Model}
 \usage{
-plot_survival(
-  data_set,
-  start_cohort,
-  end_cohort,
-  outcome_status_col = "outcome_status",
-  time_to_event_col = "time_to_event",
-  vacc_status_col = "vaccine_status",
-  vaccinated_status = "v",
-  unvaccinated_status = "u",
-  vaccinated_color = "steelblue",
-  unvaccinated_color = "darkred",
-  percentage = TRUE,
-  cumulative = FALSE
-)
+plot_survival(km, percentage = TRUE, cumulative = FALSE)
 }
 \arguments{
-\item{data_set}{\code{data.frame} with cohort information (see example).}
-
-\item{start_cohort}{Start date of the study.}
-
-\item{end_cohort}{End date of the study.}
-
-\item{outcome_status_col}{Name of the column containing status of the event
-(must be a binary column). Default is \code{outcome_status}.}
-
-\item{time_to_event_col}{Name of the column containing the time-to-event.
-Default is \code{time_to_event}.}
-
-\item{vacc_status_col}{Name of the column containing the vaccination.
-Default is \code{vaccine_status}.}
-
-\item{vaccinated_status}{Status assigned to the vaccinated population.
-Default is \code{v}.}
-
-\item{unvaccinated_status}{Status assigned to the unvaccinated population.
-Default is \code{u}.}
-
-\item{vaccinated_color}{Color assigned to the vaccinated population.}
-
-\item{unvaccinated_color}{Color assigned to the unvaccinated population.}
+\item{km}{Kaplan-Meier estimation created with \code{km_model}.}
 
 \item{percentage}{If \code{TRUE}, returns probability in percentage.}
 
-\item{cumulative}{If \code{TRUE}, returns cumulative hazards.}
+\item{cumulative}{If \code{TRUE}, returns cumulative incidence}
 }
 \value{
 \code{{ggplot2}} object with plot of survival or cumulative incidence.
@@ -59,40 +23,4 @@ Probability or the Cumulative Hazard (if cumulative = TRUE).
 The return is a ggplot2 element of the curves with 95\% C.I. It is possible
 to manipulate the colors, labels, legend, and most of the graphic elements.
 }
-\examples{
-# Define start and end dates of the study
-start_cohort <- as.Date("2044-01-01")
-end_cohort <- as.Date("2044-12-31")
-
-# Create `data.frame` with information on immunization
-cohortdata <- make_immunization(
-  data_set = cohortdata,
-  outcome_date_col = "death_date",
-  censoring_date_col = "death_other_causes",
-  immunization_delay = 14,
-  vacc_date_col = "vaccine_date_2",
-  end_cohort = end_cohort
-)
-
-# Match the data
-matching <- match_cohort(
-  data_set = cohortdata,
-  outcome_date_col = "death_date",
-  censoring_date_col = "death_other_causes",
-  start_cohort = start_cohort,
-  end_cohort = end_cohort,
-  method = "static",
-  exact = "sex",
-  nearest = c(age = 1)
-)
-
-# Extract matched data
-cohortdata_match <- get_dataset(matching)
-
-# Plot survival curve
-plot_survival(
-  data_set = cohortdata_match,
-  start_cohort = start_cohort,
-  end_cohort = end_cohort
-)
-}
+\keyword{internal}

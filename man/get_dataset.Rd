@@ -19,3 +19,4 @@ This function serves as a generic method to extract datasets
 from objects of various classes. It dispatches to specific methods based
 on the class of the input object.
 }
+\keyword{internal}

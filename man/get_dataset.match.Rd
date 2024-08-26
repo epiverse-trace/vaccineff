@@ -18,3 +18,4 @@
 This function extracts the matched datasets generated
 by \code{match_cohort}.
 }
+\keyword{internal}

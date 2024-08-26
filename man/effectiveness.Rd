@@ -4,112 +4,66 @@
 \alias{effectiveness}
 \title{Estimate Vaccine Effectiveness (VE)}
 \usage{
-effectiveness(
-  data_set,
-  start_cohort,
-  end_cohort,
-  method = "HR",
-  outcome_status_col = "outcome_status",
-  time_to_event_col = "time_to_event",
-  vacc_status_col = "vaccine_status",
-  vaccinated_status = "v",
-  unvaccinated_status = "u"
-)
+effectiveness(vaccineff_data, at = NULL)
 }
 \arguments{
-\item{data_set}{\code{data.frame} with cohort information (see example).}
+\item{vaccineff_data}{Object of the class \code{vaccineff_data} with
+vaccineff data.}
 
-\item{start_cohort}{Start date of the study.}
-
-\item{end_cohort}{End date of the study.}
-
-\item{method}{Method to estimate VE. Default is \code{HR}.}
-
-\item{outcome_status_col}{Name of the column containing status of the event
-(must be a binary column). Default is \code{outcome_status}.}
-
-\item{time_to_event_col}{Name of the column containing the time-to-event.
-Default is \code{time_to_event}.}
-
-\item{vacc_status_col}{Name of the column containing the vaccination.
-Default is \code{vaccine_status}.}
-
-\item{vaccinated_status}{Status assigned to the vaccinated population.
-Default is \code{v}.}
-
-\item{unvaccinated_status}{Status assigned to the unvaccinated population.
-Default is \code{u}.}
+\item{at}{Number of days at which VE is estimated from the beginning of the
+follow-up period. If NULL, effectiveness is estimated at the end of the
+study, assigned as \code{end_cohort}. Default is NULL.}
 }
 \value{
-Object of the class \code{effectiveness}: list with results from
+Object of the class \code{effectiveness}: a list with results from the
 estimation of VE.
-\code{call}: call of \code{{survival}} method,
-\code{ve}: \code{data.frame} with VE(CI95\%),
-\code{test}: result from test of performance,
-\code{plot}: plot of method,
-\code{method}: name of the method used for the estimation.
+\code{ve}: \code{data.frame} with VE(CI95\%)
+\code{cox_model}: \code{survival} object with Cox model results
+\code{kaplan_meier}: \code{survival} object with Kaplan-Meier estimator
 }
 \description{
-This function provides methods for estimating VE. It relies
-on the implementation of the Kaplan-Meier estimator and the Cox model for
-proportional hazards in the package \code{{survival}}. Currently, the default
-method of the function is \code{HR} (Hazard Ratio). Thus, the VE = 1 - HR, where
-HR is calculated using the Cox model. The proportional hazards hypothesis is
-tested using the Schoenfeld test, and the resultant p-value is provided in
-the results. Log-log plots are also generated using the Kaplan-Meier
-survival estimator to provide a visual test for the proportional hazards
-hypothesis. The functions uses the default name of columns
-\code{outcome_status}, \code{time_to_event} and \code{vaccine_status}, and the  default
-status names \code{v} and \code{u}. However, custom names can be provided through the
-parameters \code{outcome_status_col}, \code{time_to_event_col}, \code{vacc_status_col},
-\code{vaccinated_status} and \code{unvaccinated_status}.
-The return is a list with the call and the name of the method used for
-the estimation of VE (CI95\%), the result of the performance test, and
-a suitable plot for the method.
-The object returned is compatible with the methods \code{summary} and \code{plot}.
+This function provides methods for estimating VE. It relies on
+the Kaplan-Meier estimator and the Cox model for proportional hazards
+from the \code{{survival}} package. Currently, the default method is VE = 1 - HR,
+where HR is the Hazard Ratio calculated using the Cox model. The
+proportional hazards assumption is tested using the Schoenfeld test,
+with the p-value provided in the results. Log-log plots are also generated
+using the Kaplan-Meier estimator for a visual test of the proportional
+hazards hypothesis. The function uses column names provided in the tags
+\code{outcome_status_col}, \code{time_to_event_col}, and \code{vaccine_status_col} of the
+\code{linelist} object and status names from \code{make_vaccineff_data}.
+The return is an \verb{S3 class} object with the VE (CI95\%), results from the Cox
+model, and the Kaplan-Meier estimator. This object is compatible with
+\code{summary} and \code{plot} methods.
 }
 \examples{
-# Define start and end dates of the study
-start_cohort <- as.Date("2044-01-01")
-end_cohort <- as.Date("2044-12-31")
+# Load example data
+data("cohortdata")
 
-# Create `data.frame` with information of immunization
-cohortdata <- make_immunization(
-  data_set = cohortdata,
+# Create `vaccineff_data`
+vaccineff_data <- make_vaccineff_data(data_set = cohortdata,
   outcome_date_col = "death_date",
   censoring_date_col = "death_other_causes",
-  immunization_delay = 14,
-  vacc_date_col = c("vaccine_date_2"),
-  end_cohort = end_cohort,
-  take_first = FALSE
-)
-head(cohortdata)
-
-# Match the data
-matching <- match_cohort(
-  data_set = cohortdata,
-  outcome_date_col = "death_date",
-  censoring_date_col = "death_other_causes",
-  start_cohort = start_cohort,
-  end_cohort = end_cohort,
-  method = "static",
-  exact = "sex",
-  nearest = c(age = 1)
+  vacc_date_col = "vaccine_date_2",
+  vaccinated_status = "v",
+  unvaccinated_status = "u",
+  immunization_delay = 15,
+  start_cohort = as.Date("2044-01-01"),
+  end_cohort = as.Date("2044-12-31"),
+  match = TRUE,
+  exact = c("age", "sex"),
+  nearest = NULL
 )
 
-# Extract matched data
-cohortdata_match <- get_dataset(matching)
+# Estimate the Vaccinef Effectiveness (VE)
+ve <- effectiveness(vaccineff_data, 90)
 
-# Calculate vaccine effectiveness
-ve <- effectiveness(
-  data_set = cohortdata_match,
-  start_cohort = start_cohort,
-  end_cohort = end_cohort
-)
-
-# View summary of VE
+# Print summary of VE
 summary(ve)
 
-# Generate plot of method
-plot(ve)
+# Generate loglog plot to check proportional hazards
+plot(ve, type = "loglog")
+
+# Generate Survival plot
+plot(ve, type = "surv", percentage = FALSE, cumulative = FALSE)
 }

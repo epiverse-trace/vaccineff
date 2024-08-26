@@ -2,12 +2,25 @@
 % Please edit documentation in R/coh_effectiveness.R
 \name{plot.effectiveness}
 \alias{plot.effectiveness}
-\title{Function for Extracting VE plot}
+\title{Function for Extracting VE Plot}
 \usage{
-\method{plot}{effectiveness}(x, ...)
+\method{plot}{effectiveness}(
+  x,
+  type = c("loglog", "surv"),
+  cumulative = FALSE,
+  percentage = FALSE,
+  ...
+)
 }
 \arguments{
-\item{x}{Object of the class \code{effectiveness}.}
+\item{x}{Object of class \code{effectiveness}.}
+
+\item{type}{Type of plot. Options are \code{loglog} and \code{surv}.}
+
+\item{cumulative}{If \code{TRUE}, the survival curve is shown as cumulative
+incidence.}
+
+\item{percentage}{If \code{TRUE}, results are shown on a percentage scale.}
 
 \item{...}{Additional arguments passed to other functions.}
 }
@@ -15,6 +28,9 @@
 Plot extracted from \code{effectiveness}.
 }
 \description{
-This function extracts the plot generated
-by \code{effectiveness}.
+This function creates plots from an object of class
+\code{effectiveness}. It returns a Log-Log plot when \code{type = "loglog"},
+and a Survival curve when \code{type = "surv"}. Survival plots can be
+shown as cumulative incidence (\code{cumulative = TRUE}), and using
+percentages (\code{percentage = TRUE}).
 }

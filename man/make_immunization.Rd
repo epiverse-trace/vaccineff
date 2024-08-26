@@ -92,3 +92,4 @@ cohortdata <- make_immunization(
 # `immunization_date` and `vaccine_status` are added to `cohortdata`
 head(cohortdata)
 }
+\keyword{internal}

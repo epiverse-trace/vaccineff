@@ -127,3 +127,4 @@ cohortdata_match <- get_dataset(matching)
 head(cohortdata_match)
 
 }
+\keyword{internal}

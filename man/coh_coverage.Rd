@@ -35,20 +35,4 @@ month. This must be specified in the parameter \code{unit}. If there are no
 records for some dates, the function assigns 0 instead of NA to calculate
 the cumulative coverage.
 }
-\examples{
-# Load example data
-data("cohortdata")
-
-# Define date intervals for coverage
-start_cohort <- as.Date("2044-01-01")
-end_cohort <- as.Date("2044-12-31")
-date_interval <- c(start_cohort, end_cohort)
-
-# Calculate coverage
-coh_coverage(
-  data_set = cohortdata,
-  vacc_date_col = "vaccine_date_1",
-  unit = "month",
-  date_interval = date_interval
-)
-}
+\keyword{internal}

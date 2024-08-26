@@ -240,3 +240,46 @@ get_time_to_event <- function(data_set,
   time_to_event <- as.numeric(tf - t0)
   return(time_to_event)
 }
+
+#' @title Internal function to truncate time to events
+#'
+#' @inheritParams make_vaccineff_data
+#' @param at Time to truncate the follow-up period
+#' @return `data.frame` with truncated data
+#' @keywords internal
+truncate_tte_at <- function(data_set,
+                            outcome_date_col,
+                            end_cohort,
+                            at) {
+  data_set$tf_follow_up <- data_set$t0_follow_up + data_set$time_to_event
+
+  data_set$t_follow_up_at <- data_set$t0_follow_up + at
+  data_set$t_follow_up_at <- as.Date(
+    ifelse(data_set$t_follow_up_at > end_cohort,
+      yes = as.character(end_cohort),
+      no = as.character(data_set$t_follow_up_at)
+    )
+  )
+
+  data_set$t_follow_up_at <- pmin(data_set$t_follow_up_at,
+    data_set$tf_follow_up,
+    na.rm = TRUE
+  )
+
+  data_set$time_to_event <-
+    as.numeric(data_set$t_follow_up_at - data_set$t0_follow_up)
+
+  data_set$outcome_status <- as.numeric(
+    data_set$t_follow_up_at == data_set[[outcome_date_col]] &
+      !is.na(data_set[[outcome_date_col]]),
+    1,
+    0
+  )
+
+  data_set <- data_set[, -which(names(data_set)
+      %in% c("t_follow_up_at", "tf_follow_up")
+    )
+  ]
+
+  return(data_set)
+}

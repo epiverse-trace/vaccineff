@@ -7,7 +7,7 @@
 #' @param object An object from which to extract the dataset.
 #' @param ... Additional arguments passed to other functions.
 #' @return The get_dataset extracted from the object.
-#' @export
+#' @keywords internal
 get_dataset <- function(object, ...) {
   UseMethod("get_dataset")
 }

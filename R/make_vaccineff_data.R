@@ -1,6 +1,8 @@
 #' @title Construct `vaccineff_data` Object
 #'
-#' @description This function construct `vaccineff_data`
+#' @description This function constructs an S3 object of the class
+#' `vaccineff_data` that contains all the relevant information for the study.
+#' to estimate the effectiveness.
 #'
 #' @param data_set `data.frame` with cohort information (see example).
 #' @param outcome_date_col Name of the column that contains the outcome dates.
@@ -18,7 +20,7 @@
 #' is considered immune. Default is 0.
 #' @param start_cohort Start date of the study.
 #' @param end_cohort End date of the study.
-#' @param method `TRUE`: cohort matching is performed. Default is `FALSE`
+#' @param match `TRUE`: cohort matching is performed. Default is `FALSE`
 #' @param exact Name(s) of column(s) for `exact` matching. Default is `NULL`.
 #' @param nearest Named vector with name(s) of column(s) for `nearest` matching
 #' and caliper(s) for each variable (e.g., `nearest = c("characteristic1" = n1,
@@ -26,8 +28,32 @@
 #' `NULL`.
 #' @param take_first `FALSE`: takes the latest vaccine date. `TRUE`: takes the
 #' earliest vaccine date.
-#' @return Original `data.frame` passed in `data_set` and additional columns
-#' containing information on the immunization.
+#' @return An S3 object of class `vaccineff_data` with all the infortion and
+#' characteristics of the study. `data.frames` are converted to `linelist` class
+#' to easily deal with column names.
+#' @examples
+#'
+#' # Load example data
+#' data("cohortdata")
+#'
+#' # Create `vaccineff_data`
+#' vaccineff_data <- make_vaccineff_data(data_set = cohortdata,
+#'   outcome_date_col = "death_date",
+#'   censoring_date_col = "death_other_causes",
+#'   vacc_date_col = "vaccine_date_2",
+#'   vaccinated_status = "v",
+#'   unvaccinated_status = "u",
+#'   immunization_delay = 15,
+#'   start_cohort = as.Date("2044-01-01"),
+#'   end_cohort = as.Date("2044-12-31"),
+#'   match = TRUE,
+#'   exact = c("age", "sex"),
+#'   nearest = NULL
+#' )
+#'
+#' # Print summary of data
+#' summary(vaccineff_data)
+#' @export
 
 make_vaccineff_data <- function(data_set,
                                 outcome_date_col,

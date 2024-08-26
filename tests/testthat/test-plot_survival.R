@@ -11,8 +11,7 @@ sample_indices <- sample(nrow(cohortdata), sample_size)
 sample_cohort <- cohortdata[sample_indices, ]
 rownames(sample_cohort) <- NULL
 
-# avoid warnings from p_value in this test
-output <- capture_warnings(make_vaccineff_data(
+vaccineff_data <- make_vaccineff_data(
   data_set = sample_cohort,
   outcome_date_col = "death_date",
   censoring_date_col = "death_other_causes",
@@ -25,10 +24,11 @@ output <- capture_warnings(make_vaccineff_data(
   match = TRUE,
   exact = c("age", "sex"),
   nearest = NULL
-))
+)
 
-vaccineff_data <- output$result
-ve <- effectiveness(vaccineff_data)
+# avoid warnings from p_value in this test
+output <- capture_warnings(effectiveness(vaccineff_data))
+ve <- output$result
 
 # test to test default options
 test_that("`plot_survival`: default params", {

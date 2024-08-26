@@ -128,8 +128,14 @@ summary.effectiveness <- function(object, ...) {
   }
 
   print(object$ve)
-  cat("\nSchoenfeld test for Proportional Hazards hypothesis:\n")
+  cat("\nSchoenfeld test for Proportional Hazards assumption:\n")
   cat(sprintf("p-value = %s\n", object$cox_model$p_value))
+  if (object$cox_model$p_value < 0.05) {
+    message <- paste0("p-value < 0.05. Please check loglog plot",
+      " for Proportional Hazards assumption"
+    )
+    warning(message)
+  }
 }
 
 #' @title Function for Extracting VE Plot

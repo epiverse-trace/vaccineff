@@ -92,7 +92,7 @@
 #' # View of mached cohort
 #' head(cohortdata_match)
 #'
-#' @export
+#' @keywords internal
 
 match_cohort <- function(data_set,
                          outcome_date_col,
@@ -237,7 +237,7 @@ summary.match <- function(object, ...) {
 #' @param object Object of the class `match`.
 #' @param ... Additional arguments passed to other functions.
 #' @return `data.frame` extracted from `match_cohort`.
-#' @export
+#' @keywords internal
 
 get_dataset.match <- function(object, ...) {
   # Check if the input object is of class "match"

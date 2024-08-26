@@ -60,7 +60,7 @@
 #' )
 #' # `immunization_date` and `vaccine_status` are added to `cohortdata`
 #' head(cohortdata)
-#' @export
+#' @keywords internal
 
 make_immunization <- function(data_set,
                               outcome_date_col,

@@ -131,7 +131,7 @@ summary.effectiveness <- function(object, ...) {
   cat("\nSchoenfeld test for Proportional Hazards assumption:\n")
   cat(sprintf("p-value = %s\n", object$cox_model$p_value))
   if (object$cox_model$p_value < 0.05) {
-    message <- paste0("p-value < 0.05. Please check loglog plot",
+    message <- paste0("\np-value < 0.05. Please check loglog plot",
       " for Proportional Hazards assumption"
     )
     warning(message)

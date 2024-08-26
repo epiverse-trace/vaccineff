@@ -1,44 +1,29 @@
-#### Tests for the effectiveness calculation ####
-# Internal functions of the package are used to speed-up the test
-# This test is not checking for PH hypothesis. To do so, it is necessary
-# to match the population
-
-# prepare data
-# load example data from package
+#### Tests for plot_survival()
+## This test uses directly the internal functions of the package
+## to avoid running the matching functions
+## prepare data
 data("cohortdata")
-start_cohort <- as.Date("2044-01-01")
-end_cohort <- as.Date("2044-12-31")
 
-# add immunization dates
-cohortdata$immunization <- get_immunization_date(
-  data_set = cohortdata,
+# sample cohort to make tests faster - take a bigger sample
+sample_size <- 15000 # Minimum sample size that contains outcomes
+set.seed(123) # use fixed seed to avoid problems with snapshots
+sample_indices <- sample(nrow(cohortdata), sample_size)
+sample_cohort <- cohortdata[sample_indices, ]
+rownames(sample_cohort) <- NULL
+
+vaccineff_data <- make_vaccineff_data(
+  data_set = sample_cohort,
   outcome_date_col = "death_date",
-  immunization_delay = 14,
-  vacc_date_col = c("vaccine_date_1", "vaccine_date_2"),
-  end_cohort = end_cohort,
-  take_first = FALSE
-)
-
-# add vaccine status
-cohortdata$vaccine_status <- set_status(
-  data_set = cohortdata,
-  col_names = "immunization",
-  status = c("v", "u")
-)
-
-# add death status
-cohortdata$outcome_status <- set_status(
-  data_set = cohortdata,
-  col_names = "death_date"
-)
-
-# add time to death
-cohortdata$time_to_event <- get_time_to_event(
-  data_set = cohortdata,
-  outcome_date_col = "death_date",
-  start_cohort = start_cohort,
-  end_cohort = end_cohort,
-  start_from_immunization = FALSE
+  censoring_date_col = "death_other_causes",
+  vacc_date_col = "vaccine_date_2",
+  vaccinated_status = "v",
+  unvaccinated_status = "u",
+  immunization_delay = 15,
+  start_cohort = as.Date("2044-01-01"),
+  end_cohort = as.Date("2044-12-31"),
+  match = TRUE,
+  exact = c("age", "sex"),
+  nearest = NULL
 )
 
 #### Basic expectations of `effectiveness()`
@@ -46,21 +31,11 @@ test_that("`effectiveness`: basic expectations", {
 
   # runs without conditions
   expect_no_condition(
-    effectiveness(
-      data_set = cohortdata,
-      start_cohort = start_cohort,
-      end_cohort = end_cohort,
-      method = "HR"
-    )
+    effectiveness(vaccineff_data)
   )
 
   # returns `effectiveness` s3class object
-  eff <- effectiveness(
-    data_set = cohortdata,
-    start_cohort = start_cohort,
-    end_cohort = end_cohort,
-    method = "HR"
-  )
+  eff <- effectiveness(vaccineff_data)
   expect_s3_class(
     eff, "effectiveness"
   )
@@ -81,13 +56,17 @@ test_that("`effectiveness`: test for input validation", {
   )
 })
 
+#### Truncate at `effectiveness()`
+test_that("`effectiveness`: at not null", {
+
+  # runs without conditions
+  eff <- effectiveness(vaccineff_data, at = 90)
+  summ <- capture.output(summary.effectiveness(eff))
+  expect_snapshot(summ)
+})
+
 ## Tests for generic methods
-eff <- effectiveness(
-  data_set = cohortdata,
-  start_cohort = start_cohort,
-  end_cohort = end_cohort,
-  method = "HR"
-)
+eff <- effectiveness(vaccineff_data)
 
 #### Summary
 test_that("`summary.effectiveness`: basic expectations", {
@@ -99,20 +78,9 @@ test_that("`summary.effectiveness`: basic expectations", {
 #### Plot
 test_that("`plot.effectiveness`: basic expectations", {
   # test for loglog plot
-  plt <- plot.effectiveness(eff)
+  plt <- plot.effectiveness(eff, type = "loglog")
   expect_identical(plt$labels$y, "Log[-Log[Surv.]]")
+  plt <- plot.effectiveness(eff, type = "surv")
+  expect_identical(plt$labels$y, "Survival probability")
   expect_s3_class(plt, "ggplot")
-
-  # Create a mock effectiveness object
-  mock_effectiveness <- list(plot = "MockPlot")
-  class(mock_effectiveness) <- "effectiveness"
-
-  # Test that the function returns the correct plot
-  result <- plot.effectiveness(mock_effectiveness)
-  expect_identical(result, "MockPlot")
-
-  # Test that the function throws an error for incorrect input
-  expect_error(plot.effectiveness(list()),
-    "Input must be an object of class 'effectiveness'"
-  )
 })

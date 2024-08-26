@@ -16,23 +16,7 @@
 #' example).
 #' @return `data.frame` with the number of vaccine doses per date, cumulative
 #' count of doses, and vaccine coverage.
-#' @examples
-#' # Load example data
-#' data("cohortdata")
-#'
-#' # Define date intervals for coverage
-#' start_cohort <- as.Date("2044-01-01")
-#' end_cohort <- as.Date("2044-12-31")
-#' date_interval <- c(start_cohort, end_cohort)
-#'
-#' # Calculate coverage
-#' coh_coverage(
-#'   data_set = cohortdata,
-#'   vacc_date_col = "vaccine_date_1",
-#'   unit = "month",
-#'   date_interval = date_interval
-#' )
-#' @export
+#' @keywords internal
 
 coh_coverage <- function(data_set,
                          vacc_date_col,
@@ -97,14 +81,12 @@ coh_coverage <- function(data_set,
 #' @description This function returns a plot of the vaccine coverage or the
 #' cumulative coverage (if cumulative = TRUE). The return is a 2-axis `ggplot2`
 #' element with the number of vaccines per date on the left axis and the
-#' coverage per date on the right axis. Colors can be defined with the
-#' parameters of the function `doses_count_color` and `coverage_color`.
-#' Other graphic elements such as labels and legends can be manipulated
-#' using `ggplot2`.
+#' coverage per date on the right axis. When a matching routine is performed,
+#' the left axis also accounts for the doses of the matched cohort.
 #' @importFrom rlang .data
 #' @inheritParams coh_coverage
-#' @param doses_count_color Color assigned to the doses count.
-#' @param coverage_color Color assigned to the coverage calculation.
+#' @param vaccineff_data Object of the class `vaccineff_data` with
+#' vaccineff data.
 #' @param cumulative If `TRUE`, returns the cumulative number of doses over the
 #' time window.
 #' @return 2-axis ggplot2 plot of vaccine coverage and daily doses.
@@ -112,19 +94,22 @@ coh_coverage <- function(data_set,
 #' # Load example data
 #' data("cohortdata")
 #'
-#' # Define date intervals for coverage
-#' start_cohort <- as.Date("2044-01-01")
-#' end_cohort <- as.Date("2044-12-31")
-#' date_interval <- c(start_cohort, end_cohort)
-#'
-#' # Plot coverage
-#' plot_coverage(
-#'   data_set = cohortdata,
-#'   vacc_date_col = "vaccine_date_1",
-#'   unit = "month",
-#'   doses_count_color = "steelblue",
-#'   coverage_color = "mediumpurple",
-#'   date_interval = date_interval,
+#' # Create `vaccineff_data`
+#' vaccineff_data <- make_vaccineff_data(data_set = cohortdata,
+#'   outcome_date_col = "death_date",
+#'   censoring_date_col = "death_other_causes",
+#'   vacc_date_col = "vaccine_date_2",
+#'   vaccinated_status = "v",
+#'   unvaccinated_status = "u",
+#'   immunization_delay = 15,
+#'   start_cohort = as.Date("2044-01-01"),
+#'   end_cohort = as.Date("2044-12-31"),
+#'   match = TRUE,
+#'   exact = c("age", "sex"),
+#'   nearest = NULL
+#' )
+#' plot_coverage(vaccineff_data = vaccineff_data
+#'   date_interval = as.Date(c("2044-01-03", "2044-09-30")), #Custom interval
 #'   cumulative = FALSE
 #' )
 #' @export

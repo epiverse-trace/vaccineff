@@ -43,7 +43,7 @@
 #'   nearest = NULL
 #' )
 #'
-#' # Estimate the Vaccinef Effectiveness (VE)
+#' # Estimate the Vaccine Effectiveness (VE)
 #' ve <- effectiveness(vaccineff_data, 90)
 #'
 #' # Print summary of VE

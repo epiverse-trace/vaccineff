@@ -10,8 +10,6 @@
 \item{object}{Object of the class \code{match}.}
 
 \item{...}{Additional arguments passed to other functions.}
-
-\item{warnings_log}{If \code{TRUE}, prints the warnings log.}
 }
 \value{
 Summary of the results from matching.

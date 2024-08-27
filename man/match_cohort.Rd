@@ -90,41 +90,4 @@ censored (i.e., if \code{censoring_date_col} is informed) and the censor occurs
 before their outcomes. Rolling calendar matching method will be included in
 future releases.
 }
-\examples{
-# Define start and end dates of the study
-start_cohort <- as.Date("2044-01-01")
-end_cohort <- as.Date("2044-12-31")
-
-# Create `data.frame` with information on immunization
-cohortdata <- make_immunization(
-  data_set = cohortdata,
-  outcome_date_col = "death_date",
-  censoring_date_col = "death_other_causes",
-  immunization_delay = 14,
-  vacc_date_col = "vaccine_date_2",
-  end_cohort = end_cohort
-)
-
-# Match the data_set
-matching <- match_cohort(
-  data_set = cohortdata,
-  outcome_date_col = "death_date",
-  censoring_date_col = "death_other_causes",
-  start_cohort = start_cohort,
-  end_cohort = end_cohort,
-  method = "static",
-  exact = "sex",
-  nearest = c(age = 1)
-)
-
-# Check match balance and summary
-summary(matching)
-
-# Extract matched data
-cohortdata_match <- get_dataset(matching)
-
-# View of mached cohort
-head(cohortdata_match)
-
-}
 \keyword{internal}

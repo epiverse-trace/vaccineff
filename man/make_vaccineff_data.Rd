@@ -60,9 +60,9 @@ and caliper(s) for each variable (e.g., \code{nearest = c("characteristic1" = n1
 earliest vaccine date.}
 }
 \value{
-An S3 object of class \code{vaccineff_data} with all the infortion and
-characteristics of the study. \code{data.frames} are converted to \code{linelist} class
-to easily deal with column names.
+An S3 object of class \code{vaccineff_data} with all the information and
+characteristics of the study. \code{data.frames} are converted into an object of
+class \code{linelist} to easily handle with the data.
 }
 \description{
 This function constructs an S3 object of the class

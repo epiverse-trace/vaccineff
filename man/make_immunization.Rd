@@ -73,23 +73,4 @@ with each vaccine date, the function can return the custom name of the
 vaccine selected as immunizing. This information must be passed in the
 parameter \code{vacc_name_col}, as a vector in the same order as \code{vacc_date_col}.
 }
-\examples{
-# Load data
-data(cohort_data)
-# Define start and end dates of the study
-start_cohort <- as.Date("2044-01-01")
-end_cohort <- as.Date("2044-12-31")
-
-# Create `data.frame` with information of immunization
-cohortdata <- make_immunization(
-  data_set = cohortdata,
-  outcome_date_col = "death_date",
-  censoring_date_col = "death_other_causes",
-  immunization_delay = 14,
-  vacc_date_col = "vaccine_date_2",
-  end_cohort = end_cohort
-)
-# `immunization_date` and `vaccine_status` are added to `cohortdata`
-head(cohortdata)
-}
 \keyword{internal}

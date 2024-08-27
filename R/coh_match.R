@@ -56,42 +56,6 @@
 #' `time_to_event`: time to event,
 #' and `outcome_status`: outcome status
 #' (1:positive, 0: negative).
-#' @examples
-#' # Define start and end dates of the study
-#' start_cohort <- as.Date("2044-01-01")
-#' end_cohort <- as.Date("2044-12-31")
-#'
-#' # Create `data.frame` with information on immunization
-#' cohortdata <- make_immunization(
-#'   data_set = cohortdata,
-#'   outcome_date_col = "death_date",
-#'   censoring_date_col = "death_other_causes",
-#'   immunization_delay = 14,
-#'   vacc_date_col = "vaccine_date_2",
-#'   end_cohort = end_cohort
-#' )
-#'
-#' # Match the data_set
-#' matching <- match_cohort(
-#'   data_set = cohortdata,
-#'   outcome_date_col = "death_date",
-#'   censoring_date_col = "death_other_causes",
-#'   start_cohort = start_cohort,
-#'   end_cohort = end_cohort,
-#'   method = "static",
-#'   exact = "sex",
-#'   nearest = c(age = 1)
-#' )
-#'
-#' # Check match balance and summary
-#' summary(matching)
-#'
-#' # Extract matched data
-#' cohortdata_match <- get_dataset(matching)
-#'
-#' # View of mached cohort
-#' head(cohortdata_match)
-#'
 #' @keywords internal
 
 match_cohort <- function(data_set,
@@ -210,7 +174,6 @@ match_cohort <- function(data_set,
 #' @description Summarizes the results of `match_cohort`.
 #'
 #' @param object Object of the class `match`.
-#' @param warnings_log If `TRUE`, prints the warnings log.
 #' @param ... Additional arguments passed to other functions.
 #' @return Summary of the results from matching.
 #' @export

@@ -107,8 +107,8 @@ coh_coverage <- function(data_set,
 #'   exact = c("age", "sex"),
 #'   nearest = NULL
 #' )
-#' plot_coverage(vaccineff_data = vaccineff_data
-#'   date_interval = as.Date(c("2044-01-03", "2044-09-30")), #Custom interval
+#' plot_coverage(vaccineff_data = vaccineff_data,
+#'   date_interval = as.Date(c("2044-01-03", "2044-09-30")),
 #'   cumulative = FALSE
 #' )
 #' @export

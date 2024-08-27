@@ -42,24 +42,6 @@
 #' earliest vaccine date.
 #' @return Original `data.frame` passed in `data_set` and additional columns
 #' containing information on the immunization.
-#' @examples
-#' # Load data
-#' data(cohort_data)
-#' # Define start and end dates of the study
-#' start_cohort <- as.Date("2044-01-01")
-#' end_cohort <- as.Date("2044-12-31")
-#'
-#' # Create `data.frame` with information of immunization
-#' cohortdata <- make_immunization(
-#'   data_set = cohortdata,
-#'   outcome_date_col = "death_date",
-#'   censoring_date_col = "death_other_causes",
-#'   immunization_delay = 14,
-#'   vacc_date_col = "vaccine_date_2",
-#'   end_cohort = end_cohort
-#' )
-#' # `immunization_date` and `vaccine_status` are added to `cohortdata`
-#' head(cohortdata)
 #' @keywords internal
 
 make_immunization <- function(data_set,

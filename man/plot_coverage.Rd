@@ -4,18 +4,11 @@
 \alias{plot_coverage}
 \title{Plot Vaccine Coverage}
 \usage{
-plot_coverage(
-  vaccineff_data,
-  unit = c("day", "month", "year"),
-  date_interval = NULL,
-  cumulative = FALSE
-)
+plot_coverage(vaccineff_data, date_interval = NULL, cumulative = FALSE)
 }
 \arguments{
 \item{vaccineff_data}{Object of the class \code{vaccineff_data} with
 vaccineff data.}
-
-\item{unit}{Aggregation unit, must be either "year", "month", or "day".}
 
 \item{date_interval}{If NULL, the function calculates the coverage interval
 based on the min() and max() of the \code{vacc_date_col}. It is also possible to
@@ -53,8 +46,8 @@ vaccineff_data <- make_vaccineff_data(data_set = cohortdata,
   exact = c("age", "sex"),
   nearest = NULL
 )
-plot_coverage(vaccineff_data = vaccineff_data
-  date_interval = as.Date(c("2044-01-03", "2044-09-30")), #Custom interval
+plot_coverage(vaccineff_data = vaccineff_data,
+  date_interval = as.Date(c("2044-01-03", "2044-09-30")),
   cumulative = FALSE
 )
 }

@@ -28,9 +28,9 @@
 #' `NULL`.
 #' @param take_first `FALSE`: takes the latest vaccine date. `TRUE`: takes the
 #' earliest vaccine date.
-#' @return An S3 object of class `vaccineff_data` with all the infortion and
-#' characteristics of the study. `data.frames` are converted to `linelist` class
-#' to easily deal with column names.
+#' @return An S3 object of class `vaccineff_data` with all the information and
+#' characteristics of the study. `data.frames` are converted into an object of
+#' class `linelist` to easily handle with the data.
 #' @examples
 #'
 #' # Load example data
@@ -160,7 +160,7 @@ make_vaccineff_data <- function(data_set,
 #' @param object Object of the class `vaccineff_data`.
 #' @param warnings_log If `TRUE`, prints the warnings log.
 #' @param ... Additional arguments passed to other functions.
-#' @return Summary of the results from vaccinef data
+#' @return Summary of the results from vaccineff data
 #' @export
 
 summary.vaccineff_data <- function(object, warnings_log = FALSE, ...) {

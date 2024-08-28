@@ -59,6 +59,10 @@ and caliper(s) for each variable (e.g., \code{nearest = c("characteristic1" = n1
 
 \item{take_first}{\code{FALSE}: takes the latest vaccine date. \code{TRUE}: takes the
 earliest vaccine date.}
+
+\item{t0_follow_up}{Column with the initial dates of the follow-up period.
+This column is only used if \code{match = FALSE}. If not provided, the follow-up
+period starts at \code{start_cohort}. Default is NULL.}
 }
 \value{
 An S3 object of class \code{vaccineff_data} with all the information and

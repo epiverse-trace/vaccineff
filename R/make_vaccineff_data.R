@@ -28,6 +28,9 @@
 #' `NULL`.
 #' @param take_first `FALSE`: takes the latest vaccine date. `TRUE`: takes the
 #' earliest vaccine date.
+#' @param t0_follow_up Column with the initial dates of the follow-up period.
+#' This column is only used if `match = FALSE`. If not provided, the follow-up
+#' period starts at `start_cohort`. Default is NULL.
 #' @return An S3 object of class `vaccineff_data` with all the information and
 #' characteristics of the study. `data.frames` are converted into an object of
 #' class `linelist` to easily handle with the data.
@@ -155,7 +158,7 @@ make_vaccineff_data <- function(data_set,
     )
 
     cohort_data$time_to_event <- get_time_to_event(
-      data = cohort_data,
+      data_set = cohort_data,
       outcome_date_col = outcome_date_col,
       start_cohort = start_cohort,
       end_cohort = end_cohort,

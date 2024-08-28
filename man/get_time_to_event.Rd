@@ -11,7 +11,7 @@ get_time_to_event(
   start_cohort,
   end_cohort,
   start_from_immunization = FALSE,
-  immunization_date_col
+  immunization_date_col = NULL
 )
 }
 \arguments{
@@ -31,7 +31,8 @@ immunization date if available. \code{FALSE}: starts counting time-to-event from
 the start date of the cohort study.}
 
 \item{immunization_date_col}{Name of the column that contains the
-immunization date. Required if start_from_immunization = TRUE.}
+immunization date. Required if start_from_immunization = TRUE.
+Default is NULL.}
 }
 \value{
 Time-to-event

@@ -151,7 +151,7 @@ get_time_to_event <- function(data_set,
                               censoring_date_col = NULL,
                               start_cohort, end_cohort,
                               start_from_immunization = FALSE,
-                              immunization_date_col) {
+                              immunization_date_col = NULL) {
   # add input checking
   checkmate::assert_data_frame(
     data_set,

@@ -18,7 +18,8 @@ make_vaccineff_data(
   match = FALSE,
   exact = NULL,
   nearest = NULL,
-  take_first = FALSE
+  take_first = FALSE,
+  t0_follow_up = NULL
 )
 }
 \arguments{

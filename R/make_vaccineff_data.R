@@ -68,7 +68,8 @@ make_vaccineff_data <- function(data_set,
                                 match = FALSE,
                                 exact = NULL,
                                 nearest = NULL,
-                                take_first = FALSE) {
+                                take_first = FALSE,
+                                t0_follow_up = NULL) {
   # check inputs
   check_vaccineff_inputs(
     data_set = data_set,
@@ -115,28 +116,60 @@ make_vaccineff_data <- function(data_set,
     allow_extra = TRUE
   )
 
-  matching <- match_cohort(
-    data_set = cohort_data,
-    outcome_date_col = outcome_date_col,
-    censoring_date_col = censoring_date_col,
-    start_cohort = start_cohort,
-    end_cohort = end_cohort,
-    method = "static",
-    exact = exact,
-    nearest = nearest,
-    immunization_date_col = "immunization_date",
-    vacc_status_col = "vaccine_status",
-    vaccinated_status = vaccinated_status,
-    unvaccinated_status = unvaccinated_status
-  )
+  if (match) {
+    matching <- match_cohort(
+      data_set = cohort_data,
+      outcome_date_col = outcome_date_col,
+      censoring_date_col = censoring_date_col,
+      start_cohort = start_cohort,
+      end_cohort = end_cohort,
+      method = "static",
+      exact = exact,
+      nearest = nearest,
+      immunization_date_col = "immunization_date",
+      vacc_status_col = "vaccine_status",
+      vaccinated_status = vaccinated_status,
+      unvaccinated_status = unvaccinated_status
+    )
 
-  matching$match <- linelist::set_tags(
-    x = matching$match,
-    time_to_event_col = "time_to_event",
-    outcome_status_col = "outcome_status",
-    t0_follow_up_col = "t0_follow_up",
-    allow_extra = TRUE
-  )
+    matching$match <- linelist::set_tags(
+      x = matching$match,
+      time_to_event_col = "time_to_event",
+      outcome_status_col = "outcome_status",
+      t0_follow_up_col = "t0_follow_up",
+      allow_extra = TRUE
+    )
+  } else {
+    matching <- NULL
+
+    if (!is.null(t0_follow_up)) {
+      start_from_immunization <- TRUE
+    } else {
+      start_from_immunization <- FALSE
+    }
+
+    cohort_data$outcome_status <- set_event_status(
+      data_set = cohort_data,
+      outcome_date_col = outcome_date_col,
+      censoring_date_col = censoring_date_col
+    )
+
+    cohort_data$time_to_event <- get_time_to_event(
+      data = cohort_data,
+      outcome_date_col = outcome_date_col,
+      start_cohort = start_cohort,
+      end_cohort = end_cohort,
+      start_from_immunization = start_from_immunization,
+      immunization_date_col = t0_follow_up
+    )
+
+    cohort_data <- linelist::set_tags(
+      x = cohort_data,
+      time_to_event_col = "time_to_event",
+      outcome_status_col = "outcome_status",
+      allow_extra = TRUE
+    )
+  }
 
   vaccineff_data <- list(
     cohort_data = cohort_data,

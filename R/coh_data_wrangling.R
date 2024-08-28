@@ -143,6 +143,7 @@ set_event_status <- function(data_set,
 #' the start date of the cohort study.
 #' @param immunization_date_col Name of the column that contains the
 #' immunization date. Required if start_from_immunization = TRUE.
+#' Default is NULL.
 #' @return Time-to-event
 #' @keywords internal
 

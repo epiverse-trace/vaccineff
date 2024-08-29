@@ -1,0 +1,57 @@
+---
+title: "Other study designs"
+bibliography: vignettes/references.json
+link-citations: true
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{vaccineff}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(vaccineff)
+```
+
+# Test Negative Design (Future release)
+
+The test-negative design is a modified case-control design. $VE$ is estimated using the odds ratio ($OR$) of vaccination among cases divided by the OR of vaccination among controls,
+
+$$VE = 1- \frac{\text{Odds cases}}{\text{Odds Control}}\times 100.$$
+
+# Screening Method (Future release)
+
+The screening method estimates $VE$ using the proportion of cases vaccinated ($PCV$) and the proportion of the population vaccinated ($PPV$),
+
+$$VE = \frac{\text{PCV}}{1-\text{PCV}} \times \frac{1-\text{PPV}}{\text{PPV}} \times 100.$$
+
+To calculate the $PCV$, it is assumed that all, or at least a random sample of cases of a disease arising over a given period in a defined population, is available. Additionally, it incorporates the $PPV$ as prior information or an external estimate.
+
+# What type of data is needed?
+
+## Data for Test-negative design
+
+Data disaggregated at the individual level to correlate vaccination and disease status for each case. The dataset must contain the following information:
+
+- Vaccination status for each individual. Consider time since vaccination and number of doses to determine whether they are vaccinated or unvaccinated.
+
+- Result of gold-standard test for the pathogen of interest. Molecular tests such as PCR or multiplex-PCR are commonly used to determine etiological agents in TND studies.
+
+- Individuals' demographic information (e.g., sex, age, health insurance) and other variables that may be specified depending on the confounding variables to be introduced in the model.
+
+## Data for Screening method design
+
+- Vaccination status for each case or age group. Consider time since vaccination to determine whether individuals are vaccinated or unvaccinated. Exclude patients with incomplete vaccination schedules if the vaccine of interest requires several doses for maximum efficacy.
+
+- Proportion of the population vaccinated. Data can be administered as individuals with complete vaccination, individuals without complete vaccination, or as the proportion of the population vaccinated.
+
+- Individuals' demographic information (e.g., sex, age, health insurance) and other variables that may be specified depending on the confounding variables to be introduced in the model.
+
+## References

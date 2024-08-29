@@ -22,70 +22,27 @@ library(vaccineff)
 
 # Cohort Design
 
-In the cohort design [@torvaldsen2002], $VE$ is estimated using the Hazard Ratios ($HR$) between vaccinated and unvaccinated populations,
+In cohort studies, vaccine effectiveness ($VE$) is calculated after following vaccinated and unvaccinated individuals over time. However, VE may depend on individual characteristics (e.g., age and sex) and external factors (e.g., environment, number of doses, virus strain and calendar period). Typically, VE is estimated in open or dynamic cohorts, where individuals can enter or leave the cohort at any time after the initial study date and change their vaccination status. Thus, $VE$ can be estimated  by survival analysis methods, substituting the relative risk for the hazard ratio ($HR$), which considers the person-time at risk in the estimation of VE [@bookvaccine]. `Vaccineff` package estimates VE using $(1-HR) \times 100\%$ and therefore, the outcome variable is the time from the initial study date to the occurrence of the event (e.g., infection, death, hospitalization) or the date of the end of the study. VE is approximated by the Cox proportional hazards model that is usually written by the following expression:
 
-$$VE = (1-HR(t))\times100.$$
+\begin{equation}\label{eq:cox} 
+h(t,X)=h_0(t) e ^{\sum_{i=1}^p \beta_i X_i},
+\end{equation}
 
-The HR is estimated using the Cox Proportional Hazards model. In particular, we use the vaccine status of the individuals as the only covariate in the regression. Other confounders can be included as matching arguments to adjust for observational bias. The proportional hazards hypothesis is checked using the Schoenfeld test. A visual check is also provided using the log-log representation of the Survival Probability. If the hypothesis is not satisfied, it is recommended to stratify the population into smaller groups using the confounding variables.
+where $h(t, X)$ is the risk function for each individual over the time $t$ given a set of $p$ explanatory/predictors variables denoted by $X$ (e.g., vaccination status, age, sex). $h_0 (t)$ represents the baseline hazard function when all variables of $X$ are equal to 0. In the Cox regression model, it is not necessary to specify $h_0 (t)$, making this type of analysis a semiparametric model. Finally, the interest of the analysis is to compare the risk function of two individuals according to the values of the explanatory variables, which is achieved through the estimated coefficients of the model $\hat \beta_j$ (Equation 1) and the $HR$. For example, if $X_1$ is the vaccination status where $X_1=1$ denotes the vaccinated group and $X_1=0$ denotes the unvaccinated group without including other predictors, the HR corresponds to:
 
-## Data for Cohort design
+$$HR=\frac{h_0(t) e ^{ \beta_1 X_1|X=1}}{h_0(t) e ^{ \hat \beta_1 X_1|X=0}}=e^{ \hat \beta_1} (1-0)=e^{ \hat \beta_1},$$
 
-Data disaggregated at the individual level to follow vaccinated and unvaccinated populations over time. The dataset must contain the following information:
+therefore, the estimated $HR$ does not depend on time $t$, and $h_0 (t)$ can remain unspecified, assuming that the effect of an explanatory variable is proportional over  time representing *the proportional hazard (PH) assumption*. When $HR<1$ indicates a reduction in the risk of an event of interest over time and the context of VE, it will be the expected outcome. *Vaccineff* uses the Schoenfeld residual test to determine whether the global PH assumption of the model is violated.
 
-- Date(s) of vaccination for each individual. The package allows working with multiple doses for each individual and estimates the immunization date using delay times of outcomes and immunization times of vaccines.
+When working with observational data, other potential factors or baseline characteristics besides vaccination status could explain the observed differences in the risk of the event (e.g., death, reinfection) between vaccinated and unvaccinated individuals. *Vaccineff* allows the estimation of VE with and without running a *iterative matching process (IMP)* to emulate the balance achieved by a trial design on potential confounders without involving the calendar period which implies that the disease incidence has not changed during the study period. 
 
-- Date(s) of outcome(s). The package estimates vaccine effectiveness against various outcomes.
-Individuals' demographic information (e.g., sex, age-group, health status) can be specified depending on the confounding variables that will be introduced in the model.
-
-## VE for Cohort design
-
-The current release of the package bases the estimation of $VE$ in the cohort design on the assumption of proportional hazards between vaccinated and unvaccinated populations. The hazard ratio is estimated using the Cox proportional hazards model implemented in the R package `{survival}`.
-
-The integrated dataset `cohortdata` serves as a minimal example of the package's input. The data is accessed using `data("cohortdata")`.
-
-The following example estimates $VE$ by:
-
-1. Defining the immunization information using the function `make_immunization()`. This method returns the cohort data with the immunization date based on the characteristic response time to vaccination (`immunization_delay`) and the specified limits (`outcome_date_col, censoring_date_col, end_cohort`).
-
-2. Matching the cohort by exact and nearest confounders using the function `match_cohort()`. This function supports methods like `summary()` to check matching balance and the sizes of matched, excluded, and removed populations, and `get_dataset()` to extract the matched cohort.
-
-3. Estimating $VE$ with the function `effectiveness()` using the hazard ratio ($HR$). A summary of the estimation can be obtained using `summary()` and a graphical representation of the methodology is generated by `plot().`
+`vaccineff` package uses the number of days elapsed from the vaccine administration to the occurrence of the event to measure the length of follow-up.
 
 
-```{r cohortdata, include = TRUE, echo = TRUE}
-# Load example data
-data("cohortdata")
+##  Estimating VE with iterative matching process
 
-# Create `vaccineff_data`
-vaccineff_data <- make_vaccineff_data(
-  data_set = cohortdata,
-  outcome_date_col = "death_date",
-  censoring_date_col = "death_other_causes",
-  vacc_date_col = "vaccine_date_2",
-  vaccinated_status = "v",
-  unvaccinated_status = "u",
-  immunization_delay = 15,
-  start_cohort = as.Date("2044-01-01"),
-  end_cohort = as.Date("2044-12-31"),
-  match = TRUE,
-  exact = c("age", "sex"),
-  nearest = NULL
-)
+We will use a simulated dataset. The data contain 100,000 observations with 9 variables. In this example, we are going to evaluate the efficacy of two doses to prevent death. *Vaccineff* requires the dates on which each dose was administered, as well as the date of death as variables in the data frame. It is also important to include a variable with the date of censoring, since some individuals may not develop the main outcome due to other causes unrelated to the effect of the vaccine.
 
-# Print summary of vaccineff data object
-summary(vaccineff_data)
 
-# Estimate the Vaccine Effectiveness at 90 days
-ve90 <- effectiveness(vaccineff_data, at = 90)
-
-# Print summary of VE
-summary(ve90)
-
-# Loglog plot to check proportional hazards
-plot(ve90, type = "loglog")
-
-# Survival plot
-plot(ve90, type = "surv", percentage = FALSE, cumulative = FALSE)
-```
 
 ## References

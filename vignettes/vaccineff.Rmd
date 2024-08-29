@@ -112,5 +112,6 @@ plot(ve90, type = "loglog")
 # Survival plot
 plot(ve90, type = "surv", percentage = FALSE, cumulative = FALSE)
 ```
+For details on the estimation of VE in cohort studies see *AQUI* 
 
 ## References

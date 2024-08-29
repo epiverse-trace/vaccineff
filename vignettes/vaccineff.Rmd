@@ -20,7 +20,7 @@ knitr::opts_chunk$set(
 library(vaccineff)
 ```
 
-## Usage
+## Usage f
 
 Estimating vaccine effectiveness is a key task once a vaccine is available as a control measure within a population, such as during the middle phase of an epidemic like Ebola or COVID-19, and also in the evaluation of regular vaccination programs, such as childhood vaccines.
 

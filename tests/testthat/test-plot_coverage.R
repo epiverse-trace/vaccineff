@@ -18,7 +18,6 @@ vaccineff_data <- make_vaccineff_data(
   vaccinated_status = "1 vacc",
   unvaccinated_status = "0 unvacc",
   immunization_delay = 15,
-  start_cohort = as.Date("2044-01-01"),
   end_cohort = as.Date("2044-12-31"),
   match = TRUE,
   exact = c("age", "sex"),

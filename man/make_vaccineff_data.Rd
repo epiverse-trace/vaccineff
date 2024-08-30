@@ -13,7 +13,6 @@ make_vaccineff_data(
   vaccinated_status = "v",
   unvaccinated_status = "u",
   immunization_delay = 0,
-  start_cohort,
   end_cohort,
   match = FALSE,
   exact = NULL,
@@ -44,8 +43,6 @@ Default is \code{u}.}
 
 \item{immunization_delay}{Characteristic time in days before the patient
 is considered immune. Default is 0.}
-
-\item{start_cohort}{Start date of the study.}
 
 \item{end_cohort}{End date of the study.}
 
@@ -87,7 +84,6 @@ vaccineff_data <- make_vaccineff_data(data_set = cohortdata,
   vaccinated_status = "v",
   unvaccinated_status = "u",
   immunization_delay = 15,
-  start_cohort = as.Date("2044-01-01"),
   end_cohort = as.Date("2044-12-31"),
   match = TRUE,
   exact = c("age", "sex"),

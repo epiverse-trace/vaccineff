@@ -22,23 +22,21 @@ library(vaccineff)
 
 ## Usage
 
-Estimating vaccine effectiveness is a key task once a vaccine is available as a control measure within a population, such as during the middle phase of an epidemic like Ebola or COVID-19, and also in the evaluation of regular vaccination programs, such as childhood vaccines.
+Vaccines are created to offer protection against diseases that affect human health. Quantifying how well vaccines work in controlled environments and in real-life settings remains a challenge for scientists. Estimating vaccine effectiveness ($VE$) is a key task once a vaccine is available as a control measure within a population, such as during the middle phase of an epidemic like Ebola or COVID-19, and also in the evaluation of regular vaccination programs, such as childhood vaccines.
 
-`vaccineff` provides tools to estimate vaccine effectiveness under different study designs, including cohort studies, test-negative/case-control studies, and the screening method [@torvaldsen2002]. Each design comes with its own example data set, which includes information on vaccination dates and biological details per dose, as well as relevant demographic information. The level of data aggregation is tailored to the characteristics and needs of each study case.
+`vaccineff` provides tools to estimate VE under different study designs, including cohort studies, test-negative/case-control studies, and the screening method [@torvaldsen2002]. The current version of the package provides a set of features for preparing, visualizing, and managing cohort data, estimating vaccine effectiveness, and assessing the performance of the models. Test-negative design and screening method will be included in future versions. The cohort design comes with its own example data set, which includes information on vaccination dates and biological details per dose, as well as relevant demographic information. The level of data aggregation is tailored to the characteristics and needs of the study case. 
 
 ## Who are the users / potential users?
 
-`vaccineff` is useful for local, national, and international health agencies looking for a quick implementation to estimate vaccine effectiveness based on their available data. It also provides insights to researchers, data analysts, and epidemiology students on how to approach vaccine effectiveness using different methods.
-
-
+`vaccineff` is useful for local, national, and international health agencies looking for a quick implementation to estimate VE based on their available data. It also provides insights to researchers, data analysts, and epidemiology students on how to approach VE using different methods. We believe that `vaccineff` would be specially useful for users without advanced training in statistical methods.
 
 ## What is vaccine effectiveness?
 
-In contrast with vaccine efficacy, which is the percentage reduction of disease incidence in a vaccinated group compared with an unvaccinated group under ideal conditions, vaccine effectiveness ($VE$) is the percentage reduction of disease incidence in a vaccinated group compared with an unvaccinated group under routine conditions. Evaluating the effectiveness of vaccines in the field is an important aspect of monitoring immunization programs.
+In contrast with vaccine efficacy, which is the percentage reduction of disease incidence in a vaccinated group compared with an unvaccinated group under ideal conditions, $VE$ is the percentage reduction of disease incidence in a vaccinated group compared with an unvaccinated group under routine conditions. The reduction attributable to vaccination is usually assessed from data collected in observational studies [@bookvaccine]. Evaluating the effectiveness of vaccines in the field is an important aspect of monitoring immunization programs. 
 
 ## For which designs of vaccine effectiveness is this package?
 
-`vaccineff` is a package designed to be used for any infectious disease for which a vaccine strategy has been implemented. The study designs currently implemented in the package are: cohorts, test-negative/case-control, and the screening method.
+`vaccineff` is a package designed to be used for any infectious disease for which a vaccine strategy has been implemented. `vaccineff` has been intended as a R package that offers tools to estimate  $VE$ for cohort  and test-negative case-control studies. However, this current version of `vaccineff` only allows measuring $VE$ for cohort study designs, even controlling for potential confounders such as age. The package provides a set of features for preparing the data, estimating crude and adjusted effectiveness and  assessing the performance of  the models used to approximate $VE$.
 
 ### Cohort Design
 
@@ -46,21 +44,7 @@ In the cohort design, $VE$ is estimated using the Hazard Ratios ($HR$) between v
 
 $$VE = (1-HR(t))\times100.$$
 
-The HR is estimated using the Cox Proportional Hazards model. In particular, we use the vaccine status of the individuals as the only covariate in the regression. Other confounders can be included as matching arguments to adjust for observational bias. The proportional hazards hypothesis is checked using the Schoenfeld test. A visual check is also provided using the log-log representation of the Survival Probability. If the hypothesis is not satisfied, it is recommended to stratify the population into smaller groups using the confounding variables.
-
-### Test Negative Design (Future release)
-
-The test-negative design is a modified case-control design. $VE$ is estimated using the odds ratio ($OR$) of vaccination among cases divided by the OR of vaccination among controls,
-
-$$VE = 1- \frac{\text{Odds cases}}{\text{Odds Control}}\times 100.$$
-
-### Screening Method (Future release)
-
-The screening method estimates $VE$ using the proportion of cases vaccinated ($PCV$) and the proportion of the population vaccinated ($PPV$),
-
-$$VE = \frac{\text{PCV}}{1-\text{PCV}} \times \frac{1-\text{PPV}}{\text{PPV}} \times 100.$$
-
-To calculate the $PCV$, it is assumed that all, or at least a random sample of cases of a disease arising over a given period in a defined population, is available. Additionally, it incorporates the $PPV$ as prior information or an external estimate.
+The $HR$ is estimated using the Cox Proportional Hazards model. In particular, we use the vaccine status of the individuals as the only covariate in the regression. Other confounders can be included as matching arguments to adjust for observational bias. The proportional hazards hypothesis is checked using the Schoenfeld test. A visual check is also provided using the log-log representation of the Survival Probability. If the hypothesis is not satisfied, it is recommended to stratify the population into smaller groups using the confounding variables.
 
 ## What type of data is needed to use the package?
 
@@ -75,24 +59,6 @@ Data disaggregated at the individual level to follow vaccinated and unvaccinated
 - Date(s) of outcome(s). The package estimates vaccine effectiveness against various outcomes.
 Individuals' demographic information (e.g., sex, age-group, health status) can be specified depending on the confounding variables that will be introduced in the model.
 
-### Data for Test-negative design (Future release)
-
-Data disaggregated at the individual level to correlate vaccination and disease status for each case. The dataset must contain the following information:
-
-- Vaccination status for each individual. Consider time since vaccination and number of doses to determine whether they are vaccinated or unvaccinated.
-
-- Result of gold-standard test for the pathogen of interest. Molecular tests such as PCR or multiplex-PCR are commonly used to determine etiological agents in TND studies.
-
-- Individuals' demographic information (e.g., sex, age, health insurance) and other variables that may be specified depending on the confounding variables to be introduced in the model.
-
-### Data for Screening method design (Future release)
-
-- Vaccination status for each case or age group. Consider time since vaccination to determine whether individuals are vaccinated or unvaccinated. Exclude patients with incomplete vaccination schedules if the vaccine of interest requires several doses for maximum efficacy.
-
-- Proportion of the population vaccinated. Data can be administered as individuals with complete vaccination, individuals without complete vaccination, or as the proportion of the population vaccinated.
-
-- Individuals' demographic information (e.g., sex, age, health insurance) and other variables that may be specified depending on the confounding variables to be introduced in the model.
-
 ## Modeling vaccine effectiveness
 
 ### VE for Cohort design
@@ -101,13 +67,15 @@ The current release of the package bases the estimation of $VE$ in the cohort de
 
 The integrated dataset `cohortdata` serves as a minimal example of the package's input. The data is accessed using `data("cohortdata")`.
 
-The following example estimates $VE$ by:
+*Vaccineff* package has three main functions:
 
-1. Defining the immunization information using the function `make_immunization()`. This method returns the cohort data with the immunization date based on the characteristic response time to vaccination (`immunization_delay`) and the specified limits (`outcome_date_col, censoring_date_col, end_cohort`).
 
-2. Matching the cohort by exact and nearest confounders using the function `match_cohort()`. This function supports methods like `summary()` to check matching balance and the sizes of matched, excluded, and removed populations, and `get_dataset()` to extract the matched cohort.
+1. `make_vaccineff_data`: This function returns an object of the S3 class `vaccineff_data` with the relevant information for the study. This function also allows to create a matched cohort to control for confounding variables by setting `match = TRUE` and passing the corresponding `exact` and `nearest` arguments.
+`make_vaccineff_data`  supports the method `summary()` to check the characteristics of the cohort, the matching balance and the sizes of matched, excluded, and removed populations.
 
-3. Estimating $VE$ with the function `effectiveness()` using the hazard ratio ($HR$). A summary of the estimation can be obtained using `summary()` and a graphical representation of the methodology is generated by `plot().`
+2.  `plot_coverage`: This function returns a plot of the vaccine coverage or the cumulative coverage. If the population is matched, the plot also includes the resulting count of doses after matching. 
+
+3. `effectiveness`: This function provides methods for estimating VE using the hazard ratio ($HR$). A summary of the estimation can be obtained using `summary()` and a graphical representation of the methodology is generated by `plot().`
 
 
 ```{r cohortdata, include = TRUE, echo = TRUE}
@@ -132,6 +100,9 @@ vaccineff_data <- make_vaccineff_data(
 # Print summary of vaccineff data object
 summary(vaccineff_data)
 
+# Plot the vaccine coverage of the total population
+plot_coverage(vaccineff_data)
+
 # Estimate the Vaccine Effectiveness at 90 days
 ve90 <- effectiveness(vaccineff_data, at = 90)
 
@@ -140,9 +111,6 @@ summary(ve90)
 
 # Loglog plot to check proportional hazards
 plot(ve90, type = "loglog")
-
-# Survival plot
-plot(ve90, type = "surv", percentage = FALSE, cumulative = FALSE)
 ```
 
-## References
+## Key references

@@ -288,7 +288,6 @@ truncate_tte_at <- function(data_set,
 #' @title Internal function to truncate data based on start_cohort
 #'
 #' @inheritParams make_vaccineff_data
-#' @param start_cohort Start date of the cohort based on min. immunization
 #' @return `data.frame` with truncated data
 #' @keywords internal
 adjust_time_to_event <- function(data_set) {

@@ -8,8 +8,6 @@ adjust_time_to_event(data_set)
 }
 \arguments{
 \item{data_set}{\code{data.frame} with cohort information (see example).}
-
-\item{start_cohort}{Start date of the cohort based on min. immunization}
 }
 \value{
 \code{data.frame} with truncated data

@@ -1,10 +1,10 @@
 ---
 title: "Introduction to cohort design with vaccineff"
-bibliography: vignettes/references.json
+bibliography: ../references.json
 link-citations: true
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{vaccineff}
+  %\VignetteIndexEntry{Introduction to cohort design with vaccineff}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

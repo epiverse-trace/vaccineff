@@ -20,7 +20,7 @@ knitr::opts_chunk$set(
 library(vaccineff)
 ```
 
-# Cohort Design
+# Cohort Design -
 
 In cohort studies, vaccine effectiveness ($VE$) is calculated after following vaccinated and unvaccinated individuals over time. However, VE may depend on individual characteristics (e.g., age and sex) and external factors (e.g., environment, number of doses, virus strain, and calendar period). Typically, VE is estimated in open or dynamic cohorts, where individuals can enter or leave the cohort at any time after the initial study date and change their vaccination status. Thus, $VE$ can be estimated  by survival analysis methods, substituting the relative risk for the hazard ratio ($HR$), which considers the person-time at risk in the estimation of VE [@bookvaccine]. `Vaccineff` package estimates VE using $(1-HR) \times 100\%$ and therefore, the outcome variable is the time from the initial study date to the occurrence of the event (e.g., infection, death, hospitalization) or the date of the end of the study. VE is approximated by the Cox proportional hazards model that is usually written by the following expression:
 

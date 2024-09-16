@@ -24,7 +24,7 @@ library(vaccineff)
 
 Estimating vaccine effectiveness is a key task once a vaccine is available as a control measure within a population, such as during the middle phase of an epidemic like Ebola or COVID-19, and also in the evaluation of regular vaccination programs, such as childhood vaccines.
 
-`vaccineff` provides tools to estimate vaccine effectiveness under different study designs, including cohort studies, test-negative/case-control studies, and the screening method [@torvaldsen2020]. Each design comes with its own example data set, which includes information on vaccination dates and biological details per dose, as well as relevant demographic information. The level of data aggregation is tailored to the characteristics and needs of each study case.
+`vaccineff` provides tools to estimate vaccine effectiveness under different study designs, including cohort studies, test-negative/case-control studies, and the screening method [@torvaldsen2002]. Each design comes with its own example data set, which includes information on vaccination dates and biological details per dose, as well as relevant demographic information. The level of data aggregation is tailored to the characteristics and needs of each study case.
 
 ## Who are the users / potential users?
 

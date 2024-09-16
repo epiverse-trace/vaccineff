@@ -13,7 +13,7 @@
     <a href="https://epiverse-trace.github.io/" class="external-link"><img src="https://epiverse-trace.github.io/blueprints/logo_white.svg" id="logo" alt="Epiverse-TRACE"></a>
     <a class="navbar-brand me-2" href="../index.html">vaccineff</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.0.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.0.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -44,7 +44,34 @@
       <small>Source: <a href="https://github.com/epiverse-trace/vaccineff/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
-  </main></div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.0.3" id="vaccineff-003">vaccineff 0.0.3<a class="anchor" aria-label="anchor" href="#vaccineff-003"></a></h2>
+<div class="section level3">
+<h3 id="new-features-0-0-3">New Features<a class="anchor" aria-label="anchor" href="#new-features-0-0-3"></a></h3>
+<p>This version introduces an iterative matching routine within <code><a href="../reference/match_cohort.html">match_cohort()</a></code>. After adjusting the exposure times of the pairs, new pairs are created between the removed ones and the unmatched population. The new matches with inconsistent exposure times are removed again, and the procedure is repeated until no new pairs can be made. The usage of all the functions remains unchanged by this update.</p>
+</div>
+</div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.0.2" id="vaccineff-002">vaccineff 0.0.2<a class="anchor" aria-label="anchor" href="#vaccineff-002"></a></h2>
+<div class="section level3">
+<h3 id="new-features-0-0-2">New Features<a class="anchor" aria-label="anchor" href="#new-features-0-0-2"></a></h3>
+<p>The number of functions and steps for computing vaccine effectiveness has been drastically reduced in <code>{vaccineff 0.0.2}</code>. The new pipeline for estimation now consists of three main functions:</p>
+<ul><li><p><strong><code><a href="../reference/make_immunization.html">make_immunization()</a></code></strong>: Prepares information on immunization dates and vaccine status. It can handle multiple columns for vaccine dates and custom vaccine statuses. In such cases, it returns the name of the column selected as immunizing and the custom name, if provided.</p></li>
+<li><p><strong><code><a href="../reference/match_cohort.html">match_cohort()</a></code></strong>: This function has been improved and generalized to reduce observation bias in cohorts. The default matching strategy is static, based on nearest and exact characteristics using Mahalanobis distance. The exposure times of the pairs are adjusted after matching. In future releases, rolling calendar matching will be introduced as a more accurate method to account for exposure times. The function returns an S3 object of class <code>match</code>, from which a summary and balance of the cohorts can be printed using the <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code> method. The matched cohort can be extracted using the <code><a href="../reference/get_dataset.html">get_dataset()</a></code> method. The matched cohort contains all the necessary information to estimate vaccine effectiveness.</p></li>
+<li><p><strong><code><a href="../reference/effectiveness.html">effectiveness()</a></code></strong>: Receives a (matched) cohort and estimates vaccine effectiveness using the Hazard Ratio (HR). An S3 object of class <code>effectiveness</code> is returned, compatible with the <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code> and <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code> methods. Future releases will provide relative risk (RR) as an alternative for cases where the proportional hazards assumption is not satisfied.</p></li>
+</ul></div>
+<div class="section level3">
+<h3 id="breaking-changes-0-0-2">Breaking Changes<a class="anchor" aria-label="anchor" href="#breaking-changes-0-0-2"></a></h3>
+<p>The following functions are no longer accessible to users. However, they are called within <code><a href="../reference/make_immunization.html">make_immunization()</a></code>:</p>
+<ul><li><code><a href="../reference/get_immunization_date.html">get_immunization_date()</a></code></li>
+<li><code><a href="../reference/get_immunization_dose.html">get_immunization_dose()</a></code></li>
+<li><code><a href="../reference/get_immunization_vaccine.html">get_immunization_vaccine()</a></code></li>
+<li><code><a href="../reference/set_status.html">set_status()</a></code></li>
+</ul><p>Similarly, the <code><a href="../reference/effectiveness.html">effectiveness()</a></code> function deprecates the use of <code>coh_eff_noconf()</code>, and the <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code> method now returns a log-log plot, replacing the <code><a href="../reference/plot_loglog.html">plot_loglog()</a></code> function.</p>
+</div>
+</div>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+    </nav></aside></div>
 
 
     <footer><div class="pkgdown-footer-left">

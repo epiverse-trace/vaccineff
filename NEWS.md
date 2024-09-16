@@ -1,3 +1,13 @@
+# vaccineff 0.0.3
+## New Features
+
+This version introduces an iterative matching routine within `match_cohort()`.
+After adjusting the exposure times of the pairs, new pairs are created between
+the removed ones and the unmatched population. The new matches with inconsistent
+exposure times are removed again, and the procedure is repeated until no new
+pairs can be made. The usage of all the functions remains unchanged by this update.
+
+# vaccineff 0.0.2
 ## New Features
 
 The number of functions and steps for computing vaccine effectiveness has 

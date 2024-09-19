@@ -1,6 +1,7 @@
 ---
 title: "Introduction to cohort design with vaccineff"
 bibliography: ../references.json
+#bibliography: references.bib
 link-citations: true
 output: rmarkdown::html_vignette
 vignette: >
@@ -78,6 +79,8 @@ plot(ve1, type = "surv", percentage = FALSE, cumulative = FALSE)
 plot(ve1, type = "loglog")
 ```
 
+The crude VE of death from two doses was 68.9% [95% CI 54.6-78.7]. Furthermore, since the log-log plot shows that the curves do not appear entirely parallel, this indicates that there is a slight violation of the proportional assumption, which in many data sets can be resolved after adjusting for possible confounding factors.
+
 
 ##  Estimating VE with iterative matching process
 
@@ -93,7 +96,13 @@ where $x$ corresponds to values of confounders variables y $\Sigma$ is the sampl
 
 ![](https://raw.githubusercontent.com/epiverse-trace/vaccineff/documentation/inst/images/time-to-event2.png){.rmarkdown-img align="center" style="margin-left: 2.8em; margin-top: 0.8em; margin-bottom: 0.8em;" width="560"}
 
-For this reason, the algorithm iterates until the largest number of matched pairs with equivalent exposure time is obtained. At the end of the procedure, unvaccinated and vaccinated individuals who cannot be matched are eliminated from the analysis. The estimation of VE with IMP using `vaccineff` is performed using a Cox regression model with a robust variance estimator to  account for the clustering within matched pairs  @austin2014use. In our example, we decided to control for age and sex using the options `match=TRUE` and `exact = c("age", "sex")` in the `make_vaccineff_data` function. Now, this function creates a set of matched data, look at the new dataset using `vaccineff_data_matched[["matching"]]$match`.
+For this reason, the algorithm iterates until the largest number of matched pairs with equivalent exposure time is obtained. At the end of the procedure, unvaccinated and vaccinated individuals who cannot be matched are eliminated from the analysis. The estimation of VE with IMP using `vaccineff` is performed using a Cox regression model with a robust variance estimator to  account for the clustering within matched pairs  @austin2014use. In our example, we decided to control for age and sex using the options `match=TRUE` and `exact = c("age", "sex")` in the `make_vaccineff_data` function. Now, this function creates a set of matched data, look at the new dataset using `vaccineff_data_matched[["matching"]]$match`. 
+
+When the `exact` option is used, the IMP searches for each case, a control with the same characteristics. In our example, the IMP matches pairs of the exact same sex and age.  If an exact match is not required, a `nearest` option is also available to match similar but not identical pairs. This option could make possible to match pairs with a caliper or distance of  1 on age (e.g., case of 49 years with a control of 50 years). Note also that both options can be used simultaneously for the IMP process.
+
+
+The following code block estimates a VE using IMP matching only considering the `exact` option.
+
 
 ```{r artcohor1, include = TRUE, echo = TRUE}
 # Load example data
@@ -114,31 +123,67 @@ vaccineff_data_matched <- make_vaccineff_data(
   nearest = NULL
 )
 ```
-If the `summary` function is applied to a vaccineff object, a report of IMP is displayed.
+If the `summary` function is applied to a vaccineff object, a report of exact IMP is displayed.
 
 ```{r artcohor2, include = TRUE, echo = TRUE}
 summary(vaccineff_data_matched)
 ```
 
-In the output of `vaccineff_data_matched`, the user can check the differences between the unmatched and matched cohorts using standardized mean difference (SMD) to measure the distance between the unvaccinated and vaccinated individuals. The number of unmatched individuals (removed) from the analysis is also reported. In this example, out of a total of 62743 unvaccinated individuals and 37257 vaccinated individuals, the IMP procedure was able to match 27612 pairs considering the characteristics of the individuals and the time of exposure. 
+In the output of `vaccineff_data_matched`, the user can check the differences between the unmatched and matched cohorts using standardized mean difference (SMD) to measure the distance between the unvaccinated and vaccinated individuals. In our example, SMD for age and sex is 0 because an exact IMP was run, see the results in the balance matched output. The number of unmatched individuals (removed) from the analysis is also reported. In this example, out of a total of 62743 unvaccinated individuals and 37257 vaccinated individuals, the IMP procedure was able to match 27612 pairs considering the characteristics of the individuals and the time of exposure. 
 Now, using `the vaccineff_data_matched` object in the `effectiveness` function, the VE is estimated.
 
 ```{r artcohor3, include = TRUE, echo = TRUE}
 # Estimate the Vaccinef Effectiveness (VE)
-ve <- effectiveness(vaccineff_data_matched)
+ve2 <- effectiveness(vaccineff_data_matched)
 
 # Print summary of VE
-summary(ve)
+summary(ve2)
 
 # Generate loglog plot to check proportional hazards
-plot(ve, type = "loglog")
+plot(ve2, type = "loglog")
 
 # Generate Survival plot
-plot(ve, type = "surv", percentage = FALSE, cumulative = FALSE)
+plot(ve2, type = "surv", percentage = FALSE, cumulative = FALSE)
 ```
 
-In the matched cohort, the estimated VE for  death of two  doses was 66.7% [95% CI 46.1–79.4]. Although, Schoenfeld's test was rejected (p value<0.05), the log-log plot demonstrates that the proportional hazards assumption was not violated, as they appear quite parallel.
+In the matched cohort, the estimated VE for  death of two  doses was 66.7% [95% CI 46.1–79.4]. Although, Schoenfeld's test was rejected (p value<0.05), the log-log plot demonstrates that the proportional hazards assumption was not violated, as they appear quite parallel compared to the crude log-log output.
+
+Finally, to compare the effect of a IMP matching on the VE estimation using a caliper of 2 on age and the exact sex, the following code can be implemented:
+
+```{r artcohor4, include = TRUE, echo = TRUE}
+# Load example data
+data("cohortdata")
+
+# Create `vaccineff_data`
+vaccineff_data_matched2 <- make_vaccineff_data(
+  data_set = cohortdata,
+  outcome_date_col = "death_date",
+  censoring_date_col = "death_other_causes",
+  vacc_date_col = "vaccine_date_2",
+  vaccinated_status = "v",
+  unvaccinated_status = "u",
+  immunization_delay = 15,
+  end_cohort = as.Date("2044-12-31"),
+  match = TRUE,
+  exact = c("sex"),
+  nearest = c("age"=2)
+)
+
+summary(vaccineff_data_matched2)
 
 
+# Estimate the Vaccinef Effectiveness (VE)
+ve3 <- effectiveness(vaccineff_data_matched2)
+
+# Print summary of VE
+summary(ve3)
+
+# Generate loglog plot to check proportional hazards
+plot(ve3, type = "loglog")
+
+# Generate Survival plot
+plot(ve3, type = "surv", percentage = FALSE, cumulative = FALSE)
+
+```
 
 ## References

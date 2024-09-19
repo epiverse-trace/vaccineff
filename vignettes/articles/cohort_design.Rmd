@@ -20,7 +20,7 @@ knitr::opts_chunk$set(
 library(vaccineff)
 ```
 
-# Cohort Design -
+# Cohort Design
 
 In cohort studies, vaccine effectiveness ($VE$) is calculated after following vaccinated and unvaccinated individuals over time. However, VE may depend on individual characteristics (e.g., age and sex) and external factors (e.g., environment, number of doses, virus strain, and calendar period). Typically, VE is estimated in open or dynamic cohorts, where individuals can enter or leave the cohort at any time after the initial study date and change their vaccination status. Thus, $VE$ can be estimated  by survival analysis methods, substituting the relative risk for the hazard ratio ($HR$), which considers the person-time at risk in the estimation of VE [@bookvaccine]. `Vaccineff` package estimates VE using $(1-HR) \times 100\%$ and therefore, the outcome variable is the time from the initial study date to the occurrence of the event (e.g., infection, death, hospitalization) or the date of the end of the study. VE is approximated by the Cox proportional hazards model that is usually written by the following expression:
 
@@ -40,6 +40,44 @@ When working with observational data, other potential factors or baseline charac
 
 
 ![](https://raw.githubusercontent.com/epiverse-trace/vaccineff/documentation/inst/images/time-to-event1.png){.rmarkdown-img align="center" style="margin-left: 2.8em; margin-top: 0.8em; margin-bottom: 0.8em;" width="560"}
+
+##  Estimating VE without iterative matching process
+
+`vaccineff` performs the conventional estimation of VE based on the Cox regression model using the option `match=FALSE` in `make_vaccineff_data` function. This is the simplest possible model, as it does not take into account that VE can be affected by possible confounding factors, such as age or sex. To begin the analysis, the first step  is to transform the original data  into a `vaccineff` data by `make_vaccineff_data` function and declare the names of variables containing relevant information such as the date of outcome or event occurs `outcome_date_col` or the censoring date `censoring_date_col`, date of last dose `vacc_date_col`, labels to identify vaccinated `vaccinated_status` and unvaccinated groups `unvaccinated_status`, and  the date of last follow up of the cohort `end_cohort`. The `censoring_date_col` option should be used if the study end date varies for some subjects because an event other than the study outcome has occurred, for example, when a subject dies from causes other than the disease of interest.
+
+The crude VE (unadjusted) is then estimated and the survival curves can also be visualized by the following code:
+
+
+```{r artcohor, include = TRUE, echo = TRUE}
+# Load example data
+data("cohortdata")
+
+# Create `vaccineff_data`
+vaccineff_data <- make_vaccineff_data(
+  data_set = cohortdata,
+  outcome_date_col = "death_date",
+  censoring_date_col = "death_other_causes",
+  vacc_date_col = "vaccine_date_2",
+  vaccinated_status = "v",
+  unvaccinated_status = "u",
+  immunization_delay = 15,
+  end_cohort = as.Date("2044-12-31"),
+  match = FALSE,
+)
+
+# Estimate the Vaccinef Effectiveness (VE)
+ve1 <- effectiveness(vaccineff_data)
+
+# Print summary of VE
+summary(ve1)
+
+# Generate Survival plot
+plot(ve1, type = "surv", percentage = FALSE, cumulative = FALSE)
+
+# Generate loglog plot to check proportional hazards
+plot(ve1, type = "loglog")
+```
+
 
 ##  Estimating VE with iterative matching process
 

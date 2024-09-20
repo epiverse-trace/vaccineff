@@ -1,10 +1,10 @@
 ---
 title: "Other study designs"
-bibliography: references.json
+bibliography: references.bib
 link-citations: true
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{vaccineff}
+  %\VignetteIndexEntry{Other study designs}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

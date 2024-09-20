@@ -248,7 +248,7 @@ get_time_to_event <- function(data_set,
 #' @param at Time to truncate the follow-up period
 #' @return `data.frame` with truncated data
 #' @keywords internal
-truncate_tte_at <- function(data_set,
+truncate_time_to_event <- function(data_set,
                             outcome_date_col,
                             end_cohort,
                             at) {

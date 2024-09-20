@@ -74,7 +74,7 @@ effectiveness <- function(vaccineff_data,
   tags <- linelist::tags(data_set)
 
   if (!is.null(at)) {
-    data_set <- truncate_tte_at(
+    data_set <- truncate_time_to_event(
       data_set = data_set,
       outcome_date_col = tags$outcome_date_col,
       end_cohort = vaccineff_data$end_cohort,

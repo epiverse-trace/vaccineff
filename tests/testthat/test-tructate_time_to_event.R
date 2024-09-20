@@ -1,4 +1,4 @@
-#### Tests for the truncate_tte_at ####
+#### Tests for the truncate_time_to_event ####
 data("cohortdata")
 
 # sample cohort to make tests faster - take a bigger sample
@@ -26,8 +26,8 @@ data_test <- vaccineff_data$matching$match
 tags <- linelist::tags(data_test)
 
 #### Basic expectations of `effectiveness()`
-test_that("`truncate_tte_at`: basic expectations", {
-  data_trunc <- truncate_tte_at(
+test_that("`truncate_time_to_event`: basic expectations", {
+  data_trunc <- truncate_time_to_event(
     data_set = data_test,
     outcome_date_col = tags$outcome_date_col,
     end_cohort = vaccineff_data$end_cohort,

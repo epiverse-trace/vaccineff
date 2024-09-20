@@ -24,17 +24,18 @@ library(vaccineff)
 
 Vaccines are created to offer protection against diseases that affect human health. Quantifying how well vaccines work in controlled environments and in real-life settings remains a challenge for scientists. Estimating vaccine effectiveness ($VE$) is a key task once a vaccine is available as a control measure within a population, such as during the middle phase of an epidemic like Ebola or COVID-19, and also in the evaluation of regular vaccination programs, such as childhood vaccines.
 
-`vaccineff` provides tools to estimate VE under different study designs, including cohort studies, test-negative/case-control studies, and the screening method [@torvaldsen2002]. Each design comes with its own example data set, which includes information on vaccination dates and biological details per dose, as well as relevant demographic information. The level of data aggregation is tailored to the characteristics and needs of each study case. 
+`vaccineff` provides tools to estimate $VE$ under different study designs, including cohort studies, test-negative/case-control studies, and the screening method [@torvaldsen2002]. The current version of the package provides a set of features for preparing, visualizing and managing data, estimating $VE$, and assessing the performance of the models in a cohort design. Test-negative design and screening method will be included in future versions. The cohort design comes with its own example data set, which includes information on vaccination dates and biological details per dose, as well as relevant demographic information. The level of data aggregation is tailored to the characteristics and needs of the study case. 
 
 ## Who are the users / potential users?
 
-`vaccineff` is useful for local, national, and international health agencies looking for a quick implementation to estimate VE based on their available data. It also provides insights to researchers, data analysts, and epidemiology students on how to approach VE using different methods. We believe that `vaccineff` would be specially useful for users without advanced training in statistical methods.
+`vaccineff` is useful for local, national, and international health agencies looking for a quick implementation to estimate $VE$ based on their available data. It also provides insights to researchers, data analysts, and epidemiology students on how to approach $VE$ using different methods. We believe that `vaccineff` would be specially useful for users without advanced training in statistical methods.
+
 
 ## What is vaccine effectiveness?
 
 In contrast with vaccine efficacy, which is the percentage reduction of disease incidence in a vaccinated group compared with an unvaccinated group under ideal conditions, $VE$ is the percentage reduction of disease incidence in a vaccinated group compared with an unvaccinated group under routine conditions. The reduction attributable to vaccination is usually assessed from data collected in observational studies [@bookvaccine]. Evaluating the effectiveness of vaccines in the field is an important aspect of monitoring immunization programs. 
 
-## For which designs of vaccine effectiveness is this package?
+## For which designs is this package?
 
 `vaccineff` is a package designed to be used for any infectious disease for which a vaccine strategy has been implemented. `vaccineff` has been intended as a R package that offers tools to estimate  $VE$ for cohort  and test-negative case-control studies. However, this current version of `vaccineff` only allows measuring $VE$ for cohort study designs, even controlling for potential confounders such as age. The package provides a set of features for preparing the data, estimating crude and adjusted effectiveness and  assessing the performance of  the models used to approximate $VE$.
 
@@ -52,30 +53,35 @@ This package is designed to be used with vaccination data sets with the followin
 
 ### Data for Cohort design
 
-Data disaggregated at the individual level to follow vaccinated and unvaccinated populations over time. The dataset must contain the following information:
+Data should be disaggregated at the individual level to track vaccinated and unvaccinated populations over time. The dataset must include the following information:
 
-- Date(s) of vaccination for each individual. The package allows working with multiple doses for each individual and estimates the immunization date using delay times of outcomes and immunization times of vaccines.
+- Date(s) of vaccination for each individual: The package allows for multiple doses per individual and estimates the immunization date using delay times of outcomes and the timing of vaccine administration.
 
-- Date(s) of outcome(s). The package estimates vaccine effectiveness against various outcomes.
-Individuals' demographic information (e.g., sex, age-group, health status) can be specified depending on the confounding variables that will be introduced in the model.
+- Date(s) of outcome(s): The package estimates vaccine effectiveness against various outcomes.
+
+- Date(s) of right censoring: The package allows for the inclusion of information on dates of events that constitute right censoring.
+
+- Individuals' demographic information (e.g., sex, age group, health status): These can be used as confounding variables to match the population and reduce observational bias.
+
 
 ## Modeling vaccine effectiveness
 
 ### VE for Cohort design
 
-The current release of the package bases the estimation of $VE$ in the cohort design on the assumption of proportional hazards between vaccinated and unvaccinated populations. The hazard ratio is estimated using the Cox proportional hazards model implemented in the R package `{survival}`.
+The current release of the package bases the estimation of $VE$ in the cohort design on the assumption of proportional hazards between vaccinated and unvaccinated populations. The $HR$ is estimated using the Cox proportional hazards model implemented in the R package `{survival}`.
 
 The integrated dataset `cohortdata` serves as a minimal example of the package's input. The data is accessed using `data("cohortdata")`.
 
-*Vaccineff* package has three main functions:
+
+`vaccineff` has three main functions:
 
 
-1. `make_vaccineff_data`: This function returns  the cohort data object with the relevant information on immunization for the study. This function also allows to create a matched cohort  to control for confounding variables. `make_vaccineff_data`  supports methods like `summary()` to check matching balance and the sizes of matched, excluded, and removed populations, and `get_dataset()` to extract the matched cohort.
+1. `make_vaccineff_data`: This function returns an S3 object of the class `vaccineff_data` with the relevant information for the study. This function also allows to create a matched cohort to control for confounding variables by setting `match = TRUE` and passing the corresponding `exact` and `nearest` arguments.
+`make_vaccineff_data`  supports the method `summary()` to check the characteristics of the cohort, the matching balance and the sizes of matched, excluded, and removed populations.
 
-2.  `plot_coverage`: This function returns a plot of the vaccine coverage or the cumulative coverage.
+2.  `plot_coverage`: This function returns a plot of the vaccine coverage or the cumulative coverage. If the population is matched, the plot also includes the resulting count of doses after matching. 
 
-3. `effectiveness`: This function provides methods for estimating VE using the hazard ratio ($HR$). A summary of the estimation can be obtained using `summary()` and a graphical representation of the methodology is generated by `plot().`
-
+3. `effectiveness`: This function provides methods for estimating VE using the $HR$. A summary of the estimation can be obtained using `summary()` and a graphical representation of the methodology is generated by `plot().`
 
 ```{r cohortdata, include = TRUE, echo = TRUE}
 # Load example data
@@ -90,7 +96,6 @@ vaccineff_data <- make_vaccineff_data(
   vaccinated_status = "v",
   unvaccinated_status = "u",
   immunization_delay = 15,
-  start_cohort = as.Date("2044-01-01"),
   end_cohort = as.Date("2044-12-31"),
   match = TRUE,
   exact = c("age", "sex"),
@@ -100,6 +105,9 @@ vaccineff_data <- make_vaccineff_data(
 # Print summary of vaccineff data object
 summary(vaccineff_data)
 
+# Plot the vaccine coverage of the total population
+plot_coverage(vaccineff_data)
+
 # Estimate the Vaccine Effectiveness at 90 days
 ve90 <- effectiveness(vaccineff_data, at = 90)
 
@@ -108,10 +116,7 @@ summary(ve90)
 
 # Loglog plot to check proportional hazards
 plot(ve90, type = "loglog")
-
-# Survival plot
-plot(ve90, type = "surv", percentage = FALSE, cumulative = FALSE)
 ```
 For details on the estimation of VE in cohort studies see *AQUI* 
 
-## References
+## Key references

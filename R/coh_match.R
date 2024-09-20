@@ -149,7 +149,7 @@ match_cohort <- function(data_set,
   )
 
   if (method == "static") {
-    output <- capture_warnings(static_match(
+    match <- static_match(
       data_set = data_set,
       outcome_date_col = outcome_date_col,
       censoring_date_col = censoring_date_col,
@@ -161,9 +161,8 @@ match_cohort <- function(data_set,
       end_cohort = end_cohort,
       nearest = nearest,
       exact = exact
-    ))
-    match_obj <- output$result
-    match_obj$warnings_log <- output$warnings
+    )
+    match_obj <- match
   }
   class(match_obj) <- "match"
   return(match_obj)

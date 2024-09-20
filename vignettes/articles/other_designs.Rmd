@@ -1,6 +1,6 @@
 ---
 title: "Other study designs"
-bibliography: vignettes/references.json
+bibliography: references.json
 link-citations: true
 output: rmarkdown::html_vignette
 vignette: >
@@ -14,10 +14,6 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
-```
-
-```{r setup}
-library(vaccineff)
 ```
 
 # Test Negative Design (Future release)

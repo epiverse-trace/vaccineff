@@ -22,7 +22,7 @@ sample_cohort <- make_immunization(
 )
 
 # Match the data
-matching <- match_cohort(
+output <- capture_warnings(match_cohort(
   data_set = sample_cohort,
   outcome_date_col = "death_date",
   censoring_date_col = "death_other_causes",
@@ -31,7 +31,9 @@ matching <- match_cohort(
   method = "static",
   exact = "sex",
   nearest = c(age = 1)
-)
+))
+
+matching <- output$result
 
 #### Snapshot for summary comparing only two dataframes
 test_that("`match_cohort`: summary snapshot", {

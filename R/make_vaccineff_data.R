@@ -18,7 +18,6 @@
 #' Default is `u`.
 #' @param immunization_delay Characteristic time in days before the patient
 #' is considered immune. Default is 0.
-#' @param start_cohort Start date of the study.
 #' @param end_cohort End date of the study.
 #' @param match `TRUE`: cohort matching is performed. Default is `FALSE`
 #' @param exact Name(s) of column(s) for `exact` matching. Default is `NULL`.
@@ -47,7 +46,6 @@
 #'   vaccinated_status = "v",
 #'   unvaccinated_status = "u",
 #'   immunization_delay = 15,
-#'   start_cohort = as.Date("2044-01-01"),
 #'   end_cohort = as.Date("2044-12-31"),
 #'   match = TRUE,
 #'   exact = c("age", "sex"),
@@ -66,7 +64,6 @@ make_vaccineff_data <- function(data_set,
                                 vaccinated_status = "v",
                                 unvaccinated_status = "u",
                                 immunization_delay = 0,
-                                start_cohort,
                                 end_cohort,
                                 match = FALSE,
                                 exact = NULL,
@@ -83,7 +80,6 @@ make_vaccineff_data <- function(data_set,
     vaccinated_status = vaccinated_status,
     unvaccinated_status = unvaccinated_status,
     immunization_delay = immunization_delay,
-    start_cohort = start_cohort,
     end_cohort = end_cohort,
     match = match,
     exact = exact,
@@ -108,6 +104,7 @@ make_vaccineff_data <- function(data_set,
     )
   )
 
+  # Define linelist object
   cohort_data <- linelist::set_tags(
     x = cohort_data,
     outcome_date_col = outcome_date_col,
@@ -119,8 +116,11 @@ make_vaccineff_data <- function(data_set,
     allow_extra = TRUE
   )
 
+  # Define start date of the cohort
+  start_cohort <- min(cohort_data$immunization_date, na.rm = TRUE)
+
   if (match) {
-    matching <- match_cohort(
+    output <- capture_warnings(match_cohort(
       data_set = cohort_data,
       outcome_date_col = outcome_date_col,
       censoring_date_col = censoring_date_col,
@@ -133,7 +133,10 @@ make_vaccineff_data <- function(data_set,
       vacc_status_col = "vaccine_status",
       vaccinated_status = vaccinated_status,
       unvaccinated_status = unvaccinated_status
-    )
+    ))
+
+    matching <- output$result
+    warnings_log <- output$warnings
 
     matching$match <- linelist::set_tags(
       x = matching$match,
@@ -166,6 +169,13 @@ make_vaccineff_data <- function(data_set,
       immunization_date_col = t0_follow_up
     )
 
+    output <- capture_warnings(adjust_time_to_event(
+      data_set = cohort_data
+    ))
+
+    cohort_data <- output$result
+    warnings_log <- output$warnings
+
     cohort_data <- linelist::set_tags(
       x = cohort_data,
       time_to_event_col = "time_to_event",
@@ -181,7 +191,8 @@ make_vaccineff_data <- function(data_set,
     vaccinated_status = vaccinated_status,
     unvaccinated_status = unvaccinated_status,
     immunization_delay = immunization_delay,
-    matching = matching
+    matching = matching,
+    warnings_log = warnings_log
   )
 
   class(vaccineff_data) <- "vaccineff_data"
@@ -215,6 +226,12 @@ summary.vaccineff_data <- function(object, warnings_log = FALSE, ...) {
   if (!is.null(object$matching)) {
     cat("\nNearest neighbors matching iteratively performed.\n")
     summary.match(object$matching)
+
+    if (warnings_log && !is.null(object$matching)) {
+      cat("\nWarnings:\n")
+      cat(object$warnings_log, sep = "")
+    }
+
   } else {
     summ_cohort <- match_summary(
       all = object$cohort_data,
@@ -223,6 +240,8 @@ summary.vaccineff_data <- function(object, warnings_log = FALSE, ...) {
     )
     cat("\nNo matching routine invoked.\n")
     print(summ_cohort)
+
+    cat(object$warnings_log, sep = "")
   }
 
   # Print tags from linelist object
@@ -232,8 +251,4 @@ summary.vaccineff_data <- function(object, warnings_log = FALSE, ...) {
   }
   cat("\n// tags:", tags_txt, "\n")
 
-  if (warnings_log && !is.null(object$matching)) {
-    cat("\nWarnings:\n")
-    cat(object$matching$warnings_log, sep = "")
-  }
 }

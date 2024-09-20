@@ -13,7 +13,6 @@ check_vaccineff_inputs(
   vaccinated_status,
   unvaccinated_status,
   immunization_delay,
-  start_cohort,
   end_cohort,
   match,
   exact,
@@ -43,8 +42,6 @@ Default is \code{u}.}
 
 \item{immunization_delay}{Characteristic time in days before the patient
 is considered immune. Default is 0.}
-
-\item{start_cohort}{Start date of the study.}
 
 \item{end_cohort}{End date of the study.}
 

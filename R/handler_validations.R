@@ -44,7 +44,6 @@ check_vaccineff_inputs <- function(data_set,
                                    vaccinated_status,
                                    unvaccinated_status,
                                    immunization_delay,
-                                   start_cohort,
                                    end_cohort,
                                    match,
                                    exact,
@@ -93,11 +92,8 @@ check_vaccineff_inputs <- function(data_set,
       checkmate::test_integerish(immunization_delay, lower = 0, null.ok = FALSE)
   )
 
-  # check start and end dates
+  # check end dates
   # expect end cohort is a date
-  checkmate::assert_date(
-    start_cohort, any.missing = FALSE, len = 1
-  )
   checkmate::assert_date(
     end_cohort, any.missing = FALSE, len = 1
   )

@@ -1,7 +1,6 @@
 ---
 title: "Introduction to cohort design with vaccineff"
-bibliography: ../references.json
-#bibliography: references.bib
+bibliography: references.bib
 link-citations: true
 output: rmarkdown::html_vignette
 vignette: >

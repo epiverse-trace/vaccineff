@@ -8,7 +8,7 @@ message: 'To cite package "vaccineff" in publications use:'
 type: software
 license: MIT
 title: 'vaccineff: Estimate Vaccine Effectiveness Based on Different Study Designs'
-version: 0.0.2
+version: 0.0.3
 abstract: R package with tools for estimating vaccine effectiveness and vaccine related
   metrics.
 authors:
@@ -278,35 +278,9 @@ references:
   - family-names: Broman
     given-names: Karl W
     email: broman@wisc.edu
+    orcid: https://orcid.org/0000-0002-4914-6671
   - family-names: Wu
     given-names: Hao
-  - family-names: Churchill
-    given-names: with ideas from Gary
-  - family-names: Sen
-    given-names: Saunak
-  - family-names: Arends
-    given-names: contributions from Danny
-  - family-names: Corty
-    given-names: Robert
-  - family-names: Flutre
-    given-names: Timothee
-  - family-names: Jansen
-    given-names: Ritsert
-  - family-names: Prins
-    given-names: Pjotr
-  - family-names: Ronnegard
-    given-names: Lars
-  - family-names: Shah
-    given-names: Rohan
-  - family-names: Shannon
-    given-names: Laura
-  - family-names: Tran
-    given-names: Quoc
-  - family-names: Wolen
-    given-names: Aaron
-  - family-names: Yandell
-    given-names: Brian
-  - name: R Core Team
   year: '2024'
   doi: 10.32614/CRAN.package.qtl
 

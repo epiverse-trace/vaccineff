@@ -2,7 +2,7 @@
 % Please edit documentation in R/coh_effectiveness.R
 \name{plot.effectiveness}
 \alias{plot.effectiveness}
-\title{Function for Extracting VE Plot}
+\title{Function for Extracting Vaccine Effectiveness Plot}
 \usage{
 \method{plot}{effectiveness}(
   x,

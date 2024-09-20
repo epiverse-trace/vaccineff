@@ -137,7 +137,7 @@ summary.effectiveness <- function(object, ...) {
   }
 }
 
-#' @title Function for Extracting VE Plot
+#' @title Function for Extracting Vaccine Effectiveness Plot
 #'
 #' @description This function creates plots from an object of class
 #' `effectiveness`. It returns a Log-Log plot when `type = "loglog"`,

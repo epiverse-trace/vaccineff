@@ -141,7 +141,7 @@ summary.effectiveness <- function(object, ...) {
 #'
 #' @description This function creates plots from an object of class
 #' `effectiveness`. It returns a Log-Log plot when `type = "loglog"`,
-#' and a Survival curve when `type = "surv"`. Survival plots can be
+#' or a Survival curve when `type = "surv"`. Survival plots can be
 #' shown as cumulative incidence (`cumulative = TRUE`), and using
 #' percentages (`percentage = TRUE`).
 #'

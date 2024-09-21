@@ -49,5 +49,3 @@ Data disaggregated at the individual level to correlate vaccination and disease 
 - Proportion of the population vaccinated. Data can be administered as individuals with complete vaccination, individuals without complete vaccination, or as the proportion of the population vaccinated.
 
 - Individuals' demographic information (e.g., sex, age, health insurance) and other variables that may be specified depending on the confounding variables to be introduced in the model.
-
-## References

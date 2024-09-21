@@ -30,7 +30,7 @@ Plot extracted from \code{effectiveness}.
 \description{
 This function creates plots from an object of class
 \code{effectiveness}. It returns a Log-Log plot when \code{type = "loglog"},
-and a Survival curve when \code{type = "surv"}. Survival plots can be
+or a Survival curve when \code{type = "surv"}. Survival plots can be
 shown as cumulative incidence (\code{cumulative = TRUE}), and using
 percentages (\code{percentage = TRUE}).
 }

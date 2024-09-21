@@ -24,8 +24,8 @@ Javeriana](https://www.javeriana.edu.co/inicio) as part of the
 *vaccineff* is an R package that offers tools for estimating vaccine
 effectiveness, using a series of epidemiological designs including
 cohort studies, test-negative case-control, and screening methods
-([Torvaldsen and McIntyre 2002](#ref-torvaldsen2002)). The current
-version of the package provides a set of features for preparing,
+([Halloran, Longini, and Struchiner 2010](#ref-bookvaccine)). The
+current version of the package provides a set of features for preparing,
 visualizing, and managing cohort data, estimating vaccine effectiveness,
 and assessing the performance of the models. Test-negative design and
 screening method will be included in future versions.
@@ -108,12 +108,10 @@ By contributing to this project, you agree to abide by its terms.
 <div id="refs" class="references csl-bib-body hanging-indent"
 entry-spacing="0">
 
-<div id="ref-torvaldsen2002" class="csl-entry">
+<div id="ref-bookvaccine" class="csl-entry">
 
-Torvaldsen, S., and P. B. McIntyre. 2002. “Observational Methods in
-Epidemiologic Assessment of Vaccine Effectiveness.” *Communicable
-Diseases Intelligence Quarterly Report* 26 (3).
-<https://pubmed.ncbi.nlm.nih.gov/12416713/>.
+Halloran, Elizabeth, Ira Longini, and Claudio Struchiner. 2010. *Design
+and Analysis of Vaccine Studies*. Springer.
 
 </div>
 

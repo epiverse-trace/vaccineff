@@ -39,7 +39,7 @@ When working with observational data, other potential factors or baseline charac
 `vaccineff` package uses the number of days elapsed from the vaccine administration to the occurrence of the event to measure the length of follow-up.
 
 
-![](https://raw.githubusercontent.com/epiverse-trace/vaccineff/documentation/inst/images/time-to-event1.png){.rmarkdown-img align="center" style="margin-left: 2.8em; margin-top: 0.8em; margin-bottom: 0.8em;" width="560"}
+![](https://raw.githubusercontent.com/epiverse-trace/vaccineff/main/inst/images/time-to-event1.png){.rmarkdown-img align="center" style="margin-left: 2.8em; margin-top: 0.8em; margin-bottom: 0.8em;" width="560"}
 
 ##  Estimating VE without iterative matching process
 
@@ -85,7 +85,7 @@ The crude VE of death from two doses was 68.9% [95% CI 54.6-78.7]. Furthermore, 
 
 `vaccineff` performs an IMP after the end of the study by dividing the cohort between those who were never vaccinated and those who received the vaccine at some point during follow-up.  This method should be seen as an attempt to control for potential confounders that could influence the vaccine status as well as the occurrence of the interesting event. IMP selects pairs of unvaccinated and vaccinated individuals  with  similar characteristics (potential confounders, e.g., age, sex), making the groups comparable on important confounders variables,  as shown in the figure below:
 
-![](https://raw.githubusercontent.com/epiverse-trace/vaccineff/documentation/inst/images/static_matching.png){.rmarkdown-img align="center" style="margin-left: 2.8em; margin-top: 0.8em; margin-bottom: 0.8em;" width="560"}
+![](https://raw.githubusercontent.com/epiverse-trace/vaccineff/main/inst/images/static_matching.png){.rmarkdown-img align="center" style="margin-left: 2.8em; margin-top: 0.8em; margin-bottom: 0.8em;" width="560"}
 
 IMP runs a nearest neighbor matching using Mahalanobis distance to analyze similarities between a pair of unvaccinated and vaccinated subjects as follows: 
 
@@ -93,7 +93,7 @@ $$d^2 (u,v)=(x_u-x_v)^T \Sigma^{-1} (x_u-x_v),$$
 
 where $x$ corresponds to values of confounders variables y $\Sigma$ is the sample variance-covariance matrix to standardize the variables. Thus, IMP selects the unvaccinated individual with the shortest distance for each person in the vaccinated group. However, all these pairings are provisional because the IMP procedure checks for each pairing that the matched unvaccinated individual has not developed the outcome (e.g., death) before the immunization date of the vaccinated partner. This point is important because the follow-up start date for both subjects corresponds to the immunization date of the vaccinated subject plus the number of days required for the vaccine to have a protective effect:
 
-![](https://raw.githubusercontent.com/epiverse-trace/vaccineff/documentation/inst/images/time-to-event2.png){.rmarkdown-img align="center" style="margin-left: 2.8em; margin-top: 0.8em; margin-bottom: 0.8em;" width="560"}
+![](https://raw.githubusercontent.com/epiverse-trace/vaccineff/main/inst/images/time-to-event2.png){.rmarkdown-img align="center" style="margin-left: 2.8em; margin-top: 0.8em; margin-bottom: 0.8em;" width="560"}
 
 For this reason, the algorithm iterates until the largest number of matched pairs with equivalent exposure time is obtained. At the end of the procedure, unvaccinated and vaccinated individuals who cannot be matched are eliminated from the analysis. The estimation of VE with IMP using `vaccineff` is performed using a Cox regression model with a robust variance estimator to  account for the clustering within matched pairs  @austin2014use. In our example, we decided to control for age and sex using the options `match=TRUE` and `exact = c("age", "sex")` in the `make_vaccineff_data` function. Now, this function creates a set of matched data, look at the new dataset using `vaccineff_data_matched[["matching"]]$match`. 
 
@@ -145,7 +145,7 @@ plot(ve2, type = "loglog")
 plot(ve2, type = "surv", percentage = FALSE, cumulative = FALSE)
 ```
 
-In the matched cohort, the estimated VE for  death of two  doses was 66.7% [95% CI 46.1–79.4]. Although, Schoenfeld's test was rejected (p value<0.05), the log-log plot demonstrates that the proportional hazards assumption was not violated, as they appear quite parallel compared to the crude log-log output.
+In the matched cohort, the estimated VE for  death of two  doses was 66.7% [95% CI 46.1–79.4]. Although, Schoenfeld test was rejected (p value<0.05), the log-log plot demonstrates that the proportional hazards assumption was not violated, as they appear quite parallel compared to the crude log-log output.
 
 Finally, to compare the effect of a IMP matching on the VE estimation using a caliper of 2 on age and the exact sex, the following code can be implemented:
 

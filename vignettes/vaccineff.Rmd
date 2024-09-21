@@ -37,7 +37,7 @@ In contrast with vaccine efficacy, which is the percentage reduction of disease 
 
 ## For which designs is this package?
 
-`vaccineff` is a package designed to be used for any infectious disease for which a vaccine strategy has been implemented. This current version only allows measuring $VE$ for cohort study designs. Future version will include other designs such as test-negative/case-control studies, and the screening method [@torvaldsen2002observational]. For more information, see the vignette [Other designs](https://trace-lac.github.io/vaccineff/articles/other_designs.html).
+`vaccineff` is a package designed to be used for any infectious disease for which a vaccine strategy has been implemented. This current version only allows measuring $VE$ for cohort study designs. Future version will include other designs such as test-negative/case-control studies, and the screening method [@torvaldsen2002observational]. For more information, see the vignette [Other designs](https://epiverse-trace.github.io/vaccineff/articles/other_designs.html).
 
 ### Cohort Design
 
@@ -122,6 +122,6 @@ summary(ve90)
 plot(ve90, type = "loglog")
 ```
 
-For details on the estimation of VE in cohort studies see the vignette [Introduction to cohort design with vaccineff](https://trace-lac.github.io/vaccineff/articles/cohort_design.html)
+For details on the estimation of VE in cohort studies see the vignette [Introduction to cohort design with vaccineff](https://epiverse-trace.github.io/vaccineff/articles/cohort_design.html)
 
 ## Key references

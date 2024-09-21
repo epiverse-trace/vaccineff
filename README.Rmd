@@ -1,6 +1,6 @@
 ---
 output: github_document
-bibliography: vignettes/references.json
+bibliography: vignettes/references.bib
 link-citations: true
 editor_options: 
   markdown: 
@@ -32,7 +32,7 @@ knitr::opts_chunk$set(
 *{{ packagename }}* is developed at [Pontificia Universidad Javeriana](https://www.javeriana.edu.co/inicio) as part of the
 [Epiverse-TRACE initiative](https://data.org/initiatives/epiverse/).
 
-*{{ packagename }}* is an R package that offers tools for estimating vaccine effectiveness, using a series of epidemiological designs including cohort studies, test-negative case-control, and screening methods [@torvaldsen2002]. The current version of the package provides a set of features for preparing, visualizing, and managing cohort data, estimating vaccine effectiveness, and assessing the performance of the models. Test-negative design and screening method will be included in future versions.
+*{{ packagename }}* is an R package that offers tools for estimating vaccine effectiveness, using a series of epidemiological designs including cohort studies, test-negative case-control, and screening methods [@bookvaccine]. The current version of the package provides a set of features for preparing, visualizing, and managing cohort data, estimating vaccine effectiveness, and assessing the performance of the models. Test-negative design and screening method will be included in future versions.
 
 ## Installation
 

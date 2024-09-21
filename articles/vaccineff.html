@@ -33,7 +33,7 @@
     <a href="https://epiverse-trace.github.io/" class="external-link"><img src="https://epiverse-trace.github.io/blueprints/logo_white.svg" id="logo" alt="Epiverse-TRACE"></a>
     <a class="navbar-brand me-2" href="../index.html">vaccineff</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.0.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.0.4</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -44,6 +44,13 @@
       <ul class="navbar-nav me-auto">
 <li class="active nav-item"><a class="nav-link" href="../articles/vaccineff.html">Get started</a></li>
 <li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
+<li><a class="dropdown-item" href="../articles/cohort_design.html">Introduction to cohort design with vaccineff</a></li>
+    <li><a class="dropdown-item" href="../articles/other_designs.html">Other study designs</a></li>
+  </ul>
+</li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul>
 <ul class="navbar-nav">
@@ -74,7 +81,7 @@
       <img src="../logo.png" class="logo" alt=""><h1>vaccineff</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/epiverse-trace/vaccineff/blob/v0.0.3/vignettes/vaccineff.Rmd" class="external-link"><code>vignettes/vaccineff.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/epiverse-trace/vaccineff/blob/main/vignettes/vaccineff.Rmd" class="external-link"><code>vignettes/vaccineff.Rmd</code></a></small>
       <div class="d-none name"><code>vaccineff.Rmd</code></div>
     </div>
 
@@ -85,28 +92,36 @@
 <div class="section level2">
 <h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
 </h2>
-<p>Estimating vaccine effectiveness is a key task once a vaccine is
-available as a control measure within a population, such as during the
-middle phase of an epidemic like Ebola or COVID-19, and also in the
-evaluation of regular vaccination programs, such as childhood
-vaccines.</p>
-<p><code>vaccineff</code> provides tools to estimate vaccine
-effectiveness under different study designs, including cohort studies,
-test-negative/case-control studies, and the screening method <span class="citation">(<a href="#ref-torvaldsen2002">Torvaldsen and McIntyre
-2002</a>)</span>. Each design comes with its own example data set, which
-includes information on vaccination dates and biological details per
-dose, as well as relevant demographic information. The level of data
-aggregation is tailored to the characteristics and needs of each study
-case.</p>
+<p>Vaccines are created to offer protection against diseases that affect
+human health. Quantifying how well vaccines work in controlled
+environments and in real-life settings remains a challenge for
+scientists. Estimating vaccine effectiveness
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mi>E</mi></mrow><annotation encoding="application/x-tex">VE</annotation></semantics></math>)
+is a key task once a vaccine is available as a control measure within a
+population, such as during the middle phase of an epidemic like Ebola or
+COVID-19, and also in the evaluation of regular vaccination programs,
+such as childhood vaccines.</p>
+<p><code>vaccineff</code> provides tools to estimate
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mi>E</mi></mrow><annotation encoding="application/x-tex">VE</annotation></semantics></math>
+under different study designs <span class="citation">(<a href="#ref-bookvaccine">Halloran, Longini, and Struchiner
+2010</a>)</span>. The package provides a set of features for preparing
+the data, estimating crude and adjusted effectiveness, controlling for
+potential confounders such as age and assessing the performance of the
+models used to approximate
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mi>E</mi></mrow><annotation encoding="application/x-tex">VE</annotation></semantics></math>.</p>
 </div>
 <div class="section level2">
 <h2 id="who-are-the-users-potential-users">Who are the users / potential users?<a class="anchor" aria-label="anchor" href="#who-are-the-users-potential-users"></a>
 </h2>
 <p><code>vaccineff</code> is useful for local, national, and
 international health agencies looking for a quick implementation to
-estimate vaccine effectiveness based on their available data. It also
-provides insights to researchers, data analysts, and epidemiology
-students on how to approach vaccine effectiveness using different
+estimate
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mi>E</mi></mrow><annotation encoding="application/x-tex">VE</annotation></semantics></math>
+based on their available data. It also provides insights to researchers,
+data analysts, and epidemiology students on how to approach
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mi>E</mi></mrow><annotation encoding="application/x-tex">VE</annotation></semantics></math>
+using different methods. We believe that <code>vaccineff</code> would be
+specially useful for users without advanced training in statistical
 methods.</p>
 </div>
 <div class="section level2">
@@ -114,20 +129,26 @@ methods.</p>
 </h2>
 <p>In contrast with vaccine efficacy, which is the percentage reduction
 of disease incidence in a vaccinated group compared with an unvaccinated
-group under ideal conditions, vaccine effectiveness
-(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mi>E</mi></mrow><annotation encoding="application/x-tex">VE</annotation></semantics></math>)
+group under ideal conditions,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mi>E</mi></mrow><annotation encoding="application/x-tex">VE</annotation></semantics></math>
 is the percentage reduction of disease incidence in a vaccinated group
-compared with an unvaccinated group under routine conditions. Evaluating
-the effectiveness of vaccines in the field is an important aspect of
-monitoring immunization programs.</p>
+compared with an unvaccinated group under routine conditions. The
+reduction attributable to vaccination is usually assessed from data
+collected in observational studies <span class="citation">(<a href="#ref-bookvaccine">Halloran, Longini, and Struchiner
+2010</a>)</span>. Evaluating the effectiveness of vaccines in the field
+is an important aspect of monitoring immunization programs.</p>
 </div>
 <div class="section level2">
-<h2 id="for-which-designs-of-vaccine-effectiveness-is-this-package">For which designs of vaccine effectiveness is this package?<a class="anchor" aria-label="anchor" href="#for-which-designs-of-vaccine-effectiveness-is-this-package"></a>
+<h2 id="for-which-designs-is-this-package">For which designs is this package?<a class="anchor" aria-label="anchor" href="#for-which-designs-is-this-package"></a>
 </h2>
 <p><code>vaccineff</code> is a package designed to be used for any
 infectious disease for which a vaccine strategy has been implemented.
-The study designs currently implemented in the package are: cohorts,
-test-negative/case-control, and the screening method.</p>
+This current version only allows measuring
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mi>E</mi></mrow><annotation encoding="application/x-tex">VE</annotation></semantics></math>
+for cohort study designs. Future version will include other designs such
+as test-negative/case-control studies, and the screening method <span class="citation">(<a href="#ref-torvaldsen2002observational">Torvaldsen
+and McIntyre 2002</a>)</span>. For more information, see the vignette <a href="https://trace-lac.github.io/vaccineff/articles/other_designs.html" class="external-link">Other
+designs</a>.</p>
 <div class="section level3">
 <h3 id="cohort-design">Cohort Design<a class="anchor" aria-label="anchor" href="#cohort-design"></a>
 </h3>
@@ -137,44 +158,16 @@ is estimated using the Hazard Ratios
 (<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>H</mi><mi>R</mi></mrow><annotation encoding="application/x-tex">HR</annotation></semantics></math>)
 between vaccinated and unvaccinated populations,</p>
 <p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mi>E</mi><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>H</mi><mi>R</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>t</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow><mo>×</mo><mn>100</mn><mi>.</mi></mrow><annotation encoding="application/x-tex">VE = (1-HR(t))\times100.</annotation></semantics></math></p>
-<p>The HR is estimated using the Cox Proportional Hazards model. In
-particular, we use the vaccine status of the individuals as the only
-covariate in the regression. Other confounders can be included as
-matching arguments to adjust for observational bias. The proportional
-hazards hypothesis is checked using the Schoenfeld test. A visual check
-is also provided using the log-log representation of the Survival
-Probability. If the hypothesis is not satisfied, it is recommended to
-stratify the population into smaller groups using the confounding
-variables.</p>
-</div>
-<div class="section level3">
-<h3 id="test-negative-design-future-release">Test Negative Design (Future release)<a class="anchor" aria-label="anchor" href="#test-negative-design-future-release"></a>
-</h3>
-<p>The test-negative design is a modified case-control design.
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mi>E</mi></mrow><annotation encoding="application/x-tex">VE</annotation></semantics></math>
-is estimated using the odds ratio
-(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mi>R</mi></mrow><annotation encoding="application/x-tex">OR</annotation></semantics></math>)
-of vaccination among cases divided by the OR of vaccination among
-controls,</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mi>E</mi><mo>=</mo><mn>1</mn><mo>−</mo><mfrac><mtext mathvariant="normal">Odds cases</mtext><mtext mathvariant="normal">Odds Control</mtext></mfrac><mo>×</mo><mn>100</mn><mi>.</mi></mrow><annotation encoding="application/x-tex">VE = 1- \frac{\text{Odds cases}}{\text{Odds Control}}\times 100.</annotation></semantics></math></p>
-</div>
-<div class="section level3">
-<h3 id="screening-method-future-release">Screening Method (Future release)<a class="anchor" aria-label="anchor" href="#screening-method-future-release"></a>
-</h3>
-<p>The screening method estimates
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mi>E</mi></mrow><annotation encoding="application/x-tex">VE</annotation></semantics></math>
-using the proportion of cases vaccinated
-(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mi>C</mi><mi>V</mi></mrow><annotation encoding="application/x-tex">PCV</annotation></semantics></math>)
-and the proportion of the population vaccinated
-(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mi>P</mi><mi>V</mi></mrow><annotation encoding="application/x-tex">PPV</annotation></semantics></math>),</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mi>E</mi><mo>=</mo><mfrac><mtext mathvariant="normal">PCV</mtext><mrow><mn>1</mn><mo>−</mo><mtext mathvariant="normal">PCV</mtext></mrow></mfrac><mo>×</mo><mfrac><mrow><mn>1</mn><mo>−</mo><mtext mathvariant="normal">PPV</mtext></mrow><mtext mathvariant="normal">PPV</mtext></mfrac><mo>×</mo><mn>100</mn><mi>.</mi></mrow><annotation encoding="application/x-tex">VE = \frac{\text{PCV}}{1-\text{PCV}} \times \frac{1-\text{PPV}}{\text{PPV}} \times 100.</annotation></semantics></math></p>
-<p>To calculate the
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mi>C</mi><mi>V</mi></mrow><annotation encoding="application/x-tex">PCV</annotation></semantics></math>,
-it is assumed that all, or at least a random sample of cases of a
-disease arising over a given period in a defined population, is
-available. Additionally, it incorporates the
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mi>P</mi><mi>V</mi></mrow><annotation encoding="application/x-tex">PPV</annotation></semantics></math>
-as prior information or an external estimate.</p>
+<p>The
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>H</mi><mi>R</mi></mrow><annotation encoding="application/x-tex">HR</annotation></semantics></math>
+is estimated using the Cox Proportional Hazards model. In particular, we
+use the vaccine status of the individuals as the only covariate in the
+regression. Other confounders can be included as matching arguments to
+adjust for observational bias. The proportional hazards hypothesis is
+checked using the Schoenfeld test. A visual check is also provided using
+the log-log representation of the Survival Probability. If the
+hypothesis is not satisfied, it is recommended to stratify the
+population into smaller groups using the confounding variables.</p>
 </div>
 </div>
 <div class="section level2">
@@ -185,55 +178,46 @@ the following structure.</p>
 <div class="section level3">
 <h3 id="data-for-cohort-design">Data for Cohort design<a class="anchor" aria-label="anchor" href="#data-for-cohort-design"></a>
 </h3>
-<p>Data disaggregated at the individual level to follow vaccinated and
-unvaccinated populations over time. The dataset must contain the
-following information:</p>
+<p>Data should be disaggregated at the individual level to track
+vaccinated and unvaccinated populations over time. The dataset must
+include the following information:</p>
 <ul>
-<li><p>Date(s) of vaccination for each individual. The package allows
-working with multiple doses for each individual and estimates the
-immunization date using delay times of outcomes and immunization times
-of vaccines.</p></li>
-<li><p>Date(s) of outcome(s). The package estimates vaccine
-effectiveness against various outcomes. Individuals’ demographic
-information (e.g., sex, age-group, health status) can be specified
-depending on the confounding variables that will be introduced in the
-model.</p></li>
+<li><p>Date(s) of vaccination for each individual: The package allows
+for multiple doses per individual and estimates the immunization date
+using delay times of outcomes and the timing of vaccine
+administration.</p></li>
+<li><p>Date(s) of outcome(s): The package estimates vaccine
+effectiveness against various outcomes.</p></li>
+<li><p>Date(s) of right censoring: The package allows for the inclusion
+of information on dates of events that constitute right
+censoring.</p></li>
+<li><p>Individuals’ demographic information (e.g., sex, age group,
+health status): These can be used as confounding variables to match the
+population and reduce observational bias.</p></li>
 </ul>
-</div>
-<div class="section level3">
-<h3 id="data-for-test-negative-design-future-release">Data for Test-negative design (Future release)<a class="anchor" aria-label="anchor" href="#data-for-test-negative-design-future-release"></a>
-</h3>
-<p>Data disaggregated at the individual level to correlate vaccination
-and disease status for each case. The dataset must contain the following
-information:</p>
-<ul>
-<li><p>Vaccination status for each individual. Consider time since
-vaccination and number of doses to determine whether they are vaccinated
-or unvaccinated.</p></li>
-<li><p>Result of gold-standard test for the pathogen of interest.
-Molecular tests such as PCR or multiplex-PCR are commonly used to
-determine etiological agents in TND studies.</p></li>
-<li><p>Individuals’ demographic information (e.g., sex, age, health
-insurance) and other variables that may be specified depending on the
-confounding variables to be introduced in the model.</p></li>
-</ul>
-</div>
-<div class="section level3">
-<h3 id="data-for-screening-method-design-future-release">Data for Screening method design (Future release)<a class="anchor" aria-label="anchor" href="#data-for-screening-method-design-future-release"></a>
-</h3>
-<ul>
-<li><p>Vaccination status for each case or age group. Consider time
-since vaccination to determine whether individuals are vaccinated or
-unvaccinated. Exclude patients with incomplete vaccination schedules if
-the vaccine of interest requires several doses for maximum
-efficacy.</p></li>
-<li><p>Proportion of the population vaccinated. Data can be administered
-as individuals with complete vaccination, individuals without complete
-vaccination, or as the proportion of the population vaccinated.</p></li>
-<li><p>Individuals’ demographic information (e.g., sex, age, health
-insurance) and other variables that may be specified depending on the
-confounding variables to be introduced in the model.</p></li>
-</ul>
+<p>An example dataset for a cohort design is included, with information
+on vaccination dates and biological details per dose, as well as
+relevant demographic information. The level of data aggregation is
+tailored to the characteristics and needs of the study case. To load
+this dataset, run the following code</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Load example data</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"cohortdata"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">cohortdata</span><span class="op">)</span></span>
+<span><span class="co">#&gt;         id sex age death_date death_other_causes vaccine_date_1 vaccine_date_2</span></span>
+<span><span class="co">#&gt; 1 afade1b2   F  37       &lt;NA&gt;               &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 2 556c8c76   M  19       &lt;NA&gt;               &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 3 04edf85a   M  50       &lt;NA&gt;               &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 4 7e51a18e   F   8       &lt;NA&gt;               &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 5 c5a83f56   M  66       &lt;NA&gt;               &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 6 7f675ec3   M  29       &lt;NA&gt;               &lt;NA&gt;     2044-04-09     2044-04-30</span></span>
+<span><span class="co">#&gt;   vaccine_1 vaccine_2</span></span>
+<span><span class="co">#&gt; 1      &lt;NA&gt;      &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 2      &lt;NA&gt;      &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 3      &lt;NA&gt;      &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 4      &lt;NA&gt;      &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 5      &lt;NA&gt;      &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 6    BRAND1    BRAND1</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
@@ -245,131 +229,120 @@ confounding variables to be introduced in the model.</p></li>
 <p>The current release of the package bases the estimation of
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mi>E</mi></mrow><annotation encoding="application/x-tex">VE</annotation></semantics></math>
 in the cohort design on the assumption of proportional hazards between
-vaccinated and unvaccinated populations. The hazard ratio is estimated
-using the Cox proportional hazards model implemented in the R package
-<a href="https://github.com/therneau/survival" class="external-link">survival</a>.</p>
+vaccinated and unvaccinated populations. The
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>H</mi><mi>R</mi></mrow><annotation encoding="application/x-tex">HR</annotation></semantics></math>
+is estimated using the Cox proportional hazards model implemented in the
+R package <a href="https://github.com/therneau/survival" class="external-link">survival</a>.</p>
 <p>The integrated dataset <code>cohortdata</code> serves as a minimal
 example of the package’s input. The data is accessed using
 <code>data("cohortdata")</code>.</p>
-<p>The following example estimates
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mi>E</mi></mrow><annotation encoding="application/x-tex">VE</annotation></semantics></math>
-by:</p>
+<p><code>vaccineff</code> has three main functions:</p>
 <ol style="list-style-type: decimal">
-<li><p>Defining the immunization information using the function
-<code><a href="../reference/make_immunization.html">make_immunization()</a></code>. This method returns the cohort data
-with the immunization date based on the characteristic response time to
-vaccination (<code>immunization_delay</code>) and the specified limits
-(<code>outcome_date_col, censoring_date_col, end_cohort</code>).</p></li>
-<li><p>Matching the cohort by exact and nearest confounders using the
-function <code><a href="../reference/match_cohort.html">match_cohort()</a></code>. This function supports methods
-like <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code> to check matching balance and the sizes of
-matched, excluded, and removed populations, and
-<code><a href="../reference/get_dataset.html">get_dataset()</a></code> to extract the matched cohort.</p></li>
-<li><p>Estimating
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mi>E</mi></mrow><annotation encoding="application/x-tex">VE</annotation></semantics></math>
-with the function <code><a href="../reference/effectiveness.html">effectiveness()</a></code> using the hazard ratio
-(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>H</mi><mi>R</mi></mrow><annotation encoding="application/x-tex">HR</annotation></semantics></math>).
+<li><p><code>make_vaccineff_data</code>: This function returns an S3
+object of the class <code>vaccineff_data</code> with the relevant
+information for the study. This function also allows to create a matched
+cohort to control for confounding variables by setting
+<code>match = TRUE</code> and passing the corresponding
+<code>exact</code> and <code>nearest</code> arguments.
+<code>make_vaccineff_data</code> supports the method
+<code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code> to check the characteristics of the cohort, the
+matching balance and the sizes of matched, excluded, and removed
+populations.</p></li>
+<li><p><code>plot_coverage</code>: This function returns a plot of the
+vaccine coverage or the cumulative coverage. If the population is
+matched, the plot also includes the resulting count of doses after
+matching.</p></li>
+<li><p><code>effectiveness</code>: This function provides methods for
+estimating VE using the
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>H</mi><mi>R</mi></mrow><annotation encoding="application/x-tex">HR</annotation></semantics></math>.
 A summary of the estimation can be obtained using <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code>
 and a graphical representation of the methodology is generated by
 <code>plot().</code></p></li>
 </ol>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"cohortdata"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Define start and end dates of the study</span></span>
-<span><span class="va">start_cohort</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"2044-01-01"</span><span class="op">)</span></span>
-<span><span class="va">end_cohort</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"2044-12-31"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Create `data.frame` with information of immunization</span></span>
-<span><span class="va">cohortdata</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_immunization.html">make_immunization</a></span><span class="op">(</span></span>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Create `vaccineff_data`</span></span>
+<span><span class="va">vaccineff_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_vaccineff_data.html">make_vaccineff_data</a></span><span class="op">(</span></span>
 <span>  data_set <span class="op">=</span> <span class="va">cohortdata</span>,</span>
 <span>  outcome_date_col <span class="op">=</span> <span class="st">"death_date"</span>,</span>
 <span>  censoring_date_col <span class="op">=</span> <span class="st">"death_other_causes"</span>,</span>
-<span>  immunization_delay <span class="op">=</span> <span class="fl">14</span>,</span>
 <span>  vacc_date_col <span class="op">=</span> <span class="st">"vaccine_date_2"</span>,</span>
-<span>  end_cohort <span class="op">=</span> <span class="va">end_cohort</span></span>
-<span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">cohortdata</span><span class="op">)</span></span>
-<span><span class="co">#&gt;         id sex age death_date death_other_causes vaccine_date_1 vaccine_date_2</span></span>
-<span><span class="co">#&gt; 1 afade1b2   F  37       &lt;NA&gt;               &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; 2 556c8c76   M  19       &lt;NA&gt;               &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; 3 04edf85a   M  50       &lt;NA&gt;               &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; 4 7e51a18e   F   8       &lt;NA&gt;               &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; 5 c5a83f56   M  66       &lt;NA&gt;               &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; 6 7f675ec3   M  29       &lt;NA&gt;               &lt;NA&gt;     2044-04-09     2044-04-30</span></span>
-<span><span class="co">#&gt;   vaccine_1 vaccine_2 immunization_date vaccine_status</span></span>
-<span><span class="co">#&gt; 1      &lt;NA&gt;      &lt;NA&gt;              &lt;NA&gt;              u</span></span>
-<span><span class="co">#&gt; 2      &lt;NA&gt;      &lt;NA&gt;              &lt;NA&gt;              u</span></span>
-<span><span class="co">#&gt; 3      &lt;NA&gt;      &lt;NA&gt;              &lt;NA&gt;              u</span></span>
-<span><span class="co">#&gt; 4      &lt;NA&gt;      &lt;NA&gt;              &lt;NA&gt;              u</span></span>
-<span><span class="co">#&gt; 5      &lt;NA&gt;      &lt;NA&gt;              &lt;NA&gt;              u</span></span>
-<span><span class="co">#&gt; 6    BRAND1    BRAND1        2044-05-14              v</span></span>
-<span></span>
-<span><span class="co"># Match the data</span></span>
-<span><span class="va">matching</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/match_cohort.html">match_cohort</a></span><span class="op">(</span></span>
-<span>  data_set <span class="op">=</span> <span class="va">cohortdata</span>,</span>
-<span>  outcome_date_col <span class="op">=</span> <span class="st">"death_date"</span>,</span>
-<span>  censoring_date_col <span class="op">=</span> <span class="st">"death_other_causes"</span>,</span>
-<span>  start_cohort <span class="op">=</span> <span class="va">start_cohort</span>,</span>
-<span>  end_cohort <span class="op">=</span> <span class="va">end_cohort</span>,</span>
-<span>  method <span class="op">=</span> <span class="st">"static"</span>,</span>
-<span>  exact <span class="op">=</span> <span class="st">"sex"</span>,</span>
-<span>  nearest <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>age <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+<span>  vaccinated_status <span class="op">=</span> <span class="st">"v"</span>,</span>
+<span>  unvaccinated_status <span class="op">=</span> <span class="st">"u"</span>,</span>
+<span>  immunization_delay <span class="op">=</span> <span class="fl">15</span>,</span>
+<span>  end_cohort <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"2044-12-31"</span><span class="op">)</span>,</span>
+<span>  match <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  exact <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"age"</span>, <span class="st">"sex"</span><span class="op">)</span>,</span>
+<span>  nearest <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Check matching balance aand summary</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">matching</span><span class="op">)</span></span>
+<span><span class="co"># Print summary of vaccineff data object</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">vaccineff_data</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Cohort start: 2044-03-25</span></span>
+<span><span class="co">#&gt; Cohort end: 2044-12-31</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Nearest neighbors matching iteratively performed.</span></span>
+<span><span class="co">#&gt; Number of iterations: 4</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Balance all:</span></span>
 <span><span class="co">#&gt;                u          v        smd</span></span>
-<span><span class="co">#&gt; age   30.9928364 48.1656078  0.8599792</span></span>
-<span><span class="co">#&gt; sex_F  0.4834661  0.5758635  0.1859192</span></span>
-<span><span class="co">#&gt; sex_M  0.5165339  0.4241365 -0.1859192</span></span>
+<span><span class="co">#&gt; age   30.9463685 48.3383525  0.8734091</span></span>
+<span><span class="co">#&gt; sex_F  0.4835599  0.5762139  0.1864447</span></span>
+<span><span class="co">#&gt; sex_M  0.5164401  0.4237861 -0.1864447</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Balance matched:</span></span>
-<span><span class="co">#&gt;                u          v       smd</span></span>
-<span><span class="co">#&gt; age   43.1952984 45.6560579 0.1330454</span></span>
-<span><span class="co">#&gt; sex_F  0.5555154  0.5555154 0.0000000</span></span>
-<span><span class="co">#&gt; sex_M  0.4444846  0.4444846 0.0000000</span></span>
+<span><span class="co">#&gt;                u          v smd</span></span>
+<span><span class="co">#&gt; age   44.0303129 44.0303129   0</span></span>
+<span><span class="co">#&gt; sex_F  0.5522237  0.5522237   0</span></span>
+<span><span class="co">#&gt; sex_M  0.4477763  0.4477763   0</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Summary:</span></span>
 <span><span class="co">#&gt;               u     v</span></span>
-<span><span class="co">#&gt; All       62538 37462</span></span>
-<span><span class="co">#&gt; Matched   33180 33180</span></span>
-<span><span class="co">#&gt; Unmatched 29358  4282</span></span>
-<span></span>
-<span><span class="co"># Extract matched data</span></span>
-<span><span class="va">cohortdata_match</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_dataset.html">get_dataset</a></span><span class="op">(</span><span class="va">matching</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Calculate vaccine effectiveness</span></span>
-<span><span class="va">ve</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/effectiveness.html">effectiveness</a></span><span class="op">(</span></span>
-<span>  data_set <span class="op">=</span> <span class="va">cohortdata_match</span>,</span>
-<span>  start_cohort <span class="op">=</span> <span class="va">start_cohort</span>,</span>
-<span>  end_cohort <span class="op">=</span> <span class="va">end_cohort</span>,</span>
-<span>  method <span class="op">=</span> <span class="st">"HR"</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># View summary of VE</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">ve</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Vaccine Effectiveness computed as VE = 1 - HR:</span></span>
-<span><span class="co">#&gt;       VE lower.95 upper.95</span></span>
-<span><span class="co">#&gt; 1 0.8382   0.7337   0.9016</span></span>
+<span><span class="co">#&gt; All       62743 37257</span></span>
+<span><span class="co">#&gt; Matched   27612 27612</span></span>
+<span><span class="co">#&gt; Unmatched 35131  9645</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Schoenfeld test for Proportional Hazards hypothesis:</span></span>
-<span><span class="co">#&gt; p-value = 0.0021</span></span>
+<span><span class="co">#&gt; // tags: outcome_date_col:death_date, censoring_date_col:death_other_causes, vacc_date_col:vaccine_date_2, immunization_date_col:immunization_date, vacc_status_col:vaccine_status</span></span>
 <span></span>
-<span><span class="co"># Generate plot of method</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">ve</span><span class="op">)</span></span></code></pre></div>
-<p><img src="vaccineff_files/figure-html/cohortdata-1.png" width="768"></p>
+<span><span class="co"># Plot the vaccine coverage of the total population</span></span>
+<span><span class="fu"><a href="../reference/plot_coverage.html">plot_coverage</a></span><span class="op">(</span><span class="va">vaccineff_data</span><span class="op">)</span></span></code></pre></div>
+<p><img src="vaccineff_files/figure-html/getstarted-1.png" width="768"></p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="co"># Estimate the Vaccine Effectiveness at 90 days</span></span>
+<span><span class="va">ve90</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/effectiveness.html">effectiveness</a></span><span class="op">(</span><span class="va">vaccineff_data</span>, at <span class="op">=</span> <span class="fl">90</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Print summary of VE</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">ve90</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Vaccine Effectiveness at 90 days computed as VE = 1 - HR:</span></span>
+<span><span class="co">#&gt;       VE lower.95 upper.95</span></span>
+<span><span class="co">#&gt; 1 0.6889   0.4793   0.8141</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Schoenfeld test for Proportional Hazards assumption:</span></span>
+<span><span class="co">#&gt; p-value = 0.0077</span></span>
+<span><span class="co">#&gt; Warning in summary.effectiveness(ve90): </span></span>
+<span><span class="co">#&gt; p-value &lt; 0.05. Please check loglog plot for Proportional Hazards assumption</span></span>
+<span></span>
+<span><span class="co"># Loglog plot to check proportional hazards</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">ve90</span>, type <span class="op">=</span> <span class="st">"loglog"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="vaccineff_files/figure-html/getstarted-2.png" width="768"></p>
+<p>For details on the estimation of VE in cohort studies see the
+vignette <a href="https://trace-lac.github.io/vaccineff/articles/cohort_design.html" class="external-link">Introduction
+to cohort design with vaccineff</a></p>
 </div>
 </div>
 <div class="section level2 unnumbered">
-<h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+<h2 class="unnumbered" id="key-references">Key references<a class="anchor" aria-label="anchor" href="#key-references"></a>
 </h2>
 <div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
-<div id="ref-torvaldsen2002" class="csl-entry">
-Torvaldsen, S., and P. B. McIntyre. 2002. <span>“Observational Methods
-in Epidemiologic Assessment of Vaccine Effectiveness.”</span>
-<em>Communicable Diseases Intelligence Quarterly Report</em> 26 (3). <a href="https://pubmed.ncbi.nlm.nih.gov/12416713/" class="external-link">https://pubmed.ncbi.nlm.nih.gov/12416713/</a>.
+<div id="ref-bookvaccine" class="csl-entry">
+Halloran, Elizabeth, Ira Longini, and Claudio Struchiner. 2010.
+<em>Design and Analysis of Vaccine Studies</em>. Springer.
+</div>
+<div id="ref-torvaldsen2002observational" class="csl-entry">
+Torvaldsen, Siranda, and Peter B McIntyre. 2002. <span>“Observational
+Methods in Epidemiologic Assessment of Vaccine Effectiveness.”</span>
+<em>Communicable Diseases Intelligence Quarterly Report</em> 26 (3).
 </div>
 </div>
 </div>
@@ -384,7 +357,7 @@ in Epidemiologic Assessment of Vaccine Effectiveness.”</span>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
     </footer>

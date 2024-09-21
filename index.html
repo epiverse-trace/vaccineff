@@ -36,7 +36,7 @@
     <a href="https://epiverse-trace.github.io/" class="external-link"><img src="https://epiverse-trace.github.io/blueprints/logo_white.svg" id="logo" alt="Epiverse-TRACE"></a>
     <a class="navbar-brand me-2" href="index.html">vaccineff</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.0.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.0.4</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -47,6 +47,13 @@
       <ul class="navbar-nav me-auto">
 <li class="nav-item"><a class="nav-link" href="articles/vaccineff.html">Get started</a></li>
 <li class="nav-item"><a class="nav-link" href="reference/index.html">Reference</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
+<li><a class="dropdown-item" href="articles/cohort_design.html">Introduction to cohort design with vaccineff</a></li>
+    <li><a class="dropdown-item" href="articles/other_designs.html">Other study designs</a></li>
+  </ul>
+</li>
 <li class="nav-item"><a class="nav-link" href="news/index.html">Changelog</a></li>
       </ul>
 <ul class="navbar-nav">
@@ -77,7 +84,7 @@
 
 <!-- badges: end -->
 <p><em>vaccineff</em> is developed at <a href="https://www.javeriana.edu.co/inicio" class="external-link">Pontificia Universidad Javeriana</a> as part of the <a href="https://data.org/initiatives/epiverse/" class="external-link">Epiverse-TRACE initiative</a>.</p>
-<p><em>vaccineff</em> is an R package that offers tools for estimating vaccine effectiveness, using a series of epidemiological designs including cohort studies, test-negative case-control, and screening methods (<a href="#ref-torvaldsen2002">Torvaldsen and McIntyre 2002</a>). The current version of the package provides a set of features for preparing, visualizing, and managing cohort data, estimating vaccine effectiveness, and assessing the performance of the models. Test-negative design and screening method will be included in future versions.</p>
+<p><em>vaccineff</em> is an R package that offers tools for estimating vaccine effectiveness, using a series of epidemiological designs including cohort studies, test-negative case-control, and screening methods (<a href="#ref-bookvaccine">Halloran, Longini, and Struchiner 2010</a>). The current version of the package provides a set of features for preparing, visualizing, and managing cohort data, estimating vaccine effectiveness, and assessing the performance of the models. Test-negative design and screening method will be included in future versions.</p>
 </div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
@@ -135,8 +142,8 @@
 <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
 <div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
-<div id="ref-torvaldsen2002" class="csl-entry">
-Torvaldsen, S., and P. B. McIntyre. 2002. “Observational Methods in Epidemiologic Assessment of Vaccine Effectiveness.” <em>Communicable Diseases Intelligence Quarterly Report</em> 26 (3). <a href="https://pubmed.ncbi.nlm.nih.gov/12416713/" class="external-link uri">https://pubmed.ncbi.nlm.nih.gov/12416713/</a>.
+<div id="ref-bookvaccine" class="csl-entry">
+Halloran, Elizabeth, Ira Longini, and Claudio Struchiner. 2010. <em>Design and Analysis of Vaccine Studies</em>. Springer.
 </div>
 </div>
 </div>
@@ -202,7 +209,7 @@ Torvaldsen, S., and P. B. McIntyre. 2002. “Observational Methods in Epidemiolo
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
     </footer>

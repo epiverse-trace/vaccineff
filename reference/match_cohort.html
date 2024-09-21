@@ -55,7 +55,7 @@ future releases.'><meta property="og:image" content="https://epiverse-trace.gith
     <a href="https://epiverse-trace.github.io/" class="external-link"><img src="https://epiverse-trace.github.io/blueprints/logo_white.svg" id="logo" alt="Epiverse-TRACE"></a>
     <a class="navbar-brand me-2" href="../index.html">vaccineff</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.0.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.0.4</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -65,6 +65,11 @@ future releases.'><meta property="og:image" content="https://epiverse-trace.gith
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../articles/vaccineff.html">Get started</a></li>
 <li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/cohort_design.html">Introduction to cohort design with vaccineff</a></li>
+    <li><a class="dropdown-item" href="../articles/other_designs.html">Other study designs</a></li>
+  </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
@@ -83,7 +88,7 @@ future releases.'><meta property="og:image" content="https://epiverse-trace.gith
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Match Cohort to Reduce Observational Bias</h1>
-      <small class="dont-index">Source: <a href="https://github.com/epiverse-trace/vaccineff/blob/v0.0.3/R/coh_match.R" class="external-link"><code>R/coh_match.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/epiverse-trace/vaccineff/blob/main/R/coh_match.R" class="external-link"><code>R/coh_match.R</code></a></small>
       <div class="d-none name"><code>match_cohort.Rd</code></div>
     </div>
 
@@ -205,96 +210,6 @@ and <code>outcome_status</code>: outcome status
 (1:positive, 0: negative).</p>
     </div>
 
-    <div class="section level2">
-    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Define start and end dates of the study</span></span></span>
-<span class="r-in"><span><span class="va">start_cohort</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"2044-01-01"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">end_cohort</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"2044-12-31"</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Create `data.frame` with information on immunization</span></span></span>
-<span class="r-in"><span><span class="va">cohortdata</span> <span class="op">&lt;-</span> <span class="fu"><a href="make_immunization.html">make_immunization</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  data_set <span class="op">=</span> <span class="va">cohortdata</span>,</span></span>
-<span class="r-in"><span>  outcome_date_col <span class="op">=</span> <span class="st">"death_date"</span>,</span></span>
-<span class="r-in"><span>  censoring_date_col <span class="op">=</span> <span class="st">"death_other_causes"</span>,</span></span>
-<span class="r-in"><span>  immunization_delay <span class="op">=</span> <span class="fl">14</span>,</span></span>
-<span class="r-in"><span>  vacc_date_col <span class="op">=</span> <span class="st">"vaccine_date_2"</span>,</span></span>
-<span class="r-in"><span>  end_cohort <span class="op">=</span> <span class="va">end_cohort</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Match the data_set</span></span></span>
-<span class="r-in"><span><span class="va">matching</span> <span class="op">&lt;-</span> <span class="fu">match_cohort</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  data_set <span class="op">=</span> <span class="va">cohortdata</span>,</span></span>
-<span class="r-in"><span>  outcome_date_col <span class="op">=</span> <span class="st">"death_date"</span>,</span></span>
-<span class="r-in"><span>  censoring_date_col <span class="op">=</span> <span class="st">"death_other_causes"</span>,</span></span>
-<span class="r-in"><span>  start_cohort <span class="op">=</span> <span class="va">start_cohort</span>,</span></span>
-<span class="r-in"><span>  end_cohort <span class="op">=</span> <span class="va">end_cohort</span>,</span></span>
-<span class="r-in"><span>  method <span class="op">=</span> <span class="st">"static"</span>,</span></span>
-<span class="r-in"><span>  exact <span class="op">=</span> <span class="st">"sex"</span>,</span></span>
-<span class="r-in"><span>  nearest <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>age <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Check match balance and summary</span></span></span>
-<span class="r-in"><span><span class="co"># `warnings_log = TRUE` displays the logs created</span></span></span>
-<span class="r-in"><span><span class="co"># during the iterative process.</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">matching</span>, warnings_log <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Balance all:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                u          v        smd</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> age   30.9928364 48.1656078  0.8599792</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sex_F  0.4834661  0.5758635  0.1859192</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sex_M  0.5165339  0.4241365 -0.1859192</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Balance matched:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                u          v       smd</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> age   43.1952984 45.6560579 0.1330454</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sex_F  0.5555154  0.5555154 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sex_M  0.4444846  0.4444846 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Summary:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>               u     v</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> All       62538 37462</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Matched   33180 33180</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Unmatched 29358  4282</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Warnings:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Error at iteration 2: Assertion on 'data_set' failed: Must have at least 1 rows, but has 0 rows.- skipping to next </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Error at iteration 3: Assertion on 'data_set' failed: Must have at least 1 rows, but has 0 rows.- skipping to next </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Error at iteration 4: Assertion on 'data_set' failed: Must have at least 1 rows, but has 0 rows.- skipping to next </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Error at iteration 5: Assertion on 'data_set' failed: Must have at least 1 rows, but has 0 rows.- skipping to next </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Error at iteration 5: Assertion on 'data_set' failed: Must have at least 1 rows, but has 0 rows.- skipping to next </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Matches before iterating: 66014 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Removed before iterating 946 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Matches after iterating: 66360 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Removed after iterating 600 </span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Extract matched data</span></span></span>
-<span class="r-in"><span><span class="va">cohortdata_match</span> <span class="op">&lt;-</span> <span class="fu"><a href="get_dataset.html">get_dataset</a></span><span class="op">(</span><span class="va">matching</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># View of mached cohort</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">cohortdata_match</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         id sex age death_date death_other_causes vaccine_date_1 vaccine_date_2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 afade1b2   F  37       &lt;NA&gt;               &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 556c8c76   M  19       &lt;NA&gt;               &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 04edf85a   M  50       &lt;NA&gt;               &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 7e51a18e   F   8       &lt;NA&gt;               &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 c5a83f56   M  66       &lt;NA&gt;               &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6 7f675ec3   M  29       &lt;NA&gt;               &lt;NA&gt;     2044-04-09     2044-04-30</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   vaccine_1 vaccine_2 immunization_date vaccine_status subclass t0_follow_up</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1      &lt;NA&gt;      &lt;NA&gt;              &lt;NA&gt;              u     1330   2044-12-05</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2      &lt;NA&gt;      &lt;NA&gt;              &lt;NA&gt;              u    14154   2044-12-15</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3      &lt;NA&gt;      &lt;NA&gt;              &lt;NA&gt;              u    22648   2044-08-14</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4      &lt;NA&gt;      &lt;NA&gt;              &lt;NA&gt;              u     8438   2044-12-24</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5      &lt;NA&gt;      &lt;NA&gt;              &lt;NA&gt;              u     5550   2044-06-26</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6    BRAND1    BRAND1        2044-05-14              v    20552   2044-05-14</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   time_to_event outcome_status</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1            26              0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2            16              0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3           139              0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4             7              0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5           188              0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6           231              0</span>
-<span class="r-in"><span></span></span>
-</code></pre></div>
-    </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 
@@ -304,7 +219,7 @@ and <code>outcome_status</code>: outcome status
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
     </footer></div>

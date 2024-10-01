@@ -9,7 +9,7 @@
 #' the other hand, if the logical operator is `|`, it is enough to find one
 #' column with information indicating success. It is recommended to use this
 #' method when working with several outcomes or several vaccine doses. By
-#' default, it returns a binary column where 0 means no outcome or no vaccine
+#' default, it returns a binary column where `0` means no outcome or no vaccine
 #' and `1` means the opposite. However, it can also receive custom
 #' options, e.g., `c("v", "u")` for vaccinated and unvaccinated.
 #'

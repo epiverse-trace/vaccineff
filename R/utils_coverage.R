@@ -43,7 +43,7 @@ coh_coverage <- function(data_set,
   )
 
   # Create continuous date column
-  # For fixed intervals, use date_intervales
+  # For fixed intervals, use date_intervals
   # In other case use min and max of data_set
   if (is.null(date_interval)) {
     start <- min(data_set[[vacc_date_col]], na.rm = TRUE)

@@ -101,12 +101,8 @@ make_vaccineff_data <- function(data_set,
         end_cohort = end_cohort,
         take_first = take_first
       )
-    )
-  )
-
-  # Define linelist object
-  cohort_data <- linelist::set_tags(
-    x = cohort_data,
+    ),
+    # here come the ... params
     outcome_date_col = outcome_date_col,
     censoring_date_col = censoring_date_col,
     vacc_date_col = vacc_date_col,
@@ -114,6 +110,7 @@ make_vaccineff_data <- function(data_set,
     immunization_date_col = "immunization_date",
     vacc_status_col = "vaccine_status",
     allow_extra = TRUE
+
   )
 
   # Define start date of the cohort

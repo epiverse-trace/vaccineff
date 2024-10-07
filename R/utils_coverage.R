@@ -6,7 +6,7 @@
 #' records for some dates, the function assigns 0 instead of NA to calculate
 #' the cumulative coverage.
 #'
-#' @param data_set `data.frame` with cohort information (see example).
+#' @param data_set `data.frame` with cohort information.
 #' @param vacc_date_col Name of the column(s) that contain the vaccine date to
 #' calculate the coverage.
 #' @param unit Aggregation unit, must be either "year", "month", or "day".

@@ -11,7 +11,7 @@
 #'
 #' The function also works with vaccination information spread across several
 #' columns. If this is the case, the parameter `vacc_date_col` must be passed
-#' as a vector with the names of all the columns to use (see example).
+#' as a vector with the names of all the columns to use.
 #' The function uses by default the latest date found. However, it can also
 #' select the first date by setting `take_first = TRUE`.
 #'
@@ -24,7 +24,7 @@
 #' vaccine selected as immunizing. This information must be passed in the
 #' parameter `vacc_name_col`, as a vector in the same order as `vacc_date_col`.
 #'
-#' @param data_set `data.frame` with cohort information (see example).
+#' @param data_set `data.frame` with cohort information.
 #' @param outcome_date_col Name of the column that contains the outcome dates.
 #' @param censoring_date_col Name of the column that contains the censoring
 #' date. NULL by default.

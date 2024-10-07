@@ -23,7 +23,7 @@
 #' before their outcomes. Rolling calendar matching method will be included in
 #' future releases.
 #'
-#' @param data_set `data.frame` with cohort information (see example).
+#' @param data_set `data.frame` with cohort information.
 #' @param outcome_date_col Name of the column that contains the outcome dates.
 #' @param censoring_date_col Name of the column that contains the censoring
 #' date. `NULL` by default.

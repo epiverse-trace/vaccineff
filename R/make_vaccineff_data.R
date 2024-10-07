@@ -4,7 +4,7 @@
 #' `vaccineff_data` that contains all the relevant information for the study.
 #' to estimate the effectiveness.
 #'
-#' @param data_set `data.frame` with cohort information (see example).
+#' @param data_set `data.frame` with cohort information.
 #' @param outcome_date_col Name of the column that contains the outcome dates.
 #' @param censoring_date_col Name of the column that contains the censoring
 #' date. NULL by default.

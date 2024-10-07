@@ -136,7 +136,7 @@ iterate_match <- function(all,
 
   # Set control parameter to avoid infinte while loop
   im <- 0
-  thershold <- nrow(removed_i) #maximum number of iterations: size of removed
+  threshold <- nrow(removed_i) #maximum number of iterations: size of removed
 
   # Iterate until threshold
   # or until the procedure generates zero adjusted population

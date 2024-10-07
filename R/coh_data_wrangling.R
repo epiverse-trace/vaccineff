@@ -297,7 +297,7 @@ adjust_time_to_event <- function(data_set) {
 
   msg <- paste0("\nThe start date of the cohort was defined as",
     " the mininimum immunization date. \n",
-    n0 - nf, " registers were removed with outocomes before the start date.\n"
+    n0 - nf, " registers were removed with outcomes before the start date.\n"
   )
   warning(msg)
 

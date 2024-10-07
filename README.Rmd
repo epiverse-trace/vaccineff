@@ -1,0 +1,85 @@
+---
+output: github_document
+bibliography: vignettes/references.bib
+link-citations: true
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+## *{{ packagename }}*: An R package with tools for estimating vaccine effectiveness and vaccine related metrics <img src="man/figures/logo.png" align="right" width="130"/>
+
+<!-- badges: start -->
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/license/mit/)
+[![R-CMD-check](https://github.com/{{ gh_repo }}/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/{{ gh_repo }}/actions/workflows/R-CMD-check.yaml)
+[![Codecov test coverage](https://codecov.io/gh/{{ gh_repo }}/branch/main/graph/badge.svg)](https://app.codecov.io/gh/{{ gh_repo }}?branch=main)
+[![Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
+[![CRAN status](https://www.r-pkg.org/badges/version/{{ packagename }})](https://CRAN.R-project.org/package={{ packagename }})
+[![lifecycle-experimental](https://raw.githubusercontent.com/reconverse/reconverse.github.io/master/images/badge-experimental.svg)](https://www.reconverse.org/lifecycle.html#concept)
+
+<!-- badges: end -->
+
+*{{ packagename }}* is developed at [Pontificia Universidad Javeriana](https://www.javeriana.edu.co/inicio) as part of the
+[Epiverse-TRACE initiative](https://data.org/initiatives/epiverse/).
+
+*{{ packagename }}* is an R package that offers tools for estimating vaccine effectiveness, using a series of epidemiological designs including cohort studies, test-negative case-control, and screening methods [@bookvaccine]. The current version of the package provides a set of features for preparing, visualizing, and managing cohort data, estimating vaccine effectiveness, and assessing the performance of the models. Test-negative design and screening method will be included in future versions.
+
+## Installation
+
+The current development version of _{{ packagename }}_ can be installed from [GitHub](https://github.com/) using the `pak` package.
+
+```r
+if(!require("pak")) install.packages("pak")
+pak::pak("{{ gh_repo }}")
+```
+
+## Quick start
+
+```{r cleaning, include = FALSE, echo = TRUE}
+library(vaccineff)
+```
+
+*{{ packagename }}* provides a minimal cohort dataset that can be used to test out
+the models.
+
+```{r example, include = TRUE, echo = TRUE}
+# Load example `cohortdata` included in the package
+data("cohortdata")
+head(cohortdata, 5)
+```
+
+## Package vignettes
+
+More details on how to use _{{ packagename }}_ can be found in the [online documentation as package vignettes](https://epiverse-trace.github.io/{{ packagename }}/), in the article "Get Started with vaccineff".
+
+## Help
+
+To report a bug or to request a new feature please open an [issue](https://github.com/{{ gh_repo }}/issues/new/choose).
+
+## Contribute 
+
+Contributions to _{{ packagename }}_ are welcomed. Please follow the [package contributing guide](https://github.com/{{ gh_repo }}/blob/main/.github/CONTRIBUTING.md).
+
+Contributors to the project include:
+
+**Authors**: [David Santiago Quevedo](https://github.com/davidsantiagoquevedo) and [Zulma M. Cucunubá](https://github.com/zmcucunuba) (maintainer)
+
+**Contributors**:
+[Geraldine Gómez](https://github.com/GeraldineGomez), [Pratik Gupte](https://github.com/pratikunterwegs), [Érika J. Cantor](https://github.com/ErikaCantor), [Santiago Loaiza](https://github.com/santilo9513), [Jaime A. Pavlich-Mariscal](https://github.com/jpavlich), [Hugo Gruson](https://github.com/Bisaloo), [Chris Hartgerink](https://github.com/chartgerink), [Felipe Segundo Abril-Bermúdez](https://github.com/fsabrilb)
+
+
+## Code of conduct
+
+Please note that the _{{ packagename }}_ project is released with a [Contributor Code of Conduct](https://github.com/epiverse-trace/.github/blob/main/CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.
+
+## References

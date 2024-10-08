@@ -35,8 +35,7 @@ rematch_ <- function(all,
     removed_i[[vacc_status_col]] == rematch_status,
   ]
   unmatched_i_s <- all[!(all$match_id %in% adjusted$match_id) &
-      !(all$match_id %in% removed_i$match_id),
-  ]
+    !(all$match_id %in% removed_i$match_id), ]
   adjusted_i_s <- data.frame()
   matched_i_s <- data.frame()
   # try match if there are individuals with the opposite status
@@ -47,28 +46,33 @@ rematch_ <- function(all,
     # concat unmatched_i and removed to match again
     removed_s <- subset(removed_s, select = names(unmatched_i_s))
     unmatched_i_s <- rbind(unmatched_i_s, removed_s)
-    tryCatch({
-      # try match and adjust
-      matched_i_s <- match_cohort_(
-        data_set = unmatched_i_s,
-        vacc_status_col = vacc_status_col,
-        nearest = nearest,
-        exact = exact
-      )
-      adjusted_i_s <- adjust_exposition(
-        matched_cohort = matched_i_s,
-        outcome_date_col = outcome_date_col,
-        censoring_date_col = censoring_date_col,
-        immunization_date = immunization_date_col,
-        start_cohort = start_cohort,
-        end_cohort = end_cohort
-      )
-    }, error = function(e) {
-      # MatchIt returns error if there are no enough individuals
-      # from both groups to match
-      warning("Error at iteration ", im, ": ", e$message,
-              "- skipping to next \n")
-    })
+    tryCatch(
+      {
+        # try match and adjust
+        matched_i_s <- match_cohort_(
+          data_set = unmatched_i_s,
+          vacc_status_col = vacc_status_col,
+          nearest = nearest,
+          exact = exact
+        )
+        adjusted_i_s <- adjust_exposition(
+          matched_cohort = matched_i_s,
+          outcome_date_col = outcome_date_col,
+          censoring_date_col = censoring_date_col,
+          immunization_date = immunization_date_col,
+          start_cohort = start_cohort,
+          end_cohort = end_cohort
+        )
+      },
+      error = function(e) {
+        # MatchIt returns error if there are no enough individuals
+        # from both groups to match
+        warning(
+          "Error at iteration ", im, ": ", e$message,
+          "- skipping to next \n"
+        )
+      }
+    )
     # Control for new matched and adjusted population
     # Add new matches for removed unvaccinated if:
     # 1. There are matches
@@ -81,7 +85,7 @@ rematch_ <- function(all,
         )
     ) {
       adjusted_i_s$subclass <- as.factor(as.numeric(adjusted_i_s$subclass) +
-                                           nrow(adjusted))
+        nrow(adjusted))
       adjusted <- rbind(adjusted, adjusted_i_s)
     }
   }
@@ -128,7 +132,6 @@ iterate_match <- function(all,
                           nearest,
                           start_cohort,
                           end_cohort) {
-
   # Set removed, matched and ajusted for the first iteration
   matched_i <- matched
   adjusted_i <- adjusted
@@ -136,27 +139,34 @@ iterate_match <- function(all,
 
   # Set control parameter to avoid infinte while loop
   im <- 0
-  thershold <- nrow(removed_i) #maximum number of iterations: size of removed
+  thershold <- nrow(removed_i) # maximum number of iterations: size of removed
 
   # Iterate until threshold
   # or until the procedure generates zero adjusted population
   while ((nrow(adjusted_i) != 0) && (im < thershold)) {
+    rematch_helper <- function(rematch, control) {
+      rematch_(
+        all = all,
+        adjusted = adjusted,
+        outcome_date_col = outcome_date_col,
+        censoring_date_col = censoring_date_col,
+        immunization_date_col = immunization_date_col,
+        removed_i = removed_i,
+        vacc_status_col = vacc_status_col,
+        rematch_status = rematch,
+        control_status = control,
+        nearest = nearest,
+        exact = exact,
+        start_cohort = start_cohort,
+        end_cohort = end_cohort,
+        im = im
+      )
+    }
+
     # Iteration for unvaccinated
-    new_match <- rematch_(
-      all = all,
-      adjusted = adjusted,
-      outcome_date_col = outcome_date_col,
-      censoring_date_col = censoring_date_col,
-      immunization_date_col = immunization_date_col,
-      removed_i = removed_i,
-      vacc_status_col = vacc_status_col,
-      rematch_status = unvaccinated_status,
-      control_status = vaccinated_status,
-      nearest = nearest,
-      exact = exact,
-      start_cohort = start_cohort,
-      end_cohort = end_cohort,
-      im = im
+    new_match <- rematch_helper(
+      rematch = unvaccinated_status,
+      control = vaccinated_status
     )
 
     adjusted <- new_match$adjusted
@@ -164,21 +174,9 @@ iterate_match <- function(all,
     matched_iu <- new_match$matched_i_s
 
     # Iteration for vaccinated
-    new_match <- rematch_(
-      all = all,
-      adjusted = adjusted,
-      outcome_date_col = outcome_date_col,
-      censoring_date_col = censoring_date_col,
-      immunization_date_col = immunization_date_col,
-      removed_i = removed_i,
-      vacc_status_col = vacc_status_col,
-      rematch_status = vaccinated_status,
-      control_status = unvaccinated_status,
-      nearest = nearest,
-      exact = exact,
-      start_cohort = start_cohort,
-      end_cohort = end_cohort,
-      im = im
+    new_match <- rematch_helper(
+      rematch = vaccinated_status,
+      control = unvaccinated_status
     )
 
     adjusted <- new_match$adjusted

@@ -81,7 +81,7 @@
       <img src="../logo.png" class="logo" alt=""><h1>Introduction to cohort design with vaccineff</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/epiverse-trace/vaccineff/blob/v0.0.4/vignettes/cohort_design.Rmd" class="external-link"><code>vignettes/cohort_design.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/epiverse-trace/vaccineff/blob/main/vignettes/cohort_design.Rmd" class="external-link"><code>vignettes/cohort_design.Rmd</code></a></small>
       <div class="d-none name"><code>cohort_design.Rmd</code></div>
     </div>
 
@@ -114,7 +114,7 @@ date to the occurrence of the event (e.g., infection, death,
 hospitalization) or the date of the end of the study. VE is approximated
 by the Cox proportional hazards model that is usually written by the
 following expression:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>h</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>t</mi><mo>,</mo><mi>X</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><msub><mi>h</mi><mn>0</mn></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>t</mi><mo stretchy="true" form="postfix">)</mo></mrow><msup><mi>e</mi><mrow><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>p</mi></munderover><msub><mi>β</mi><mi>i</mi></msub><msub><mi>X</mi><mi>i</mi></msub></mrow></msup><mo>,</mo></mrow><annotation encoding="application/x-tex">\begin{equation}\label{eq:cox} 
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>h</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>t</mi><mo>,</mo><mi>X</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><msub><mi>h</mi><mn>0</mn></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>t</mi><mo stretchy="true" form="postfix">)</mo></mrow><msup><mi>e</mi><mrow><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>p</mi></munderover><msub><mi>β</mi><mi>i</mi></msub><msub><mi>X</mi><mi>i</mi></msub></mrow></msup><mo>,</mo></mrow><annotation encoding="application/x-tex">\begin{equation}\label{eq:cox}
 h(t,X)=h_0(t) e ^{\sum_{i=1}^p \beta_i X_i},
 \end{equation}</annotation></semantics></math></p>
 <p>where
@@ -403,7 +403,7 @@ implemented:</p>
 <span>  end_cohort <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"2044-12-31"</span><span class="op">)</span>,</span>
 <span>  match <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  exact <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"sex"</span><span class="op">)</span>,</span>
-<span>  nearest <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"age"</span><span class="op">=</span><span class="fl">2</span><span class="op">)</span></span>
+<span>  nearest <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"age"</span> <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">vaccineff_data_matched2</span><span class="op">)</span></span>
@@ -458,9 +458,10 @@ implemented:</p>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">ve3</span>, type <span class="op">=</span> <span class="st">"surv"</span>, percentage <span class="op">=</span> <span class="cn">FALSE</span>, cumulative <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="cohort_design_files/figure-html/artcohor4-2.png" width="768"></p>
 </div>
-<div class="section level3">
-<h3 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
-</h3>
+</div>
+<div class="section level2 unnumbered">
+<h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+</h2>
 <div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
 <div id="ref-austin2014use" class="csl-entry">
 Austin, Peter C. 2014. <span>“The Use of Propensity Score Methods with
@@ -471,7 +472,6 @@ Medicine</em> 33 (7): 1242–58.
 <div id="ref-bookvaccine" class="csl-entry">
 Halloran, Elizabeth, Ira Longini, and Claudio Struchiner. 2010.
 <em>Design and Analysis of Vaccine Studies</em>. Springer.
-</div>
 </div>
 </div>
 </div>

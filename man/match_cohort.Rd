@@ -20,7 +20,7 @@ match_cohort(
 )
 }
 \arguments{
-\item{data_set}{\code{data.frame} with cohort information (see example).}
+\item{data_set}{\code{data.frame} with cohort information.}
 
 \item{outcome_date_col}{Name of the column that contains the outcome dates.}
 

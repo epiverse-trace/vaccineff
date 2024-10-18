@@ -18,7 +18,7 @@ make_immunization(
 )
 }
 \arguments{
-\item{data_set}{\code{data.frame} with cohort information (see example).}
+\item{data_set}{\code{data.frame} with cohort information.}
 
 \item{outcome_date_col}{Name of the column that contains the outcome dates.}
 
@@ -60,7 +60,7 @@ individual defined by the censoring date (if provided), outcome delay
 
 The function also works with vaccination information spread across several
 columns. If this is the case, the parameter \code{vacc_date_col} must be passed
-as a vector with the names of all the columns to use (see example).
+as a vector with the names of all the columns to use.
 The function uses by default the latest date found. However, it can also
 select the first date by setting \code{take_first = TRUE}.
 

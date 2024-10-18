@@ -9,7 +9,7 @@
 #' the other hand, if the logical operator is `|`, it is enough to find one
 #' column with information indicating success. It is recommended to use this
 #' method when working with several outcomes or several vaccine doses. By
-#' default, it returns a binary column where 0 means no outcome or no vaccine
+#' default, it returns a binary column where `0` means no outcome or no vaccine
 #' and `1` means the opposite. However, it can also receive custom
 #' options, e.g., `c("v", "u")` for vaccinated and unvaccinated.
 #'
@@ -297,7 +297,7 @@ adjust_time_to_event <- function(data_set) {
 
   msg <- paste0("\nThe start date of the cohort was defined as",
     " the mininimum immunization date. \n",
-    n0 - nf, " registers were removed with outocomes before the start date.\n"
+    n0 - nf, " registers were removed with outcomes before the start date.\n"
   )
   warning(msg)
 

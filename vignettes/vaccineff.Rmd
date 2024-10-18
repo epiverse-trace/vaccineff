@@ -79,7 +79,6 @@ The current release of the package bases the estimation of $VE$ in the cohort de
 The integrated dataset `cohortdata` serves as a minimal example of the package's input. The data is accessed using `data("cohortdata")`.
 
 `vaccineff` has three main functions:
-
 1. `make_vaccineff_data`: This function returns an S3 object of the class `vaccineff_data` with the relevant information for the study. This function also allows to create a matched cohort to control for confounding variables by setting `match = TRUE` and passing the corresponding `exact` and `nearest` arguments.
 `make_vaccineff_data`  supports the method `summary()` to check the characteristics of the cohort, the matching balance and the sizes of matched, excluded, and removed populations.
 

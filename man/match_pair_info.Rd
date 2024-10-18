@@ -7,7 +7,7 @@
 match_pair_info(data_set, column_to_match, criteria = c("min", "max"))
 }
 \arguments{
-\item{data_set}{\code{data.frame} with cohort information (see example).}
+\item{data_set}{\code{data.frame} with cohort information.}
 
 \item{column_to_match}{The name of the column that contains the information
 shared by the pairs.}

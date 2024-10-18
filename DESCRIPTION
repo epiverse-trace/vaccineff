@@ -28,9 +28,6 @@ Description: Tools for estimating vaccine effectiveness and vaccine related metr
 URL: https://github.com/epiverse-trace/vaccineff, https://epiverse-trace.github.io/vaccineff/
 BugReports: https://github.com/epiverse-trace/vaccineff/issues
 License: MIT + file LICENSE
-URL: https://github.com/epiverse-trace/vaccineff,
-    https://epiverse-trace.github.io/vaccineff/
-BugReports: https://github.com/epiverse-trace/vaccineff/issues
 Depends: 
     R (>= 3.5.0)
 Imports: 

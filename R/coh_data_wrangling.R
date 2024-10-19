@@ -290,9 +290,42 @@ truncate_time_to_event <- function(data_set,
 #' @inheritParams make_vaccineff_data
 #' @return `data.frame` with truncated data
 #' @keywords internal
-adjust_time_to_event <- function(data_set) {
+truncate_from_start_cohort <- function(data_set,
+                                       outcome_date_col,
+                                       censoring_date_col,
+                                       start_cohort) {
   n0 <- nrow(data_set)
-  data_set <- data_set[data_set$time_to_event > 0, ]
+
+  # Check for immunization date
+  data_set <- data_set[
+    data_set$immunization_date >= start_cohort |
+      is.na(data_set$immunization_date),
+  ]
+
+  # Check for outcome date
+  data_set <- data_set[
+    is.na(data_set[[outcome_date_col]]) |
+      data_set[[outcome_date_col]] >= start_cohort,
+  ]
+
+  data_set <- data_set[
+    is.na(data_set[[outcome_date_col]]) |
+      is.na(data_set$immunization_date) |
+      data_set[[outcome_date_col]] >= data_set$immunization_date,
+  ]
+
+  # Check for censoring date
+  data_set <- data_set[
+    is.na(data_set[[censoring_date_col]]) |
+      data_set[[censoring_date_col]] >= start_cohort,
+  ]
+
+  data_set <- data_set[
+    is.na(data_set[[censoring_date_col]]) |
+      is.na(data_set$immunization_date) |
+      data_set[[censoring_date_col]] >= data_set$immunization_date,
+  ]
+
   nf <- nrow(data_set)
 
   msg <- paste0("\nThe start date of the cohort was defined as",

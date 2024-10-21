@@ -116,6 +116,19 @@ make_vaccineff_data <- function(data_set,
   # Define start date of the cohort
   start_cohort <- min(cohort_data$immunization_date, na.rm = TRUE)
 
+  # Truncate data from start_cohort
+  output <- capture_warnings(
+    truncate_from_start_cohort(
+      data_set = cohort_data,
+      outcome_date_col = outcome_date_col,
+      censoring_date_col = censoring_date_col,
+      start_cohort = start_cohort
+    )
+  )
+  cohort_data <- output$result
+  warnings_log <- list(filtered = output$warnings)
+
+  # Match data
   if (match) {
     output <- capture_warnings(match_cohort(
       data_set = cohort_data,
@@ -133,50 +146,26 @@ make_vaccineff_data <- function(data_set,
     ))
 
     matching <- output$result
-    warnings_log <- output$warnings
+    warnings_log$matching <- output$warnings
 
     matching$match <- linelist::set_tags(
       x = matching$match,
-      time_to_event_col = "time_to_event",
-      outcome_status_col = "outcome_status",
       t0_follow_up_col = "t0_follow_up",
+      censoring_date_col = "censoring_after_match",
       allow_extra = TRUE
     )
   } else {
     matching <- NULL
-
-    if (!is.null(t0_follow_up)) {
-      start_from_immunization <- TRUE
-    } else {
-      start_from_immunization <- FALSE
-    }
-
-    cohort_data$outcome_status <- set_event_status(
-      data_set = cohort_data,
-      outcome_date_col = outcome_date_col,
-      censoring_date_col = censoring_date_col
+    cohort_data$t0_follow_up <- as.Date(
+      ifelse(is.na(cohort_data$immunization_date),
+        yes = as.character(start_cohort),
+        no = as.character(cohort_data$immunization_date)
+      )
     )
-
-    cohort_data$time_to_event <- get_time_to_event(
-      data_set = cohort_data,
-      outcome_date_col = outcome_date_col,
-      start_cohort = start_cohort,
-      end_cohort = end_cohort,
-      start_from_immunization = start_from_immunization,
-      immunization_date_col = t0_follow_up
-    )
-
-    output <- capture_warnings(adjust_time_to_event(
-      data_set = cohort_data
-    ))
-
-    cohort_data <- output$result
-    warnings_log <- output$warnings
 
     cohort_data <- linelist::set_tags(
       x = cohort_data,
-      time_to_event_col = "time_to_event",
-      outcome_status_col = "outcome_status",
+      t0_follow_up_col = "t0_follow_up",
       allow_extra = TRUE
     )
   }
@@ -216,6 +205,8 @@ summary.vaccineff_data <- function(object, warnings_log = FALSE, ...) {
   cat(paste0("\nCohort start: ", object$start_cohort))
   cat(paste0("\nCohort end: ", object$end_cohort, "\n"))
 
+  cat(object$warnings_log$filtered, sep = "")
+
   # Extract tags
   tags <- linelist::tags(object$cohort_data)
 
@@ -226,7 +217,7 @@ summary.vaccineff_data <- function(object, warnings_log = FALSE, ...) {
 
     if (warnings_log && !is.null(object$matching)) {
       cat("\nWarnings:\n")
-      cat(object$warnings_log, sep = "")
+      cat(object$warnings_log$matching, sep = "")
     }
 
   } else {
@@ -238,7 +229,6 @@ summary.vaccineff_data <- function(object, warnings_log = FALSE, ...) {
     cat("\nNo matching routine invoked.\n")
     print(summ_cohort)
 
-    cat(object$warnings_log, sep = "")
   }
 
   # Print tags from linelist object

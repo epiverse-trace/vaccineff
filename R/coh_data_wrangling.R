@@ -77,55 +77,6 @@ set_status <- function(data_set,
   return(status_col)
 }
 
-#' @title Create Event Status
-#'
-#' @description This function generates a binary status (1,0) associated
-#' with an outcome. The value returned is 0 if a register is censored before
-#' the outcome occurs or if the outcome does not occur during the follow-up
-#' period. If the outcome occurs and the register is not censored, the value
-#' returned is 1.
-#' @inheritParams get_immunization_date
-#' @return Status
-#' @keywords internal
-
-set_event_status <- function(data_set,
-                             outcome_date_col,
-                             censoring_date_col = NULL) {
-  checkmate::assert_data_frame(
-    data_set,
-    min.rows = 1, min.cols = 1
-  )
-  checkmate::assert_character(outcome_date_col,
-    any.missing = FALSE, min.len = 1
-  )
-  checkmate::assert_names(
-    names(data_set), must.include = outcome_date_col
-  )
-
-  data_set$outcome_status <- set_status(data_set = data_set,
-    col_names = outcome_date_col,
-    status = c(1, 0)
-  )
-
-  checkmate::assert_character(censoring_date_col,
-    any.missing = FALSE, min.len = 1, null.ok = TRUE
-  )
-  checkmate::assert_names(
-    names(data_set), must.include = censoring_date_col
-  )
-
-  if (!is.null(censoring_date_col)) {
-    data_set$outcome_status <- ifelse(
-      (!is.na(data_set[[censoring_date_col]])) &
-        (!is.na(data_set[[outcome_date_col]])) &
-        (data_set[[censoring_date_col]] <= data_set[[outcome_date_col]]),
-      yes = "0",
-      no = data_set$outcome_status
-    )
-  }
-  return(as.numeric(data_set$outcome_status))
-}
-
 #' @title Construct Time-to-Event at
 #'
 #' @description This function returns both the time-to-event until a

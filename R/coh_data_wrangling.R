@@ -126,159 +126,72 @@ set_event_status <- function(data_set,
   return(as.numeric(data_set$outcome_status))
 }
 
-#' @title Construct Time-to-Event
+#' @title Construct Time-to-Event at
 #'
-#' @description This function returns a column with the time-to-event in days
-#' until a reference outcome. The starting point to count the time-to-event
-#' can be the immunization date, assuming that the vaccinated population enters
-#' the study when they are vaccinated (start_from_immunization=TRUE). Or the
-#' beginning of the study, if all the cohort is known at this point
-#' (start_from_immunization=FALSE). In this last case, it is not necessary to
-#' pass the argument `immunization_date_col`.
+#' @description This function returns both the time-to-event until a
+#' reference number of days, as provided in `at`, and the outcome status
+#' at the same point. It uses the exposition time as an auxiliary variable
+#' to calculate the time-to-event. The starting point for counting the
+#' time-to-event is `t0_follow_up`, which is determined based on whether
+#' a matching strategy is used or not. If the event occurs before the
+#' reference date, the end date of the exposition period is used to
+#' calculate the time-to-event. This accounts for whether censoring or an
+#' event occurred. The outcome status is determined based on whether the
+#' outcome date coincides with the end of the follow-up period.
 #'
-#' @inheritParams get_immunization_date
-#' @param start_cohort Start date of the study.
-#' @param start_from_immunization `TRUE`: starts counting time-to-event from the
-#' immunization date if available. `FALSE`: starts counting time-to-event from
-#' the start date of the cohort study.
-#' @param immunization_date_col Name of the column that contains the
-#' immunization date. Required if start_from_immunization = TRUE.
-#' Default is NULL.
-#' @return Time-to-event
-#' @keywords internal
-
-get_time_to_event <- function(data_set,
-                              outcome_date_col,
-                              censoring_date_col = NULL,
-                              start_cohort, end_cohort,
-                              start_from_immunization = FALSE,
-                              immunization_date_col = NULL) {
-  # add input checking
-  checkmate::assert_data_frame(
-    data_set,
-    min.rows = 1L
-  )
-
-  checkmate::assert_string(outcome_date_col)
-
-  checkmate::assert_names(
-    colnames(data_set),
-    must.include = outcome_date_col
-  )
-  # check date types
-  checkmate::assert_date(
-    start_cohort, any.missing = FALSE, len = 1
-  )
-  checkmate::assert_date(
-    end_cohort, any.missing = FALSE, len = 1
-  )
-
-  # check if date columns are date type
-  checkmate::assert_date(
-    data_set[[outcome_date_col]]
-  )
-
-  checkmate::assert_logical(
-    start_from_immunization,
-    len = 1L, any.missing = FALSE
-  )
-
-  #Checks of censoring_date_col if provided
-  checkmate::assert_string(censoring_date_col, null.ok = TRUE)
-  checkmate::assert_names(
-    colnames(data_set),
-    must.include = censoring_date_col
-  )
-  if (!is.null(censoring_date_col)) {
-    checkmate::assert_date(
-      data_set[[censoring_date_col]]
-    )
-  }
-
-  # check immnunization date col if asked
-  if (start_from_immunization) {
-    stopifnot(
-      "`immunization_date_col` must be provided, and a column name in `data_set`" = #nolint
-        (!missing(immunization_date_col) &&
-         checkmate::test_string(immunization_date_col) &&
-         immunization_date_col %in% colnames(data_set))
-    )
-
-    # Check for date type column
-    checkmate::assert_date(
-      data_set[[immunization_date_col]]
-    )
-  }
-
-  # Initialize vector with start point to calculate time-to-event
-  # cohort start by default
-  t0 <- rep(start_cohort, nrow(data_set))
-  if (start_from_immunization) {
-    # if start from immunization replace informed immunization dates
-    t0 <- as.Date(ifelse(is.na(data_set[[immunization_date_col]]),
-      yes = as.character(t0),
-      no = as.character(data_set[[immunization_date_col]])
-    ))
-  }
-
-  # Initialize vector with end point to calculate time-to-event
-  # cohort end by default
-  tf <- rep(end_cohort, nrow(data_set))
-  # replace informed outcome dates
-  tf <- as.Date(ifelse(!is.na(data_set[[outcome_date_col]]),
-    yes = as.character(data_set[[outcome_date_col]]),
-    no = as.character(tf)
-  ))
-  # replace censoring dates if provided
-  if (!is.null(censoring_date_col)) {
-    tf <- as.Date(ifelse(!is.na(data_set[[censoring_date_col]]),
-      yes = as.character(data_set[[censoring_date_col]]),
-      no = as.character(tf)
-    ))
-  }
-
-  #time to event is simply the difference between tf and t0
-  time_to_event <- as.numeric(tf - t0)
-  return(time_to_event)
-}
-
-#' @title Internal function to truncate time to events
-#'
-#' @inheritParams make_vaccineff_data
+#' @inheritParams make_immunization
 #' @param at Time to truncate the follow-up period
-#' @return `data.frame` with truncated data
+#' @return `data.frame` containing time_to_event and outcome_status
 #' @keywords internal
-truncate_time_to_event <- function(data_set,
-                            outcome_date_col,
-                            end_cohort,
-                            at) {
-  data_set$tf_follow_up <- data_set$t0_follow_up + data_set$time_to_event
 
-  data_set$t_follow_up_at <- data_set$t0_follow_up + at
-  data_set$t_follow_up_at <- as.Date(
-    ifelse(data_set$t_follow_up_at > end_cohort,
+get_time_to_event_at <- function(data_set,
+                                 outcome_date_col,
+                                 censoring_date_col,
+                                 end_cohort,
+                                 at) {
+  #Calculate total exposition time
+  data_set$exposition_time <- get_exposition_time(
+    data_set = data_set,
+    outcome_date_col = outcome_date_col,
+    censoring_date_col = censoring_date_col,
+    end_cohort = end_cohort
+  )
+
+  #Calculate final date of exposition time from t0
+  data_set$tf_exposition <- data_set$t0_follow_up + data_set$exposition_time
+
+  #Calculate final date of follow up period at from t0
+  data_set$tf_follow_up_at <- data_set$t0_follow_up + at
+
+  # If tf_follow up exceeds the end of the cohort use this date
+  data_set$tf_follow_up_at <- as.Date(
+    ifelse(data_set$tf_follow_up_at > end_cohort,
       yes = as.character(end_cohort),
-      no = as.character(data_set$t_follow_up_at)
+      no = as.character(data_set$tf_follow_up_at)
     )
   )
 
-  data_set$t_follow_up_at <- pmin(data_set$t_follow_up_at,
-    data_set$tf_follow_up,
+  # Use the minimum between tf of exposition period and follow up period at
+  data_set$tf_follow_up_at <- pmin(data_set$tf_follow_up_at,
+    data_set$tf_exposition,
     na.rm = TRUE
   )
 
+  # Time to event is calculated up to minimum
   data_set$time_to_event <-
-    as.numeric(data_set$t_follow_up_at - data_set$t0_follow_up)
+    as.numeric(data_set$tf_follow_up_at - data_set$t0_follow_up)
 
+  # If tf of follow up coincides with outcome date, event status is positive
   data_set$outcome_status <- as.numeric(
-    data_set$t_follow_up_at == data_set[[outcome_date_col]] &
+    data_set$tf_follow_up_at == data_set[[outcome_date_col]] &
       !is.na(data_set[[outcome_date_col]]),
     1,
     0
   )
 
+  # Remove auxiliary columns
   data_set <- data_set[, -which(names(data_set)
-      %in% c("t_follow_up_at", "tf_follow_up")
+      %in% c("tf_follow_up_at", "tf_exposition")
     )
   ]
 

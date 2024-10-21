@@ -63,7 +63,7 @@ effectiveness <- function(vaccineff_data,
   )
 
   # Check numeric argument for at
-  checkmate::test_integerish(at, lower = 0, null.ok = TRUE)
+  checkmate::test_integerish(at, lower = 0, null.ok = FALSE)
 
   if (!is.null(vaccineff_data$matching)) {
     data_set <- vaccineff_data$matching$match
@@ -73,19 +73,18 @@ effectiveness <- function(vaccineff_data,
 
   tags <- linelist::tags(data_set)
 
-  if (!is.null(at)) {
-    data_set <- truncate_time_to_event(
-      data_set = data_set,
-      outcome_date_col = tags$outcome_date_col,
-      end_cohort = vaccineff_data$end_cohort,
-      at = at
-    )
-  }
-
+  data_set <- get_time_to_event_at(
+    data_set = data_set,
+    outcome_date_col = tags$outcome_date_col,
+    censoring_date_col = tags$censoring_date_col,
+    end_cohort = vaccineff_data$end_cohort,
+    at = at
+  )
+  
   eff_obj <- coh_eff_hr(
     data_set = data_set,
-    outcome_status_col = tags$outcome_status_col,
-    time_to_event_col = tags$time_to_event_col,
+    outcome_status_col = "outcome_status",
+    time_to_event_col = "time_to_event",
     vacc_status_col = tags$vacc_status_col,
     vaccinated_status = vaccineff_data$vaccinated_status,
     unvaccinated_status = vaccineff_data$unvaccinated_status,
@@ -97,7 +96,7 @@ effectiveness <- function(vaccineff_data,
   # effectiveness object
   class(eff_obj) <- "effectiveness"
 
-  # return
+  ## return
   return(eff_obj)
 }
 

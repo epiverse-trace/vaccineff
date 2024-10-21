@@ -8,7 +8,7 @@
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
-R package with tools for estimating vaccine effectiveness and vaccine related metrics.
+Tools for estimating vaccine effectiveness and vaccine related metrics.
 }
 \seealso{
 Useful links:

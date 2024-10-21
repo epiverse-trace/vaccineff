@@ -26,7 +26,7 @@ date. \code{NULL} by default.}
 \item{end_cohort}{End date of the study.}
 }
 \value{
-\code{data.frame} with matched population and corrected exposure times.
+\code{data.frame} with matched population and corrected exposition times.
 }
 \description{
 This function removes the pairs whose exposition times

@@ -60,38 +60,3 @@ adjust_exposition <- function(matched_cohort,
 
   return(adjusted_match)
 }
-#' @title Calculate Exposition Time After Matching
-#'
-#' @description This auxiliar function calculates the exposition time of
-#' individuals after matching to ensure they coincide. Creating censoring
-#' after match and defining t0_follow_up from pairing information is necessary
-#' before using it.
-#'
-#' @inheritParams match_cohort
-#' @return `column` with exposition time per indivual.
-#' @keywords internal
-
-get_exposition_time <- function(data_set,
-                                outcome_date_col,
-                                censoring_date_col,
-                                end_cohort) {
-  ### Same structure as get_time_to_event
-  tf <- rep(end_cohort, nrow(data_set))
-  # replace informed outcome dates
-  tf <- as.Date(ifelse(!is.na(data_set[[outcome_date_col]]),
-    yes = as.character(data_set[[outcome_date_col]]),
-    no = as.character(tf)
-  ))
-
-  # replace censoring dates if provided
-  if (!is.null(censoring_date_col)) {
-    tf <- as.Date(ifelse(!is.na(data_set[[censoring_date_col]]),
-      yes = as.character(data_set[[censoring_date_col]]),
-      no = as.character(tf)
-    ))
-  }
-
-  #exposition time the difference between tf and t0_follow_up
-  exposition <- as.numeric(tf - data_set$t0_follow_up)
-  return(exposition)
-}

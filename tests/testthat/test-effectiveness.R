@@ -30,11 +30,11 @@ test_that("`effectiveness`: basic expectations", {
 
   # runs without conditions
   expect_no_condition(
-    effectiveness(vaccineff_data)
+    effectiveness(vaccineff_data, at = 60)
   )
 
   # returns `effectiveness` s3class object
-  eff <- effectiveness(vaccineff_data)
+  eff <- effectiveness(vaccineff_data, at = 60)
   expect_s3_class(
     eff, "effectiveness"
   )
@@ -65,7 +65,7 @@ test_that("`effectiveness`: at not null", {
 })
 
 ## Tests for generic methods
-eff <- effectiveness(vaccineff_data)
+eff <- effectiveness(vaccineff_data, at = 60)
 
 #### Summary
 test_that("`summary.effectiveness`: basic expectations", {

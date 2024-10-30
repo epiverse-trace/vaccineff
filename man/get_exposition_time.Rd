@@ -17,10 +17,10 @@ date. \code{NULL} by default.}
 \item{end_cohort}{End date of the study.}
 }
 \value{
-\code{column} with exposition time per indivual.
+\code{column} with exposition time per individual.
 }
 \description{
-This auxiliar function calculates the exposition time of
+This auxiliary function calculates the exposition time of
 individuals starting from the t0_follow_up date defined based on whether
 a matching strategy is invoked or not. The end of the exposition time
 is assigned based on the follow hierarchy

@@ -50,8 +50,7 @@ adjusted_0 <- adjust_exposition(matched_cohort = matched,
                                 censoring_date_col = censoring_date_col,
                                 immunization_date = immunization_date_col,
                                 start_cohort = start_cohort,
-                                end_cohort = end_cohort
-)
+                                end_cohort = end_cohort)
 
 # Test for basic expectations and correctness of algorithm
 test_that("`rematch`: Correctness", {
@@ -209,7 +208,8 @@ test_that("`rematch`: tryCatch error handle", {
       end_cohort = end_cohort,
       im = 0
     ),
-    regexp = "Error at iteration 0 for v: No matches were found.- skipping to next"
+    regexp = paste0("Error at iteration 0 for v: No matches were found.",
+                    "- skipping to next")
   )
 })
 

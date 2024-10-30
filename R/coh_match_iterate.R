@@ -35,7 +35,7 @@ rematch_ <- function(all,
     removed_i[[vacc_status_col]] == rematch_status,
   ]
   unmatched_i_s <- all[!(all$match_id %in% adjusted$match_id) &
-    !(all$match_id %in% removed_i$match_id), ]
+                         !(all$match_id %in% removed_i$match_id), ]
   adjusted_i_s <- data.frame()
   matched_i_s <- data.frame()
   # try match if there are individuals with the opposite status
@@ -63,13 +63,15 @@ rematch_ <- function(all,
           start_cohort = start_cohort,
           end_cohort = end_cohort
         )
+        warning("Iteration ", im, " for ", rematch_status)
+        warning(" - New: ", nrow(adjusted_i_s), "\n")
       },
       error = function(e) {
         # MatchIt returns error if there are no enough individuals
         # from both groups to match
         warning(
-          "Error at iteration ", im, ": ", e$message,
-          "- skipping to next \n"
+          "Error at iteration ", im, " for ", rematch_status, ": ",
+          e$message, "- skipping to next \n"
         )
       }
     )
@@ -85,7 +87,7 @@ rematch_ <- function(all,
         )
     ) {
       adjusted_i_s$subclass <- as.factor(as.numeric(adjusted_i_s$subclass) +
-        nrow(adjusted))
+                                           nrow(adjusted))
       adjusted <- rbind(adjusted, adjusted_i_s)
     }
   }

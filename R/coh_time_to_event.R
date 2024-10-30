@@ -1,14 +1,14 @@
 
 #' @title Calculate Exposition Time
 #'
-#' @description This auxiliar function calculates the exposition time of
+#' @description This auxiliary function calculates the exposition time of
 #' individuals starting from the t0_follow_up date defined based on whether
 #' a matching strategy is invoked or not. The end of the exposition time
 #' is assigned based on the follow hierarchy
 #' outcome_status -> censoring_date -> end_cohort
 #'
 #' @inheritParams match_cohort
-#' @return `column` with exposition time per indivual.
+#' @return `column` with exposition time per individual.
 #' @keywords internal
 
 get_exposition_time <- function(data_set,

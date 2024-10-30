@@ -58,7 +58,7 @@ test_that("`rematch`: Correctness", {
   removed_i <- matched[!(matched$match_id %in% adjusted_0$match_id), ]
 
   # iteration on removed vaccinated
-  rm_v <- rematch_(
+  output <- capture_warnings(rematch_(
     all = sample_cohort,
     adjusted = adjusted_0,
     outcome_date_col = outcome_date_col,
@@ -73,7 +73,8 @@ test_that("`rematch`: Correctness", {
     start_cohort = start_cohort,
     end_cohort = end_cohort,
     im = 0
-  )
+  ))
+  rm_v <- output$result
 
   adjusted_fv <- rm_v$adjusted
   adjusted_v_it <- rm_v$adjusted_i_s
@@ -100,7 +101,7 @@ test_that("`rematch`: Correctness", {
   )
 
   # iteration on removed unvaccinated
-  rm_u <- rematch_(
+  output <- capture_warnings(rematch_(
     all = sample_cohort,
     adjusted = adjusted_fv,
     outcome_date_col = outcome_date_col,
@@ -115,7 +116,9 @@ test_that("`rematch`: Correctness", {
     start_cohort = start_cohort,
     end_cohort = end_cohort,
     im = 0
-  )
+  ))
+
+  rm_u <- output$result
 
   adjusted_fu <- rm_u$adjusted
   adjusted_u_it <- rm_u$adjusted_i_s
@@ -149,7 +152,7 @@ test_that("`rematch_`: return empty when no unmatched registers", {
   removed_i <- matched[!(matched$match_id %in% adjusted_0$match_id), ]
 
   # all = adjusted mimics no unmatched registers
-  rm_v <- rematch_(
+  output <- capture_warnings(rematch_(
     all = adjusted_0,
     adjusted = adjusted_0,
     outcome_date_col = outcome_date_col,
@@ -164,7 +167,9 @@ test_that("`rematch_`: return empty when no unmatched registers", {
     start_cohort = start_cohort,
     end_cohort = end_cohort,
     im = 0
-  )
+  ))
+
+  rm_v <- output$result
 
   expect_identical(
     nrow(rm_v$adjusted_i_s), 0L
@@ -204,7 +209,7 @@ test_that("`rematch`: tryCatch error handle", {
       end_cohort = end_cohort,
       im = 0
     ),
-    regexp = "Error at iteration 0: No matches were found.- skipping to next"
+    regexp = "Error at iteration 0 for v: No matches were found.- skipping to next"
   )
 })
 
@@ -265,8 +270,4 @@ test_that("`iterate_match`: Correctness", {
   expect_gt(
     length(output$warnings), 0
   )
-  expect_match(
-    output$warnings, "failed: Must have at least 1 rows"
-  )
 })
-

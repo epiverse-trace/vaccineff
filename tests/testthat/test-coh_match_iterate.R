@@ -1,5 +1,5 @@
-#### Tests for rematch_()
-## prepare data
+#### Tests for coh_match_iterate.R module ####
+#### Prepare data for all the tests ####
 data("cohortdata")
 start_cohort <- as.Date("2044-01-01")
 end_cohort <- as.Date("2044-12-31")
@@ -29,6 +29,7 @@ sample_cohort <- make_immunization(
   end_cohort = end_cohort
 )
 
+#### Tests for the rematch_() ####
 # Generate id to control matches
 sample_cohort$match_id <- seq_len(nrow(sample_cohort))
 
@@ -45,11 +46,11 @@ matched <- match_cohort_(
 
 # Adjust exposition times of matched cohort
 adjusted_0 <- adjust_exposition(matched_cohort = matched,
-  outcome_date_col = outcome_date_col,
-  censoring_date_col = censoring_date_col,
-  immunization_date = immunization_date_col,
-  start_cohort = start_cohort,
-  end_cohort = end_cohort
+                                outcome_date_col = outcome_date_col,
+                                censoring_date_col = censoring_date_col,
+                                immunization_date = immunization_date_col,
+                                start_cohort = start_cohort,
+                                end_cohort = end_cohort
 )
 
 # Test for basic expectations and correctness of algorithm
@@ -206,3 +207,66 @@ test_that("`rematch`: tryCatch error handle", {
     regexp = "Error at iteration 0: No matches were found.- skipping to next"
   )
 })
+
+#### Tests for the iterate_match() ####
+# Generate id to control matches
+sample_cohort$match_id <- seq_len(nrow(sample_cohort))
+vacc_status_col <- "vaccine_status"
+immunization_date_col <- "immunization_date"
+
+# Match sample cohort
+matched <- match_cohort_(
+  data_set = sample_cohort,
+  vacc_status_col = vacc_status_col,
+  nearest = nearest,
+  exact = exact
+)
+
+# Adjust exposition times of matched cohort
+adjusted_0 <- adjust_exposition(matched_cohort = matched,
+  outcome_date_col = outcome_date_col,
+  censoring_date_col = censoring_date_col,
+  immunization_date = immunization_date_col,
+  start_cohort = start_cohort,
+  end_cohort = end_cohort
+)
+
+# Test for basic expectations and correctness of algorithm
+test_that("`iterate_match`: Correctness", {
+  # handler function is used to avoid undesired warnings on test
+  # This warnings are already tested in the test script for rematch_()
+  output <- capture_warnings(iterate_match(
+    all = sample_cohort,
+    matched = matched,
+    adjusted = adjusted_0,
+    outcome_date_col = outcome_date_col,
+    censoring_date_col = censoring_date_col,
+    immunization_date_col = immunization_date_col,
+    vacc_status_col = vacc_status_col,
+    vaccinated_status = "v",
+    unvaccinated_status = "u",
+    nearest = nearest,
+    exact = exact,
+    start_cohort = start_cohort,
+    end_cohort = end_cohort
+  ))
+
+  expect_gt(
+    # new cohort must contain new pairs
+    nrow(output$result$adjusted), nrow(adjusted_0)
+  )
+
+  expect_true(
+    # new cohort must contain previous cohort
+    all(adjusted_0$match_id %in% output$result$adjusted$match_id)
+  )
+
+  # Warnings are also tested for completeness using a snapshot
+  expect_gt(
+    length(output$warnings), 0
+  )
+  expect_match(
+    output$warnings, "failed: Must have at least 1 rows"
+  )
+})
+

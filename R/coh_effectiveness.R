@@ -80,7 +80,7 @@ effectiveness <- function(vaccineff_data,
     end_cohort = vaccineff_data$end_cohort,
     at = at
   )
-  
+
   eff_obj <- coh_eff_hr(
     data_set = data_set,
     outcome_status_col = "outcome_status",

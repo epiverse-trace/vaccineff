@@ -236,18 +236,17 @@ R package <a href="https://github.com/therneau/survival" class="external-link">s
 <p>The integrated dataset <code>cohortdata</code> serves as a minimal
 example of the package’s input. The data is accessed using
 <code>data("cohortdata")</code>.</p>
-<p><code>vaccineff</code> has three main functions:</p>
-<ol style="list-style-type: decimal">
-<li><p><code>make_vaccineff_data</code>: This function returns an S3
-object of the class <code>vaccineff_data</code> with the relevant
-information for the study. This function also allows to create a matched
-cohort to control for confounding variables by setting
-<code>match = TRUE</code> and passing the corresponding
-<code>exact</code> and <code>nearest</code> arguments.
-<code>make_vaccineff_data</code> supports the method
-<code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code> to check the characteristics of the cohort, the
-matching balance and the sizes of matched, excluded, and removed
-populations.</p></li>
+<p><code>vaccineff</code> has three main functions: 1.
+<code>make_vaccineff_data</code>: This function returns an S3 object of
+the class <code>vaccineff_data</code> with the relevant information for
+the study. This function also allows to create a matched cohort to
+control for confounding variables by setting <code>match = TRUE</code>
+and passing the corresponding <code>exact</code> and
+<code>nearest</code> arguments. <code>make_vaccineff_data</code>
+supports the method <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code> to check the characteristics
+of the cohort, the matching balance and the sizes of matched, excluded,
+and removed populations.</p>
+<ol start="2" style="list-style-type: decimal">
 <li><p><code>plot_coverage</code>: This function returns a plot of the
 vaccine coverage or the cumulative coverage. If the population is
 matched, the plot also includes the resulting count of doses after

@@ -43,7 +43,7 @@ static_match <- function(data_set,
   )
   removed_0 <- nrow(matched) - nrow(adjusted_0)
   warning_1 <- paste("Matches before iterating:",  nrow(adjusted_0), "\n")
-  warning_2 <- paste("Removed before iterating", removed_0, "\n")
+  warning_2 <- paste("Removed before iterating:", removed_0, "\n")
 
   # iterate match after first exposition times adjusting
   results_iteration <- iterate_match(
@@ -67,7 +67,7 @@ static_match <- function(data_set,
 
   removed_f <- nrow(matched) - nrow(adjusted_f)
   warning_3 <- paste("Matches after iterating:",  nrow(adjusted_f), "\n")
-  warning_4 <- paste("Removed after iterating", removed_f, "\n")
+  warning_4 <- paste("Removed after iterating:", removed_f, "\n")
 
 
   # Matching summary

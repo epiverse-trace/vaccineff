@@ -64,7 +64,7 @@ vaccineff_data <- make_vaccineff_data(
 )
 
 # Estimate the Vaccinef Effectiveness (VE)
-ve1 <- effectiveness(vaccineff_data, at = 180)
+ve1 <- estimate_vaccineff(vaccineff_data, at = 180)
 
 # Print summary of VE
 summary(ve1)
@@ -129,7 +129,7 @@ Now, using `the vaccineff_data_matched` object in the `effectiveness` function, 
 
 ```{r artcohor3, include = TRUE, echo = TRUE}
 # Estimate the Vaccinef Effectiveness (VE)
-ve2 <- effectiveness(vaccineff_data_matched, at = 180)
+ve2 <- estimate_vaccineff(vaccineff_data_matched, at = 180)
 
 # Print summary of VE
 summary(ve2)
@@ -168,7 +168,7 @@ summary(vaccineff_data_matched2)
 
 
 # Estimate the Vaccinef Effectiveness (VE)
-ve3 <- effectiveness(vaccineff_data_matched2, at = 180)
+ve3 <- estimate_vaccineff(vaccineff_data_matched2, at = 180)
 
 # Print summary of VE
 summary(ve3)

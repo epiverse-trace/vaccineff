@@ -26,7 +26,7 @@ vaccineff_data <- make_vaccineff_data(
 )
 
 # avoid warnings from p_value in this test
-output <- capture_warnings(effectiveness(vaccineff_data, at = 180))
+output <- capture_warnings(estimate_vaccineff(vaccineff_data, at = 180))
 ve <- output$result
 
 # test to test default options

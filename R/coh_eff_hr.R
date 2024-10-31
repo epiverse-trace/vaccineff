@@ -9,7 +9,7 @@
 #' estimation of VE (CI95%), the p-value of the Schoenfeld test, and the log-log
 #' plot.
 #'
-#' @inheritParams effectiveness
+#' @inheritParams estimate_vaccineff
 #' @return VE (CI95%),
 #' output from `cox_model`,
 #' and output from `km_model`

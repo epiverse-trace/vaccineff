@@ -109,7 +109,7 @@ summary(vaccineff_data)
 plot_coverage(vaccineff_data)
 
 # Estimate the Vaccine Effectiveness at 90 days
-ve90 <- effectiveness(vaccineff_data, at = 90)
+ve90 <- estimate_vaccineff(vaccineff_data, at = 90)
 
 # Print summary of VE
 summary(ve90)

@@ -1,6 +1,6 @@
 #' @title Internal function to extract summary output from `{survival}` models.
 #'
-#' @inheritParams effectiveness
+#' @inheritParams estimate_vaccineff
 #' @param model `{survival}` object containing the model
 #' @return `data.frame` with survival data
 #' @keywords internal
@@ -16,7 +16,7 @@ extract_surv_model <- function(model, start_cohort, end_cohort) {
 
 #' @title Internal function to calculate Kaplan-Meier model and related metrics.
 #'
-#' @inheritParams effectiveness
+#' @inheritParams estimate_vaccineff
 #' @return `data.frame` with data from KM model:
 #' "time", "date", "strata",
 #' "n.risk", "n.event", "n.censor",
@@ -71,7 +71,7 @@ km_model <- function(data_set,
 
 #' @title Internal function to calculate Cox-PH model and related metrics.
 #'
-#' @inheritParams effectiveness
+#' @inheritParams estimate_vaccineff
 #' @return List with data from Cox model:
 #' hr - hazard ratio (CI95%)
 #' p_value

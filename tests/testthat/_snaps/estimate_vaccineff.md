@@ -1,4 +1,4 @@
-# `effectiveness`: at not null
+# `estimate_vaccineff`: at not null
 
     Code
       summ
@@ -10,7 +10,7 @@
       [5] "Schoenfeld test for Proportional Hazards assumption:"     
       [6] "p-value = 0.3187"                                         
 
-# `summary.effectiveness`: basic expectations
+# `summary.vaccineff`: basic expectations
 
     Code
       summ

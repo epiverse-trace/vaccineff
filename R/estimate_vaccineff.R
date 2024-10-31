@@ -19,7 +19,7 @@
 #' @param at Number of days at which VE is estimated from the beginning of the
 #' follow-up period. If NULL, effectiveness is estimated at the end of the
 #' study, assigned as `end_cohort`. Default is NULL.
-#' @return Object of the class `effectiveness`: a list with results from the
+#' @return Object of the class `vaccineff`: a list with results from the
 #' estimation of VE.
 #' `ve`: `data.frame` with VE(CI95%)
 #' `cox_model`: `survival` object with Cox model results
@@ -43,20 +43,20 @@
 #' )
 #'
 #' # Estimate the Vaccine Effectiveness (VE)
-#' ve <- effectiveness(vaccineff_data, 90)
+#' ve <-estimate_vaccineff(vaccineff_data, 90)
 #'
 #' # Print summary of VE
-#' summary(ve)
+#' summary(vaccineff)
 #'
 #' # Generate loglog plot to check proportional hazards
-#' plot(ve, type = "loglog")
+#' plot(vaccineff, type = "loglog")
 #'
 #' # Generate Survival plot
-#' plot(ve, type = "surv", percentage = FALSE, cumulative = FALSE)
+#' plot(vaccineff, type = "surv", percentage = FALSE, cumulative = FALSE)
 #' @export
 
-effectiveness <- function(vaccineff_data,
-                          at = NULL) {
+estimate_vaccineff <- function(vaccineff_data,
+                               at = NULL) {
 
   stopifnot("Input must be an object of class 'vaccineff_data'" =
       checkmate::test_class(vaccineff_data, "vaccineff_data")
@@ -81,7 +81,7 @@ effectiveness <- function(vaccineff_data,
     at = at
   )
 
-  eff_obj <- coh_eff_hr(
+  vaccineff <- coh_eff_hr(
     data_set = data_set,
     outcome_status_col = "outcome_status",
     time_to_event_col = "time_to_event",
@@ -92,38 +92,32 @@ effectiveness <- function(vaccineff_data,
     end_cohort = vaccineff_data$end_cohort
   )
   # Estimation at
-  eff_obj$at <- at
-  # effectiveness object
-  class(eff_obj) <- "effectiveness"
+  vaccineff$at <- at
+  # vaccineff object
+  class(vaccineff) <- "vaccineff"
 
   ## return
-  return(eff_obj)
+  return(vaccineff)
 }
 
 #' @title Summarize VE Results
 #'
-#' @description Summarizes the results of `effectiveness`.
+#' @description Summarizes the results of `vaccineff`.
 #'
-#' @param object Object of the class `effectiveness`.
+#' @param object Object of the class `vaccineff`.
 #' @param ... Additional arguments passed to other functions.
-#' @return Summary of the results from effectiveness.
+#' @return Summary of the results from `estimate_vaccineff`.
 #' @export
 
-summary.effectiveness <- function(object, ...) {
-  # Check if the input object is of class "effectiveness"
-  stopifnot("Input must be an object of class 'effectiveness'" =
-      checkmate::test_class(object, "effectiveness")
+summary.vaccineff <- function(object, ...) {
+  # Check if the input object is of class "vaccineff"
+  stopifnot("Input must be an object of class 'vaccineff'" =
+      checkmate::test_class(object, "vaccineff")
   )
-  if (!is.null(object$at)) {
-    cat(
-      sprintf("Vaccine Effectiveness at %i days computed as VE = 1 - HR:\n",
-              object$at)
-    )
-  } else {
-    cat(
-      "Vaccine Effectiveness at the end of study computed as VE = 1 - HR:\n"
-    )
-  }
+  cat(
+    sprintf("Vaccine Effectiveness at %i days computed as VE = 1 - HR:\n",
+            object$at)
+  )
 
   print(object$ve)
   cat("\nSchoenfeld test for Proportional Hazards assumption:\n")
@@ -139,28 +133,28 @@ summary.effectiveness <- function(object, ...) {
 #' @title Function for Extracting Vaccine Effectiveness Plot
 #'
 #' @description This function creates plots from an object of class
-#' `effectiveness`. It returns a Log-Log plot when `type = "loglog"`,
+#' `vaccineff`. It returns a Log-Log plot when `type = "loglog"`,
 #' or a Survival curve when `type = "surv"`. Survival plots can be
 #' shown as cumulative incidence (`cumulative = TRUE`), and using
 #' percentages (`percentage = TRUE`).
 #'
-#' @param x Object of class `effectiveness`.
+#' @param x Object of class `vaccineff`.
 #' @param type Type of plot. Options are `loglog` and `surv`.
 #' @param cumulative If `TRUE`, the survival curve is shown as cumulative
 #' incidence.
 #' @param percentage If `TRUE`, results are shown on a percentage scale.
 #' @param ... Additional arguments passed to other functions.
-#' @return Plot extracted from `effectiveness`.
+#' @return Plot extracted from `vaccineff`.
 #' @export
 
-plot.effectiveness <- function(x,
-                               type = c("loglog", "surv"),
-                               cumulative = FALSE,
-                               percentage = FALSE,
-                               ...) {
-  # Check if the input object is of class "effectiveness"
-  stopifnot("Input must be an object of class 'effectiveness'" =
-      checkmate::test_class(x, "effectiveness")
+plot.vaccineff <- function(x,
+                           type = c("loglog", "surv"),
+                           cumulative = FALSE,
+                           percentage = FALSE,
+                           ...) {
+  # Check if the input object is of class "vaccineff"
+  stopifnot("Input must be an object of class 'vaccineff'" =
+      checkmate::test_class(x, "vaccineff")
   )
   # Check plot type options
   type <- match.arg(type)

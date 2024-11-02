@@ -125,7 +125,7 @@ summary(vaccineff_data_matched)
 ```
 
 In the output of `vaccineff_data_matched`, the user can check the differences between the unmatched and matched cohorts using standardized mean difference (SMD) to measure the distance between the unvaccinated and vaccinated individuals. In our example, SMD for age and sex is 0 because an exact IMP was run, see the results in the balance matched output. The number of unmatched individuals (removed) from the analysis is also reported. In this example, out of a total of 62743 unvaccinated individuals and 37257 vaccinated individuals, the IMP procedure was able to match 27612 pairs considering the characteristics of the individuals and the time of exposure.
-Now, using `the vaccineff_data_matched` object in the `effectiveness` function, the VE is estimated.
+Now, using `the vaccineff_data_matched` object in the `estimate_vaccineff` function, the VE is estimated.
 
 ```{r artcohor3, include = TRUE, echo = TRUE}
 # Estimate the Vaccinef Effectiveness (VE)

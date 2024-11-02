@@ -4,7 +4,7 @@
 \alias{estimate_vaccineff}
 \title{Estimate Vaccine Effectiveness (VE)}
 \usage{
-effectiveness(vaccineff_data, at)
+estimate_vaccineff(vaccineff_data, at)
 }
 \arguments{
 \item{vaccineff_data}{Object of the class \code{vaccineff_data} with
@@ -54,7 +54,7 @@ vaccineff_data <- make_vaccineff_data(data_set = cohortdata,
 )
 
 # Estimate the Vaccine Effectiveness (VE)
-vaccineff <- estimate_vaccineff(vaccineff_data, 90)
+ve <-estimate_vaccineff(vaccineff_data, 90)
 
 # Print summary of VE
 summary(vaccineff)

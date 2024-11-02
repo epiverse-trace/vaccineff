@@ -54,8 +54,8 @@
 #' plot(vaccineff, type = "surv", percentage = FALSE, cumulative = FALSE)
 #' @export
 
-effectiveness <- function(vaccineff_data,
-                          at) {
+estimate_vaccineff <- function(vaccineff_data,
+                               at) {
 
   stopifnot("Input must be an object of class 'vaccineff_data'" =
       checkmate::test_class(vaccineff_data, "vaccineff_data")

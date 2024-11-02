@@ -1,34 +1,27 @@
 #' @title Plot Log-Log Test for Proportional Hazards Hypothesis
 #'
-#' @description This function uses the return from the Kaplan-Meier model
-#' to create a log-log plot. It calculates log(-log(Survival Probability))
-#' and log(Time).
+#' @description This function uses the return from the Cox model
+#' to create a log-log plot.
 #' @importFrom rlang .data
-#' @param km Kaplan-Meier estimation created with `km_model`.
+#' @param cox_model_prediction Prediction from Cox model.
 #' @return Log-log plot.
 #' @keywords internal
 
-plot_loglog <- function(km) {
-  # Calculate log-variables
-  km$loglog <- log(-log(km$surv))
-  km$logtime <- log(km$time)
-
+plot_loglog <- function(cox_model_prediction) {
   # strata levels were defined as order actors to extract like this
-  vaccinated_status <- levels(km$strata)[1]
-  unvaccinated_status <- levels(km$strata)[2]
+  vaccinated_status <- levels(cox_model_prediction$strata)[1]
+  unvaccinated_status <- levels(cox_model_prediction$strata)[2]
   # Plot colors
   vaccinated_color <- "steelblue"
   unvaccinated_color <- "darkred"
-
-  # Plot
-  plt <- ggplot2::ggplot(data = km) +
+  plt <- ggplot2::ggplot(data = cox_model_prediction) +
     ggplot2::geom_step(ggplot2::aes(x = .data$logtime,
                                     y = .data$loglog,
                                     color = .data$strata)
     ) +
     ggplot2::theme_classic() +
     ggplot2::labs(x = "Log[Time to event] (Days)",
-                  y = "Log[-Log[Surv.]]") +
+                  y = "-Log[-Log[Surv.]]") +
     ggplot2::labs(colour = "Vaccine Status") +
     ggplot2::scale_color_manual(
       name = "Vaccine Status",

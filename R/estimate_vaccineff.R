@@ -178,7 +178,7 @@ plot.vaccineff <- function(x,
   )
 
   if (type == "loglog") {
-    plt <- plot_loglog(x$kaplan_meier)
+    plt <- plot_loglog(x$cox_model_prediction)
   } else if (type == "surv") {
     plt <- plot_survival(x$kaplan_meier,
       percentage = percentage,

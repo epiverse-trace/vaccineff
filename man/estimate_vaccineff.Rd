@@ -4,15 +4,14 @@
 \alias{estimate_vaccineff}
 \title{Estimate Vaccine Effectiveness (VE)}
 \usage{
-estimate_vaccineff(vaccineff_data, at = NULL)
+effectiveness(vaccineff_data, at)
 }
 \arguments{
 \item{vaccineff_data}{Object of the class \code{vaccineff_data} with
 vaccineff data.}
 
 \item{at}{Number of days at which VE is estimated from the beginning of the
-follow-up period. If NULL, effectiveness is estimated at the end of the
-study, assigned as \code{end_cohort}. Default is NULL.}
+follow-up period.}
 }
 \value{
 Object of the class \code{vaccineff}: a list with results from the

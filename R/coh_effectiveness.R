@@ -17,8 +17,7 @@
 #' @param vaccineff_data Object of the class `vaccineff_data` with
 #' vaccineff data.
 #' @param at Number of days at which VE is estimated from the beginning of the
-#' follow-up period. If NULL, effectiveness is estimated at the end of the
-#' study, assigned as `end_cohort`. Default is NULL.
+#' follow-up period.
 #' @return Object of the class `effectiveness`: a list with results from the
 #' estimation of VE.
 #' `ve`: `data.frame` with VE(CI95%)
@@ -56,7 +55,7 @@
 #' @export
 
 effectiveness <- function(vaccineff_data,
-                          at = NULL) {
+                          at) {
 
   stopifnot("Input must be an object of class 'vaccineff_data'" =
       checkmate::test_class(vaccineff_data, "vaccineff_data")

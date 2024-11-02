@@ -32,7 +32,7 @@ test_that("`estimate_vaccineff`: basic expectations", {
   )
 
   # returns `vaccineff` s3class object
-  ve <-estimate_vaccineff(vaccineff_data, at = 60)
+  ve <- estimate_vaccineff(vaccineff_data, at = 60)
   expect_s3_class(
     ve, "vaccineff"
   )
@@ -46,13 +46,13 @@ test_that("`estimate_vaccineff`: basic expectations", {
 test_that("`estimate_vaccineff`: at not null", {
 
   # runs without conditions
-  ve <-estimate_vaccineff(vaccineff_data, at = 90)
+  ve <- estimate_vaccineff(vaccineff_data, at = 90)
   summ <- capture.output(summary.vaccineff(ve))
   expect_snapshot(summ)
 })
 
 #### Tests for generic methods plot and summary ####
-ve <-estimate_vaccineff(vaccineff_data, at = 60)
+ve <- estimate_vaccineff(vaccineff_data, at = 60)
 
 # test for input validation of plot() and summary() methods
 test_that("`estimate_vaccineff`: test for input validation", {
@@ -80,7 +80,7 @@ test_that("`summary.vaccineff`: basic expectations", {
 test_that("`plot.vaccineff`: basic expectations", {
   # test for loglog plot
   plt <- plot.vaccineff(ve, type = "loglog")
-  expect_identical(plt$labels$y, "Log[-Log[Surv.]]")
+  expect_identical(plt$labels$y, "-Log[-Log[Surv.]]")
   plt <- plot.vaccineff(ve, type = "surv")
   expect_identical(plt$labels$y, "Survival probability")
   expect_s3_class(plt, "ggplot")

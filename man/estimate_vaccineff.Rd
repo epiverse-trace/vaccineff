@@ -57,11 +57,11 @@ vaccineff_data <- make_vaccineff_data(data_set = cohortdata,
 ve <-estimate_vaccineff(vaccineff_data, 90)
 
 # Print summary of VE
-summary(vaccineff)
+summary(ve)
 
 # Generate loglog plot to check proportional hazards
-plot(vaccineff, type = "loglog")
+plot(ve, type = "loglog")
 
 # Generate Survival plot
-plot(vaccineff, type = "surv", percentage = FALSE, cumulative = FALSE)
+plot(ve, type = "surv", percentage = FALSE, cumulative = FALSE)
 }

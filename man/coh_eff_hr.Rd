@@ -18,6 +18,7 @@ coh_eff_hr(
 \value{
 VE (CI95\%),
 output from \code{cox_model},
+prediction from \code{cox_model},
 and output from \code{km_model}
 }
 \description{

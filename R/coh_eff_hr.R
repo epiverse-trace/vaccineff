@@ -12,6 +12,7 @@
 #' @inheritParams estimate_vaccineff
 #' @return VE (CI95%),
 #' output from `cox_model`,
+#' prediction from `cox_model`,
 #' and output from `km_model`
 #' @keywords internal
 
@@ -25,7 +26,7 @@ coh_eff_hr <- function(data_set,
                        start_cohort,
                        end_cohort) {
 
-  # Kaplan-Meier model for loglog curve
+  # Kaplan-Meier model for survival curve
   km <- km_model(data_set = data_set,
     outcome_status_col = outcome_status_col,
     time_to_event_col = time_to_event_col,
@@ -45,6 +46,11 @@ coh_eff_hr <- function(data_set,
     unvaccinated_status = unvaccinated_status
   )
 
+  cx_prediction <- cox_model_prediction(cox_model = cx,
+    vaccinated_status = vaccinated_status,
+    unvaccinated_status = unvaccinated_status
+  )
+
   # Vaccine effectiveness = 1 - HR
   eff <- data.frame(
     VE = 1 - cx$hr,
@@ -57,6 +63,7 @@ coh_eff_hr <- function(data_set,
   ve <- list(
     ve = eff,
     cox_model = cx,
+    cox_model_prediction = cx_prediction,
     kaplan_meier = km
   )
 

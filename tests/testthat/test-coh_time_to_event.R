@@ -110,7 +110,7 @@ vaccineff_data <- make_vaccineff_data(data_set = sample_cohort,
 data_test <- vaccineff_data$matching$match
 tags <- linelist::tags(data_test)
 
-#### Basic expectations of `effectiveness()`
+#### Basic expectations of `get_time_to_event_at()`
 test_that("`get_time_to_event_at`: basic expectations", {
   data_trunc <- get_time_to_event_at(
     data_set = data_test,

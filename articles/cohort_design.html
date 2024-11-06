@@ -212,20 +212,20 @@ can also be visualized by the following code:</p>
 <span>  unvaccinated_status <span class="op">=</span> <span class="st">"u"</span>,</span>
 <span>  immunization_delay <span class="op">=</span> <span class="fl">15</span>,</span>
 <span>  end_cohort <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"2044-12-31"</span><span class="op">)</span>,</span>
-<span>  match <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  match <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Estimate the Vaccinef Effectiveness (VE)</span></span>
-<span><span class="va">ve1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/effectiveness.html">effectiveness</a></span><span class="op">(</span><span class="va">vaccineff_data</span><span class="op">)</span></span>
+<span><span class="va">ve1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/effectiveness.html">effectiveness</a></span><span class="op">(</span><span class="va">vaccineff_data</span>, at <span class="op">=</span> <span class="fl">180</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Print summary of VE</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">ve1</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Vaccine Effectiveness at the end of study computed as VE = 1 - HR:</span></span>
-<span><span class="co">#&gt;       VE lower.95 upper.95</span></span>
-<span><span class="co">#&gt; 1 0.6889   0.5464   0.7867</span></span>
+<span><span class="co">#&gt; Vaccine Effectiveness at 180 days computed as VE = 1 - HR:</span></span>
+<span><span class="co">#&gt;      VE lower.95 upper.95</span></span>
+<span><span class="co">#&gt; 1 0.647   0.4796   0.7606</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Schoenfeld test for Proportional Hazards assumption:</span></span>
-<span><span class="co">#&gt; p-value = 0.0042</span></span>
+<span><span class="co">#&gt; p-value = 0.001</span></span>
 <span><span class="co">#&gt; Warning in summary.effectiveness(ve1): </span></span>
 <span><span class="co">#&gt; p-value &lt; 0.05. Please check loglog plot for Proportional Hazards assumption</span></span>
 <span></span>
@@ -322,26 +322,29 @@ object, a report of exact IMP is displayed.</p>
 <span><span class="co">#&gt; Cohort start: 2044-03-25</span></span>
 <span><span class="co">#&gt; Cohort end: 2044-12-31</span></span>
 <span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; The start date of the cohort was defined as the mininimum immunization date. </span></span>
+<span><span class="co">#&gt; 79 registers were removed with outcomes before the start date.</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Nearest neighbors matching iteratively performed.</span></span>
-<span><span class="co">#&gt; Number of iterations: 4</span></span>
+<span><span class="co">#&gt; Number of iterations: 3</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Balance all:</span></span>
 <span><span class="co">#&gt;                u          v        smd</span></span>
-<span><span class="co">#&gt; age   30.9463685 48.3383525  0.8734091</span></span>
-<span><span class="co">#&gt; sex_F  0.4835599  0.5762139  0.1864447</span></span>
-<span><span class="co">#&gt; sex_M  0.5164401  0.4237861 -0.1864447</span></span>
+<span><span class="co">#&gt; age   30.9006989 48.3349260  0.8765144</span></span>
+<span><span class="co">#&gt; sex_F  0.4836599  0.5761684  0.1861500</span></span>
+<span><span class="co">#&gt; sex_M  0.5163401  0.4238316 -0.1861500</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Balance matched:</span></span>
-<span><span class="co">#&gt;                u          v smd</span></span>
-<span><span class="co">#&gt; age   44.0303129 44.0303129   0</span></span>
-<span><span class="co">#&gt; sex_F  0.5522237  0.5522237   0</span></span>
-<span><span class="co">#&gt; sex_M  0.4477763  0.4477763   0</span></span>
+<span><span class="co">#&gt;               u         v smd</span></span>
+<span><span class="co">#&gt; age   44.027708 44.027708   0</span></span>
+<span><span class="co">#&gt; sex_F  0.552175  0.552175   0</span></span>
+<span><span class="co">#&gt; sex_M  0.447825  0.447825   0</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Summary:</span></span>
 <span><span class="co">#&gt;               u     v</span></span>
-<span><span class="co">#&gt; All       62743 37257</span></span>
-<span><span class="co">#&gt; Matched   27612 27612</span></span>
-<span><span class="co">#&gt; Unmatched 35131  9645</span></span>
+<span><span class="co">#&gt; All       62668 37253</span></span>
+<span><span class="co">#&gt; Matched   27609 27609</span></span>
+<span><span class="co">#&gt; Unmatched 35059  9644</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; // tags: outcome_date_col:death_date, censoring_date_col:death_other_causes, vacc_date_col:vaccine_date_2, immunization_date_col:immunization_date, vacc_status_col:vaccine_status</span></span></code></pre></div>
 <p>In the output of <code>vaccineff_data_matched</code>, the user can
@@ -358,16 +361,16 @@ of the individuals and the time of exposure. Now, using
 <code>effectiveness</code> function, the VE is estimated.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Estimate the Vaccinef Effectiveness (VE)</span></span>
-<span><span class="va">ve2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/effectiveness.html">effectiveness</a></span><span class="op">(</span><span class="va">vaccineff_data_matched</span><span class="op">)</span></span>
+<span><span class="va">ve2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/effectiveness.html">effectiveness</a></span><span class="op">(</span><span class="va">vaccineff_data_matched</span>, at <span class="op">=</span> <span class="fl">180</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Print summary of VE</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">ve2</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Vaccine Effectiveness at the end of study computed as VE = 1 - HR:</span></span>
+<span><span class="co">#&gt; Vaccine Effectiveness at 180 days computed as VE = 1 - HR:</span></span>
 <span><span class="co">#&gt;       VE lower.95 upper.95</span></span>
-<span><span class="co">#&gt; 1 0.6671   0.4607   0.7945</span></span>
+<span><span class="co">#&gt; 1 0.6671   0.4544   0.7968</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Schoenfeld test for Proportional Hazards assumption:</span></span>
-<span><span class="co">#&gt; p-value = 0.0071</span></span>
+<span><span class="co">#&gt; p-value = 0.0179</span></span>
 <span><span class="co">#&gt; Warning in summary.effectiveness(ve2): </span></span>
 <span><span class="co">#&gt; p-value &lt; 0.05. Please check loglog plot for Proportional Hazards assumption</span></span>
 <span></span>
@@ -402,8 +405,8 @@ implemented:</p>
 <span>  immunization_delay <span class="op">=</span> <span class="fl">15</span>,</span>
 <span>  end_cohort <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"2044-12-31"</span><span class="op">)</span>,</span>
 <span>  match <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  exact <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"sex"</span><span class="op">)</span>,</span>
-<span>  nearest <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"age"</span> <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
+<span>  exact <span class="op">=</span> <span class="st">"sex"</span>,</span>
+<span>  nearest <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>age <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">vaccineff_data_matched2</span><span class="op">)</span></span>
@@ -411,41 +414,44 @@ implemented:</p>
 <span><span class="co">#&gt; Cohort start: 2044-03-25</span></span>
 <span><span class="co">#&gt; Cohort end: 2044-12-31</span></span>
 <span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; The start date of the cohort was defined as the mininimum immunization date. </span></span>
+<span><span class="co">#&gt; 79 registers were removed with outcomes before the start date.</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Nearest neighbors matching iteratively performed.</span></span>
-<span><span class="co">#&gt; Number of iterations: 5</span></span>
+<span><span class="co">#&gt; Number of iterations: 8</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Balance all:</span></span>
 <span><span class="co">#&gt;                u          v        smd</span></span>
-<span><span class="co">#&gt; age   30.9463685 48.3383525  0.8734091</span></span>
-<span><span class="co">#&gt; sex_F  0.4835599  0.5762139  0.1864447</span></span>
-<span><span class="co">#&gt; sex_M  0.5164401  0.4237861 -0.1864447</span></span>
+<span><span class="co">#&gt; age   30.9006989 48.3349260  0.8765144</span></span>
+<span><span class="co">#&gt; sex_F  0.4836599  0.5761684  0.1861500</span></span>
+<span><span class="co">#&gt; sex_M  0.5163401  0.4238316 -0.1861500</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Balance matched:</span></span>
 <span><span class="co">#&gt;                u          v       smd</span></span>
-<span><span class="co">#&gt; age   42.2661003 47.7848691 0.3002708</span></span>
-<span><span class="co">#&gt; sex_F  0.5700968  0.5700968 0.0000000</span></span>
-<span><span class="co">#&gt; sex_M  0.4299032  0.4299032 0.0000000</span></span>
+<span><span class="co">#&gt; age   42.2583756 47.8234241 0.3025884</span></span>
+<span><span class="co">#&gt; sex_F  0.5697047  0.5697047 0.0000000</span></span>
+<span><span class="co">#&gt; sex_M  0.4302953  0.4302953 0.0000000</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Summary:</span></span>
 <span><span class="co">#&gt;               u     v</span></span>
-<span><span class="co">#&gt; All       62743 37257</span></span>
-<span><span class="co">#&gt; Matched   36257 36257</span></span>
-<span><span class="co">#&gt; Unmatched 26486  1000</span></span>
+<span><span class="co">#&gt; All       62668 37253</span></span>
+<span><span class="co">#&gt; Matched   36296 36296</span></span>
+<span><span class="co">#&gt; Unmatched 26372   957</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; // tags: outcome_date_col:death_date, censoring_date_col:death_other_causes, vacc_date_col:vaccine_date_2, immunization_date_col:immunization_date, vacc_status_col:vaccine_status</span></span>
 <span></span>
 <span></span>
 <span><span class="co"># Estimate the Vaccinef Effectiveness (VE)</span></span>
-<span><span class="va">ve3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/effectiveness.html">effectiveness</a></span><span class="op">(</span><span class="va">vaccineff_data_matched2</span><span class="op">)</span></span>
+<span><span class="va">ve3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/effectiveness.html">effectiveness</a></span><span class="op">(</span><span class="va">vaccineff_data_matched2</span>, at <span class="op">=</span> <span class="fl">180</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Print summary of VE</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">ve3</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Vaccine Effectiveness at the end of study computed as VE = 1 - HR:</span></span>
+<span><span class="co">#&gt; Vaccine Effectiveness at 180 days computed as VE = 1 - HR:</span></span>
 <span><span class="co">#&gt;       VE lower.95 upper.95</span></span>
-<span><span class="co">#&gt; 1 0.7959   0.6912   0.8651</span></span>
+<span><span class="co">#&gt; 1 0.8138   0.7146   0.8785</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Schoenfeld test for Proportional Hazards assumption:</span></span>
-<span><span class="co">#&gt; p-value = 0.005</span></span>
+<span><span class="co">#&gt; p-value = 0.0138</span></span>
 <span><span class="co">#&gt; Warning in summary.effectiveness(ve3): </span></span>
 <span><span class="co">#&gt; p-value &lt; 0.05. Please check loglog plot for Proportional Hazards assumption</span></span>
 <span></span>

@@ -11,7 +11,6 @@
 <url><loc>https://epiverse-trace.github.io/vaccineff/index.html</loc></url>
 <url><loc>https://epiverse-trace.github.io/vaccineff/news/index.html</loc></url>
 <url><loc>https://epiverse-trace.github.io/vaccineff/reference/adjust_exposition.html</loc></url>
-<url><loc>https://epiverse-trace.github.io/vaccineff/reference/adjust_time_to_event.html</loc></url>
 <url><loc>https://epiverse-trace.github.io/vaccineff/reference/balance_summary.html</loc></url>
 <url><loc>https://epiverse-trace.github.io/vaccineff/reference/capture_warnings.html</loc></url>
 <url><loc>https://epiverse-trace.github.io/vaccineff/reference/check_dataset.html</loc></url>
@@ -23,12 +22,14 @@
 <url><loc>https://epiverse-trace.github.io/vaccineff/reference/effectiveness.html</loc></url>
 <url><loc>https://epiverse-trace.github.io/vaccineff/reference/extract_surv_model.html</loc></url>
 <url><loc>https://epiverse-trace.github.io/vaccineff/reference/get_age_group.html</loc></url>
+<url><loc>https://epiverse-trace.github.io/vaccineff/reference/get_censoring_after_match.html</loc></url>
 <url><loc>https://epiverse-trace.github.io/vaccineff/reference/get_dataset.html</loc></url>
 <url><loc>https://epiverse-trace.github.io/vaccineff/reference/get_dataset.match.html</loc></url>
+<url><loc>https://epiverse-trace.github.io/vaccineff/reference/get_exposition_time.html</loc></url>
 <url><loc>https://epiverse-trace.github.io/vaccineff/reference/get_immunization_date.html</loc></url>
 <url><loc>https://epiverse-trace.github.io/vaccineff/reference/get_immunization_dose.html</loc></url>
 <url><loc>https://epiverse-trace.github.io/vaccineff/reference/get_immunization_vaccine.html</loc></url>
-<url><loc>https://epiverse-trace.github.io/vaccineff/reference/get_time_to_event.html</loc></url>
+<url><loc>https://epiverse-trace.github.io/vaccineff/reference/get_time_to_event_at.html</loc></url>
 <url><loc>https://epiverse-trace.github.io/vaccineff/reference/index.html</loc></url>
 <url><loc>https://epiverse-trace.github.io/vaccineff/reference/iterate_match.html</loc></url>
 <url><loc>https://epiverse-trace.github.io/vaccineff/reference/km_model.html</loc></url>
@@ -43,13 +44,12 @@
 <url><loc>https://epiverse-trace.github.io/vaccineff/reference/plot_loglog.html</loc></url>
 <url><loc>https://epiverse-trace.github.io/vaccineff/reference/plot_survival.html</loc></url>
 <url><loc>https://epiverse-trace.github.io/vaccineff/reference/rematch_.html</loc></url>
-<url><loc>https://epiverse-trace.github.io/vaccineff/reference/set_event_status.html</loc></url>
 <url><loc>https://epiverse-trace.github.io/vaccineff/reference/set_status.html</loc></url>
 <url><loc>https://epiverse-trace.github.io/vaccineff/reference/static_match.html</loc></url>
 <url><loc>https://epiverse-trace.github.io/vaccineff/reference/summary.effectiveness.html</loc></url>
 <url><loc>https://epiverse-trace.github.io/vaccineff/reference/summary.match.html</loc></url>
 <url><loc>https://epiverse-trace.github.io/vaccineff/reference/summary.vaccineff_data.html</loc></url>
-<url><loc>https://epiverse-trace.github.io/vaccineff/reference/truncate_time_to_event.html</loc></url>
+<url><loc>https://epiverse-trace.github.io/vaccineff/reference/truncate_from_start_cohort.html</loc></url>
 <url><loc>https://epiverse-trace.github.io/vaccineff/reference/vaccineff-package.html</loc></url>
 </urlset>
 

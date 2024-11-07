@@ -162,8 +162,6 @@ vaccineff_data_matched2 <- make_vaccineff_data(
   match = TRUE,
   exact = "sex",
   nearest = c(age = 2)
-  exact = "sex",
-  nearest = c(age = 2)
 )
 
 summary(vaccineff_data_matched2)

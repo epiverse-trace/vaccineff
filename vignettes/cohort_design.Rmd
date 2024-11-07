@@ -61,7 +61,6 @@ vaccineff_data <- make_vaccineff_data(
   immunization_delay = 15,
   end_cohort = as.Date("2044-12-31"),
   match = FALSE
-  match = FALSE
 )
 
 # Estimate the Vaccinef Effectiveness (VE)

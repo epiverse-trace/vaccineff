@@ -12,6 +12,7 @@ vaccineff data.}
 
 \item{at}{Number of days at which VE is estimated from the beginning of the
 follow-up period.}
+follow-up period.}
 }
 \value{
 Object of the class \code{vaccineff}: a list with results from the

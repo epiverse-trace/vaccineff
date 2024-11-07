@@ -63,6 +63,7 @@ estimate_vaccineff <- function(vaccineff_data,
 
   # Check numeric argument for at
   checkmate::test_integerish(at, lower = 0, null.ok = FALSE)
+  checkmate::test_integerish(at, lower = 0, null.ok = FALSE)
 
   if (!is.null(vaccineff_data$matching)) {
     data_set <- vaccineff_data$matching$match
@@ -72,6 +73,13 @@ estimate_vaccineff <- function(vaccineff_data,
 
   tags <- linelist::tags(data_set)
 
+  data_set <- get_time_to_event_at(
+    data_set = data_set,
+    outcome_date_col = tags$outcome_date_col,
+    censoring_date_col = tags$censoring_date_col,
+    end_cohort = vaccineff_data$end_cohort,
+    at = at
+  )
   data_set <- get_time_to_event_at(
     data_set = data_set,
     outcome_date_col = tags$outcome_date_col,

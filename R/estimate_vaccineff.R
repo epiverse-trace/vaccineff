@@ -63,7 +63,6 @@ estimate_vaccineff <- function(vaccineff_data,
 
   # Check numeric argument for at
   checkmate::test_integerish(at, lower = 0, null.ok = FALSE)
-  checkmate::test_integerish(at, lower = 0, null.ok = FALSE)
 
   if (!is.null(vaccineff_data$matching)) {
     data_set <- vaccineff_data$matching$match

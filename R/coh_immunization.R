@@ -27,16 +27,14 @@
 #' @param data_set `data.frame` with cohort information.
 #' @param outcome_date_col Name of the column that contains the outcome dates.
 #' @param censoring_date_col Name of the column that contains the censoring
-#' date. NULL by default.
+#' date.
 #' @param immunization_delay Characteristic time in days before the patient
 #' is considered immune.
 #' @param vacc_date_col Name of the column(s) that contain the vaccine dates.
 #' @param vacc_name_col Name of the column(s) that contain custom vaccine
 #' names for the vaccines (e.g. brand name, type of vaccine)
 #' @param vaccinated_status Status assigned to the vaccinated population.
-#' Default is `v`.
 #' @param unvaccinated_status Status assigned to the unvaccinated population.
-#' Default is `u`.
 #' @param end_cohort End date of the study.
 #' @param take_first `FALSE`: takes the latest vaccine date. `TRUE`: takes the
 #' earliest vaccine date.
@@ -46,100 +44,19 @@
 
 make_immunization <- function(data_set,
                               outcome_date_col,
-                              censoring_date_col = NULL,
+                              censoring_date_col,
                               vacc_date_col,
-                              vacc_name_col = NULL,
-                              vaccinated_status = "v",
-                              unvaccinated_status = "u",
-                              immunization_delay = 0,
+                              vacc_name_col,
+                              vaccinated_status,
+                              unvaccinated_status,
+                              immunization_delay,
                               end_cohort,
                               take_first = FALSE) {
-  # check inputs
-  checkmate::assert_data_frame(
-    data_set,
-    min.rows = 1L
-  )
-  checkmate::assert_string(
-    outcome_date_col
-  )
-  checkmate::assert_character(
-    vacc_date_col,
-    min.len = 1L
-  )
-
-  # check data has expected column names
-  checkmate::assert_names(
-    names(data_set),
-    must.include = c(outcome_date_col, vacc_date_col)
-  )
-
-  # check if date columns are date type
-  checkmate::assert_date(
-    data_set[[outcome_date_col]]
-  )
-  for (i in seq_along(vacc_date_col)) {
-    checkmate::assert_date(
-      data_set[[vacc_date_col[i]]]
-    )
-  }
-
-  # check outcome and immunization delay
-  stopifnot(
-    "Please provide a non-null integer number greater or equal than 0
-    in `immunization_delay`. Use round(`immunization_delay`,0)" =
-      checkmate::test_integerish(immunization_delay, lower = 0, null.ok = FALSE)
-  )
-
-  # expect end cohort is a date
-  checkmate::assert_date(
-    end_cohort, any.missing = FALSE, len = 1
-  )
-
-  # check take_first
-  checkmate::assert_logical(
-    take_first,
-    len = 1L
-  )
-
-  checkmate::assert_string(censoring_date_col, null.ok = TRUE)
-  checkmate::assert_names(
-    colnames(data_set),
-    must.include = censoring_date_col
-  )
-  # check censoring_date_col if provided
-  if (!is.null(censoring_date_col)) {
-    checkmate::assert_date(
-      data_set[[censoring_date_col]]
-    )
-  }
-
-  # check vacc_name_col if provided
-  checkmate::assert_character(
-    vacc_name_col,
-    min.len = length(vacc_date_col),
-    null.ok = TRUE
-  )
-  checkmate::assert_names(
-    names(data_set),
-    must.include = c(vacc_name_col)
-  )
-
-  # warn on year of cohort end date date
-  max_year <- 2100 # a plausible maximum year
-  end_year <- as.numeric(format(end_cohort, "%Y"))
-  if (end_year > max_year) {
-    warning(
-      sprintf(
-        "`end_cohort` has a date with year > %s, please check the date!",
-        as.character(max_year)
-      )
-    )
-  }
-
   # get immunization date
   data_set$immunization_date <- get_immunization_date(
     data_set = data_set,
     outcome_date_col = outcome_date_col,
+    censoring_date_col = censoring_date_col,
     immunization_delay = immunization_delay,
     vacc_date_col = vacc_date_col,
     end_cohort = end_cohort,
@@ -196,7 +113,7 @@ make_immunization <- function(data_set,
 #' @keywords internal
 get_immunization_date <- function(data_set,
                                   outcome_date_col,
-                                  censoring_date_col = NULL,
+                                  censoring_date_col,
                                   immunization_delay,
                                   vacc_date_col,
                                   end_cohort,

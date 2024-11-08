@@ -18,7 +18,7 @@ get_time_to_event_at(
 \item{outcome_date_col}{Name of the column that contains the outcome dates.}
 
 \item{censoring_date_col}{Name of the column that contains the censoring
-date. NULL by default.}
+date.}
 
 \item{end_cohort}{End date of the study.}
 

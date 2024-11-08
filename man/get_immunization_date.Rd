@@ -7,7 +7,7 @@
 get_immunization_date(
   data_set,
   outcome_date_col,
-  censoring_date_col = NULL,
+  censoring_date_col,
   immunization_delay,
   vacc_date_col,
   end_cohort,
@@ -20,7 +20,7 @@ get_immunization_date(
 \item{outcome_date_col}{Name of the column that contains the outcome dates.}
 
 \item{censoring_date_col}{Name of the column that contains the censoring
-date. NULL by default.}
+date.}
 
 \item{immunization_delay}{Characteristic time in days before the patient
 is considered immune.}

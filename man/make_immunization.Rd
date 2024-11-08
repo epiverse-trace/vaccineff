@@ -7,12 +7,12 @@
 make_immunization(
   data_set,
   outcome_date_col,
-  censoring_date_col = NULL,
+  censoring_date_col,
   vacc_date_col,
-  vacc_name_col = NULL,
-  vaccinated_status = "v",
-  unvaccinated_status = "u",
-  immunization_delay = 0,
+  vacc_name_col,
+  vaccinated_status,
+  unvaccinated_status,
+  immunization_delay,
   end_cohort,
   take_first = FALSE
 )
@@ -23,18 +23,16 @@ make_immunization(
 \item{outcome_date_col}{Name of the column that contains the outcome dates.}
 
 \item{censoring_date_col}{Name of the column that contains the censoring
-date. NULL by default.}
+date.}
 
 \item{vacc_date_col}{Name of the column(s) that contain the vaccine dates.}
 
 \item{vacc_name_col}{Name of the column(s) that contain custom vaccine
 names for the vaccines (e.g. brand name, type of vaccine)}
 
-\item{vaccinated_status}{Status assigned to the vaccinated population.
-Default is \code{v}.}
+\item{vaccinated_status}{Status assigned to the vaccinated population.}
 
-\item{unvaccinated_status}{Status assigned to the unvaccinated population.
-Default is \code{u}.}
+\item{unvaccinated_status}{Status assigned to the unvaccinated population.}
 
 \item{immunization_delay}{Characteristic time in days before the patient
 is considered immune.}

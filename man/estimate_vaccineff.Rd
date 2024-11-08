@@ -54,7 +54,7 @@ vaccineff_data <- make_vaccineff_data(data_set = cohortdata,
 )
 
 # Estimate the Vaccine Effectiveness (VE)
-ve <-estimate_vaccineff(vaccineff_data, 90)
+ve <- estimate_vaccineff(vaccineff_data, 90)
 
 # Print summary of VE
 summary(ve)

@@ -42,7 +42,7 @@
 #' )
 #'
 #' # Estimate the Vaccine Effectiveness (VE)
-#' ve <-estimate_vaccineff(vaccineff_data, 90)
+#' ve <- estimate_vaccineff(vaccineff_data, 90)
 #'
 #' # Print summary of VE
 #' summary(ve)
@@ -72,6 +72,13 @@ estimate_vaccineff <- function(vaccineff_data,
 
   tags <- linelist::tags(data_set)
 
+  data_set <- get_time_to_event_at(
+    data_set = data_set,
+    outcome_date_col = tags$outcome_date_col,
+    censoring_date_col = tags$censoring_date_col,
+    end_cohort = vaccineff_data$end_cohort,
+    at = at
+  )
   data_set <- get_time_to_event_at(
     data_set = data_set,
     outcome_date_col = tags$outcome_date_col,

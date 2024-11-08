@@ -1,7 +1,93 @@
-#### Tests for get_immunization_date()
+#### Tests for coh_immunization.R module ####
+#### Prepare data for all the tests ####
 data("cohortdata")
+start_cohort <- as.Date("2044-01-01")
+end_cohort <- as.Date("2044-12-31")
 
-# basic expectations
+#### Tests for make_immunization() ####
+# test for basic expectations
+test_that("`make_immunization`: basic expectations", {
+  # Create rows with information on immunization
+  cohortdata <- make_immunization(
+    data_set = cohortdata,
+    outcome_date_col = "death_date",
+    censoring_date_col = "death_other_causes",
+    immunization_delay = 14,
+    vacc_date_col = "vaccine_date_2",
+    vacc_name_col = NULL,
+    end_cohort = end_cohort,
+    vaccinated_status = "vaccinated",
+    unvaccinated_status = "unvaccinated"
+  )
+  expect_true(
+    all(c("immunization_date", "vaccine_status") %in% names(cohortdata))
+  )
+  # custom names for vaccine status
+  cohortdata <- make_immunization(
+    data_set = cohortdata,
+    outcome_date_col = "death_date",
+    censoring_date_col = "death_other_causes",
+    immunization_delay = 14,
+    vacc_date_col = "vaccine_date_2",
+    vacc_name_col = NULL,
+    end_cohort = end_cohort,
+    vaccinated_status = "vaccinated",
+    unvaccinated_status = "unvaccinated"
+  )
+
+  expect_true(
+    all(c("vaccinated", "unvaccinated") %in% cohortdata$vaccine_status)
+  )
+})
+
+# test for more than one vaccination column
+test_that("`make_immunization`: two vaccination columns", {
+  # Create rows with information on immunizing vaccine
+  cohortdata <- make_immunization(
+    data_set = cohortdata,
+    outcome_date_col = "death_date",
+    censoring_date_col = "death_other_causes",
+    immunization_delay = 14,
+    vacc_date_col = c("vaccine_date_1", "vaccine_date_2"),
+    vacc_name_col = NULL,
+    end_cohort = end_cohort,
+    vaccinated_status = "vaccinated",
+    unvaccinated_status = "unvaccinated"
+  )
+  expect_true(
+    all(c("immunization_date", "vaccine_status", "immunizing_vaccine") %in%
+          names(cohortdata))
+  )
+  expect_true(
+    all(c("vaccine_date_1", "vaccine_date_2") %in%
+          cohortdata$immunizing_vaccine)
+  )
+})
+
+test_that("`make_immunization`: vaccine names provided", {
+  # vaccine name provided
+  cohortdata <- make_immunization(
+    data_set = cohortdata,
+    outcome_date_col = "death_date",
+    censoring_date_col = "death_other_causes",
+    immunization_delay = 14,
+    vacc_date_col = "vaccine_date_1",
+    vacc_name_col = "vaccine_1",
+    end_cohort = end_cohort,
+    vaccinated_status = "v",
+    unvaccinated_status = "u"
+  )
+  expect_true(
+    "immunizing_vaccine_name" %in% names(cohortdata)
+  )
+  expect_true(
+    all(c("BRAND1", "BRAND2") %in%
+          cohortdata$immunizing_vaccine_name)
+  )
+})
+
+#### Tests for get_immunization_date() ####
+# Basic expectations
 test_that("`get_immunization_date`: Basic expectations", {
   # get immunization dates
   vax_date_col <- c("vaccine_date_1", "vaccine_date_2")
@@ -11,6 +97,7 @@ test_that("`get_immunization_date`: Basic expectations", {
   cohortdata$immunization <- get_immunization_date(
     data_set = cohortdata,
     outcome_date_col = "death_date",
+    censoring_date_col = NULL,
     immunization_delay = immunization_delay,
     vacc_date_col = vax_date_col,
     end_cohort = tf,
@@ -104,7 +191,7 @@ test_that("`get_immunization_date`: Basic expectations", {
 
 })
 
-# test for take_first = TRUE
+# Test for take_first = TRUE
 # always must return vaccine_date_1 if no outcome
 test_that("`get_immunization_date`: Take first vaccination", {
   # get immunization dates
@@ -115,6 +202,7 @@ test_that("`get_immunization_date`: Take first vaccination", {
   cohortdata$immunization <- get_immunization_date(
     data_set = cohortdata,
     outcome_date_col = "death_date",
+    censoring_date_col = NULL,
     immunization_delay = immunization_delay,
     vacc_date_col = vax_date_col,
     end_cohort = tf,
@@ -170,7 +258,7 @@ test_that("`get_immunization_date`: Take first vaccination", {
   )
 })
 
-# test coherence immunization date and end_cohort date
+# Test coherence immunization date and end_cohort date
 test_that("`get_immunization_date`: end_cohort > immunization", {
   date_format <- "%Y-%m-%d"
   t0 <- as.Date("2044-01-01", date_format)
@@ -181,6 +269,7 @@ test_that("`get_immunization_date`: end_cohort > immunization", {
   cohortdata$immunization <- get_immunization_date(
     data_set = cohortdata,
     outcome_date_col = "death_date",
+    censoring_date_col = NULL,
     immunization_delay = immunization_delay,
     vacc_date_col = c("vaccine_date_1", "vaccine_date_2"),
     end_cohort = tf,
@@ -196,8 +285,6 @@ test_that("`get_immunization_date`: end_cohort > immunization", {
 # Tests for censoring
 test_that("`get_immunization_date`: Censoring date provided", {
   # cohort start and end time
-  start_cohort <- as.Date("2044-01-01")
-  end_cohort <- as.Date("2044-12-31")
 
   # assign immunization date
   cohortdata$immunization_c <- get_immunization_date(
@@ -216,5 +303,79 @@ test_that("`get_immunization_date`: Censoring date provided", {
                            !is.na(cohortdata$immunization_c), ]
   expect_true(
     all(informed$immunization_c <= informed$death_other_causes)
+  )
+})
+
+#### Tests for get_immunization_date() ####
+# calculate immunization date
+cohortdata$immunization <- get_immunization_date(
+  data_set = cohortdata,
+  outcome_date_col = "death_date",
+  censoring_date_col = "death_other_causes",
+  immunization_delay = 14,
+  vacc_date_col = c("vaccine_date_1", "vaccine_date_2"),
+  end_cohort = as.Date("2044-12-31"),
+  take_first = FALSE
+)
+
+# get the immunization dose
+vacc_date_col <- c("vaccine_date_1", "vaccine_date_2")
+immunization_dose <- get_immunization_dose(
+  data_set = cohortdata,
+  immunization_date_col = "immunization",
+  vacc_date_col = vacc_date_col,
+  immunization_delay = 14
+)
+
+test_that("`immunization_dose`: Basic expectations", {
+  expect_vector(
+    immunization_dose,
+    ptype = character()
+  )
+  expect_length(
+    immunization_dose, nrow(cohortdata)
+  )
+  expect_setequal(
+    unique(immunization_dose),
+    c(vacc_date_col, NA)
+  )
+  expect_snapshot(
+    head(immunization_dose, 20)
+  )
+})
+
+#### Tests for get_immunization_vaccine() ####
+cohortdata$immunization <- get_immunization_date(
+  data_set = cohortdata,
+  outcome_date_col = "death_date",
+  censoring_date_col = "death_other_causes",
+  immunization_delay = 14,
+  vacc_date_col = c("vaccine_date_1", "vaccine_date_2"),
+  end_cohort = as.Date("2044-12-31"),
+  take_first = FALSE
+)
+
+which_vaccine <- get_immunization_vaccine(
+  data_set = cohortdata,
+  immunization_date_col = "immunization",
+  vacc_date_col = c("vaccine_date_1", "vaccine_date_2"),
+  vacc_name_col = c("vaccine_1", "vaccine_2"),
+  immunization_delay = 14
+)
+
+test_that("`immunization_vaccine`: Basic expectations", {
+  expect_vector(
+    which_vaccine, character()
+  )
+  expect_length(
+    which_vaccine,
+    nrow(cohortdata)
+  )
+  expect_setequal(
+    which_vaccine,
+    unique(cohortdata$vaccine_1, cohortdata$vaccine_2)
+  )
+  expect_snapshot(
+    head(which_vaccine, 30)
   )
 })

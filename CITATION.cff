@@ -8,7 +8,7 @@ message: 'To cite package "vaccineff" in publications use:'
 type: software
 license: MIT
 title: 'vaccineff: Estimate Vaccine Effectiveness Based on Different Study Designs'
-version: 0.0.4
+version: 0.0.4.9000
 abstract: Tools for estimating vaccine effectiveness and vaccine related metrics.
 authors:
 - family-names: Quevedo

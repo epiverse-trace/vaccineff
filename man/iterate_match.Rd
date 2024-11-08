@@ -31,26 +31,22 @@ removed cases. Default is NULL, which returns 0.}
 \item{outcome_date_col}{Name of the column that contains the outcome dates.}
 
 \item{censoring_date_col}{Name of the column that contains the censoring
-date. \code{NULL} by default.}
+date.}
 
 \item{immunization_date_col}{Name of the column that contains the
 immunization date to set the beginning of the follow-up period
-(\code{t0_follow_up}). Default is \code{immunization_date}.}
+(\code{t0_follow_up}).}
 
-\item{vacc_status_col}{Name of the column containing the vaccination.
-Default is \code{vaccine_status}.}
+\item{vacc_status_col}{Name of the column containing the vaccination.}
 
-\item{vaccinated_status}{Status assigned to the vaccinated population.
-Default is \code{v}.}
+\item{vaccinated_status}{Status assigned to the vaccinated population.}
 
-\item{unvaccinated_status}{Status assigned to the unvaccinated population.
-Default is \code{u}.}
+\item{unvaccinated_status}{Status assigned to the unvaccinated population.}
 
-\item{exact}{Name(s) of column(s) for \code{exact} matching. Default is \code{NULL}.}
+\item{exact}{Name(s) of column(s) for \code{exact} matching}
 
 \item{nearest}{Named vector with name(s) of column(s) for \code{nearest} matching
-and caliper(s) for each variable (e.g., \code{nearest = c("characteristic1" = n1, "characteristic2" = n2)}, where \code{n1} and \code{n2} are the calipers). Default is
-\code{NULL}.}
+and caliper(s) for each variable (e.g., \code{nearest = c("characteristic1" = n1, "characteristic2" = n2)}, where \code{n1} and \code{n2} are the calipers).}
 
 \item{start_cohort}{Start date of the study.}
 

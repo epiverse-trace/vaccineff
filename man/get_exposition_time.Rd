@@ -12,7 +12,7 @@ get_exposition_time(data_set, outcome_date_col, censoring_date_col, end_cohort)
 \item{outcome_date_col}{Name of the column that contains the outcome dates.}
 
 \item{censoring_date_col}{Name of the column that contains the censoring
-date. \code{NULL} by default.}
+date.}
 
 \item{end_cohort}{End date of the study.}
 }

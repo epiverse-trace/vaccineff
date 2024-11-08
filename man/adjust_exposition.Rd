@@ -19,7 +19,7 @@ adjust_exposition(
 \item{outcome_date_col}{Name of the column that contains the outcome dates.}
 
 \item{censoring_date_col}{Name of the column that contains the censoring
-date. \code{NULL} by default.}
+date.}
 
 \item{start_cohort}{Start date of the study.}
 

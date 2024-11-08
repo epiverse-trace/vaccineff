@@ -12,8 +12,7 @@ match_summary(all, matched, vacc_status_col)
 \item{matched}{\code{data.frame} with the matched cohort.
 calculate removed cases. Default is NULL, which returns 0.}
 
-\item{vacc_status_col}{Name of the column containing the vaccination.
-Default is \code{vaccine_status}.}
+\item{vacc_status_col}{Name of the column containing the vaccination.}
 }
 \value{
 Summary \code{data.frame} with counts by vaccine status for:

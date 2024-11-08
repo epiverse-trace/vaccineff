@@ -12,7 +12,7 @@ get_censoring_after_match(data_set, outcome_date_col, censoring_date_col)
 \item{outcome_date_col}{Name of the column that contains the outcome dates.}
 
 \item{censoring_date_col}{Name of the column that contains the censoring
-date. \code{NULL} by default.}
+date.}
 }
 \description{
 This function creates the censoring date of the pairs by

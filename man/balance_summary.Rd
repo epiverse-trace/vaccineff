@@ -17,19 +17,15 @@ balance_summary(
 \item{data_set}{\code{data.frame} to assess matching balance.}
 
 \item{nearest}{Named vector with name(s) of column(s) for \code{nearest} matching
-and caliper(s) for each variable (e.g., \code{nearest = c("characteristic1" = n1, "characteristic2" = n2)}, where \code{n1} and \code{n2} are the calipers). Default is
-\code{NULL}.}
+and caliper(s) for each variable (e.g., \code{nearest = c("characteristic1" = n1, "characteristic2" = n2)}, where \code{n1} and \code{n2} are the calipers).}
 
-\item{exact}{Name(s) of column(s) for \code{exact} matching. Default is \code{NULL}.}
+\item{exact}{Name(s) of column(s) for \code{exact} matching}
 
-\item{vacc_status_col}{Name of the column containing the vaccination.
-Default is \code{vaccine_status}.}
+\item{vacc_status_col}{Name of the column containing the vaccination.}
 
-\item{vaccinated_status}{Status assigned to the vaccinated population.
-Default is \code{v}.}
+\item{vaccinated_status}{Status assigned to the vaccinated population.}
 
-\item{unvaccinated_status}{Status assigned to the unvaccinated population.
-Default is \code{u}.}
+\item{unvaccinated_status}{Status assigned to the unvaccinated population.}
 }
 \value{
 Summary \code{data.frame} with the balance of each variable by

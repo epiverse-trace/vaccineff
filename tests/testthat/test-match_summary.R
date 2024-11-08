@@ -16,8 +16,11 @@ sample_cohort <- make_immunization(
   data_set = sample_cohort,
   outcome_date_col = "death_date",
   censoring_date_col = "death_other_causes",
-  immunization_delay = 14,
   vacc_date_col = "vaccine_date_2",
+  vacc_name_col = NULL,
+  vaccinated_status = "v",
+  unvaccinated_status = "u",
+  immunization_delay = 14,
   end_cohort = end_cohort
 )
 

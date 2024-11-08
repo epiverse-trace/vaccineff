@@ -22,10 +22,13 @@ immunization_delay <- 15
 # Create `data.frame` with information on immunization
 sample_cohort <- make_immunization(
   data_set = sample_cohort,
-  outcome_date_col = outcome_date_col,
-  censoring_date_col = censoring_date_col,
-  immunization_delay = immunization_delay,
-  vacc_date_col = vacc_date_col,
+  outcome_date_col = "death_date",
+  censoring_date_col = "death_other_causes",
+  vacc_date_col = "vaccine_date_2",
+  vacc_name_col = NULL,
+  vaccinated_status = "v",
+  unvaccinated_status = "u",
+  immunization_delay = 14,
   end_cohort = end_cohort
 )
 

@@ -1,5 +1,5 @@
-#### Tests for match_cohort()
-## prepare data
+#### Tests for coh_match.R module ####
+#### Prepare data for all the tests ####
 data("cohortdata")
 start_cohort <- as.Date("2044-01-01")
 end_cohort <- as.Date("2044-12-31")
@@ -16,8 +16,11 @@ sample_cohort <- make_immunization(
   data_set = sample_cohort,
   outcome_date_col = "death_date",
   censoring_date_col = "death_other_causes",
-  immunization_delay = 14,
   vacc_date_col = "vaccine_date_2",
+  vacc_name_col = NULL,
+  vaccinated_status = "v",
+  unvaccinated_status = "u",
+  immunization_delay = 14,
   end_cohort = end_cohort
 )
 

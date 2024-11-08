@@ -10,13 +10,12 @@ match_cohort(
   censoring_date_col,
   start_cohort,
   end_cohort,
-  method = "static",
-  nearest = NULL,
-  exact = NULL,
-  immunization_date_col = "immunization_date",
-  vacc_status_col = "vaccine_status",
-  vaccinated_status = "v",
-  unvaccinated_status = "u"
+  nearest,
+  exact,
+  immunization_date_col,
+  vacc_status_col,
+  vaccinated_status,
+  unvaccinated_status
 )
 }
 \arguments{
@@ -25,32 +24,26 @@ match_cohort(
 \item{outcome_date_col}{Name of the column that contains the outcome dates.}
 
 \item{censoring_date_col}{Name of the column that contains the censoring
-date. \code{NULL} by default.}
+date.}
 
 \item{start_cohort}{Start date of the study.}
 
 \item{end_cohort}{End date of the study.}
 
-\item{method}{Method to match the cohort. Default is \code{static}.}
-
 \item{nearest}{Named vector with name(s) of column(s) for \code{nearest} matching
-and caliper(s) for each variable (e.g., \code{nearest = c("characteristic1" = n1, "characteristic2" = n2)}, where \code{n1} and \code{n2} are the calipers). Default is
-\code{NULL}.}
+and caliper(s) for each variable (e.g., \code{nearest = c("characteristic1" = n1, "characteristic2" = n2)}, where \code{n1} and \code{n2} are the calipers).}
 
-\item{exact}{Name(s) of column(s) for \code{exact} matching. Default is \code{NULL}.}
+\item{exact}{Name(s) of column(s) for \code{exact} matching}
 
 \item{immunization_date_col}{Name of the column that contains the
 immunization date to set the beginning of the follow-up period
-(\code{t0_follow_up}). Default is \code{immunization_date}.}
+(\code{t0_follow_up}).}
 
-\item{vacc_status_col}{Name of the column containing the vaccination.
-Default is \code{vaccine_status}.}
+\item{vacc_status_col}{Name of the column containing the vaccination.}
 
-\item{vaccinated_status}{Status assigned to the vaccinated population.
-Default is \code{v}.}
+\item{vaccinated_status}{Status assigned to the vaccinated population.}
 
-\item{unvaccinated_status}{Status assigned to the unvaccinated population.
-Default is \code{u}.}
+\item{unvaccinated_status}{Status assigned to the unvaccinated population.}
 }
 \value{
 object of the class \code{match}. List with results from static match:

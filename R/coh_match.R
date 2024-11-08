@@ -26,24 +26,20 @@
 #' @param data_set `data.frame` with cohort information.
 #' @param outcome_date_col Name of the column that contains the outcome dates.
 #' @param censoring_date_col Name of the column that contains the censoring
-#' date. `NULL` by default.
+#' date.
 #' @param start_cohort Start date of the study.
 #' @param end_cohort End date of the study.
-#' @param method Method to match the cohort. Default is `static`.
-#' @param exact Name(s) of column(s) for `exact` matching. Default is `NULL`.
+#' @param exact Name(s) of column(s) for `exact` matching
 #' @param nearest Named vector with name(s) of column(s) for `nearest` matching
 #' and caliper(s) for each variable (e.g., `nearest = c("characteristic1" = n1,
-#' "characteristic2" = n2)`, where `n1` and `n2` are the calipers). Default is
-#' `NULL`.
+#' "characteristic2" = n2)`, where `n1` and `n2` are the calipers).
+#'
 #' @param immunization_date_col Name of the column that contains the
 #' immunization date to set the beginning of the follow-up period
-#' (`t0_follow_up`). Default is `immunization_date`.
+#' (`t0_follow_up`).
 #' @param vacc_status_col Name of the column containing the vaccination.
-#' Default is `vaccine_status`.
 #' @param vaccinated_status Status assigned to the vaccinated population.
-#' Default is `v`.
 #' @param unvaccinated_status Status assigned to the unvaccinated population.
-#' Default is `u`.
 #' @return object of the class `match`. List with results from static match:
 #' `match`: `data.frame` with adjusted cohort,
 #' `summary`: matching summary,
@@ -63,107 +59,28 @@ match_cohort <- function(data_set,
                          censoring_date_col,
                          start_cohort,
                          end_cohort,
-                         method = "static",
-                         nearest = NULL,
-                         exact = NULL,
-                         immunization_date_col = "immunization_date",
-                         vacc_status_col = "vaccine_status",
-                         vaccinated_status = "v",
-                         unvaccinated_status = "u") {
-  # input checking
-  checkmate::assert_data_frame(
-    data_set,
-    min.rows = 1, min.cols = 1
+                         nearest,
+                         exact,
+                         immunization_date_col,
+                         vacc_status_col,
+                         vaccinated_status,
+                         unvaccinated_status) {
+
+  match <- static_match(
+    data_set = data_set,
+    outcome_date_col = outcome_date_col,
+    censoring_date_col = censoring_date_col,
+    immunization_date_col = immunization_date_col,
+    vacc_status_col = vacc_status_col,
+    vaccinated_status = vaccinated_status,
+    unvaccinated_status = unvaccinated_status,
+    start_cohort = start_cohort,
+    end_cohort = end_cohort,
+    nearest = nearest,
+    exact = exact
   )
 
-  checkmate::assert_names(
-    names(data_set),
-    must.include = c(outcome_date_col, immunization_date_col, vacc_status_col)
-  )
-
-  checkmate::assert_date(
-    data_set[[outcome_date_col]]
-  )
-
-  checkmate::assert_date(
-    data_set[[immunization_date_col]]
-  )
-
-  checkmate::assert_character(vacc_status_col,
-    any.missing = FALSE, min.len = 1
-  )
-
-  checkmate::assert_names(
-    data_set[[vacc_status_col]],
-    must.include = c(vaccinated_status, unvaccinated_status)
-  )
-
-  #Checks of censoring_date_col if provided
-  checkmate::assert_string(censoring_date_col, null.ok = TRUE)
-  checkmate::assert_names(
-    colnames(data_set),
-    must.include = censoring_date_col
-  )
-  if (!is.null(censoring_date_col)) {
-    checkmate::assert_date(
-      data_set[[censoring_date_col]]
-    )
-  }
-
-  # `exact` and `nearest` cannot be NULL. At least one must be provided
-  stopifnot(
-    "`exact` and `nearest` cannot be NULL. At least one must be provided" =
-      (!missing(nearest) || !missing(exact))
-  )
-
-  # checks for `nearest`
-  checkmate::assert_numeric(
-    nearest,
-    any.missing = FALSE, min.len = 1, names = "named", null.ok = TRUE
-  )
-  checkmate::assert_names(
-    names(data_set),
-    must.include = names(nearest)
-  )
-
-  # checks for `exact`
-  checkmate::assert_character(exact,
-    any.missing = FALSE, min.len = 1, null.ok = TRUE
-  )
-  checkmate::assert_names(
-    names(data_set),
-    must.include = exact
-  )
-
-  # check date types
-  checkmate::assert_date(
-    start_cohort, any.missing = FALSE, len = 1
-  )
-  checkmate::assert_date(
-    end_cohort, any.missing = FALSE, len = 1
-  )
-
-  # check method
-  checkmate::assert_choice(
-    method, choices = "static"
-  )
-
-  if (method == "static") {
-    match <- static_match(
-      data_set = data_set,
-      outcome_date_col = outcome_date_col,
-      censoring_date_col = censoring_date_col,
-      immunization_date_col = immunization_date_col,
-      vacc_status_col = vacc_status_col,
-      vaccinated_status = vaccinated_status,
-      unvaccinated_status = unvaccinated_status,
-      start_cohort = start_cohort,
-      end_cohort = end_cohort,
-      nearest = nearest,
-      exact = exact
-    )
-    match_obj <- match
-  }
+  match_obj <- match
   class(match_obj) <- "match"
   return(match_obj)
 }

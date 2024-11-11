@@ -175,7 +175,7 @@ study period.</p>
 <p><code>vaccineff</code> package uses the number of days elapsed from
 the vaccine administration to the occurrence of the event to measure the
 length of follow-up.</p>
-<p><img src="https://raw.githubusercontent.com/epiverse-trace/vaccineff/main/inst/images/time-to-event1.png" class="rmarkdown-img" style="margin-left: 2.8em; margin-top: 0.8em; margin-bottom: 0.8em;" align="center" width="560"></p>
+<p><img src="https://raw.githubusercontent.com/epiverse-trace/vaccineff/main/inst/images/follow-up-unmatched.png" class="rmarkdown-img" style="margin-left: 2.8em; margin-top: 0.8em; margin-bottom: 0.8em;" align="center" width="560"></p>
 <div class="section level3">
 <h3 id="estimating-ve-without-iterative-matching-process">Estimating VE without iterative matching process<a class="anchor" aria-label="anchor" href="#estimating-ve-without-iterative-matching-process"></a>
 </h3>
@@ -274,7 +274,7 @@ death) before the immunization date of the vaccinated partner. This
 point is important because the follow-up start date for both subjects
 corresponds to the immunization date of the vaccinated subject plus the
 number of days required for the vaccine to have a protective effect:</p>
-<p><img src="https://raw.githubusercontent.com/epiverse-trace/vaccineff/main/inst/images/time-to-event2.png" class="rmarkdown-img" style="margin-left: 2.8em; margin-top: 0.8em; margin-bottom: 0.8em;" align="center" width="560"></p>
+<p><img src="https://raw.githubusercontent.com/epiverse-trace/vaccineff/main/inst/images/follow-up-matched.png" class="rmarkdown-img" style="margin-left: 2.8em; margin-top: 0.8em; margin-bottom: 0.8em;" align="center" width="560"></p>
 <p>For this reason, the algorithm iterates until the largest number of
 matched pairs with equivalent exposure time is obtained. At the end of
 the procedure, unvaccinated and vaccinated individuals who cannot be

@@ -80,7 +80,7 @@ test_that("`summary.vaccineff`: basic expectations", {
 test_that("`plot.vaccineff`: basic expectations", {
   # test for loglog plot
   plt <- plot.vaccineff(ve, type = "loglog")
-  expect_identical(plt$labels$y, "Log[-Log[Surv.]]")
+  expect_identical(plt$labels$y, "-Log[-Log[Surv.]]")
   plt <- plot.vaccineff(ve, type = "surv")
   expect_identical(plt$labels$y, "Survival probability")
   expect_s3_class(plt, "ggplot")

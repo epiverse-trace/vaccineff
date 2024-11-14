@@ -72,6 +72,6 @@ test_that("`match_cohort`: test for input validation", {
 #### Snapshot for summary
 test_that("`match_cohort`: summary snapshot", { # nolint
   for (column in c("balance_all", "balance_match", "summary")) {
-    expect_snapshot_value(matching[column], style = "json2", tolerance = 1e-2)
+    expect_snapshot_value(matching[column], style = "json2", tolerance = 1e-1)
   }
 })

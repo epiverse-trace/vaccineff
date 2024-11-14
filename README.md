@@ -77,9 +77,8 @@ To report a bug or to request a new feature please open an
 
 ## Contribute
 
-Contributions to *vaccineff* are welcomed. Please follow the [package
-contributing
-guide](https://github.com/epiverse-trace/vaccineff/blob/main/.github/CONTRIBUTING.md).
+Contributions to *vaccineff* are welcomed. Contributions are welcome via
+[pull requests](https://github.com/%7B%7B%20gh_repo%20%7D%7D/pulls).
 
 Contributors to the project include:
 

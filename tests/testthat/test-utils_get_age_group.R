@@ -1,5 +1,4 @@
-#### Tests for age group binning works
-
+#### Tests for utils_get_age_group.R module ####
 # load data
 data("cohortdata")
 

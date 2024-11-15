@@ -1,5 +1,4 @@
-#### Tests for iterate_match()
-## create test function
+#### Tests for handler_warnings.R module ####
 
 # Example function that generates warnings
 example_function <- function() {

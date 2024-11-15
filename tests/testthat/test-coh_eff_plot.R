@@ -1,7 +1,5 @@
-#### Tests for plot_survival()
-## This test uses directly the internal functions of the package
-## to avoid running the matching functions
-## prepare data
+#### Tests for coh_immunization.R module ####
+#### Prepare data for all the tests ####
 data("cohortdata")
 
 # sample cohort to make tests faster - take a bigger sample
@@ -20,15 +18,18 @@ vaccineff_data <- make_vaccineff_data(
   unvaccinated_status = "u",
   immunization_delay = 15,
   end_cohort = as.Date("2044-12-31"),
-  match = TRUE,
-  exact = c("age", "sex"),
-  nearest = NULL
+  match = FALSE
 )
 
 # avoid warnings from p_value in this test
 output <- capture_warnings(estimate_vaccineff(vaccineff_data, at = 180))
 ve <- output$result
 
+#### Tests for plot_loglog() ####
+# This test wil be added after refactoring plot_loglog
+# using Cox model prediction
+
+#### Tests for plot_survival() ####
 # test to test default options
 test_that("`plot_survival`: default params", {
   plt <- plot_survival(

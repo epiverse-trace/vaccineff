@@ -72,7 +72,7 @@ This function constructs an S3 object of the class
 to estimate the effectiveness.
 }
 \examples{
-donttest {
+\donttest{
 # Load example data
 data("cohortdata")
 

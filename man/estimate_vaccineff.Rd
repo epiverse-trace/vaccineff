@@ -36,7 +36,7 @@ model, and the Kaplan-Meier estimator. This object is compatible with
 \code{summary} and \code{plot} methods.
 }
 \examples{
-donttest{
+\donttest{
 # Load example data
 data("cohortdata")
 

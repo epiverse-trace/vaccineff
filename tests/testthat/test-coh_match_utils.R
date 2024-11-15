@@ -235,7 +235,7 @@ matching <- output$result
 # Snapshot for summary comparing only two dataframes
 test_that("`match_cohort`: summary snapshot", {
   # snapshot for summary
-  matched <- get_dataset.match(matching)
+  matched <- matching$match
   summary <- match_summary(all = sample_cohort_imm,
     matched = matched,
     vacc_status_col = "vaccine_status"

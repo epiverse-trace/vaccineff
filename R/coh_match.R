@@ -107,21 +107,3 @@ summary.match <- function(object, ...) {
   cat("\nSummary:\n")
   print(object$summary)
 }
-
-#' @title Function for Extracting Matched Dataset
-#'
-#' @description This function extracts the matched datasets generated
-#' by `match_cohort`.
-#'
-#' @param object Object of the class `match`.
-#' @param ... Additional arguments passed to other functions.
-#' @return `data.frame` extracted from `match_cohort`.
-#' @keywords internal
-
-get_dataset.match <- function(object, ...) {
-  # Check if the input object is of class "match"
-  stopifnot("Input must be an object of class 'match'" =
-      checkmate::test_class(object, "match")
-  )
-  return(object$match)
-}

@@ -1,8 +1,6 @@
-#### Tests for plot_coverage()
-
-## prepare data
+#### Tests for utils_coverage.R module ####
+#### Prepare data for all the tests ####
 data("cohortdata")
-
 # sample cohort to make tests faster - take a bigger sample
 sample_size <- 15000
 set.seed(123) # use fixed seed to avoid problems with snapshots
@@ -10,6 +8,9 @@ sample_indices <- sample(nrow(cohortdata), sample_size)
 sample_cohort <- cohortdata[sample_indices, ]
 rownames(sample_cohort) <- NULL
 
+#### Tests for plot_coverage()
+# Since plot_coverage and coh_coverage are meant to be used together
+# both are tested at the same time.
 vaccineff_data <- make_vaccineff_data(
   data_set = sample_cohort,
   outcome_date_col = "death_date",

@@ -24,6 +24,7 @@
 #' `cox_model`: `survival` object with Cox model results
 #' `kaplan_meier`: `survival` object with Kaplan-Meier estimator
 #' @examples
+#' donttest{
 #' # Load example data
 #' data("cohortdata")
 #'
@@ -52,6 +53,7 @@
 #'
 #' # Generate Survival plot
 #' plot(ve, type = "surv", percentage = FALSE, cumulative = FALSE)
+#' }
 #' @export
 
 estimate_vaccineff <- function(vaccineff_data,

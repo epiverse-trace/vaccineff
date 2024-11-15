@@ -36,6 +36,7 @@ model, and the Kaplan-Meier estimator. This object is compatible with
 \code{summary} and \code{plot} methods.
 }
 \examples{
+donttest{
 # Load example data
 data("cohortdata")
 
@@ -54,7 +55,7 @@ vaccineff_data <- make_vaccineff_data(data_set = cohortdata,
 )
 
 # Estimate the Vaccine Effectiveness (VE)
-ve <-estimate_vaccineff(vaccineff_data, 90)
+ve <- estimate_vaccineff(vaccineff_data, 90)
 
 # Print summary of VE
 summary(ve)
@@ -64,4 +65,5 @@ plot(ve, type = "loglog")
 
 # Generate Survival plot
 plot(ve, type = "surv", percentage = FALSE, cumulative = FALSE)
+}
 }

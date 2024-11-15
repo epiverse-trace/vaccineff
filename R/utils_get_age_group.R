@@ -38,15 +38,7 @@
 #' head(cohortdata)
 get_age_group <- function(data_set, col_age, max_val, min_val = 0, step) {
   # input checking
-  checkmate::assert_data_frame(
-    data_set,
-    min.rows = 1, min.cols = 1
-  )
-  checkmate::assert_string(col_age)
-  checkmate::assert_names(
-    names(data_set),
-    must.include = col_age
-  )
+  check_dataset(data_set = data_set, columns = col_age)
   checkmate::assert_int(min_val, lower = 0)
   checkmate::assert_int(max_val, lower = min_val)
   checkmate::assert_int(step, lower = 1, upper = max_val)

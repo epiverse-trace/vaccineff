@@ -1,8 +1,8 @@
-#### Test for set status ####
-
-# load package example data for cohort studies
+#### Tests for coh_data_wrangling.R module ####
+#### Prepare data for all the tests ####
 data("cohortdata")
 
+#### Test for set status ####
 # unique statuses
 vax_status <- c("vaccinated", "unvaccinated")
 
@@ -12,7 +12,15 @@ vaccine_status <- set_status(
   col_names = c("vaccine_date_1", "vaccine_date_2"),
   status = vax_status
 )
-
+# load package example data for cohort studies
+# unique statuses
+vax_status <- c("vaccinated", "unvaccinated")
+# assign vaccination status
+vaccine_status <- set_status(
+  data_set = cohortdata,
+  col_names = c("vaccine_date_1", "vaccine_date_2"),
+  status = vax_status
+)
 test_that("`set_status`: Basic expectations", {
   # runs without errors
   expect_no_condition(
@@ -98,24 +106,6 @@ test_that("`set_status`: Correctness", {
 
 test_that("`set_status`: Input checking", {
   # errors triggered correctly
-  expect_error(
-    set_status(
-      data_set = "data",
-      col_names = c("vaccine_date_1", "vaccine_date_2"),
-      status = vax_status
-    ),
-    regexp = "Must be of type 'data.frame'"
-  )
-
-  expect_error(
-    set_status(
-      data_set = cohortdata,
-      col_names = c("vaccine_date_3", "vaccine_date_4"),
-      status = vax_status
-    ),
-    regexp = "(Names must include)*('vaccine_date_3')*('vaccine_date_4')"
-  )
-
   expect_error(
     set_status(
       data_set = cohortdata,

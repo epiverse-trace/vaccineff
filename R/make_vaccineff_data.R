@@ -34,7 +34,7 @@
 #' characteristics of the study. `data.frames` are converted into an object of
 #' class `linelist` to easily handle with the data.
 #' @examples
-#'
+#' donttest {
 #' # Load example data
 #' data("cohortdata")
 #'
@@ -54,6 +54,7 @@
 #'
 #' # Print summary of data
 #' summary(vaccineff_data)
+#' }
 #' @export
 
 make_vaccineff_data <- function(data_set,

@@ -30,24 +30,13 @@ set_status <- function(data_set,
                        col_names,
                        operator = c("&", "|"),
                        status = c(1, 0)) {
-  # input checking
-  checkmate::assert_data_frame(
-    data_set,
-    min.rows = 1, min.cols = 1
-  )
-  checkmate::assert_character(col_names, any.missing = FALSE, min.len = 1)
-  checkmate::assert_names(
-    names(data_set),
-    must.include = col_names
-  )
 
-  # check the operator
+  # internal checks for developers
   operator <- match.arg(operator, several.ok = FALSE)
   checkmate::assert_string(
     operator,
     n.chars = 1L
   )
-
   # check the status vector
   checkmate::assert_vector(
     status,

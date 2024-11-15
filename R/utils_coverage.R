@@ -22,21 +22,7 @@ coh_coverage <- function(data_set,
                          vacc_date_col,
                          unit = c("day", "month", "year"),
                          date_interval = NULL) {
-  checkmate::assert_data_frame(
-    data_set,
-    min.rows = 1L
-  )
-  checkmate::assert_character(
-    vacc_date_col,
-    min.len = 1L
-  )
-  checkmate::assert_names(
-    colnames(data_set),
-    must.include = c(vacc_date_col)
-  )
-  checkmate::assert_date(
-    data_set[[vacc_date_col]]
-  )
+  # Sanity check for developers
   unit <- match.arg(unit, several.ok = FALSE)
   checkmate::assert_string(
     unit
@@ -49,9 +35,6 @@ coh_coverage <- function(data_set,
     start <- min(data_set[[vacc_date_col]], na.rm = TRUE)
     end <- max(data_set[[vacc_date_col]], na.rm = TRUE)
   } else {
-    checkmate::assert_date(
-      date_interval
-    )
     start <- date_interval[1]
     end <- date_interval[2]
   }
@@ -115,13 +98,19 @@ coh_coverage <- function(data_set,
 plot_coverage <- function(vaccineff_data,
                           date_interval = NULL,
                           cumulative = FALSE) {
+  # Due to an update on scales >1.3.0 unit = c("day", "month", "year")
+  # is now deprecated and fixed to "day"
+  unit <- "day"
   stopifnot("Input must be an object of class 'vaccineff_data'" =
       checkmate::test_class(vaccineff_data, "vaccineff_data")
   )
 
-
-  # Deprecated by scales 1.3.0 unit = c("day", "month", "year")
-  unit <- "day"
+  # check for date_interval
+  if (!is.null(date_interval)) {
+    checkmate::assert_date(
+      date_interval
+    )
+  }
 
   checkmate::assert_logical(
     cumulative,

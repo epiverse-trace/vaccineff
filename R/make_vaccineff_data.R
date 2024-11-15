@@ -34,7 +34,7 @@
 #' characteristics of the study. `data.frames` are converted into an object of
 #' class `linelist` to easily handle with the data.
 #' @examples
-#' donttest {
+#' \donttest{
 #' # Load example data
 #' data("cohortdata")
 #'

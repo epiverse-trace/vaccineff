@@ -24,7 +24,7 @@
 #' `cox_model`: `survival` object with Cox model results
 #' `kaplan_meier`: `survival` object with Kaplan-Meier estimator
 #' @examples
-#' donttest{
+#' \donttest{
 #' # Load example data
 #' data("cohortdata")
 #'

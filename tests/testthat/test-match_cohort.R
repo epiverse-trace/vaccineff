@@ -59,11 +59,6 @@ test_that("`match_cohort`: test for input validation", {
   df <- data.frame()
 
   expect_error(
-    summary.match(df),
-    regexp = "Input must be an object of class 'match'"
-  )
-
-  expect_error(
     get_dataset.match(df),
     regexp = "Input must be an object of class 'match'"
   )

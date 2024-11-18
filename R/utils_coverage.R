@@ -72,28 +72,7 @@ coh_coverage <- function(data_set,
 #' @param cumulative If `TRUE`, returns the cumulative number of doses over the
 #' time window.
 #' @return 2-axis ggplot2 plot of vaccine coverage and daily doses.
-#' @examples
-#' # Load example data
-#' data("cohortdata")
-#'
-#' # Create `vaccineff_data`
-#' vaccineff_data <- make_vaccineff_data(data_set = cohortdata,
-#'   outcome_date_col = "death_date",
-#'   censoring_date_col = "death_other_causes",
-#'   vacc_date_col = "vaccine_date_2",
-#'   vaccinated_status = "v",
-#'   unvaccinated_status = "u",
-#'   immunization_delay = 15,
-#'   end_cohort = as.Date("2044-12-31"),
-#'   match = TRUE,
-#'   exact = c("age", "sex"),
-#'   nearest = NULL
-#' )
-#' plot_coverage(vaccineff_data = vaccineff_data,
-#'   date_interval = as.Date(c("2044-01-03", "2044-09-30")),
-#'   cumulative = FALSE
-#' )
-#' @export
+#' @keywords internal
 
 plot_coverage <- function(vaccineff_data,
                           date_interval = NULL,
@@ -101,22 +80,6 @@ plot_coverage <- function(vaccineff_data,
   # Due to an update on scales >1.3.0 unit = c("day", "month", "year")
   # is now deprecated and fixed to "day"
   unit <- "day"
-  stopifnot("Input must be an object of class 'vaccineff_data'" =
-      checkmate::test_class(vaccineff_data, "vaccineff_data")
-  )
-
-  # check for date_interval
-  if (!is.null(date_interval)) {
-    checkmate::assert_date(
-      date_interval
-    )
-  }
-
-  checkmate::assert_logical(
-    cumulative,
-    len = 1
-  )
-
   tags <- linelist::tags(vaccineff_data$cohort_data)
 
   coverage <- coh_coverage(

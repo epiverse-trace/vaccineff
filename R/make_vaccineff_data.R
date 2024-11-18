@@ -238,3 +238,49 @@ summary.vaccineff_data <- function(object, warnings_log = FALSE, ...) {
   cat("\n// tags:", tags_txt, "\n")
 
 }
+
+#' @title Function for Extracting Vaccineff Data Plot
+#'
+#' @description This function returns a plot of the vaccine coverage or the
+#' cumulative coverage (if cumulative = TRUE). The return is a 2-axis `ggplot2`
+#' element with the number of vaccines per date on the left axis and the
+#' coverage per date on the right axis. When a matching routine is performed,
+#' the left axis also accounts for the doses of the matched cohort.
+#'
+#' @param x Object of class `vaccineff_data`.
+#' @param date_interval If NULL, the function calculates the coverage interval
+#' @param cumulative If `TRUE`, returns the cumulative number of doses over the
+#' time window.
+#' @param ... Additional arguments passed to other functions.
+#' @return Plot extracted from `vaccineff`.
+#' @export
+
+plot.vaccineff_data <- function(x,
+                                date_interval = NULL,
+                                cumulative = FALSE,
+                                ...) {
+  # Check if the input object is of class "vaccineff_data"
+  stopifnot("Input must be an object of class 'vaccineff_data'" =
+      checkmate::test_class(x, "vaccineff_data")
+  )
+
+  # check for date_interval
+  if (!is.null(date_interval)) {
+    checkmate::assert_date(
+      date_interval
+    )
+  }
+
+  checkmate::assert_logical(
+    cumulative,
+    len = 1
+  )
+
+  plt <- plot_coverage(
+    vaccineff_data = x,
+    date_interval = date_interval,
+    cumulative = cumulative
+  )
+
+  return(plt)
+}

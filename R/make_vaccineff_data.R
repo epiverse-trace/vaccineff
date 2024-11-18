@@ -203,40 +203,77 @@ summary.vaccineff_data <- function(object, warnings_log = FALSE, ...) {
       checkmate::test_class(object, "vaccineff_data")
   )
 
-  cat(paste0("\nCohort start: ", object$start_cohort))
-  cat(paste0("\nCohort end: ", object$end_cohort, "\n"))
-
-  cat(object$warnings_log$filtered, sep = "")
-
-  # Extract tags
   tags <- linelist::tags(object$cohort_data)
 
-  # Summary
+  summ <- list(
+    start_cohort = object$start_cohort,
+    end_cohort = object$end_cohort,
+    tags = tags,
+    trunc_log = object$warnings_log$filtered
+  )
+
   if (!is.null(object$matching)) {
-    cat("\nNearest neighbors matching iteratively performed.\n")
-    summary.match(object$matching)
-
-    if (warnings_log && !is.null(object$matching)) {
-      cat("\nWarnings:\n")
-      cat(object$warnings_log$matching, sep = "")
+    summ$summary_vaccination <- object$matching$summary
+    summ$balance_all <- object$matching$balance_all
+    summ$balance_match <- object$matching$balance_match
+    summ$iterations <- object$matching$iterations
+    if (warnings_log) {
+      summ$match_log <- object$warnings_log$matching
+    } else {
+      summ$match_log <- NULL
     }
-
   } else {
-    summ_cohort <- match_summary(
+    summ_vacc <- match_summary(
       all = object$cohort_data,
       matched = NULL,
       vacc_status_col = tags$vacc_status_col
     )
-    cat("\nNo matching routine invoked.\n")
-    print(summ_cohort)
+    summ$summary_vaccination <- summ_vacc
+  }
 
+  class(summ) <- "summary.vaccineff_data"
+  return(summ)
+}
+
+#' @title Print Summary of Vaccineff Data
+#' @description Summarizes the results of `make_vaccineff_data`.
+#'
+#' @param x Object of the class `summary.vaccineff_data`.
+#' @param ... Additional arguments passed to other functions.
+#' @return Summary of the results from vaccineff data
+#' @export
+print.summary.vaccineff_data <- function(x, ...) {
+  message("Cohort start: ", x$start_cohort)
+  message("Cohort end: ", x$end_cohort)
+
+  message(x$trunc_log, sep = "")
+
+  if (!is.null(x$balance_match)) {
+    message("Nearest neighbors matching iteratively performed.")
+    message("Number of iterations: ", x$iterations)
+    message("Balance all:")
+    print(x$balance_all)
+    message("Balance matched:")
+    print(x$balance_match)
+    message("Summary vaccination:")
+    print(x$summary_vaccination)
+
+    if (!is.null(x$match_log)) {
+      message("Warnings:")
+      message(x$match_log, sep = "\n")
+    }
+
+  } else {
+    message("No matching routine invoked.")
+    message("Summary vaccination:")
+    print(x$summary_vaccination)
   }
 
   # Print tags from linelist object
-  tags_txt <- paste(names(tags), unlist(tags), sep = ":", collapse = ", ")
+  tags_txt <- paste(names(x$tags), unlist(x$tags), sep = ":", collapse = ", ")
   if (tags_txt == "") {
     tags_txt <- "[no tagged variable]"
   }
-  cat("\n// tags:", tags_txt, "\n")
-
+  message("// tags:", tags_txt)
+  invisible(x)
 }

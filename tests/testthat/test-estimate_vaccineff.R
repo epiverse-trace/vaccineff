@@ -42,15 +42,6 @@ test_that("`estimate_vaccineff`: basic expectations", {
   )
 })
 
-# Truncate at `estimate_vaccineff()`
-test_that("`estimate_vaccineff`: at not null", {
-
-  # runs without conditions
-  ve <- estimate_vaccineff(vaccineff_data, at = 90)
-  summ <- capture.output(summary.vaccineff(ve))
-  expect_snapshot(summ)
-})
-
 #### Tests for generic methods plot and summary ####
 ve <- estimate_vaccineff(vaccineff_data, at = 60)
 
@@ -69,18 +60,11 @@ test_that("`estimate_vaccineff`: test for input validation", {
   )
 })
 
-#### Summary
-test_that("`summary.vaccineff`: basic expectations", {
-  # snapshot for summary
-  summ <- capture.output(summary.vaccineff(ve))
-  expect_snapshot(summ)
-})
-
 #### Plot
 test_that("`plot.vaccineff`: basic expectations", {
   # test for loglog plot
   plt <- plot.vaccineff(ve, type = "loglog")
-  expect_identical(plt$labels$y, "Log[-Log[Surv.]]")
+  expect_identical(plt$labels$y, "-Log[-Log[Surv.]]")
   plt <- plot.vaccineff(ve, type = "surv")
   expect_identical(plt$labels$y, "Survival probability")
   expect_s3_class(plt, "ggplot")

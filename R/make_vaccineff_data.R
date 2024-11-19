@@ -198,11 +198,6 @@ make_vaccineff_data <- function(data_set,
 #' @export
 
 summary.vaccineff_data <- function(object, warnings_log = FALSE, ...) {
-  # Check if the input object is of class "match"
-  stopifnot("Input must be an object of class 'vaccineff_data'" =
-      checkmate::test_class(object, "vaccineff_data")
-  )
-
   tags <- linelist::tags(object$cohort_data)
 
   summ <- list(
@@ -231,7 +226,7 @@ summary.vaccineff_data <- function(object, warnings_log = FALSE, ...) {
     summ$summary_vaccination <- summ_vacc
   }
 
-  class(summ) <- "summary.vaccineff_data"
+  class(summ) <- "summary_vaccineff_data"
   return(summ)
 }
 
@@ -242,20 +237,20 @@ summary.vaccineff_data <- function(object, warnings_log = FALSE, ...) {
 #' @param ... Additional arguments passed to other functions.
 #' @return Summary of the results from vaccineff data
 #' @export
-print.summary.vaccineff_data <- function(x, ...) {
-  message("Cohort start: ", x$start_cohort)
-  message("Cohort end: ", x$end_cohort)
+print.summary_vaccineff_data <- function(x, ...) {
+  cat("Cohort start: ", as.character(x$start_cohort))
+  cat("\nCohort end: ", as.character(x$end_cohort))
 
-  message(x$trunc_log, sep = "")
+  cat(x$trunc_log, sep = "")
 
   if (!is.null(x$balance_match)) {
-    message("Nearest neighbors matching iteratively performed.")
-    message("Number of iterations: ", x$iterations)
-    message("Balance all:")
+    cat("\nNearest neighbors matching iteratively performed.")
+    cat("\nNumber of iterations: ", x$iterations)
+    cat("\nBalance all:\n")
     print(x$balance_all)
-    message("Balance matched:")
+    cat("\nBalance matched:\n")
     print(x$balance_match)
-    message("Summary vaccination:")
+    cat("\nSummary vaccination:\n")
     print(x$summary_vaccination)
 
     if (!is.null(x$match_log)) {
@@ -264,8 +259,8 @@ print.summary.vaccineff_data <- function(x, ...) {
     }
 
   } else {
-    message("No matching routine invoked.")
-    message("Summary vaccination:")
+    cat("\nNo matching routine invoked.")
+    cat("\nSummary vaccination:\n")
     print(x$summary_vaccination)
   }
 
@@ -274,6 +269,6 @@ print.summary.vaccineff_data <- function(x, ...) {
   if (tags_txt == "") {
     tags_txt <- "[no tagged variable]"
   }
-  message("// tags:", tags_txt)
+  cat("\n// tags:", tags_txt, "\n")
   invisible(x)
 }

@@ -118,16 +118,12 @@ estimate_vaccineff <- function(vaccineff_data,
 #' @export
 
 summary.vaccineff <- function(object, ...) {
-  # Check if the input object is of class "vaccineff"
-  stopifnot("Input must be an object of class 'vaccineff'" =
-      checkmate::test_class(object, "vaccineff")
-  )
   summ <- list(
     ve = object$ve,
     at = object$at,
     p_value_schoenfeld = object$cox_model$p_value
   )
-  class(summ) <- "summary.vaccineff"
+  class(summ) <- "summary_vaccineff"
   return(summ)
 }
 
@@ -140,20 +136,20 @@ summary.vaccineff <- function(object, ...) {
 #' @return Summary of the results from `estimate_vaccineff`.
 #' @export
 
-print.summary.vaccineff <- function(x, ...) {
-  message(
-    sprintf("Vaccine Effectiveness at %i days computed as VE = 1 - HR:",
+print.summary_vaccineff <- function(x, ...) {
+  cat(
+    sprintf("Vaccine Effectiveness at %i days computed as VE = 1 - HR:\n",
             x$at)
   )
 
   print(x$ve, row.names = FALSE)
-  message("\nSchoenfeld test for Proportional Hazards assumption:")
-  message(sprintf("p-value = %s", x$p_value_schoenfeld))
+  cat("\nSchoenfeld test for Proportional Hazards assumption:")
+  cat(sprintf("\np-value = %s", x$p_value_schoenfeld))
   if (x$p_value_schoenfeld < 0.05) {
     warning_schoenfeld <- paste0("\np-value < 0.05. Please check loglog plot",
       " for Proportional Hazards assumption"
     )
-    message("\nWarning Message:", warning_schoenfeld)
+    warning(warning_schoenfeld)
   }
   invisible(x)
 }

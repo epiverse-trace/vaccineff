@@ -32,7 +32,7 @@ knitr::opts_chunk$set(
 *{{ packagename }}* is developed at [Pontificia Universidad Javeriana](https://www.javeriana.edu.co/inicio) as part of the
 [Epiverse-TRACE initiative](https://data.org/initiatives/epiverse/).
 
-*{{ packagename }}* is an R package that offers tools for estimating vaccine effectiveness, using a series of epidemiological designs including cohort studies, test-negative case-control, and screening methods [@bookvaccine]. The current version of the package provides a set of features for preparing, visualizing, and managing cohort data, estimating vaccine effectiveness, and assessing the performance of the models. Test-negative design and screening method will be included in future versions.
+*{{ packagename }}* is an R package that offers tools for estimating vaccine effectiveness (VE), using a series of epidemiological designs including cohort studies, test-negative case-control, and screening methods [@bookvaccine]. The current version of the package provides a set of features for preparing, visualizing, and managing cohort data, estimating vaccine effectiveness, and assessing the performance of the models. Test-negative design and screening method will be included in future versions.
 
 ## Installation
 
@@ -49,21 +49,18 @@ pak::pak("{{ gh_repo }}")
 library(vaccineff)
 ```
 
-*{{ packagename }}* provides a minimal cohort dataset that can be used to test out vaccineff package. 
+*{{ packagename }}* provides a minimal cohort dataset that can be used to test out the models.
 
 ```{r example, include = TRUE, echo = TRUE}
 # Load example `cohortdata` included in the package
 data("cohortdata")
 head(cohortdata, 5)
 ```
-
-The function `make_vaccineff_data` allows to define different aspects of the design from which the data is generated  (such as vaccination dates, inmunization delays and potential confounding factors), creating a vaccineff object that will be used to estimate VE with the `effectiveness` function using a Cox regression model.  The  proportional hazard assumption can also be plotted and tested by setting `type = "loglog"`.
-
-
+The function `make_vaccineff_data` allows defining different aspects of the study design, such as vaccination dates, immunization delays, and potential confounding factors. It creates an S3 object of class `vaccineff`, which will be used to estimate VE using a Cox model regression performed by the function `estimate_vaccineff`. This function returns an object of type `vaccineff`. The proportional hazard assumption can be tested both through the Schoenfeld test and visually using the `plot` method by setting `type = "loglog"`.
 
 ```{r}
 # Create `vaccineff_data`
-vaccineff_data_matched2 <- make_vaccineff_data(
+vaccineff_data <- make_vaccineff_data(
   data_set = cohortdata,
   outcome_date_col = "death_date",
   censoring_date_col = "death_other_causes",
@@ -71,28 +68,27 @@ vaccineff_data_matched2 <- make_vaccineff_data(
   vaccinated_status = "v",
   unvaccinated_status = "u",
   immunization_delay = 15,
-  end_cohort = as.Date("2021-12-31"),
+  end_cohort = as.Date("2044-12-31"),
   match = TRUE,
   exact = "sex",
   nearest = c(age = 1)
 )
 
-# Estimate the Vaccinef Effectiveness (VE)
-ve2 <- effectiveness(vaccineff_data_matched, at = 180)
+# Estimate VE
+ve <- estimate_vaccineff(vaccineff_data, at = 180)
 
 # Print summary of VE
-summary(ve2)
+summary(ve)
 
 # Generate loglog plot to check proportional hazards
-plot(ve2, type = "loglog")
-
+plot(ve, type = "loglog")
 ```
 
 
 
 ## Package vignettes
 
-More details on how to use _{{ packagename }}_ can be found in the [online documentation as package vignettes](https://epiverse-trace.github.io/{{ packagename }}/), in the article "Get Started with vaccineff".
+More details on how to use _{{ packagename }}_ can be found in the [online documentation as package vignettes](https://epiverse-trace.github.io/{{ packagename }}/), in the article "Get Started with vaccineff", and the article for cohort designs "Introduction to cohort design with vaccineff".
 
 ## Help
 

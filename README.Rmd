@@ -49,6 +49,7 @@ pak::pak("{{ gh_repo }}")
 library(vaccineff)
 ```
 
+
 *{{ packagename }}* provides a minimal cohort dataset that can be used to test out the models.
 
 ```{r example, include = TRUE, echo = TRUE}

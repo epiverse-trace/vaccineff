@@ -4,17 +4,16 @@
 \alias{plot_loglog}
 \title{Plot Log-Log Test for Proportional Hazards Hypothesis}
 \usage{
-plot_loglog(km)
+plot_loglog(cox_model_prediction)
 }
 \arguments{
-\item{km}{Kaplan-Meier estimation created with \code{km_model}.}
+\item{cox_model_prediction}{Prediction from Cox model.}
 }
 \value{
 Log-log plot.
 }
 \description{
-This function uses the return from the Kaplan-Meier model
-to create a log-log plot. It calculates log(-log(Survival Probability))
-and log(Time).
+This function uses the return from the Cox model
+to create a log-log plot.
 }
 \keyword{internal}

@@ -71,6 +71,52 @@ match_pair_info <- function(data_set,
   return(matched_info[data_set$subclass])
 }
 
+#' @title Create Censoring date by Pairs
+#'
+#' @description This function creates the censoring date of the pairs by
+#' inheriting the minimum date in which any of the partners has a
+#' censoring event. Two conditions are checked to inherit a censoring date
+#' in a pair.
+#' 1. Individual censoring occurs before individual event;
+#' 2. If an outcome happens before the censoring of the partner
+#' no censoring is inherited by the other.
+#'
+#' @inheritParams match_cohort
+#' @keywords internal
+
+get_censoring_after_match <- function(data_set,
+                                      outcome_date_col,
+                                      censoring_date_col) {
+  # 1. Check that individual censoring occurs before event
+  data_set$censoring_individual <- as.Date(ifelse(
+    (data_set[[censoring_date_col]] <
+       data_set[[outcome_date_col]]) |
+      is.na(data_set[[outcome_date_col]]),
+    as.character(data_set[[censoring_date_col]]),
+    as.Date(NA)
+  ))
+
+  # 2. Match minimum censoring date as censoring date for pair
+  data_set$censoring_pair <-  as.Date(match_pair_info(
+    data_set = data_set,
+    column_to_match = "censoring_individual",
+    criteria = "min"
+  ))
+
+  # 3. If an outcome happens before censoring_pair
+  # no censoring must be assigned
+  data_set$censoring_accepted <-
+    as.Date(ifelse(
+      (data_set$censoring_pair > data_set[[outcome_date_col]]) &
+        (!is.na(data_set$censoring_pair)) &
+        (!is.na(data_set[[outcome_date_col]])),
+      as.Date(NA),
+      as.character(data_set$censoring_pair)
+    ))
+
+  return(data_set$censoring_accepted)
+}
+
 #' @title Constructs Summary with Results from Matching
 #'
 #' @description This function creates a summary for the results from
@@ -84,6 +130,7 @@ match_pair_info <- function(data_set,
 #' @return Summary `data.frame` with counts by vaccine status for:
 #' all, matched, unmatched, and removed.
 #' @keywords internal
+
 match_summary <- function(all,
                           matched,
                           vacc_status_col) {

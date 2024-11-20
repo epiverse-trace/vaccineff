@@ -1,56 +1,56 @@
 Package: vaccineff
 Title: Estimate Vaccine Effectiveness Based on Different Study Designs
-Version: 0.0.4
+Version: 0.0.4.9000
 Authors@R: c(
-    person(given = "David Santiago", family = "Quevedo", email = "ex-dsquevedo@javeriana.edu.co", role = c("aut"),
-        comment = c(ORCID = "0000-0003-1583-4262")),
-    person(given = "Zulma M.", family = "Cucunubá", email = "zulma.cucunuba@javeriana.edu.co", role = c("aut", "cre"),
-        comment = c(ORCID = "0000-0002-8165-3198")),
-    person("International Development Research Center (IDRC)", role = c("fnd")),
-    person(given = "Geraldine", family = "Gómez Millán", email = "geralidine.gomez@javeriana.edu.co", role = c("ctb"),
-        comment = c(ORCID = "0009-0007-8701-0568")),
-    person(given = "Pratik", family = "Gupte", email = "pratik.gupte@lshtm.ac.uk", role = c("ctb"), 
-        comment = c(ORCID = "0000-0001-5294-7819")),
-    person(given = "Érika J", family = "Cantor", email = "erika.cantor@javeriana.edu.co", role = c("ctb"), 
-        comment = c(ORCID = "0000-0003-3320-6032")),
-    person(given = "Santiago", family = "Loaiza", email = "santiago.loaiza@javeriana.edu.co", role = c("ctb"),
-        comment = c(ORCID = "0000-0002-2092-3262")),
-    person(given = "Jaime", family = "Pavlich-Mariscal", email = "jpavlich@javeriana.edu.co", role = c("ctb"),
+    person("David Santiago", "Quevedo", , "ex-dsquevedo@javeriana.edu.co", role = "aut",
+           comment = c(ORCID = "0000-0003-1583-4262")),
+    person("Zulma M.", "Cucunubá", , "zulma.cucunuba@javeriana.edu.co", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-8165-3198")),
+    person("International Development Research Center (IDRC)", role = "fnd"),
+    person("Geraldine", "Gómez Millán", , "geralidine.gomez@javeriana.edu.co", role = "ctb",
+           comment = c(ORCID = "0009-0007-8701-0568")),
+    person("Pratik", "Gupte", , "pratik.gupte@lshtm.ac.uk", role = "ctb",
+           comment = c(ORCID = "0000-0001-5294-7819")),
+    person("Érika J", "Cantor", , "erika.cantor@javeriana.edu.co", role = "ctb",
+           comment = c(ORCID = "0000-0003-3320-6032")),
+    person("Santiago", "Loaiza", , "santiago.loaiza@javeriana.edu.co", role = "ctb",
+           comment = c(ORCID = "0000-0002-2092-3262")),
+    person("Jaime", "Pavlich-Mariscal", , "jpavlich@javeriana.edu.co", role = "ctb",
            comment = c(ORCID = "0000-0002-3892-6680")),
-    person(given = "Hugo", family = "Gruson", email = "hugo.gruson@data.org", role = c("ctb"),
+    person("Hugo", "Gruson", , "hugo.gruson@data.org", role = "ctb",
            comment = c(ORCID = "0000-0002-4094-1476")),
-    person(given = "Chris", family = "Hartgerink", email = "chris@data.org", role = "ctb",
+    person("Chris", "Hartgerink", , "chris@data.org", role = "ctb",
            comment = c(ORCID = "0000-0003-1050-6809")),
-    person(given = "Felipe Segundo", family = "Abril", email = "fsabrilb@unal.edu.co", role = "ctb",
+    person("Felipe Segundo", "Abril", , "fsabrilb@unal.edu.co", role = "ctb",
            comment = c(ORCID = "0000-0002-2512-4929"))
   )
-Description: R package with tools for estimating vaccine effectiveness and vaccine related metrics.
+Description: Tools for estimating vaccine effectiveness and vaccine related metrics.
 URL: https://github.com/epiverse-trace/vaccineff, https://epiverse-trace.github.io/vaccineff/
 BugReports: https://github.com/epiverse-trace/vaccineff/issues
 License: MIT + file LICENSE
+Depends: 
+    R (>= 4.0.0)
+Imports: 
+    checkmate,
+    ggplot2,
+    linelist,
+    MatchIt,
+    rlang,
+    scales,
+    stats,
+    survival
+Suggests: 
+    knitr,
+    qtl,
+    rmarkdown,
+    spelling,
+    testthat (>= 3.0.0)
+VignetteBuilder: 
+    knitr
+Config/Needs/website:epiverse-trace/epiversetheme
+Config/testthat/edition: 3
 Encoding: UTF-8
+Language: en-US
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
-Depends: 
-    R (>= 3.5.0)
-Imports: 
-    survival,
-    stats,
-    checkmate,
-    ggplot2,
-    scales,
-    rlang,
-    MatchIt,
-    linelist
-Suggests: 
-    knitr,
-    rmarkdown,
-    spelling,
-    testthat (>= 3.0.0),
-    qtl
-Config/testthat/edition: 3
-Config/Needs/website:
-    epiverse-trace/epiversetheme
-Language: en-US
-VignetteBuilder: knitr

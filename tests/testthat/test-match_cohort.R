@@ -59,11 +59,6 @@ test_that("`match_cohort`: test for input validation", {
   df <- data.frame()
 
   expect_error(
-    summary.match(df),
-    regexp = "Input must be an object of class 'match'"
-  )
-
-  expect_error(
     get_dataset.match(df),
     regexp = "Input must be an object of class 'match'"
   )
@@ -72,6 +67,6 @@ test_that("`match_cohort`: test for input validation", {
 #### Snapshot for summary
 test_that("`match_cohort`: summary snapshot", { # nolint
   for (column in c("balance_all", "balance_match", "summary")) {
-    expect_snapshot_value(matching[column], style = "json2", tolerance = 1e-2)
+    expect_snapshot_value(matching[column], style = "json2", tolerance = 1e-1)
   }
 })

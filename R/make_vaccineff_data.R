@@ -4,7 +4,7 @@
 #' `vaccineff_data` that contains all the relevant information for the study.
 #' to estimate the effectiveness.
 #'
-#' @param data_set `data.frame` with cohort information (see example).
+#' @param data_set `data.frame` with cohort information.
 #' @param outcome_date_col Name of the column that contains the outcome dates.
 #' @param censoring_date_col Name of the column that contains the censoring
 #' date. NULL by default.
@@ -34,7 +34,7 @@
 #' characteristics of the study. `data.frames` are converted into an object of
 #' class `linelist` to easily handle with the data.
 #' @examples
-#'
+#' \donttest{
 #' # Load example data
 #' data("cohortdata")
 #'
@@ -54,6 +54,7 @@
 #'
 #' # Print summary of data
 #' summary(vaccineff_data)
+#' }
 #' @export
 
 make_vaccineff_data <- function(data_set,
@@ -101,12 +102,8 @@ make_vaccineff_data <- function(data_set,
         end_cohort = end_cohort,
         take_first = take_first
       )
-    )
-  )
-
-  # Define linelist object
-  cohort_data <- linelist::set_tags(
-    x = cohort_data,
+    ),
+    # here come the ... params
     outcome_date_col = outcome_date_col,
     censoring_date_col = censoring_date_col,
     vacc_date_col = vacc_date_col,
@@ -114,11 +111,25 @@ make_vaccineff_data <- function(data_set,
     immunization_date_col = "immunization_date",
     vacc_status_col = "vaccine_status",
     allow_extra = TRUE
+
   )
 
   # Define start date of the cohort
   start_cohort <- min(cohort_data$immunization_date, na.rm = TRUE)
 
+  # Truncate data from start_cohort
+  output <- capture_warnings(
+    truncate_from_start_cohort(
+      data_set = cohort_data,
+      outcome_date_col = outcome_date_col,
+      censoring_date_col = censoring_date_col,
+      start_cohort = start_cohort
+    )
+  )
+  cohort_data <- output$result
+  warnings_log <- list(filtered = output$warnings)
+
+  # Match data
   if (match) {
     output <- capture_warnings(match_cohort(
       data_set = cohort_data,
@@ -136,50 +147,26 @@ make_vaccineff_data <- function(data_set,
     ))
 
     matching <- output$result
-    warnings_log <- output$warnings
+    warnings_log$matching <- output$warnings
 
     matching$match <- linelist::set_tags(
       x = matching$match,
-      time_to_event_col = "time_to_event",
-      outcome_status_col = "outcome_status",
       t0_follow_up_col = "t0_follow_up",
+      censoring_date_col = "censoring_after_match",
       allow_extra = TRUE
     )
   } else {
     matching <- NULL
-
-    if (!is.null(t0_follow_up)) {
-      start_from_immunization <- TRUE
-    } else {
-      start_from_immunization <- FALSE
-    }
-
-    cohort_data$outcome_status <- set_event_status(
-      data_set = cohort_data,
-      outcome_date_col = outcome_date_col,
-      censoring_date_col = censoring_date_col
+    cohort_data$t0_follow_up <- as.Date(
+      ifelse(is.na(cohort_data$immunization_date),
+        yes = as.character(start_cohort),
+        no = as.character(cohort_data$immunization_date)
+      )
     )
-
-    cohort_data$time_to_event <- get_time_to_event(
-      data_set = cohort_data,
-      outcome_date_col = outcome_date_col,
-      start_cohort = start_cohort,
-      end_cohort = end_cohort,
-      start_from_immunization = start_from_immunization,
-      immunization_date_col = t0_follow_up
-    )
-
-    output <- capture_warnings(adjust_time_to_event(
-      data_set = cohort_data
-    ))
-
-    cohort_data <- output$result
-    warnings_log <- output$warnings
 
     cohort_data <- linelist::set_tags(
       x = cohort_data,
-      time_to_event_col = "time_to_event",
-      outcome_status_col = "outcome_status",
+      t0_follow_up_col = "t0_follow_up",
       allow_extra = TRUE
     )
   }
@@ -211,44 +198,77 @@ make_vaccineff_data <- function(data_set,
 #' @export
 
 summary.vaccineff_data <- function(object, warnings_log = FALSE, ...) {
-  # Check if the input object is of class "match"
-  stopifnot("Input must be an object of class 'vaccineff_data'" =
-      checkmate::test_class(object, "vaccineff_data")
-  )
-
-  cat(paste0("\nCohort start: ", object$start_cohort))
-  cat(paste0("\nCohort end: ", object$end_cohort, "\n"))
-
-  # Extract tags
   tags <- linelist::tags(object$cohort_data)
 
-  # Summary
+  summ <- list(
+    start_cohort = object$start_cohort,
+    end_cohort = object$end_cohort,
+    tags = tags,
+    trunc_log = object$warnings_log$filtered
+  )
+
   if (!is.null(object$matching)) {
-    cat("\nNearest neighbors matching iteratively performed.\n")
-    summary.match(object$matching)
-
-    if (warnings_log && !is.null(object$matching)) {
-      cat("\nWarnings:\n")
-      cat(object$warnings_log, sep = "")
+    summ$summary_vaccination <- object$matching$summary
+    summ$balance_all <- object$matching$balance_all
+    summ$balance_match <- object$matching$balance_match
+    summ$iterations <- object$matching$iterations
+    if (warnings_log) {
+      summ$match_log <- object$warnings_log$matching
+    } else {
+      summ$match_log <- NULL
     }
-
   } else {
-    summ_cohort <- match_summary(
+    summ_vacc <- match_summary(
       all = object$cohort_data,
       matched = NULL,
       vacc_status_col = tags$vacc_status_col
     )
-    cat("\nNo matching routine invoked.\n")
-    print(summ_cohort)
+    summ$summary_vaccination <- summ_vacc
+  }
 
-    cat(object$warnings_log, sep = "")
+  class(summ) <- "summary_vaccineff_data"
+  return(summ)
+}
+
+#' @title Print Summary of Vaccineff Data
+#' @description Summarizes the results of `make_vaccineff_data`.
+#'
+#' @param x Object of the class `summary.vaccineff_data`.
+#' @param ... Additional arguments passed to other functions.
+#' @return Summary of the results from vaccineff data
+#' @export
+print.summary_vaccineff_data <- function(x, ...) {
+  cat("Cohort start: ", as.character(x$start_cohort))
+  cat("\nCohort end: ", as.character(x$end_cohort))
+
+  cat(x$trunc_log, sep = "")
+
+  if (!is.null(x$balance_match)) {
+    cat("\nNearest neighbors matching iteratively performed.")
+    cat("\nNumber of iterations: ", x$iterations)
+    cat("\nBalance all:\n")
+    print(x$balance_all)
+    cat("\nBalance matched:\n")
+    print(x$balance_match)
+    cat("\nSummary vaccination:\n")
+    print(x$summary_vaccination)
+
+    if (!is.null(x$match_log)) {
+      message("Warnings:")
+      message(x$match_log, sep = "\n")
+    }
+
+  } else {
+    cat("\nNo matching routine invoked.")
+    cat("\nSummary vaccination:\n")
+    print(x$summary_vaccination)
   }
 
   # Print tags from linelist object
-  tags_txt <- paste(names(tags), unlist(tags), sep = ":", collapse = ", ")
+  tags_txt <- paste(names(x$tags), unlist(x$tags), sep = ":", collapse = ", ")
   if (tags_txt == "") {
     tags_txt <- "[no tagged variable]"
   }
   cat("\n// tags:", tags_txt, "\n")
-
+  invisible(x)
 }

@@ -23,7 +23,7 @@
 #' before their outcomes. Rolling calendar matching method will be included in
 #' future releases.
 #'
-#' @param data_set `data.frame` with cohort information (see example).
+#' @param data_set `data.frame` with cohort information.
 #' @param outcome_date_col Name of the column that contains the outcome dates.
 #' @param censoring_date_col Name of the column that contains the censoring
 #' date. `NULL` by default.
@@ -166,29 +166,6 @@ match_cohort <- function(data_set,
   }
   class(match_obj) <- "match"
   return(match_obj)
-}
-
-#' @title Summarize Matching Results
-#'
-#' @description Summarizes the results of `match_cohort`.
-#'
-#' @param object Object of the class `match`.
-#' @param ... Additional arguments passed to other functions.
-#' @return Summary of the results from matching.
-#' @export
-
-summary.match <- function(object, ...) {
-  # Check if the input object is of class "match"
-  stopifnot("Input must be an object of class 'match'" =
-      checkmate::test_class(object, "match")
-  )
-  cat(paste0("Number of iterations: ", object$iterations, "\n"))
-  cat("\nBalance all:\n")
-  print(object$balance_all)
-  cat("\nBalance matched:\n")
-  print(object$balance_match)
-  cat("\nSummary:\n")
-  print(object$summary)
 }
 
 #' @title Function for Extracting Matched Dataset

@@ -22,7 +22,7 @@ make_vaccineff_data(
 )
 }
 \arguments{
-\item{data_set}{\code{data.frame} with cohort information (see example).}
+\item{data_set}{\code{data.frame} with cohort information.}
 
 \item{outcome_date_col}{Name of the column that contains the outcome dates.}
 
@@ -72,7 +72,7 @@ This function constructs an S3 object of the class
 to estimate the effectiveness.
 }
 \examples{
-
+\donttest{
 # Load example data
 data("cohortdata")
 
@@ -92,4 +92,5 @@ vaccineff_data <- make_vaccineff_data(data_set = cohortdata,
 
 # Print summary of data
 summary(vaccineff_data)
+}
 }

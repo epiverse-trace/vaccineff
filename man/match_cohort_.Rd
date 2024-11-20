@@ -7,7 +7,7 @@
 match_cohort_(data_set, vacc_status_col, exact = NULL, nearest = NULL)
 }
 \arguments{
-\item{data_set}{\code{data.frame} with cohort information (see example).}
+\item{data_set}{\code{data.frame} with cohort information.}
 
 \item{vacc_status_col}{Name of the column containing the vaccination.
 Default is \code{vaccine_status}.}

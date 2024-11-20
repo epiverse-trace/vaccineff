@@ -1,9 +1,10 @@
 #' @title Internal function to extract summary output from `{survival}` models.
 #'
-#' @inheritParams effectiveness
+#' @inheritParams estimate_vaccineff
 #' @param model `{survival}` object containing the model
 #' @return `data.frame` with survival data
 #' @keywords internal
+
 extract_surv_model <- function(model, start_cohort, end_cohort) {
   days <- end_cohort - start_cohort
   tte <- seq(0, as.numeric(days) - 1, by = 1)
@@ -16,13 +17,14 @@ extract_surv_model <- function(model, start_cohort, end_cohort) {
 
 #' @title Internal function to calculate Kaplan-Meier model and related metrics.
 #'
-#' @inheritParams effectiveness
+#' @inheritParams estimate_vaccineff
 #' @return `data.frame` with data from KM model:
 #' "time", "date", "strata",
 #' "n.risk", "n.event", "n.censor",
 #' "surv", "lower", "upper",
 #' "cumincidence", "cumincidence_lower", "cumincidence_upper"
 #' @keywords internal
+
 km_model <- function(data_set,
                      outcome_status_col,
                      time_to_event_col,
@@ -71,13 +73,14 @@ km_model <- function(data_set,
 
 #' @title Internal function to calculate Cox-PH model and related metrics.
 #'
-#' @inheritParams effectiveness
+#' @inheritParams estimate_vaccineff
 #' @return List with data from Cox model:
 #' hr - hazard ratio (CI95%)
 #' p_value
 #' `{survival}` object with model
 #' `{survival}` object with Schoenfeld test
 #' @keywords internal
+
 cox_model <- function(data_set,
                       outcome_status_col,
                       time_to_event_col,
@@ -124,4 +127,54 @@ cox_model <- function(data_set,
   )
 
   return(cx)
+}
+
+#' @title Internal function to calculate prediction from Cox model
+#'
+#' @inheritParams estimate_vaccineff
+#' @param cox_model Result from `cox_model` function
+#' @return `data.frame` containing
+#' `time`: time-to-event until `at`
+#' `logtime`: log of time-to-event
+#' `hazard`: estimated hazard from model
+#' `surv`: estimated survival probability from model
+#' `loglog`: -log(-log(survival probability))
+#' `strata`: vaccinated/unvaccinated status
+#' @keywords internal
+
+cox_model_prediction <- function(cox_model,
+                                 vaccinated_status,
+                                 unvaccinated_status) {
+  bh <- survival::basehaz(cox_model$model)
+  coef <- stats::coef(cox_model$model)
+  surv_v <- exp(-bh[, 1])^(exp(coef))
+  surv_u <- exp(-bh[, 1])
+
+  loglog_v <- -log(-log(surv_v))
+  loglog_u <- -log(-log(surv_u))
+
+  predicted_u <- data.frame(
+    time = bh[, 2],
+    logtime = log(bh[, 2]),
+    hazard = bh[, 1],
+    surv = surv_u,
+    loglog = loglog_u
+  )
+
+  predicted_v <- data.frame(
+    time = bh[, 2],
+    logtime = log(bh[, 2]),
+    hazard = bh[, 1],
+    surv = surv_v,
+    loglog = loglog_v
+  )
+  predicted_v$strata <- vaccinated_status
+  predicted_u$strata <- unvaccinated_status
+
+  predicted <- rbind(predicted_u, predicted_v)
+  levels(predicted$strata) <- factor(
+    c(vaccinated_status, unvaccinated_status),
+    ordered = TRUE
+  )
+  return(predicted)
 }

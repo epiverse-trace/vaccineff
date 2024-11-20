@@ -12,7 +12,7 @@ get_immunization_dose(
 )
 }
 \arguments{
-\item{data_set}{\code{data.frame} with cohort information (see example).}
+\item{data_set}{\code{data.frame} with cohort information.}
 
 \item{vacc_date_col}{Name of the column(s) that contain the vaccine dates.}
 

@@ -8,9 +8,8 @@ message: 'To cite package "vaccineff" in publications use:'
 type: software
 license: MIT
 title: 'vaccineff: Estimate Vaccine Effectiveness Based on Different Study Designs'
-version: 0.0.4
-abstract: R package with tools for estimating vaccine effectiveness and vaccine related
-  metrics.
+version: 0.0.4.9000
+abstract: Tools for estimating vaccine effectiveness and vaccine related metrics.
 authors:
 - family-names: Quevedo
   given-names: David Santiago
@@ -44,29 +43,7 @@ references:
     name: R Foundation for Statistical Computing
     address: Vienna, Austria
   year: '2024'
-  version: '>= 3.5.0'
-- type: software
-  title: survival
-  abstract: 'survival: Survival Analysis'
-  notes: Imports
-  url: https://github.com/therneau/survival
-  repository: https://CRAN.R-project.org/package=survival
-  authors:
-  - family-names: Therneau
-    given-names: Terry M
-    email: therneau.terry@mayo.edu
-  year: '2024'
-  doi: 10.32614/CRAN.package.survival
-- type: software
-  title: stats
-  abstract: 'R: A Language and Environment for Statistical Computing'
-  notes: Imports
-  authors:
-  - name: R Core Team
-  institution:
-    name: R Foundation for Statistical Computing
-    address: Vienna, Austria
-  year: '2024'
+  version: '>= 4.0.0'
 - type: software
   title: checkmate
   abstract: 'checkmate: Fast and Versatile Argument Checks'
@@ -121,38 +98,20 @@ references:
   year: '2024'
   doi: 10.32614/CRAN.package.ggplot2
 - type: software
-  title: scales
-  abstract: 'scales: Scale Functions for Visualization'
+  title: linelist
+  abstract: 'linelist: Tagging and Validating Epidemiological Data'
   notes: Imports
-  url: https://scales.r-lib.org
-  repository: https://CRAN.R-project.org/package=scales
+  url: https://epiverse-trace.github.io/linelist/
+  repository: https://CRAN.R-project.org/package=linelist
   authors:
-  - family-names: Wickham
-    given-names: Hadley
-    email: hadley@posit.co
-  - family-names: Pedersen
-    given-names: Thomas Lin
-    email: thomas.pedersen@posit.co
-    orcid: https://orcid.org/0000-0002-5147-4711
-  - family-names: Seidel
-    given-names: Dana
+  - family-names: Gruson
+    given-names: Hugo
+    email: hugo@data.org
+    orcid: https://orcid.org/0000-0002-4094-1476
+  - family-names: Jombart
+    given-names: Thibaut
   year: '2024'
-  doi: 10.32614/CRAN.package.scales
-- type: software
-  title: rlang
-  abstract: 'rlang: Functions for Base Types and Core R and ''Tidyverse'' Features'
-  notes: Imports
-  url: https://rlang.r-lib.org
-  repository: https://CRAN.R-project.org/package=rlang
-  authors:
-  - family-names: Henry
-    given-names: Lionel
-    email: lionel@posit.co
-  - family-names: Wickham
-    given-names: Hadley
-    email: hadley@posit.co
-  year: '2024'
-  doi: 10.32614/CRAN.package.rlang
+  doi: 10.32614/CRAN.package.linelist
 - type: software
   title: MatchIt
   abstract: 'MatchIt: Nonparametric Preprocessing for Parametric Causal Inference'
@@ -183,20 +142,60 @@ references:
   year: '2024'
   doi: 10.32614/CRAN.package.MatchIt
 - type: software
-  title: linelist
-  abstract: 'linelist: Tagging and Validating Epidemiological Data'
+  title: rlang
+  abstract: 'rlang: Functions for Base Types and Core R and ''Tidyverse'' Features'
   notes: Imports
-  url: https://epiverse-trace.github.io/linelist/
-  repository: https://CRAN.R-project.org/package=linelist
+  url: https://rlang.r-lib.org
+  repository: https://CRAN.R-project.org/package=rlang
   authors:
-  - family-names: Gruson
-    given-names: Hugo
-    email: hugo@data.org
-    orcid: https://orcid.org/0000-0002-4094-1476
-  - family-names: Jombart
-    given-names: Thibaut
+  - family-names: Henry
+    given-names: Lionel
+    email: lionel@posit.co
+  - family-names: Wickham
+    given-names: Hadley
+    email: hadley@posit.co
   year: '2024'
-  doi: 10.32614/CRAN.package.linelist
+  doi: 10.32614/CRAN.package.rlang
+- type: software
+  title: scales
+  abstract: 'scales: Scale Functions for Visualization'
+  notes: Imports
+  url: https://scales.r-lib.org
+  repository: https://CRAN.R-project.org/package=scales
+  authors:
+  - family-names: Wickham
+    given-names: Hadley
+    email: hadley@posit.co
+  - family-names: Pedersen
+    given-names: Thomas Lin
+    email: thomas.pedersen@posit.co
+    orcid: https://orcid.org/0000-0002-5147-4711
+  - family-names: Seidel
+    given-names: Dana
+  year: '2024'
+  doi: 10.32614/CRAN.package.scales
+- type: software
+  title: stats
+  abstract: 'R: A Language and Environment for Statistical Computing'
+  notes: Imports
+  authors:
+  - name: R Core Team
+  institution:
+    name: R Foundation for Statistical Computing
+    address: Vienna, Austria
+  year: '2024'
+- type: software
+  title: survival
+  abstract: 'survival: Survival Analysis'
+  notes: Imports
+  url: https://github.com/therneau/survival
+  repository: https://CRAN.R-project.org/package=survival
+  authors:
+  - family-names: Therneau
+    given-names: Terry M
+    email: therneau.terry@mayo.edu
+  year: '2024'
+  doi: 10.32614/CRAN.package.survival
 - type: software
   title: knitr
   abstract: 'knitr: A General-Purpose Package for Dynamic Report Generation in R'
@@ -210,6 +209,21 @@ references:
     orcid: https://orcid.org/0000-0003-0645-5666
   year: '2024'
   doi: 10.32614/CRAN.package.knitr
+- type: software
+  title: qtl
+  abstract: 'qtl: Tools for Analyzing QTL Experiments'
+  notes: Suggests
+  url: https://rqtl.org
+  repository: https://CRAN.R-project.org/package=qtl
+  authors:
+  - family-names: Broman
+    given-names: Karl W
+    email: broman@wisc.edu
+    orcid: https://orcid.org/0000-0002-4914-6671
+  - family-names: Wu
+    given-names: Hao
+  year: '2024'
+  doi: 10.32614/CRAN.package.qtl
 - type: software
   title: rmarkdown
   abstract: 'rmarkdown: Dynamic Documents for R'
@@ -263,7 +277,7 @@ references:
   authors:
   - family-names: Ooms
     given-names: Jeroen
-    email: jeroen@berkeley.edu
+    email: jeroenooms@gmail.com
     orcid: https://orcid.org/0000-0002-4035-0289
   - family-names: Hester
     given-names: Jim
@@ -283,19 +297,4 @@ references:
   year: '2024'
   doi: 10.32614/CRAN.package.testthat
   version: '>= 3.0.0'
-- type: software
-  title: qtl
-  abstract: 'qtl: Tools for Analyzing QTL Experiments'
-  notes: Suggests
-  url: https://rqtl.org
-  repository: https://CRAN.R-project.org/package=qtl
-  authors:
-  - family-names: Broman
-    given-names: Karl W
-    email: broman@wisc.edu
-    orcid: https://orcid.org/0000-0002-4914-6671
-  - family-names: Wu
-    given-names: Hao
-  year: '2024'
-  doi: 10.32614/CRAN.package.qtl
 

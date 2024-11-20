@@ -64,13 +64,15 @@ head(cohortdata, 5)
 ```
 
 The function `make_vaccineff_data` allows defining different aspects of
-the study design, such as vaccination dates, immunization delays, and
-potential confounding factors. It creates an S3 object of class
-`vaccineff`, which will be used to estimate VE using a Cox model
-regression performed by the function `estimate_vaccineff`. This function
-returns an object of type `vaccineff`. The proportional hazard
-assumption can be tested both through the Schoenfeld test and visually
-using the `plot` method by setting `type = "loglog"`.
+the study design—such as vaccination dates, immunization delays, and
+potential confounding factors—and creates an object of class
+`vaccineff_data`. Its output is used to estimate VE using a Cox model
+regression invoked by the function `estimate_vaccineff`, which returns
+the object `vaccineff`.
+
+The proportional hazard assumption can be tested both through the
+Schoenfeld test and visually using the `plot` method by setting
+`type = "loglog"`.
 
 ``` r
 # Create `vaccineff_data`
@@ -112,9 +114,9 @@ plot(ve, type = "loglog")
 
 More details on how to use *vaccineff* can be found in the [online
 documentation as package
-vignettes](https://epiverse-trace.github.io/vaccineff/), in the article
-“Get Started with vaccineff”, and the article for cohort designs
-“Introduction to cohort design with vaccineff”.
+vignettes](https://epiverse-trace.github.io/vaccineff/), and in the
+articles “Get Started with vaccineff” and “Introduction to cohort design
+with vaccineff”.
 
 ## Help
 

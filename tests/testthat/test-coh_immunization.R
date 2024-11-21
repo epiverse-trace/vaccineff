@@ -3,11 +3,23 @@
 data("cohortdata")
 start_cohort <- as.Date("2044-01-01")
 end_cohort <- as.Date("2044-12-31")
+# calculate immunization date
+cohortdata$immunization <- get_immunization_date(
+  data_set = cohortdata,
+  outcome_date_col = "death_date",
+  censoring_date_col = "death_other_causes",
+  immunization_delay = 14,
+  vacc_date_col = c("vaccine_date_1", "vaccine_date_2"),
+  end_cohort = as.Date("2044-12-31"),
+  take_first = FALSE
+)
 
 #### Tests for make_immunization() ####
 # test for basic expectations
 test_that("`make_immunization`: basic expectations", {
   # Create rows with information on immunization
+  # make_immunization creates a new data frame, so it's safe
+  # to rewrite cohortdata inside the test
   cohortdata <- make_immunization(
     data_set = cohortdata,
     outcome_date_col = "death_date",
@@ -90,7 +102,7 @@ test_that("`make_immunization`: vaccine names provided", {
 # Basic expectations
 test_that("`get_immunization_date`: Basic expectations", {
   # get immunization dates
-  vax_date_col <- c("vaccine_date_1", "vaccine_date_2")
+  vacc_date_col <- c("vaccine_date_1", "vaccine_date_2")
   tf <- as.Date("2044-12-31")
   immunization_delay <- 45 # use extreme outcome delay to test expectations
   limit_delta <- immunization_delay
@@ -99,7 +111,7 @@ test_that("`get_immunization_date`: Basic expectations", {
     outcome_date_col = "death_date",
     censoring_date_col = NULL,
     immunization_delay = immunization_delay,
-    vacc_date_col = vax_date_col,
+    vacc_date_col = vacc_date_col,
     end_cohort = tf,
     take_first = FALSE
   )
@@ -111,7 +123,7 @@ test_that("`get_immunization_date`: Basic expectations", {
 
   # mark registers without any vaccine date
   cohortdata$non_vacc <- apply(
-    cohortdata[, vax_date_col], 1,
+    cohortdata[, vacc_date_col], 1,
     FUN = function(x) all(is.na(x))
   )
 
@@ -195,7 +207,7 @@ test_that("`get_immunization_date`: Basic expectations", {
 # always must return vaccine_date_1 if no outcome
 test_that("`get_immunization_date`: Take first vaccination", {
   # get immunization dates
-  vax_date_col <- c("vaccine_date_1", "vaccine_date_2")
+  vacc_date_col <- c("vaccine_date_1", "vaccine_date_2")
   tf <- as.Date("2044-12-31")
   immunization_delay <- 45 # use extreme outcome delay to test expectations
   limit_delta <- immunization_delay
@@ -204,7 +216,7 @@ test_that("`get_immunization_date`: Take first vaccination", {
     outcome_date_col = "death_date",
     censoring_date_col = NULL,
     immunization_delay = immunization_delay,
-    vacc_date_col = vax_date_col,
+    vacc_date_col = vacc_date_col,
     end_cohort = tf,
     take_first = TRUE
   )
@@ -216,7 +228,7 @@ test_that("`get_immunization_date`: Take first vaccination", {
 
   # mark registers without any vaccine date
   cohortdata$non_vacc <- apply(
-    cohortdata[, vax_date_col], 1,
+    cohortdata[, vacc_date_col], 1,
     FUN = function(x) all(is.na(x))
   )
 
@@ -306,28 +318,18 @@ test_that("`get_immunization_date`: Censoring date provided", {
   )
 })
 
-#### Tests for get_immunization_date() ####
+#### Tests for get_immunization_dose() ####
 # calculate immunization date
-cohortdata$immunization <- get_immunization_date(
-  data_set = cohortdata,
-  outcome_date_col = "death_date",
-  censoring_date_col = "death_other_causes",
-  immunization_delay = 14,
-  vacc_date_col = c("vaccine_date_1", "vaccine_date_2"),
-  end_cohort = as.Date("2044-12-31"),
-  take_first = FALSE
-)
-
-# get the immunization dose
-vacc_date_col <- c("vaccine_date_1", "vaccine_date_2")
-immunization_dose <- get_immunization_dose(
-  data_set = cohortdata,
-  immunization_date_col = "immunization",
-  vacc_date_col = vacc_date_col,
-  immunization_delay = 14
-)
-
 test_that("`immunization_dose`: Basic expectations", {
+  # get the immunization dose
+  vacc_date_col <- c("vaccine_date_1", "vaccine_date_2")
+  immunization_dose <- get_immunization_dose(
+    data_set = cohortdata,
+    immunization_date_col = "immunization",
+    vacc_date_col = vacc_date_col,
+    immunization_delay = 14
+  )
+
   expect_vector(
     immunization_dose,
     ptype = character()
@@ -345,25 +347,14 @@ test_that("`immunization_dose`: Basic expectations", {
 })
 
 #### Tests for get_immunization_vaccine() ####
-cohortdata$immunization <- get_immunization_date(
-  data_set = cohortdata,
-  outcome_date_col = "death_date",
-  censoring_date_col = "death_other_causes",
-  immunization_delay = 14,
-  vacc_date_col = c("vaccine_date_1", "vaccine_date_2"),
-  end_cohort = as.Date("2044-12-31"),
-  take_first = FALSE
-)
-
-which_vaccine <- get_immunization_vaccine(
-  data_set = cohortdata,
-  immunization_date_col = "immunization",
-  vacc_date_col = c("vaccine_date_1", "vaccine_date_2"),
-  vacc_name_col = c("vaccine_1", "vaccine_2"),
-  immunization_delay = 14
-)
-
 test_that("`immunization_vaccine`: Basic expectations", {
+  which_vaccine <- get_immunization_vaccine(
+    data_set = cohortdata,
+    immunization_date_col = "immunization",
+    vacc_date_col = c("vaccine_date_1", "vaccine_date_2"),
+    vacc_name_col = c("vaccine_1", "vaccine_2"),
+    immunization_delay = 14
+  )
   expect_vector(
     which_vaccine, character()
   )

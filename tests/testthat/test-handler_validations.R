@@ -2,7 +2,22 @@
 #### Prepare data for all the tests ####
 data("cohortdata")
 
-#### Tests for check_dataset ####
+data_set <- cohortdata
+outcome_date_col <- "death_date"
+censoring_date_col <- "death_other_causes"
+vacc_date_col <- "vaccine_date_2"
+vacc_name_col <- "vaccine_2"
+vaccinated_status <- "v"
+unvaccinated_status <- "u"
+immunization_delay <- 0
+start_cohort <- as.Date("2044-01-31")
+end_cohort <- as.Date("2044-12-31")
+match <- NULL
+nearest <- NULL
+exact <- NULL
+take_first <- FALSE
+
+#### Tests for check_dataset() ####
 # Test for basic expectations
 test_that("`check_dataset`: basic expectations", {
 
@@ -24,22 +39,7 @@ test_that("`check_dataset`: basic expectations", {
   )
 })
 
-#### Tests for check_vaccineff_inputs ####
-data_set <- cohortdata
-outcome_date_col <- "death_date"
-censoring_date_col <- "death_other_causes"
-vacc_date_col <- "vaccine_date_2"
-vacc_name_col <- "vaccine_2"
-vaccinated_status <- "v"
-unvaccinated_status <- "u"
-immunization_delay <- 0
-start_cohort <- as.Date("2044-01-31")
-end_cohort <- as.Date("2044-12-31")
-match <- NULL
-nearest <- NULL
-exact <- NULL
-take_first <- FALSE
-
+#### Tests for check_vaccineff_inputs() ####
 # Test for basic expectations
 test_that("`check_vaccineff_inputs`: basic expectations", {
   # No error expected in allowed null cols

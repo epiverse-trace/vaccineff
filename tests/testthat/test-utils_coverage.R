@@ -8,9 +8,7 @@ sample_indices <- sample(nrow(cohortdata), sample_size)
 sample_cohort <- cohortdata[sample_indices, ]
 rownames(sample_cohort) <- NULL
 
-#### Tests for plot_coverage()
-# Since plot_coverage and coh_coverage are meant to be used together
-# both are tested at the same time.
+# Create vaccineff_data object
 vaccineff_data <- make_vaccineff_data(
   data_set = sample_cohort,
   outcome_date_col = "death_date",
@@ -24,6 +22,10 @@ vaccineff_data <- make_vaccineff_data(
   exact = c("age", "sex"),
   nearest = NULL
 )
+
+#### Tests for plot_coverage() ####
+# Since plot_coverage and coh_coverage are meant to be used together
+# only one test is nedeed.
 
 # snapshot test to test default options
 test_that("`plot_coverage`: default plot", {

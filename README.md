@@ -97,10 +97,10 @@ ve <- estimate_vaccineff(vaccineff_data, at = 180)
 summary(ve)
 #> Vaccine Effectiveness at 180 days computed as VE = 1 - HR:
 #>      VE lower.95 upper.95
-#>  0.8414   0.7354   0.9049
+#>  0.8457   0.7429   0.9074
 #> 
 #> Schoenfeld test for Proportional Hazards assumption:
-#> p-value = 0.0044
+#> p-value = 0.0046
 #> Warning in print.summary_vaccineff(x): 
 #> p-value < 0.05. Please check loglog plot for Proportional Hazards assumption
 

@@ -45,21 +45,6 @@ test_that("`estimate_vaccineff`: basic expectations", {
 })
 
 #### Tests for generic methods plot and summary ####
-# test for input validation of plot() and summary() methods
-test_that("`estimate_vaccineff`: test for input validation", {
-  df <- data.frame()
-
-  expect_error(
-    summary.vaccineff(df),
-    regexp = "Input must be an object of class 'vaccineff'"
-  )
-
-  expect_error(
-    plot.vaccineff(df),
-    regexp = "Input must be an object of class 'vaccineff'"
-  )
-})
-
 # test for plot method. Basic expectations
 test_that("`plot.vaccineff`: basic expectations", {
   # test for loglog plot

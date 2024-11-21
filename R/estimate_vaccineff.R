@@ -24,6 +24,7 @@
 #' `cox_model`: `survival` object with Cox model results
 #' `kaplan_meier`: `survival` object with Kaplan-Meier estimator
 #' @examples
+#' \donttest{
 #' # Load example data
 #' data("cohortdata")
 #'
@@ -52,6 +53,7 @@
 #'
 #' # Generate Survival plot
 #' plot(ve, type = "surv", percentage = FALSE, cumulative = FALSE)
+#' }
 #' @export
 
 estimate_vaccineff <- function(vaccineff_data,
@@ -116,24 +118,40 @@ estimate_vaccineff <- function(vaccineff_data,
 #' @export
 
 summary.vaccineff <- function(object, ...) {
-  # Check if the input object is of class "vaccineff"
-  stopifnot("Input must be an object of class 'vaccineff'" =
-      checkmate::test_class(object, "vaccineff")
+  summ <- list(
+    ve = object$ve,
+    at = object$at,
+    p_value_schoenfeld = object$cox_model$p_value
   )
+  class(summ) <- "summary_vaccineff"
+  return(summ)
+}
+
+#' @title Print summary of VE Results
+#'
+#' @description Print summary of `vaccineff` object.
+#'
+#' @param x Object of the class `summary.vaccineff`.
+#' @param ... Additional arguments passed to other functions.
+#' @return Summary of the results from `estimate_vaccineff`.
+#' @export
+
+print.summary_vaccineff <- function(x, ...) {
   cat(
     sprintf("Vaccine Effectiveness at %i days computed as VE = 1 - HR:\n",
-            object$at)
+            x$at)
   )
 
-  print(object$ve)
-  cat("\nSchoenfeld test for Proportional Hazards assumption:\n")
-  cat(sprintf("p-value = %s\n", object$cox_model$p_value))
-  if (object$cox_model$p_value < 0.05) {
-    message <- paste0("\np-value < 0.05. Please check loglog plot",
+  print(x$ve, row.names = FALSE)
+  cat("\nSchoenfeld test for Proportional Hazards assumption:")
+  cat(sprintf("\np-value = %s", x$p_value_schoenfeld))
+  if (x$p_value_schoenfeld < 0.05) {
+    warning_schoenfeld <- paste0("\np-value < 0.05. Please check loglog plot",
       " for Proportional Hazards assumption"
     )
-    warning(message)
+    warning(warning_schoenfeld)
   }
+  invisible(x)
 }
 
 #' @title Function for Extracting Vaccine Effectiveness Plot

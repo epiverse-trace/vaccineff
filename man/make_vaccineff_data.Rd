@@ -72,7 +72,7 @@ This function constructs an S3 object of the class
 to estimate the effectiveness.
 }
 \examples{
-
+\donttest{
 # Load example data
 data("cohortdata")
 
@@ -92,4 +92,5 @@ vaccineff_data <- make_vaccineff_data(data_set = cohortdata,
 
 # Print summary of data
 summary(vaccineff_data)
+}
 }

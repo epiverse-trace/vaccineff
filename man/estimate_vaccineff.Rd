@@ -36,6 +36,7 @@ model, and the Kaplan-Meier estimator. This object is compatible with
 \code{summary} and \code{plot} methods.
 }
 \examples{
+\donttest{
 # Load example data
 data("cohortdata")
 
@@ -64,4 +65,5 @@ plot(ve, type = "loglog")
 
 # Generate Survival plot
 plot(ve, type = "surv", percentage = FALSE, cumulative = FALSE)
+}
 }

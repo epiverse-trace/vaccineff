@@ -92,5 +92,8 @@ vaccineff_data <- make_vaccineff_data(data_set = cohortdata,
 
 # Print summary of data
 summary(vaccineff_data)
+
+# Plot vaccine coverage
+plot(vaccineff_data)
 }
 }

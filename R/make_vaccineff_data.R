@@ -54,6 +54,9 @@
 #'
 #' # Print summary of data
 #' summary(vaccineff_data)
+#'
+#' # Plot vaccine coverage
+#' plot(vaccineff_data)
 #' }
 #' @export
 

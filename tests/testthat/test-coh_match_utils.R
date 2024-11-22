@@ -11,14 +11,6 @@ sample_indices <- sample(nrow(cohortdata), sample_size)
 sample_cohort_s <- cohortdata[sample_indices, ]
 rownames(sample_cohort_s) <- NULL
 
-# match_pair_info requires a slightly bigger cohort
-# additional data preparation
-sample_size <- 5000
-sample_indices <- sample(nrow(cohortdata), sample_size)
-sample_cohort_l <- cohortdata[sample_indices, ]
-rownames(sample_cohort_l) <- NULL
-
-#### Tests for match_cohort_() ####
 # assign vaccination status
 sample_cohort_s$vaccine_status <- set_status(
   data_set = sample_cohort_s,
@@ -26,6 +18,35 @@ sample_cohort_s$vaccine_status <- set_status(
   status = c("v", "u")
 )
 
+# match_pair_info requires a slightly bigger cohort
+# additional data preparation
+sample_size <- 5000
+sample_indices <- sample(nrow(cohortdata), sample_size)
+sample_cohort_l <- cohortdata[sample_indices, ]
+rownames(sample_cohort_l) <- NULL
+
+# Assign vaccination status
+sample_cohort_l$vaccine_status <- set_status(
+  data_set = sample_cohort_l,
+  col_names = "vaccine_date_2",
+  status = c("v", "u")
+)
+
+# Match cohort
+matched_cohort <- match_cohort_(data_set = sample_cohort_l,
+  vacc_status_col = "vaccine_status",
+  exact = "sex"
+)
+
+# Add column with minimum censoring date for pair
+matched_cohort$censoring_pair <-  as.Date(match_pair_info(
+  data_set = matched_cohort,
+  column_to_match = "death_other_causes",
+  criteria = "min"
+))
+
+
+#### Tests for match_cohort_() ####
 # Test for basic expectations - all provided
 test_that("`match_cohort`: basic expectations - all provided", {
   matched_cohort <- match_cohort_(
@@ -125,26 +146,6 @@ test_that("`match_cohort`: nearest match", {
 })
 
 #### Tests for match_pair_info() ####
-# Assign vaccination status
-sample_cohort_l$vaccine_status <- set_status(
-  data_set = sample_cohort_l,
-  col_names = "vaccine_date_2",
-  status = c("v", "u")
-)
-
-# Match cohort
-matched_cohort <- match_cohort_(data_set = sample_cohort_l,
-  vacc_status_col = "vaccine_status",
-  exact = "sex"
-)
-
-# Add column with minimum censoring date for pair
-matched_cohort$censoring_pair <-  as.Date(match_pair_info(
-  data_set = matched_cohort,
-  column_to_match = "death_other_causes",
-  criteria = "min"
-))
-
 # Basic expectations
 test_that("`get_censoring_date_match`: basic expectations", {
   # expect date
@@ -181,14 +182,14 @@ test_that("`get_censoring_date_match`: take minimum censoring date", {
 })
 
 # Check for maximum censoring date per pair
-# Add column with censoring date for pair
-matched_cohort$censoring_pair_max <-  as.Date(match_pair_info(
-  data_set = matched_cohort,
-  column_to_match = "death_other_causes",
-  criteria = "max"
-))
-
 test_that("`get_censoring_date_match`: take maximum censoring date", {
+  # Add column with censoring date for pair
+  matched_cohort$censoring_pair_max <-  as.Date(match_pair_info(
+    data_set = matched_cohort,
+    column_to_match = "death_other_causes",
+    criteria = "max"
+  ))
+
   censored_twodates <-
     matched_cohort[!is.na(matched_cohort$censoring_pair_max)  &
       !is.na(matched_cohort$death_other_causes),
@@ -203,37 +204,38 @@ test_that("`get_censoring_date_match`: take maximum censoring date", {
 })
 
 #### Tests for match_summary() ####
-# Create `data.frame` with information on immunization
-sample_cohort_imm <- make_immunization(
-  data_set = sample_cohort_s,
-  outcome_date_col = "death_date",
-  censoring_date_col = "death_other_causes",
-  vacc_date_col = "vaccine_date_2",
-  vacc_name_col = NULL,
-  vaccinated_status = "v",
-  unvaccinated_status = "u",
-  immunization_delay = 14,
-  end_cohort = end_cohort
-)
-# Match the data directly using match_cohort
-output <- capture_warnings(match_cohort(
-  data_set = sample_cohort_imm,
-  outcome_date_col = "death_date",
-  censoring_date_col = "death_other_causes",
-  start_cohort = start_cohort,
-  end_cohort = end_cohort,
-  exact = "sex",
-  nearest = c(age = 1),
-  immunization_date_col = "immunization_date",
-  vacc_status_col = "vaccine_status",
-  vaccinated_status = "v",
-  unvaccinated_status = "u"
-))
-
-matching <- output$result
-
 # Snapshot for summary comparing only two dataframes
 test_that("`match_cohort`: summary snapshot", {
+  # Create `data.frame` with information on immunization
+  sample_cohort_imm <- make_immunization(
+    data_set = sample_cohort_s,
+    outcome_date_col = "death_date",
+    censoring_date_col = "death_other_causes",
+    vacc_date_col = "vaccine_date_2",
+    vacc_name_col = NULL,
+    vaccinated_status = "v",
+    unvaccinated_status = "u",
+    immunization_delay = 14,
+    end_cohort = end_cohort
+  )
+  # Match the data directly using match_cohort
+  output <- capture_warnings(match_cohort(
+    data_set = sample_cohort_imm,
+    outcome_date_col = "death_date",
+    censoring_date_col = "death_other_causes",
+    start_cohort = start_cohort,
+    end_cohort = end_cohort,
+    exact = "sex",
+    nearest = c(age = 1),
+    immunization_date_col = "immunization_date",
+    vacc_status_col = "vaccine_status",
+    vaccinated_status = "v",
+    unvaccinated_status = "u"
+  ))
+
+  # Extract results from matching after capturing warning
+  matching <- output$result
+
   # snapshot for summary
   matched <- matching$match
   summary <- match_summary(all = sample_cohort_imm,

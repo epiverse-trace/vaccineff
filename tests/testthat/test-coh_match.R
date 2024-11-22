@@ -41,6 +41,7 @@ output <- capture_warnings(match_cohort(
 
 matching <- output$result
 
+#### Tests for the match_cohort() ####
 # Test for basic expectations - all provided
 test_that("`match_cohort`: basic expectations", {
   expect_s3_class(

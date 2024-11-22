@@ -2,7 +2,6 @@
 #### Prepare data for all the tests ####
 data("cohortdata")
 
-#### Test for set status ####
 # unique statuses
 vax_status <- c("vaccinated", "unvaccinated")
 
@@ -21,6 +20,9 @@ vaccine_status <- set_status(
   col_names = c("vaccine_date_1", "vaccine_date_2"),
   status = vax_status
 )
+
+#### Tests for set_status() ####
+#basic expectations
 test_that("`set_status`: Basic expectations", {
   # runs without errors
   expect_no_condition(
@@ -41,6 +43,7 @@ test_that("`set_status`: Basic expectations", {
   expect_setequal(vaccine_status, vax_status)
 })
 
+#correctness
 test_that("`set_status`: Correctness", {
   status <- c(1, 0)
   # get status with AND operator
@@ -103,7 +106,7 @@ test_that("`set_status`: Correctness", {
   )
 })
 
-
+# test for inputs
 test_that("`set_status`: Input checking", {
   # errors triggered correctly
   expect_error(

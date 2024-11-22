@@ -34,7 +34,7 @@
 #' characteristics of the study. `data.frames` are converted into an object of
 #' class `linelist` to easily handle with the data.
 #' @examples
-#'
+#' \donttest{
 #' # Load example data
 #' data("cohortdata")
 #'
@@ -54,6 +54,7 @@
 #'
 #' # Print summary of data
 #' summary(vaccineff_data)
+#' }
 #' @export
 
 make_vaccineff_data <- function(data_set,
@@ -196,47 +197,79 @@ make_vaccineff_data <- function(data_set,
 #' @export
 
 summary.vaccineff_data <- function(object, warnings_log = FALSE, ...) {
-  # Check if the input object is of class "match"
-  stopifnot("Input must be an object of class 'vaccineff_data'" =
-      checkmate::test_class(object, "vaccineff_data")
-  )
-
-  cat(paste0("\nCohort start: ", object$start_cohort))
-  cat(paste0("\nCohort end: ", object$end_cohort, "\n"))
-
-  cat(object$warnings_log$filtered, sep = "")
-
-  # Extract tags
   tags <- linelist::tags(object$cohort_data)
 
-  # Summary
+  summ <- list(
+    start_cohort = object$start_cohort,
+    end_cohort = object$end_cohort,
+    tags = tags,
+    trunc_log = object$warnings_log$filtered
+  )
+
   if (!is.null(object$matching)) {
-    cat("\nNearest neighbors matching iteratively performed.\n")
-    summary.match(object$matching)
-
-    if (warnings_log && !is.null(object$matching)) {
-      cat("\nWarnings:\n")
-      cat(object$warnings_log$matching, sep = "")
+    summ$summary_vaccination <- object$matching$summary
+    summ$balance_all <- object$matching$balance_all
+    summ$balance_match <- object$matching$balance_match
+    summ$iterations <- object$matching$iterations
+    if (warnings_log) {
+      summ$match_log <- object$warnings_log$matching
+    } else {
+      summ$match_log <- NULL
     }
-
   } else {
-    summ_cohort <- match_summary(
+    summ_vacc <- match_summary(
       all = object$cohort_data,
       matched = NULL,
       vacc_status_col = tags$vacc_status_col
     )
-    cat("\nNo matching routine invoked.\n")
-    print(summ_cohort)
+    summ$summary_vaccination <- summ_vacc
+  }
 
+  class(summ) <- "summary_vaccineff_data"
+  return(summ)
+}
+
+#' @title Print Summary of Vaccineff Data
+#' @description Summarizes the results of `make_vaccineff_data`.
+#'
+#' @param x Object of the class `summary.vaccineff_data`.
+#' @param ... Additional arguments passed to other functions.
+#' @return Summary of the results from vaccineff data
+#' @export
+print.summary_vaccineff_data <- function(x, ...) {
+  cat("Cohort start: ", as.character(x$start_cohort))
+  cat("\nCohort end: ", as.character(x$end_cohort))
+
+  cat(x$trunc_log, sep = "")
+
+  if (!is.null(x$balance_match)) {
+    cat("\nNearest neighbors matching iteratively performed.")
+    cat("\nNumber of iterations: ", x$iterations)
+    cat("\nBalance all:\n")
+    print(x$balance_all)
+    cat("\nBalance matched:\n")
+    print(x$balance_match)
+    cat("\nSummary vaccination:\n")
+    print(x$summary_vaccination)
+
+    if (!is.null(x$match_log)) {
+      message("Warnings:")
+      message(x$match_log, sep = "\n")
+    }
+
+  } else {
+    cat("\nNo matching routine invoked.")
+    cat("\nSummary vaccination:\n")
+    print(x$summary_vaccination)
   }
 
   # Print tags from linelist object
-  tags_txt <- paste(names(tags), unlist(tags), sep = ":", collapse = ", ")
+  tags_txt <- paste(names(x$tags), unlist(x$tags), sep = ":", collapse = ", ")
   if (tags_txt == "") {
     tags_txt <- "[no tagged variable]"
   }
   cat("\n// tags:", tags_txt, "\n")
-
+  invisible(x)
 }
 
 #' @title Function for Extracting Vaccineff Data Plot

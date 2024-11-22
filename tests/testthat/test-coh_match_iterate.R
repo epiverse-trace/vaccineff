@@ -17,7 +17,8 @@ outcome_date_col <- "death_date"
 censoring_date_col <- "death_other_causes"
 vacc_date_col <- "vaccine_date_2"
 immunization_delay <- 15
-
+vacc_status_col <- "vaccine_status"
+immunization_date_col <- "immunization_date"
 
 # Create `data.frame` with information on immunization
 sample_cohort <- make_immunization(
@@ -32,12 +33,8 @@ sample_cohort <- make_immunization(
   end_cohort = end_cohort
 )
 
-#### Tests for the rematch_() ####
 # Generate id to control matches
 sample_cohort$match_id <- seq_len(nrow(sample_cohort))
-
-vacc_status_col <- "vaccine_status"
-immunization_date_col <- "immunization_date"
 
 # Match sample cohort
 matched <- match_cohort_(
@@ -55,6 +52,7 @@ adjusted_0 <- adjust_exposition(matched_cohort = matched,
                                 start_cohort = start_cohort,
                                 end_cohort = end_cohort)
 
+#### Tests for the rematch() ####
 # Test for basic expectations and correctness of algorithm
 test_that("`rematch`: Correctness", {
   removed_i <- matched[!(matched$match_id %in% adjusted_0$match_id), ]
@@ -148,7 +146,6 @@ test_that("`rematch`: Correctness", {
   )
 })
 
-
 # Test of conditions to avoid rematch
 test_that("`rematch_`: return empty when no unmatched registers", {
   removed_i <- matched[!(matched$match_id %in% adjusted_0$match_id), ]
@@ -217,28 +214,6 @@ test_that("`rematch`: tryCatch error handle", {
 })
 
 #### Tests for the iterate_match() ####
-# Generate id to control matches
-sample_cohort$match_id <- seq_len(nrow(sample_cohort))
-vacc_status_col <- "vaccine_status"
-immunization_date_col <- "immunization_date"
-
-# Match sample cohort
-matched <- match_cohort_(
-  data_set = sample_cohort,
-  vacc_status_col = vacc_status_col,
-  nearest = nearest,
-  exact = exact
-)
-
-# Adjust exposition times of matched cohort
-adjusted_0 <- adjust_exposition(matched_cohort = matched,
-  outcome_date_col = outcome_date_col,
-  censoring_date_col = censoring_date_col,
-  immunization_date = immunization_date_col,
-  start_cohort = start_cohort,
-  end_cohort = end_cohort
-)
-
 # Test for basic expectations and correctness of algorithm
 test_that("`iterate_match`: Correctness", {
   # handler function is used to avoid undesired warnings on test

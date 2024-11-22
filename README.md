@@ -22,7 +22,7 @@ Javeriana](https://www.javeriana.edu.co/inicio) as part of the
 [Epiverse-TRACE initiative](https://data.org/initiatives/epiverse/).
 
 *vaccineff* is an R package that offers tools for estimating vaccine
-effectiveness, using a series of epidemiological designs including
+effectiveness (VE), using a series of epidemiological designs including
 cohort studies, test-negative case-control, and screening methods
 ([Halloran, Longini, and Struchiner 2010](#ref-bookvaccine)). The
 current version of the package provides a set of features for preparing,
@@ -63,12 +63,60 @@ head(cohortdata, 5)
 #> 5      <NA>      <NA>
 ```
 
+The function `make_vaccineff_data` allows defining different aspects of
+the study design—such as vaccination dates, immunization delays, and
+potential confounding factors—and creates an object of class
+`vaccineff_data`. Its output is used to estimate VE using a Cox model
+regression invoked by the function `estimate_vaccineff`, which returns
+the object `vaccineff`.
+
+The proportional hazard assumption can be tested both through the
+Schoenfeld test and visually using the `plot` method by setting
+`type = "loglog"`.
+
+``` r
+# Create `vaccineff_data`
+vaccineff_data <- make_vaccineff_data(
+  data_set = cohortdata,
+  outcome_date_col = "death_date",
+  censoring_date_col = "death_other_causes",
+  vacc_date_col = "vaccine_date_2",
+  vaccinated_status = "v",
+  unvaccinated_status = "u",
+  immunization_delay = 15,
+  end_cohort = as.Date("2044-12-31"),
+  match = TRUE,
+  exact = "sex",
+  nearest = c(age = 1)
+)
+
+# Estimate VE
+ve <- estimate_vaccineff(vaccineff_data, at = 180)
+
+# Print summary of VE
+summary(ve)
+#> Vaccine Effectiveness at 180 days computed as VE = 1 - HR:
+#>      VE lower.95 upper.95
+#>  0.8457   0.7429   0.9074
+#> 
+#> Schoenfeld test for Proportional Hazards assumption:
+#> p-value = 0.0046
+#> Warning in print.summary_vaccineff(x): 
+#> p-value < 0.05. Please check loglog plot for Proportional Hazards assumption
+
+# Generate loglog plot to check proportional hazards
+plot(ve, type = "loglog")
+```
+
+<img src="man/figures/README-unnamed-chunk-2-1.png" width="100%" />
+
 ## Package vignettes
 
 More details on how to use *vaccineff* can be found in the [online
 documentation as package
-vignettes](https://epiverse-trace.github.io/vaccineff/), in the article
-“Get Started with vaccineff”.
+vignettes](https://epiverse-trace.github.io/vaccineff/), and in the
+articles “Get Started with vaccineff” and “Introduction to cohort design
+with vaccineff”.
 
 ## Help
 
@@ -77,9 +125,8 @@ To report a bug or to request a new feature please open an
 
 ## Contribute
 
-Contributions to *vaccineff* are welcomed. Please follow the [package
-contributing
-guide](https://github.com/epiverse-trace/vaccineff/blob/main/.github/CONTRIBUTING.md).
+Contributions to *vaccineff* are welcomed. Contributions are welcome via
+[pull requests](https://github.com/%7B%7B%20gh_repo%20%7D%7D/pulls).
 
 Contributors to the project include:
 

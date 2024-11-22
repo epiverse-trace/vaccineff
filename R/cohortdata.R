@@ -20,9 +20,9 @@
 #'
 #' @format ## `cohortdata`
 #' \describe{
-#' \item{id}{anonimous id}
-#' \item{sex}{sex F/M}
-#' \item{age}{age (50-100)}
+#' \item{id}{Anonimous ID of the individual}
+#' \item{sex}{Sex F/M}
+#' \item{age}{Age (50-100)}
 #' \item{death_date}{Registered death by COVID-19}
 #' \item{death_other_causes}{Registered death by other causes}
 #' \item{vaccine_date_1}{Registered date of the first dose}

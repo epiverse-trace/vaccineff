@@ -4,7 +4,7 @@ data("cohortdata")
 
 # sample cohort to make tests faster - take a bigger sample
 sample_size <- 15000 # Minimum sample size that contains outcomes
-set.seed(123) # use fixed seed to avoid problems with snapshots
+set.seed(123) # use fixed seed
 sample_indices <- sample(nrow(cohortdata), sample_size)
 sample_cohort <- cohortdata[sample_indices, ]
 rownames(sample_cohort) <- NULL

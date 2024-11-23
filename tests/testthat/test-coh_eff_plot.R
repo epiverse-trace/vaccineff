@@ -4,7 +4,7 @@ data("cohortdata")
 
 # sample cohort to make tests faster - take a bigger sample
 sample_size <- 15000 # Minimum sample size that contains outcomes
-set.seed(123) # use fixed seed to avoid problems with snapshots
+set.seed(123) # use fixed seed
 sample_indices <- sample(nrow(cohortdata), sample_size)
 sample_cohort <- cohortdata[sample_indices, ]
 rownames(sample_cohort) <- NULL
@@ -56,7 +56,7 @@ test_that("`plot_survival`: integer scale", {
 })
 
 # test to test non-percentage
-test_that("`plot_survival`: Snapshot test", {
+test_that("`plot_survival`: test for features cumulative TRUE", {
   plt <- plot_survival(
     km = ve$kaplan_meier,
     percentage = TRUE,

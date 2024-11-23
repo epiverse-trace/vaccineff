@@ -6,7 +6,7 @@ end_cohort <- as.Date("2044-12-31")
 
 # sample cohort to make tests faster - take a bigger sample
 sample_size <- 10000
-set.seed(123) # use fixed seed to avoid problems with snapshots
+set.seed(123) # use fixed seed
 sample_indices <- sample(nrow(cohortdata), sample_size)
 sample_cohort <- cohortdata[sample_indices, ]
 rownames(sample_cohort) <- NULL
@@ -244,7 +244,7 @@ test_that("`iterate_match`: Correctness", {
     all(adjusted_0$match_id %in% output$result$adjusted$match_id)
   )
 
-  # Warnings are also tested for completeness using a snapshot
+  # Warnings are also tested for completeness
   expect_gt(
     length(output$warnings), 0
   )

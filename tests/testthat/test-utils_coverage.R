@@ -3,7 +3,7 @@
 data("cohortdata")
 # sample cohort to make tests faster - take a bigger sample
 sample_size <- 15000
-set.seed(123) # use fixed seed to avoid problems with snapshots
+set.seed(123) # use fixed seed
 sample_indices <- sample(nrow(cohortdata), sample_size)
 sample_cohort <- cohortdata[sample_indices, ]
 rownames(sample_cohort) <- NULL
@@ -27,7 +27,7 @@ vaccineff_data <- make_vaccineff_data(
 # Since plot_coverage and coh_coverage are meant to be used together
 # only one test is nedeed.
 
-# snapshot test to test default options
+# test default options
 test_that("`plot_coverage`: default plot", {
   plt <- plot_coverage(
     vaccineff_data = vaccineff_data,
@@ -39,7 +39,7 @@ test_that("`plot_coverage`: default plot", {
   expect_identical(plt$data$doses, plt$data$dose_plot)
 })
 
-# snapshot test to test cumulative
+# test cumulative
 test_that("`plot_coverage`: cumulative plot", {
   plt <- plot_coverage(
     vaccineff_data = vaccineff_data,

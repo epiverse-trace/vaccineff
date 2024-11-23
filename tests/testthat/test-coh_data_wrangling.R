@@ -2,15 +2,6 @@
 #### Prepare data for all the tests ####
 data("cohortdata")
 
-# unique statuses
-vax_status <- c("vaccinated", "unvaccinated")
-
-# assign vaccination status
-vaccine_status <- set_status(
-  data_set = cohortdata,
-  col_names = c("vaccine_date_1", "vaccine_date_2"),
-  status = vax_status
-)
 # load package example data for cohort studies
 # unique statuses
 vax_status <- c("vaccinated", "unvaccinated")

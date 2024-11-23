@@ -83,7 +83,7 @@ select the first vaccine date by setting <code>take_first = TRUE</code>.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_immunization_date</span><span class="op">(</span></span>
 <span>  <span class="va">data_set</span>,</span>
 <span>  <span class="va">outcome_date_col</span>,</span>
-<span>  censoring_date_col <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  <span class="va">censoring_date_col</span>,</span>
 <span>  <span class="va">immunization_delay</span>,</span>
 <span>  <span class="va">vacc_date_col</span>,</span>
 <span>  <span class="va">end_cohort</span>,</span>
@@ -105,7 +105,7 @@ select the first vaccine date by setting <code>take_first = TRUE</code>.</p>
 
 <dt id="arg-censoring-date-col">censoring_date_col<a class="anchor" aria-label="anchor" href="#arg-censoring-date-col"></a></dt>
 <dd><p>Name of the column that contains the censoring
-date. NULL by default.</p></dd>
+date.</p></dd>
 
 
 <dt id="arg-immunization-delay">immunization_delay<a class="anchor" aria-label="anchor" href="#arg-immunization-delay"></a></dt>

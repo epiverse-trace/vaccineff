@@ -119,12 +119,12 @@ parameter <code>vacc_name_col</code>, as a vector in the same order as <code>vac
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">make_immunization</span><span class="op">(</span></span>
 <span>  <span class="va">data_set</span>,</span>
 <span>  <span class="va">outcome_date_col</span>,</span>
-<span>  censoring_date_col <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  <span class="va">censoring_date_col</span>,</span>
 <span>  <span class="va">vacc_date_col</span>,</span>
-<span>  vacc_name_col <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  vaccinated_status <span class="op">=</span> <span class="st">"v"</span>,</span>
-<span>  unvaccinated_status <span class="op">=</span> <span class="st">"u"</span>,</span>
-<span>  immunization_delay <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  <span class="va">vacc_name_col</span>,</span>
+<span>  <span class="va">vaccinated_status</span>,</span>
+<span>  <span class="va">unvaccinated_status</span>,</span>
+<span>  <span class="va">immunization_delay</span>,</span>
 <span>  <span class="va">end_cohort</span>,</span>
 <span>  take_first <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -144,7 +144,7 @@ parameter <code>vacc_name_col</code>, as a vector in the same order as <code>vac
 
 <dt id="arg-censoring-date-col">censoring_date_col<a class="anchor" aria-label="anchor" href="#arg-censoring-date-col"></a></dt>
 <dd><p>Name of the column that contains the censoring
-date. NULL by default.</p></dd>
+date.</p></dd>
 
 
 <dt id="arg-vacc-date-col">vacc_date_col<a class="anchor" aria-label="anchor" href="#arg-vacc-date-col"></a></dt>
@@ -157,13 +157,11 @@ names for the vaccines (e.g. brand name, type of vaccine)</p></dd>
 
 
 <dt id="arg-vaccinated-status">vaccinated_status<a class="anchor" aria-label="anchor" href="#arg-vaccinated-status"></a></dt>
-<dd><p>Status assigned to the vaccinated population.
-Default is <code>v</code>.</p></dd>
+<dd><p>Status assigned to the vaccinated population.</p></dd>
 
 
 <dt id="arg-unvaccinated-status">unvaccinated_status<a class="anchor" aria-label="anchor" href="#arg-unvaccinated-status"></a></dt>
-<dd><p>Status assigned to the unvaccinated population.
-Default is <code>u</code>.</p></dd>
+<dd><p>Status assigned to the unvaccinated population.</p></dd>
 
 
 <dt id="arg-immunization-delay">immunization_delay<a class="anchor" aria-label="anchor" href="#arg-immunization-delay"></a></dt>

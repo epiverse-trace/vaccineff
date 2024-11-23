@@ -125,13 +125,12 @@ future releases.</p>
 <span>  <span class="va">censoring_date_col</span>,</span>
 <span>  <span class="va">start_cohort</span>,</span>
 <span>  <span class="va">end_cohort</span>,</span>
-<span>  method <span class="op">=</span> <span class="st">"static"</span>,</span>
-<span>  nearest <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  exact <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  immunization_date_col <span class="op">=</span> <span class="st">"immunization_date"</span>,</span>
-<span>  vacc_status_col <span class="op">=</span> <span class="st">"vaccine_status"</span>,</span>
-<span>  vaccinated_status <span class="op">=</span> <span class="st">"v"</span>,</span>
-<span>  unvaccinated_status <span class="op">=</span> <span class="st">"u"</span></span>
+<span>  <span class="va">nearest</span>,</span>
+<span>  <span class="va">exact</span>,</span>
+<span>  <span class="va">immunization_date_col</span>,</span>
+<span>  <span class="va">vacc_status_col</span>,</span>
+<span>  <span class="va">vaccinated_status</span>,</span>
+<span>  <span class="va">unvaccinated_status</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -149,7 +148,7 @@ future releases.</p>
 
 <dt id="arg-censoring-date-col">censoring_date_col<a class="anchor" aria-label="anchor" href="#arg-censoring-date-col"></a></dt>
 <dd><p>Name of the column that contains the censoring
-date. <code>NULL</code> by default.</p></dd>
+date.</p></dd>
 
 
 <dt id="arg-start-cohort">start_cohort<a class="anchor" aria-label="anchor" href="#arg-start-cohort"></a></dt>
@@ -160,39 +159,31 @@ date. <code>NULL</code> by default.</p></dd>
 <dd><p>End date of the study.</p></dd>
 
 
-<dt id="arg-method">method<a class="anchor" aria-label="anchor" href="#arg-method"></a></dt>
-<dd><p>Method to match the cohort. Default is <code>static</code>.</p></dd>
-
-
 <dt id="arg-nearest">nearest<a class="anchor" aria-label="anchor" href="#arg-nearest"></a></dt>
 <dd><p>Named vector with name(s) of column(s) for <code>nearest</code> matching
-and caliper(s) for each variable (e.g., <code>nearest = c("characteristic1" = n1, "characteristic2" = n2)</code>, where <code>n1</code> and <code>n2</code> are the calipers). Default is
-<code>NULL</code>.</p></dd>
+and caliper(s) for each variable (e.g., <code>nearest = c("characteristic1" = n1, "characteristic2" = n2)</code>, where <code>n1</code> and <code>n2</code> are the calipers).</p></dd>
 
 
 <dt id="arg-exact">exact<a class="anchor" aria-label="anchor" href="#arg-exact"></a></dt>
-<dd><p>Name(s) of column(s) for <code>exact</code> matching. Default is <code>NULL</code>.</p></dd>
+<dd><p>Name(s) of column(s) for <code>exact</code> matching</p></dd>
 
 
 <dt id="arg-immunization-date-col">immunization_date_col<a class="anchor" aria-label="anchor" href="#arg-immunization-date-col"></a></dt>
 <dd><p>Name of the column that contains the
 immunization date to set the beginning of the follow-up period
-(<code>t0_follow_up</code>). Default is <code>immunization_date</code>.</p></dd>
+(<code>t0_follow_up</code>).</p></dd>
 
 
 <dt id="arg-vacc-status-col">vacc_status_col<a class="anchor" aria-label="anchor" href="#arg-vacc-status-col"></a></dt>
-<dd><p>Name of the column containing the vaccination.
-Default is <code>vaccine_status</code>.</p></dd>
+<dd><p>Name of the column containing the vaccination.</p></dd>
 
 
 <dt id="arg-vaccinated-status">vaccinated_status<a class="anchor" aria-label="anchor" href="#arg-vaccinated-status"></a></dt>
-<dd><p>Status assigned to the vaccinated population.
-Default is <code>v</code>.</p></dd>
+<dd><p>Status assigned to the vaccinated population.</p></dd>
 
 
 <dt id="arg-unvaccinated-status">unvaccinated_status<a class="anchor" aria-label="anchor" href="#arg-unvaccinated-status"></a></dt>
-<dd><p>Status assigned to the unvaccinated population.
-Default is <code>u</code>.</p></dd>
+<dd><p>Status assigned to the unvaccinated population.</p></dd>
 
 </dl></div>
     <div class="section level2">

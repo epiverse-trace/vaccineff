@@ -1,7 +1,7 @@
 #### Tests for coh_time_to_event.R module ####
 #### Prepare data for all the tests ####
 data("cohortdata")
-end_cohort <- as.Date("2044-12-31")
+end_cohort <- as.Date("2021-12-31")
 
 # sample cohort to make tests faster - take a bigger sample
 sample_size <- 10000

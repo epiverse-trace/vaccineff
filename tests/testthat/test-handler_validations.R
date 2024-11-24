@@ -10,8 +10,8 @@ vacc_name_col <- "vaccine_2"
 vaccinated_status <- "v"
 unvaccinated_status <- "u"
 immunization_delay <- 0
-start_cohort <- as.Date("2044-01-31")
-end_cohort <- as.Date("2044-12-31")
+start_cohort <- as.Date("2021-01-31")
+end_cohort <- as.Date("2021-12-31")
 match <- NULL
 nearest <- NULL
 exact <- NULL

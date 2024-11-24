@@ -1,8 +1,8 @@
 #### Tests for coh_match_utils.R module ####
 #### Prepare data for all tests ####
 data("cohortdata")
-start_cohort <- as.Date("2044-01-01")
-end_cohort <- as.Date("2044-12-31")
+start_cohort <- as.Date("2021-01-01")
+end_cohort <- as.Date("2021-12-31")
 
 # tests for match_cohort_() and match_summary can use the small data
 sample_size <- 1000

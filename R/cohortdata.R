@@ -5,7 +5,7 @@
 #' Colombia between February 2021 and December 2021. Cohort dataset contains
 #' registers of homologous schemes for two different brands for adults aged 50
 #' years or older. This cohort received two doses of a vaccine aimed at
-#' reducing the risk of death. All the registers were anonymized and
+#' reducing the risk of death. All the registers were anonymised and
 #' de-identified to preserve the privacy of data.
 #' The dataset includes disaggregated information on the first and second
 #' vaccine doses (vaccine_date1, vaccine_date2, vaccine1, and vaccine2) for each
@@ -20,7 +20,7 @@
 #'
 #' @format ## `cohortdata`
 #' \describe{
-#' \item{id}{Anonimous ID of the individual}
+#' \item{id}{Anonymous ID of the individual}
 #' \item{sex}{Sex F/M}
 #' \item{age}{Age (50-100)}
 #' \item{death_date}{Registered death by COVID-19}

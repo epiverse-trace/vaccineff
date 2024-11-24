@@ -33,10 +33,10 @@ sample_cohort_l$vaccine_status <- set_status(
 )
 
 # Match cohort
-matched_cohort <- match_cohort_(data_set = sample_cohort_l,
+matched_cohort <- capture_warnings(match_cohort_(data_set = sample_cohort_l,
   vacc_status_col = "vaccine_status",
   exact = "sex"
-)
+))$result
 
 # Add column with minimum censoring date for pair
 matched_cohort$censoring_pair <-  as.Date(match_pair_info(
@@ -47,14 +47,30 @@ matched_cohort$censoring_pair <-  as.Date(match_pair_info(
 
 
 #### Tests for match_cohort_() ####
+# Test for warning from MatchIt
+test_that("`match_cohort_`: warning", {
+  expect_warning(match_cohort_(
+    # match_cohort_ can produce warnings for few units. This are
+    # ignored in this test
+    data_set = sample_cohort_s,
+    vacc_status_col = "vaccine_status",
+    exact = c("sex", "age")
+  ),
+  regexp = paste0("Fewer control units than treated units in some `exact` ",
+    "strata; not all treated units will get a match."
+  )
+  )
+})
 # Test for basic expectations - all provided
 test_that("`match_cohort`: basic expectations - all provided", {
-  matched_cohort <- match_cohort_(
+  matched_cohort <- capture_warnings(match_cohort_(
+    # match_cohort_ can produce warnings for few units. This are
+    # ignored in this test
     data_set = sample_cohort_s,
     vacc_status_col = "vaccine_status",
     exact = "sex",
     nearest = c(age = 1)
-  )
+  ))$result
   # expect dataframe
   expect_s3_class(matched_cohort, "data.frame")
 
@@ -102,12 +118,14 @@ test_that("`match_cohort`: basic expectations - all provided", {
 })
 
 # Test for exact match
-test_that("`match_cohort`: exact match", {
-  matched_cohort <- match_cohort_(
+test_that("`match_cohort_`: exact match", {
+  matched_cohort <- capture_warnings(match_cohort_(
+    # match_cohort_ can produce warnings for few units. This are
+    # ignored in this test
     data_set = sample_cohort_s,
     vacc_status_col = "vaccine_status",
     exact = "sex"
-  )
+  ))$result
   # same number of categories in "v" and "u"
   expect_identical(
     table(matched_cohort[matched_cohort$vaccine_status == "u", ]$sex),
@@ -117,11 +135,13 @@ test_that("`match_cohort`: exact match", {
 
 # Test for nearest match
 test_that("`match_cohort`: nearest match", {
-  matched_cohort <- match_cohort_(
+  matched_cohort <- capture_warnings(match_cohort_(
+    # match_cohort_ can produce warnings for few units. This are
+    # ignored in this test
     data_set = sample_cohort_s,
     vacc_status_col = "vaccine_status",
     nearest = c(age = 3)
-  )
+  ))$result
   # even number of pairs
   expect_setequal(
     nrow(matched_cohort),

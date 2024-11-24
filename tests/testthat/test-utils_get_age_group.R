@@ -7,6 +7,7 @@ test_that("`get_age_groups`: basic expectations", {
   # prepare a vector of binned ages
   max_val <- 80
   step_size <- 10
+  min_val <- 60
 
   age_groups <- get_age_group(
     data_set = cohortdata,
@@ -19,6 +20,7 @@ test_that("`get_age_groups`: basic expectations", {
   expect_s3_class(
     age_groups, "factor"
   )
+
   # check for number of factor levels
   expect_length(
     unique(age_groups),
@@ -28,7 +30,7 @@ test_that("`get_age_groups`: basic expectations", {
         cohortdata$age,
         breaks = c(
           -Inf,
-          seq(step_size, max_val, step_size),
+          seq(min_val, max_val, step_size),
           Inf
         )
       )

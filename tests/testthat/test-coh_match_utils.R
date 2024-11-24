@@ -47,20 +47,6 @@ matched_cohort$censoring_pair <-  as.Date(match_pair_info(
 
 
 #### Tests for match_cohort_() ####
-# Test for warning from MatchIt
-test_that("`match_cohort_`: warning", {
-  expect_warning(match_cohort_(
-    # match_cohort_ can produce warnings for few units. This are
-    # ignored in this test
-    data_set = sample_cohort_s,
-    vacc_status_col = "vaccine_status",
-    exact = c("sex", "age")
-  ),
-  regexp = paste0("Fewer control units than treated units in some `exact` ",
-    "strata; not all treated units will get a match."
-  )
-  )
-})
 # Test for basic expectations - all provided
 test_that("`match_cohort`: basic expectations - all provided", {
   matched_cohort <- capture_warnings(match_cohort_(

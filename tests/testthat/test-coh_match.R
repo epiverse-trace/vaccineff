@@ -1,8 +1,8 @@
 #### Tests for coh_match.R module ####
 #### Prepare data for all the tests ####
 data("cohortdata")
-start_cohort <- as.Date("2044-01-01")
-end_cohort <- as.Date("2044-12-31")
+start_cohort <- as.Date("2021-01-01")
+end_cohort <- as.Date("2021-12-31")
 
 # Sample cohort to make tests faster - take a bigger sample
 sample_size <- 1000

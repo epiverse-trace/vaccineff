@@ -11,9 +11,9 @@
 #' and `n2` are the calipers). The default matching `method` of the function is
 #' `static`. This means that pairs are matched once, without taking into
 #' account their vaccination, censoring, and outcome dates. After this, the
-#' pairs whose exposition time do not coincide are removed to avoid negative
+#' pairs whose exposure time do not coincide are removed to avoid negative
 #' time-to-events.
-#' The function returns a matched and adjusted by exposition cohort, with
+#' The function returns a matched and adjusted by exposure cohort, with
 #' information of the beginning of follow-up period of pairs (`t0_follow_up`),
 #' corresponding to the vaccination date of the vaccinated individual, the
 #' individual time-to-event (`time_to_event`) and the outcome status

@@ -30,11 +30,11 @@ date.}
 \description{
 This function returns both the time-to-event until a
 reference number of days, as provided in \code{at}, and the outcome status
-at the same point. It uses the exposition time as an auxiliary variable
+at the same point. It uses the exposure time as an auxiliary variable
 to calculate the time-to-event. The starting point for counting the
 time-to-event is \code{t0_follow_up}, which is determined based on whether
 a matching strategy is used or not. If the event occurs before the
-reference date, the end date of the exposition period is used to
+reference date, the end date of the exposure period is used to
 calculate the time-to-event. This accounts for whether censoring or an
 event occurred. The outcome status is determined based on whether the
 outcome date coincides with the end of the follow-up period.

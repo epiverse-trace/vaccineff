@@ -1,20 +1,20 @@
 
-#' @title Calculate Exposition Time
+#' @title Calculate Exposure Time
 #'
-#' @description This auxiliary function calculates the exposition time of
+#' @description This auxiliary function calculates the exposure time of
 #' individuals starting from the t0_follow_up date defined based on whether
-#' a matching strategy is invoked or not. The end of the exposition time
+#' a matching strategy is invoked or not. The end of the exposure time
 #' is assigned based on the follow hierarchy
 #' outcome_status -> censoring_date -> end_cohort
 #'
 #' @inheritParams match_cohort
-#' @return `column` with exposition time per individual.
+#' @return `column` with exposure time per individual.
 #' @keywords internal
 
-get_exposition_time <- function(data_set,
-                                outcome_date_col,
-                                censoring_date_col,
-                                end_cohort) {
+get_exposure_time <- function(data_set,
+                              outcome_date_col,
+                              censoring_date_col,
+                              end_cohort) {
   ### Same structure as get_time_to_event
   tf <- rep(end_cohort, nrow(data_set))
   # replace informed outcome dates
@@ -31,20 +31,20 @@ get_exposition_time <- function(data_set,
     ))
   }
 
-  #exposition time the difference between tf and t0_follow_up
-  exposition <- as.numeric(tf - data_set$t0_follow_up)
-  return(exposition)
+  #exposure time the difference between tf and t0_follow_up
+  exposure <- as.numeric(tf - data_set$t0_follow_up)
+  return(exposure)
 }
 
 #' @title Construct Time-to-Event at
 #'
 #' @description This function returns both the time-to-event until a
 #' reference number of days, as provided in `at`, and the outcome status
-#' at the same point. It uses the exposition time as an auxiliary variable
+#' at the same point. It uses the exposure time as an auxiliary variable
 #' to calculate the time-to-event. The starting point for counting the
 #' time-to-event is `t0_follow_up`, which is determined based on whether
 #' a matching strategy is used or not. If the event occurs before the
-#' reference date, the end date of the exposition period is used to
+#' reference date, the end date of the exposure period is used to
 #' calculate the time-to-event. This accounts for whether censoring or an
 #' event occurred. The outcome status is determined based on whether the
 #' outcome date coincides with the end of the follow-up period.
@@ -59,16 +59,16 @@ get_time_to_event_at <- function(data_set,
                                  censoring_date_col,
                                  end_cohort,
                                  at) {
-  #Calculate total exposition time
-  data_set$exposition_time <- get_exposition_time(
+  #Calculate total exposure time
+  data_set$exposure_time <- get_exposure_time(
     data_set = data_set,
     outcome_date_col = outcome_date_col,
     censoring_date_col = censoring_date_col,
     end_cohort = end_cohort
   )
 
-  #Calculate final date of exposition time from t0
-  data_set$tf_exposition <- data_set$t0_follow_up + data_set$exposition_time
+  #Calculate final date of exposure time from t0
+  data_set$tf_exposure <- data_set$t0_follow_up + data_set$exposure_time
 
   #Calculate final date of follow up period at from t0
   data_set$tf_follow_up_at <- data_set$t0_follow_up + at
@@ -81,9 +81,9 @@ get_time_to_event_at <- function(data_set,
     )
   )
 
-  # Use the minimum between tf of exposition period and follow up period at
+  # Use the minimum between tf of exposure period and follow up period at
   data_set$tf_follow_up_at <- pmin(data_set$tf_follow_up_at,
-    data_set$tf_exposition,
+    data_set$tf_exposure,
     na.rm = TRUE
   )
 
@@ -101,7 +101,7 @@ get_time_to_event_at <- function(data_set,
 
   # Remove auxiliary columns
   data_set <- data_set[, -which(names(data_set)
-      %in% c("tf_follow_up_at", "tf_exposition")
+      %in% c("tf_follow_up_at", "tf_exposure")
     )
   ]
 

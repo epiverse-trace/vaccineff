@@ -5,7 +5,7 @@ start_cohort <- as.Date("2021-01-01")
 end_cohort <- as.Date("2021-12-31")
 
 # sample cohort to make tests faster - take a bigger sample
-sample_size <- 10000
+sample_size <- 20000
 set.seed(123) # use fixed seed
 sample_indices <- sample(nrow(cohortdata), sample_size)
 sample_cohort <- cohortdata[sample_indices, ]
@@ -205,7 +205,7 @@ test_that("`rematch`: tryCatch error handle", {
   virtual_last$immunization_date <- as.Date(NA)
   virtual_last$vaccine_1 <- "NULL"
   virtual_last$vaccine_2 <- "NULL"
-  virtual_last$match_id <- virtual_last$match_id + nrow(adjusted_0)
+  virtual_last$match_id <- virtual_last$match_id + nrow(sample_cohort)
   virtual_last <- virtual_last[, names(sample_cohort)]
   # Change sex to be sure that it won't be matched
   virtual_last$sex <- "R"
@@ -224,7 +224,7 @@ test_that("`rematch`: tryCatch error handle", {
       vacc_status_col = vacc_status_col,
       rematch_status = "v",
       control_status = "u",
-      nearest = nearest,
+      nearest = NULL,
       exact = exact,
       start_cohort = start_cohort,
       end_cohort = end_cohort,

@@ -1,6 +1,6 @@
 Package: vaccineff
 Title: Estimate Vaccine Effectiveness Based on Different Study Designs
-Version: 0.0.4.9000
+Version: 1.0.0
 Authors@R: c(
     person("David Santiago", "Quevedo", , "ex-dsquevedo@javeriana.edu.co", role = "aut",
            comment = c(ORCID = "0000-0003-1583-4262")),
@@ -24,7 +24,7 @@ Authors@R: c(
     person("Felipe Segundo", "Abril", , "fsabrilb@unal.edu.co", role = "ctb",
            comment = c(ORCID = "0000-0002-2512-4929"))
   )
-Description: Tools for estimating vaccine effectiveness and vaccine related metrics.
+Description: Provides tools for estimating vaccine effectiveness and related metrics. The 'vaccineff_data' class manages key features for preparing, visualizing, and organizing cohort data, as well as estimating vaccine effectiveness. The results and model performance are assessed using the 'vaccineff' class.
 URL: https://github.com/epiverse-trace/vaccineff, https://epiverse-trace.github.io/vaccineff/
 BugReports: https://github.com/epiverse-trace/vaccineff/issues
 License: MIT + file LICENSE

@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-## *{{ packagename }}*: An R package with tools for estimating vaccine effectiveness and vaccine related metrics <img src="man/figures/logo.png" align="right" width="130"/>
+## *{{ packagename }}*: Tools for estimating vaccine effectiveness and vaccine related metrics <img src="man/figures/logo.png" align="right" width="130"/>
 
 <!-- badges: start -->
 
@@ -35,11 +35,23 @@ knitr::opts_chunk$set(
 
 ## Installation
 
-The current development version of _{{ packagename }}_ can be installed from [GitHub](https://github.com/) using the `pak` package.
+Our stable versions are released on CRAN, and can be installed using:
 
 ```r
+install.packages("vaccineff", build_vignettes = TRUE)
+```
+
+The current development version of _{{ packagename }}_ can be installed from [GitHub](https://github.com/) using the `pak` package.
+
+```{r, eval = FALSE}
 if(!require("pak")) install.packages("pak")
 pak::pak("{{ gh_repo }}")
+```
+
+Or using the `remotes` package
+```{r, eval = FALSE }
+if(!require("remotes")) install.packages("remotes")
+remotes::install_github("epiverse-trace/{{ gh_repo }}")
 ```
 
 ## Quick start
@@ -104,7 +116,7 @@ Contributors to the project include:
 **Authors**: [David Santiago Quevedo](https://github.com/davidsantiagoquevedo) and [Zulma M. Cucunubá](https://github.com/zmcucunuba) (maintainer)
 
 **Contributors**:
-[Geraldine Gómez](https://github.com/GeraldineGomez), [Pratik Gupte](https://github.com/pratikunterwegs), [Érika J. Cantor](https://github.com/ErikaCantor), [Santiago Loaiza](https://github.com/santilo9513), [Jaime A. Pavlich-Mariscal](https://github.com/jpavlich), [Hugo Gruson](https://github.com/Bisaloo), [Chris Hartgerink](https://github.com/chartgerink), [Felipe Segundo Abril-Bermúdez](https://github.com/fsabrilb)
+[Geraldine Gómez](https://github.com/GeraldineGomez), [Pratik Gupte](https://github.com/pratikunterwegs), [Érika J. Cantor](https://github.com/ErikaCantor), [Santiago Loaiza](https://github.com/santilo9513), [Jaime A. Pavlich-Mariscal](https://github.com/jpavlich), [Hugo Gruson](https://github.com/Bisaloo), [Chris Hartgerink](https://github.com/chartgerink), [Felipe Segundo Abril-Bermúdez](https://github.com/fsabrilb), [Joshua W. Lambert](https://github.com/joshwlambert),[Julian Otero](https://github.com/jd-otero)
 
 
 ## Code of conduct

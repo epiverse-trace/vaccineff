@@ -53,26 +53,27 @@ adjusted_0 <- adjust_exposition(matched_cohort = matched,
                                 immunization_date = immunization_date_col,
                                 start_cohort = start_cohort,
                                 end_cohort = end_cohort)
+
+removed_i <- matched[!(matched$match_id %in% adjusted_0$match_id), ]
+# There are not enough unvaccinated units to find a pair for the
+# removed vaccinated, new ones have to be manually generated for
+# this test
+# Create 5 unvaccinated from removed vaccinated
+# (these should be re-matched since all the features are the same)
+virtual_u <- head(removed_i[removed_i$vaccine_status == "v", ], 5)
+virtual_u$vaccine_status <- "u"
+virtual_u$vaccine_date1 <- as.Date(NA)
+virtual_u$vaccine_date2 <- as.Date(NA)
+virtual_u$immunization_date <- as.Date(NA)
+virtual_u$vaccine_1 <- "NULL"
+virtual_u$vaccine_2 <- "NULL"
+virtual_u$match_id <- virtual_u$match_id + nrow(sample_cohort)
+virtual_u <- virtual_u[, names(sample_cohort)]
+
 #### Tests for the rematch() ####
 # Test for basic expectations and correctness of algorithm
 test_that("`rematch`: Correctness", {
-  removed_i <- matched[!(matched$match_id %in% adjusted_0$match_id), ]
   # iteration on removed vaccinated
-
-  # There are not enough unvaccinated units to find a pair for the
-  # removed vaccinated, new ones have to be manually generated for
-  # this test
-  # Create 5 unvaccinated from removed vaccinated
-  # (these should be re-matched since all the features are the same)
-  virtual_u <- head(removed_i[removed_i$vaccine_status == "v", ], 5)
-  virtual_u$vaccine_status <- "u"
-  virtual_u$vaccine_date1 <- as.Date(NA)
-  virtual_u$vaccine_date2 <- as.Date(NA)
-  virtual_u$immunization_date <- as.Date(NA)
-  virtual_u$vaccine_1 <- "NULL"
-  virtual_u$vaccine_2 <- "NULL"
-  virtual_u$match_id <- virtual_u$match_id + nrow(sample_cohort)
-  virtual_u <- virtual_u[, names(sample_cohort)]
   sample_cohort <- rbind(sample_cohort, virtual_u)
 
   output <- capture_warnings(rematch_(
@@ -164,7 +165,6 @@ test_that("`rematch`: Correctness", {
 
 # Test of conditions to avoid rematch
 test_that("`rematch_`: return empty when no unmatched registers", {
-  removed_i <- matched[!(matched$match_id %in% adjusted_0$match_id), ]
 
   # all = adjusted mimics no unmatched registers
   output <- capture_warnings(rematch_(
@@ -193,18 +193,8 @@ test_that("`rematch_`: return empty when no unmatched registers", {
 
 # Test for warning message when no matches found
 test_that("`rematch`: tryCatch error handle", {
-  removed_i <- matched[!(matched$match_id %in% adjusted_0$match_id), ]
-  unmatched <- sample_cohort[
-    !(sample_cohort$match_id %in% adjusted_0$match_id),
-  ]
   # Suposse there is only one last unit to match
-  virtual_last <- head(removed_i[removed_i$vaccine_status == "v", ], 1)
-  virtual_last$vaccine_status <- "u"
-  virtual_last$vaccine_date1 <- as.Date(NA)
-  virtual_last$vaccine_date2 <- as.Date(NA)
-  virtual_last$immunization_date <- as.Date(NA)
-  virtual_last$vaccine_1 <- "NULL"
-  virtual_last$vaccine_2 <- "NULL"
+  virtual_last <- head(virtual_u, 1)
   virtual_last$match_id <- virtual_last$match_id + nrow(sample_cohort)
   virtual_last <- virtual_last[, names(sample_cohort)]
   # Change sex to be sure that it won't be matched

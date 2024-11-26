@@ -14,11 +14,11 @@
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="apple-touch-icon-60x60.png">
 <script src="lightswitch.js"></script><script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
-<link href="deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
+<script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Estimate Vaccine Effectiveness Based on Different Study Designs">
-<meta name="description" content="Tools for estimating vaccine effectiveness and vaccine related metrics.">
-<meta property="og:description" content="Tools for estimating vaccine effectiveness and vaccine related metrics.">
+<meta name="description" content="Provides tools for estimating vaccine effectiveness and related metrics. The vaccineff_data class manages key features for preparing, visualizing, and organizing cohort data, as well as estimating vaccine effectiveness. The results and model performance are assessed using the vaccineff class.">
+<meta property="og:description" content="Provides tools for estimating vaccine effectiveness and related metrics. The vaccineff_data class manages key features for preparing, visualizing, and organizing cohort data, as well as estimating vaccine effectiveness. The results and model performance are assessed using the vaccineff class.">
 <meta property="og:image" content="https://epiverse-trace.github.io/vaccineff/logo.png">
 <!-- Google tag (gtag.js) --><script async src="https://www.googletagmanager.com/gtag/js?id=G-XZ471458FQ"></script><script>
   window.dataLayer = window.dataLayer || [];
@@ -36,7 +36,7 @@
     <a href="https://epiverse-trace.github.io/" class="external-link"><img src="https://epiverse-trace.github.io/blueprints/logo_white.svg" id="logo" alt="Epiverse-TRACE"></a>
     <a class="navbar-brand me-2" href="index.html">vaccineff</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.0.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -84,7 +84,7 @@
 
 <!-- badges: end -->
 <p><em>vaccineff</em> is developed at <a href="https://www.javeriana.edu.co/inicio" class="external-link">Pontificia Universidad Javeriana</a> as part of the <a href="https://data.org/initiatives/epiverse/" class="external-link">Epiverse-TRACE initiative</a>.</p>
-<p><em>vaccineff</em> is an R package that offers tools for estimating vaccine effectiveness, using a series of epidemiological designs including cohort studies, test-negative case-control, and screening methods (<a href="#ref-bookvaccine">Halloran, Longini, and Struchiner 2010</a>). The current version of the package provides a set of features for preparing, visualizing, and managing cohort data, estimating vaccine effectiveness, and assessing the performance of the models. Test-negative design and screening method will be included in future versions.</p>
+<p><em>vaccineff</em> is an R package that offers tools for estimating vaccine effectiveness (VE), using a series of epidemiological designs including cohort studies, test-negative case-control, and screening methods (<a href="#ref-bookvaccine">Halloran, Longini, and Struchiner 2010</a>). The current version of the package provides a set of features for preparing, visualizing, and managing cohort data, estimating vaccine effectiveness, and assessing the performance of the models. Test-negative design and screening method will be included in future versions.</p>
 </div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
@@ -103,22 +103,55 @@
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"cohortdata"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">cohortdata</span>, <span class="fl">5</span><span class="op">)</span></span>
 <span><span class="co">#&gt;         id sex age death_date death_other_causes vaccine_date_1 vaccine_date_2</span></span>
-<span><span class="co">#&gt; 1 afade1b2   F  37       &lt;NA&gt;               &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; 2 556c8c76   M  19       &lt;NA&gt;               &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; 3 04edf85a   M  50       &lt;NA&gt;               &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; 4 7e51a18e   F   8       &lt;NA&gt;               &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; 5 c5a83f56   M  66       &lt;NA&gt;               &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 1 04edf85a   M  50       &lt;NA&gt;               &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 2 c5a83f56   M  66       &lt;NA&gt;               &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 3 82991731   M  81       &lt;NA&gt;               &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 4 afbab268   M  74       &lt;NA&gt;               &lt;NA&gt;     2021-03-30     2021-05-16</span></span>
+<span><span class="co">#&gt; 5 3faf2474   M  54       &lt;NA&gt;               &lt;NA&gt;     2021-06-01     2021-06-22</span></span>
 <span><span class="co">#&gt;   vaccine_1 vaccine_2</span></span>
 <span><span class="co">#&gt; 1      &lt;NA&gt;      &lt;NA&gt;</span></span>
 <span><span class="co">#&gt; 2      &lt;NA&gt;      &lt;NA&gt;</span></span>
 <span><span class="co">#&gt; 3      &lt;NA&gt;      &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; 4      &lt;NA&gt;      &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; 5      &lt;NA&gt;      &lt;NA&gt;</span></span></code></pre></div>
+<span><span class="co">#&gt; 4    BRAND2    BRAND2</span></span>
+<span><span class="co">#&gt; 5    BRAND1    BRAND1</span></span></code></pre></div>
+<p>The function <code>make_vaccineff_data</code> allows defining different aspects of the study design—such as vaccination dates, immunization delays, and potential confounding factors—and creates an object of class <code>vaccineff_data</code>. Its output is used to estimate VE using a Cox model regression invoked by the function <code>estimate_vaccineff</code>, which returns the object <code>vaccineff</code>.</p>
+<p>The proportional hazard assumption can be tested both through the Schoenfeld test and visually using the <code>plot</code> method by setting <code>type = "loglog"</code>.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Create `vaccineff_data`</span></span>
+<span><span class="va">vaccineff_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/make_vaccineff_data.html">make_vaccineff_data</a></span><span class="op">(</span></span>
+<span>  data_set <span class="op">=</span> <span class="va">cohortdata</span>,</span>
+<span>  outcome_date_col <span class="op">=</span> <span class="st">"death_date"</span>,</span>
+<span>  censoring_date_col <span class="op">=</span> <span class="st">"death_other_causes"</span>,</span>
+<span>  vacc_date_col <span class="op">=</span> <span class="st">"vaccine_date_2"</span>,</span>
+<span>  vaccinated_status <span class="op">=</span> <span class="st">"v"</span>,</span>
+<span>  unvaccinated_status <span class="op">=</span> <span class="st">"u"</span>,</span>
+<span>  immunization_delay <span class="op">=</span> <span class="fl">15</span>,</span>
+<span>  end_cohort <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"2021-12-31"</span><span class="op">)</span>,</span>
+<span>  match <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  exact <span class="op">=</span> <span class="st">"sex"</span>,</span>
+<span>  nearest <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>age <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Estimate VE</span></span>
+<span><span class="va">ve</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/estimate_vaccineff.html">estimate_vaccineff</a></span><span class="op">(</span><span class="va">vaccineff_data</span>, at <span class="op">=</span> <span class="fl">180</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Print summary of VE</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">ve</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Vaccine Effectiveness at 180 days computed as VE = 1 - HR:</span></span>
+<span><span class="co">#&gt;      VE lower.95 upper.95</span></span>
+<span><span class="co">#&gt;  0.7254   0.5437   0.8347</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Schoenfeld test for Proportional Hazards assumption:</span></span>
+<span><span class="co">#&gt; p-value = 0.1507</span></span>
+<span></span>
+<span><span class="co"># Generate loglog plot to check proportional hazards</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">ve</span>, type <span class="op">=</span> <span class="st">"loglog"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-2-1.png" width="100%"></p>
 </div>
 <div class="section level2">
 <h2 id="package-vignettes">Package vignettes<a class="anchor" aria-label="anchor" href="#package-vignettes"></a>
 </h2>
-<p>More details on how to use <em>vaccineff</em> can be found in the <a href="https://epiverse-trace.github.io/vaccineff/">online documentation as package vignettes</a>, in the article “Get Started with vaccineff”.</p>
+<p>More details on how to use <em>vaccineff</em> can be found in the <a href="https://epiverse-trace.github.io/vaccineff/">online documentation as package vignettes</a>, and in the articles “Get Started with vaccineff” and “Introduction to cohort design with vaccineff”.</p>
 </div>
 <div class="section level2">
 <h2 id="help">Help<a class="anchor" aria-label="anchor" href="#help"></a>
@@ -128,7 +161,7 @@
 <div class="section level2">
 <h2 id="contribute">Contribute<a class="anchor" aria-label="anchor" href="#contribute"></a>
 </h2>
-<p>Contributions to <em>vaccineff</em> are welcomed. Please follow the <a href="https://github.com/epiverse-trace/vaccineff/blob/main/.github/CONTRIBUTING.md" class="external-link">package contributing guide</a>.</p>
+<p>Contributions to <em>vaccineff</em> are welcomed. Contributions are welcome via <a href="https://github.com/epiverse-trace/vaccineff/pulls" class="external-link">pull requests</a>.</p>
 <p>Contributors to the project include:</p>
 <p><strong>Authors</strong>: <a href="https://github.com/davidsantiagoquevedo" class="external-link">David Santiago Quevedo</a> and <a href="https://github.com/zmcucunuba" class="external-link">Zulma M. Cucunubá</a> (maintainer)</p>
 <p><strong>Contributors</strong>: <a href="https://github.com/GeraldineGomez" class="external-link">Geraldine Gómez</a>, <a href="https://github.com/pratikunterwegs" class="external-link">Pratik Gupte</a>, <a href="https://github.com/ErikaCantor" class="external-link">Érika J. Cantor</a>, <a href="https://github.com/santilo9513" class="external-link">Santiago Loaiza</a>, <a href="https://github.com/jpavlich" class="external-link">Jaime A. Pavlich-Mariscal</a>, <a href="https://github.com/Bisaloo" class="external-link">Hugo Gruson</a>, <a href="https://github.com/chartgerink" class="external-link">Chris Hartgerink</a>, <a href="https://github.com/fsabrilb" class="external-link">Felipe Segundo Abril-Bermúdez</a></p>
@@ -174,12 +207,6 @@ Halloran, Elizabeth, Ira Longini, and Claudio Struchiner. 2010. <em>Design and A
 </ul>
 </div>
 
-<div class="community">
-<h2 data-toc-skip>Community</h2>
-<ul class="list-unstyled">
-<li><a href="CONTRIBUTING.html">Contributing guide</a></li>
-</ul>
-</div>
 
 <div class="citation">
 <h2 data-toc-skip>Citation</h2>

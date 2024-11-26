@@ -16,18 +16,18 @@ abstract: Provides tools for estimating vaccine effectiveness and related metric
 authors:
 - family-names: Quevedo
   given-names: David Santiago
-  email: tracelacdev@gmail.com
+  email: ex-dsquevedo@javeriana.edu.co
   orcid: https://orcid.org/0000-0003-1583-4262
 - family-names: Cucunubá
   given-names: Zulma M.
-  email: zulma.cucunuba@javeriana.edu.co
+  email: tracelacdev@gmail.com
   orcid: https://orcid.org/0000-0002-8165-3198
 repository-code: https://github.com/epiverse-trace/vaccineff
 url: https://epiverse-trace.github.io/vaccineff/
 contact:
 - family-names: Cucunubá
   given-names: Zulma M.
-  email: zulma.cucunuba@javeriana.edu.co
+  email: tracelacdev@gmail.com
   orcid: https://orcid.org/0000-0002-8165-3198
 keywords:
 - epidemiology

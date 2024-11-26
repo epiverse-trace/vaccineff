@@ -48,7 +48,7 @@ Or using the `remotes` package
 
 ``` r
 if(!require("remotes")) install.packages("remotes")
-remotes::install_github("epiverse-trace/epiverse-trace/vaccineff")
+remotes::install_github("epiverse-trace/vaccineff")
 ```
 
 ## Quick start

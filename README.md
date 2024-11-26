@@ -30,12 +30,25 @@ screening method will be included in future versions.
 
 ## Installation
 
+Our stable versions are released on CRAN, and can be installed using:
+
+``` r
+install.packages("vaccineff", build_vignettes = TRUE)
+```
+
 The current development version of *vaccineff* can be installed from
 [GitHub](https://github.com/) using the `pak` package.
 
 ``` r
 if(!require("pak")) install.packages("pak")
 pak::pak("epiverse-trace/vaccineff")
+```
+
+Or using the `remotes` package
+
+``` r
+if(!require("remotes")) install.packages("remotes")
+remotes::install_github("epiverse-trace/epiverse-trace/vaccineff")
 ```
 
 ## Quick start
@@ -104,7 +117,7 @@ summary(ve)
 plot(ve, type = "loglog")
 ```
 
-<img src="man/figures/README-unnamed-chunk-2-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-4-1.png" width="100%" />
 
 ## Package vignettes
 
@@ -137,7 +150,9 @@ Loaiza](https://github.com/santilo9513), [Jaime A.
 Pavlich-Mariscal](https://github.com/jpavlich), [Hugo
 Gruson](https://github.com/Bisaloo), [Chris
 Hartgerink](https://github.com/chartgerink), [Felipe Segundo
-Abril-Bermúdez](https://github.com/fsabrilb)
+Abril-Bermúdez](https://github.com/fsabrilb), [Joshua W.
+Lambert](https://github.com/joshwlambert),[Julian
+Otero](https://github.com/jd-otero)
 
 ## Code of conduct
 

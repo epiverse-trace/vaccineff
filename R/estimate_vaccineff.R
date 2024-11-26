@@ -133,7 +133,7 @@ summary.vaccineff <- function(object, ...) {
 #'
 #' @param x Object of the class `summary.vaccineff`.
 #' @param ... Additional arguments passed to other functions.
-#' @return Summary of the results from `estimate_vaccineff`.
+#' @return \value{None}
 #' @export
 
 print.summary_vaccineff <- function(x, ...) {
@@ -149,7 +149,8 @@ print.summary_vaccineff <- function(x, ...) {
     warning_schoenfeld <- paste0("\np-value < 0.05. Please check loglog plot",
       " for Proportional Hazards assumption"
     )
-    warning(warning_schoenfeld)
+    message("Warning:")
+    message(warning_schoenfeld)
   }
   invisible(x)
 }

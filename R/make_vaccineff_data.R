@@ -237,7 +237,7 @@ summary.vaccineff_data <- function(object, warnings_log = FALSE, ...) {
 #'
 #' @param x Object of the class `summary.vaccineff_data`.
 #' @param ... Additional arguments passed to other functions.
-#' @return Summary of the results from vaccineff data
+#' @return \value{None}
 #' @export
 print.summary_vaccineff_data <- function(x, ...) {
   cat("Cohort start: ", as.character(x$start_cohort))
@@ -256,7 +256,7 @@ print.summary_vaccineff_data <- function(x, ...) {
     print(x$summary_vaccination)
 
     if (!is.null(x$match_log)) {
-      message("Warnings:")
+      message("Warnings log from matching process:")
       message(x$match_log, sep = "\n")
     }
 

@@ -46,8 +46,8 @@ matched <- capture_warnings(match_cohort_(
   exact = exact
 ))$result
 
-# Adjust exposition times of matched cohort
-adjusted_0 <- adjust_exposition(matched_cohort = matched,
+# Adjust exposure times of matched cohort
+adjusted_0 <- adjust_exposure(matched_cohort = matched,
                                 outcome_date_col = outcome_date_col,
                                 censoring_date_col = censoring_date_col,
                                 immunization_date = immunization_date_col,

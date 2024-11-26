@@ -48,11 +48,11 @@ matched <- capture_warnings(match_cohort_(
 
 # Adjust exposure times of matched cohort
 adjusted_0 <- adjust_exposure(matched_cohort = matched,
-                                outcome_date_col = outcome_date_col,
-                                censoring_date_col = censoring_date_col,
-                                immunization_date = immunization_date_col,
-                                start_cohort = start_cohort,
-                                end_cohort = end_cohort)
+                              outcome_date_col = outcome_date_col,
+                              censoring_date_col = censoring_date_col,
+                              immunization_date = immunization_date_col,
+                              start_cohort = start_cohort,
+                              end_cohort = end_cohort)
 
 removed_i <- matched[!(matched$match_id %in% adjusted_0$match_id), ]
 # There are not enough unvaccinated units to find a pair for the

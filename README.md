@@ -1,5 +1,5 @@
 
-## *vaccineff*: An R package with tools for estimating vaccine effectiveness and vaccine related metrics <img src="man/figures/logo.png" align="right" width="130"/>
+## *vaccineff*: Tools for estimating vaccine effectiveness and vaccine related metrics <img src="man/figures/logo.png" align="right" width="130"/>
 
 <!-- badges: start -->
 

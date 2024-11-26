@@ -172,7 +172,7 @@ class <code>linelist</code> to easily handle with the data.</p>
 <span class="r-in"><span>  vaccinated_status <span class="op">=</span> <span class="st">"v"</span>,</span></span>
 <span class="r-in"><span>  unvaccinated_status <span class="op">=</span> <span class="st">"u"</span>,</span></span>
 <span class="r-in"><span>  immunization_delay <span class="op">=</span> <span class="fl">15</span>,</span></span>
-<span class="r-in"><span>  end_cohort <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"2044-12-31"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  end_cohort <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"2021-12-31"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  match <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
 <span class="r-in"><span>  exact <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"age"</span>, <span class="st">"sex"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  nearest <span class="op">=</span> <span class="cn">NULL</span></span></span>
@@ -180,30 +180,30 @@ class <code>linelist</code> to easily handle with the data.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Print summary of data</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">vaccineff_data</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Cohort start:  2044-03-25</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Cohort end:  2044-12-31</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Cohort start:  2021-03-26</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Cohort end:  2021-12-31</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> The start date of the cohort was defined as the mininimum immunization date. </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 75 registers were removed with outcomes before the start date.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 65 registers were removed with outcomes before the start date.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Nearest neighbors matching iteratively performed.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Number of iterations:  4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Balance all:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                u          v        smd</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> age   30.9038486 48.3349260  0.8762828</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sex_F  0.4836929  0.5761684  0.1860835</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sex_M  0.5163071  0.4238316 -0.1860835</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>               u         v         smd</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> age   63.917069 62.997438 -0.08593156</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sex_F  0.520277  0.573474  0.10701746</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sex_M  0.479723  0.426526 -0.10701746</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Balance matched:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                u          v smd</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> age   44.0316133 44.0316133   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sex_F  0.5521275  0.5521275   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sex_M  0.4478725  0.4478725   0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>               u         v smd</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> age   63.751784 63.751784   0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sex_F  0.521457  0.521457   0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sex_M  0.478543  0.478543   0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Summary vaccination:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>               u     v</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> All       62672 37253</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Matched   27615 27615</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Unmatched 35057  9638</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> All       10973 19905</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Matched   10789 10789</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Unmatched   184  9116</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> // tags: outcome_date_col:death_date, censoring_date_col:death_other_causes, vacc_date_col:vaccine_date_2, immunization_date_col:immunization_date, vacc_status_col:vaccine_status </span>
 <span class="r-in"><span></span></span>

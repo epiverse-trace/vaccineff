@@ -237,7 +237,7 @@ summary.vaccineff_data <- function(object, warnings_log = FALSE, ...) {
 #'
 #' @param x Object of the class `summary.vaccineff_data`.
 #' @param ... Additional arguments passed to other functions.
-#' @return \value{None}
+#' @return None
 #' @export
 print.summary_vaccineff_data <- function(x, ...) {
   cat("Cohort start: ", as.character(x$start_cohort))

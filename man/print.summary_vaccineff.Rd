@@ -12,7 +12,7 @@
 \item{...}{Additional arguments passed to other functions.}
 }
 \value{
-\value{None}
+None
 }
 \description{
 Print summary of \code{vaccineff} object.

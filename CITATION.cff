@@ -210,21 +210,6 @@ references:
   year: '2024'
   doi: 10.32614/CRAN.package.knitr
 - type: software
-  title: qtl
-  abstract: 'qtl: Tools for Analyzing QTL Experiments'
-  notes: Suggests
-  url: https://rqtl.org
-  repository: https://CRAN.R-project.org/package=qtl
-  authors:
-  - family-names: Broman
-    given-names: Karl W
-    email: broman@wisc.edu
-    orcid: https://orcid.org/0000-0002-4914-6671
-  - family-names: Wu
-    given-names: Hao
-  year: '2024'
-  doi: 10.32614/CRAN.package.qtl
-- type: software
   title: rmarkdown
   abstract: 'rmarkdown: Dynamic Documents for R'
   notes: Suggests

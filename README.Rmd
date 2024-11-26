@@ -51,7 +51,7 @@ pak::pak("{{ gh_repo }}")
 Or using the `remotes` package
 ```{r, eval = FALSE }
 if(!require("remotes")) install.packages("remotes")
-remotes::install_github("epiverse-trace/{{ gh_repo }}")
+remotes::install_github("{{ gh_repo }}")
 ```
 
 ## Quick start

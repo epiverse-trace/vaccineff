@@ -133,7 +133,7 @@ summary.vaccineff <- function(object, ...) {
 #'
 #' @param x Object of the class `summary.vaccineff`.
 #' @param ... Additional arguments passed to other functions.
-#' @return \value{None}
+#' @return None
 #' @export
 
 print.summary_vaccineff <- function(x, ...) {

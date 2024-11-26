@@ -151,7 +151,7 @@ Pavlich-Mariscal](https://github.com/jpavlich), [Hugo
 Gruson](https://github.com/Bisaloo), [Chris
 Hartgerink](https://github.com/chartgerink), [Felipe Segundo
 Abril-Bermúdez](https://github.com/fsabrilb), [Joshua W.
-Lambert](https://github.com/joshwlambert),[Julian
+Lambert](https://github.com/joshwlambert), [Julian
 Otero](https://github.com/jd-otero)
 
 ## Code of conduct

@@ -8,7 +8,7 @@
 <url><loc>https://epiverse-trace.github.io/vaccineff/dev/authors.html</loc></url>
 <url><loc>https://epiverse-trace.github.io/vaccineff/dev/index.html</loc></url>
 <url><loc>https://epiverse-trace.github.io/vaccineff/dev/news/index.html</loc></url>
-<url><loc>https://epiverse-trace.github.io/vaccineff/dev/reference/adjust_exposition.html</loc></url>
+<url><loc>https://epiverse-trace.github.io/vaccineff/dev/reference/adjust_exposure.html</loc></url>
 <url><loc>https://epiverse-trace.github.io/vaccineff/dev/reference/balance_summary.html</loc></url>
 <url><loc>https://epiverse-trace.github.io/vaccineff/dev/reference/capture_warnings.html</loc></url>
 <url><loc>https://epiverse-trace.github.io/vaccineff/dev/reference/check_dataset.html</loc></url>
@@ -22,7 +22,7 @@
 <url><loc>https://epiverse-trace.github.io/vaccineff/dev/reference/extract_surv_model.html</loc></url>
 <url><loc>https://epiverse-trace.github.io/vaccineff/dev/reference/get_age_group.html</loc></url>
 <url><loc>https://epiverse-trace.github.io/vaccineff/dev/reference/get_censoring_after_match.html</loc></url>
-<url><loc>https://epiverse-trace.github.io/vaccineff/dev/reference/get_exposition_time.html</loc></url>
+<url><loc>https://epiverse-trace.github.io/vaccineff/dev/reference/get_exposure_time.html</loc></url>
 <url><loc>https://epiverse-trace.github.io/vaccineff/dev/reference/get_immunization_date.html</loc></url>
 <url><loc>https://epiverse-trace.github.io/vaccineff/dev/reference/get_immunization_dose.html</loc></url>
 <url><loc>https://epiverse-trace.github.io/vaccineff/dev/reference/get_immunization_vaccine.html</loc></url>

@@ -22,7 +22,12 @@ Authors@R: c(
     person("Chris", "Hartgerink", , "chris@data.org", role = "ctb",
            comment = c(ORCID = "0000-0003-1050-6809")),
     person("Felipe Segundo", "Abril", , "fsabrilb@unal.edu.co", role = "ctb",
-           comment = c(ORCID = "0000-0002-2512-4929"))
+           comment = c(ORCID = "0000-0002-2512-4929")),
+    person("Joshua W.", "Lambert", , "joshua.lambert@lshtm.ac.uk", role = "ctb",
+           comment = c(ORCID = "0000-0001-5218-3046")),
+    person("Julian", "Otero", , "jd.otero10@uniandes.edu.co", role = "cbt",
+           comment = c(ORCID = "0009-0006-0429-7747")),
+    person("Pontificia Universidad Javeriana", role = "cph")
   )
 Description: Provides tools for estimating vaccine effectiveness and related metrics. The 'vaccineff_data' class manages key features for preparing, visualizing, and organizing cohort data, as well as estimating vaccine effectiveness. The results and model performance are assessed using the 'vaccineff' class.
 URL: https://github.com/epiverse-trace/vaccineff, https://epiverse-trace.github.io/vaccineff/

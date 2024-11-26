@@ -29,10 +29,15 @@ Authors@R: c(
            comment = c(ORCID = "0009-0006-0429-7747")),
     person("Pontificia Universidad Javeriana", role = "cph")
   )
-Description: Provides tools for estimating vaccine effectiveness and related metrics. The 'vaccineff_data' class manages key features for preparing, visualizing, and organizing cohort data, as well as estimating vaccine effectiveness. The results and model performance are assessed using the 'vaccineff' class.
-URL: https://github.com/epiverse-trace/vaccineff, https://epiverse-trace.github.io/vaccineff/
-BugReports: https://github.com/epiverse-trace/vaccineff/issues
+Description: Provides tools for estimating vaccine effectiveness and
+    related metrics. The 'vaccineff_data' class manages key features for
+    preparing, visualizing, and organizing cohort data, as well as
+    estimating vaccine effectiveness. The results and model performance
+    are assessed using the 'vaccineff' class.
 License: MIT + file LICENSE
+URL: https://github.com/epiverse-trace/vaccineff,
+    https://epiverse-trace.github.io/vaccineff/
+BugReports: https://github.com/epiverse-trace/vaccineff/issues
 Depends: 
     R (>= 4.0.0)
 Imports: 
@@ -51,7 +56,7 @@ Suggests:
     testthat (>= 3.0.0)
 VignetteBuilder: 
     knitr
-Config/Needs/website:epiverse-trace/epiversetheme
+Config/Needs/website: epiverse-trace/epiversetheme
 Config/testthat/edition: 3
 Encoding: UTF-8
 Language: en-US

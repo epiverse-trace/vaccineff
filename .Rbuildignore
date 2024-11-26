@@ -10,3 +10,5 @@
 ^\.Rproj\.user$
 ^scratch\.R$
 ^CITATION\.cff$
+^dev$
+^cran-comments\.md$

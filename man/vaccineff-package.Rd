@@ -8,7 +8,7 @@
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
-Tools for estimating vaccine effectiveness and vaccine related metrics.
+Provides tools for estimating vaccine effectiveness and related metrics. The 'vaccineff_data' class manages key features for preparing, visualizing, and organizing cohort data, as well as estimating vaccine effectiveness. The results and model performance are assessed using the 'vaccineff' class.
 }
 \seealso{
 Useful links:
@@ -20,7 +20,7 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Zulma M. Cucunubá \email{zulma.cucunuba@javeriana.edu.co} (\href{https://orcid.org/0000-0002-8165-3198}{ORCID})
+\strong{Maintainer}: Zulma M. Cucunubá \email{tracelacdev@gmail.com} (\href{https://orcid.org/0000-0002-8165-3198}{ORCID})
 
 Authors:
 \itemize{
@@ -38,6 +38,9 @@ Other contributors:
   \item Hugo Gruson \email{hugo.gruson@data.org} (\href{https://orcid.org/0000-0002-4094-1476}{ORCID}) [contributor]
   \item Chris Hartgerink \email{chris@data.org} (\href{https://orcid.org/0000-0003-1050-6809}{ORCID}) [contributor]
   \item Felipe Segundo Abril \email{fsabrilb@unal.edu.co} (\href{https://orcid.org/0000-0002-2512-4929}{ORCID}) [contributor]
+  \item Joshua W. Lambert \email{joshua.lambert@lshtm.ac.uk} (\href{https://orcid.org/0000-0001-5218-3046}{ORCID}) [contributor]
+  \item Julian Otero \email{jd.otero10@uniandes.edu.co} (\href{https://orcid.org/0009-0006-0429-7747}{ORCID}) [contributor]
+  \item Pontificia Universidad Javeriana [copyright holder]
 }
 
 }

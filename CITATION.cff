@@ -8,12 +8,15 @@ message: 'To cite package "vaccineff" in publications use:'
 type: software
 license: MIT
 title: 'vaccineff: Estimate Vaccine Effectiveness Based on Different Study Designs'
-version: 0.0.4.9000
-abstract: Tools for estimating vaccine effectiveness and vaccine related metrics.
+version: 1.0.0
+abstract: Provides tools for estimating vaccine effectiveness and related metrics.
+  The 'vaccineff_data' class manages key features for preparing, visualizing, and
+  organizing cohort data, as well as estimating vaccine effectiveness. The results
+  and model performance are assessed using the 'vaccineff' class.
 authors:
 - family-names: Quevedo
   given-names: David Santiago
-  email: ex-dsquevedo@javeriana.edu.co
+  email: tracelacdev@gmail.com
   orcid: https://orcid.org/0000-0003-1583-4262
 - family-names: Cucunubá
   given-names: Zulma M.

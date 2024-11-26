@@ -12,7 +12,7 @@
 \item{...}{Additional arguments passed to other functions.}
 }
 \value{
-Summary of the results from \code{estimate_vaccineff}.
+None
 }
 \description{
 Print summary of \code{vaccineff} object.

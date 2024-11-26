@@ -1,8 +1,8 @@
 #### Tests for coh_immunization.R module ####
 #### Prepare data for all the tests ####
 data("cohortdata")
-start_cohort <- as.Date("2044-01-01")
-end_cohort <- as.Date("2044-12-31")
+start_cohort <- as.Date("2021-01-01")
+end_cohort <- as.Date("2021-12-31")
 # calculate immunization date
 cohortdata$immunization <- get_immunization_date(
   data_set = cohortdata,
@@ -10,7 +10,7 @@ cohortdata$immunization <- get_immunization_date(
   censoring_date_col = "death_other_causes",
   immunization_delay = 14,
   vacc_date_col = c("vaccine_date_1", "vaccine_date_2"),
-  end_cohort = as.Date("2044-12-31"),
+  end_cohort = as.Date("2021-12-31"),
   take_first = FALSE
 )
 
@@ -103,7 +103,7 @@ test_that("`make_immunization`: vaccine names provided", {
 test_that("`get_immunization_date`: Basic expectations", {
   # get immunization dates
   vacc_date_col <- c("vaccine_date_1", "vaccine_date_2")
-  tf <- as.Date("2044-12-31")
+  tf <- as.Date("2021-12-31")
   immunization_delay <- 45 # use extreme outcome delay to test expectations
   limit_delta <- immunization_delay
   cohortdata$immunization <- get_immunization_date(
@@ -208,7 +208,7 @@ test_that("`get_immunization_date`: Basic expectations", {
 test_that("`get_immunization_date`: Take first vaccination", {
   # get immunization dates
   vacc_date_col <- c("vaccine_date_1", "vaccine_date_2")
-  tf <- as.Date("2044-12-31")
+  tf <- as.Date("2021-12-31")
   immunization_delay <- 45 # use extreme outcome delay to test expectations
   limit_delta <- immunization_delay
   cohortdata$immunization <- get_immunization_date(
@@ -273,8 +273,8 @@ test_that("`get_immunization_date`: Take first vaccination", {
 # Test coherence immunization date and end_cohort date
 test_that("`get_immunization_date`: end_cohort > immunization", {
   date_format <- "%Y-%m-%d"
-  t0 <- as.Date("2044-01-01", date_format)
-  tf <- as.Date("2044-12-31", date_format)
+  t0 <- as.Date("2021-01-01", date_format)
+  tf <- as.Date("2021-12-31", date_format)
   immunization_delay <- 14
   data(cohortdata)
 

@@ -1,7 +1,7 @@
 #' @title Static Matching
 #'
 #' @description This function calls `match_cohort_` once and then
-#' removes the pairs whose exposition times do not coincide.
+#' removes the pairs whose exposure times do not coincide.
 #' It returns the adjusted cohort, a summary of the matching result,
 #' and the balance of the cohort before and after matching.
 #'
@@ -33,8 +33,8 @@ static_match <- function(data_set,
     exact = exact
   )
 
-  # adjust exposition times of cohort
-  adjusted_0 <- adjust_exposition(matched_cohort = matched,
+  # adjust exposure times of cohort
+  adjusted_0 <- adjust_exposure(matched_cohort = matched,
     outcome_date_col = outcome_date_col,
     censoring_date_col = censoring_date_col,
     immunization_date = immunization_date_col,
@@ -45,7 +45,7 @@ static_match <- function(data_set,
   warning_1 <- paste("Matches before iterating:",  nrow(adjusted_0), "\n")
   warning_2 <- paste("Removed before iterating:", removed_0, "\n")
 
-  # iterate match after first exposition times adjusting
+  # iterate match after first exposure times adjusting
   results_iteration <- iterate_match(
     all = data_set,
     matched = matched,

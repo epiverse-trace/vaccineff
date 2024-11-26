@@ -46,7 +46,7 @@
 #'   vaccinated_status = "v",
 #'   unvaccinated_status = "u",
 #'   immunization_delay = 15,
-#'   end_cohort = as.Date("2044-12-31"),
+#'   end_cohort = as.Date("2021-12-31"),
 #'   match = TRUE,
 #'   exact = c("age", "sex"),
 #'   nearest = NULL
@@ -237,7 +237,7 @@ summary.vaccineff_data <- function(object, warnings_log = FALSE, ...) {
 #'
 #' @param x Object of the class `summary.vaccineff_data`.
 #' @param ... Additional arguments passed to other functions.
-#' @return Summary of the results from vaccineff data
+#' @return None
 #' @export
 print.summary_vaccineff_data <- function(x, ...) {
   cat("Cohort start: ", as.character(x$start_cohort))
@@ -256,7 +256,7 @@ print.summary_vaccineff_data <- function(x, ...) {
     print(x$summary_vaccination)
 
     if (!is.null(x$match_log)) {
-      message("Warnings:")
+      message("Warnings log from matching process:")
       message(x$match_log, sep = "\n")
     }
 

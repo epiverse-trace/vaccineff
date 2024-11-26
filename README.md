@@ -48,17 +48,17 @@ out the models.
 data("cohortdata")
 head(cohortdata, 5)
 #>         id sex age death_date death_other_causes vaccine_date_1 vaccine_date_2
-#> 1 afade1b2   F  37       <NA>               <NA>           <NA>           <NA>
-#> 2 556c8c76   M  19       <NA>               <NA>           <NA>           <NA>
-#> 3 04edf85a   M  50       <NA>               <NA>           <NA>           <NA>
-#> 4 7e51a18e   F   8       <NA>               <NA>           <NA>           <NA>
-#> 5 c5a83f56   M  66       <NA>               <NA>           <NA>           <NA>
+#> 1 04edf85a   M  50       <NA>               <NA>           <NA>           <NA>
+#> 2 c5a83f56   M  66       <NA>               <NA>           <NA>           <NA>
+#> 3 82991731   M  81       <NA>               <NA>           <NA>           <NA>
+#> 4 afbab268   M  74       <NA>               <NA>     2021-03-30     2021-05-16
+#> 5 3faf2474   M  54       <NA>               <NA>     2021-06-01     2021-06-22
 #>   vaccine_1 vaccine_2
 #> 1      <NA>      <NA>
 #> 2      <NA>      <NA>
 #> 3      <NA>      <NA>
-#> 4      <NA>      <NA>
-#> 5      <NA>      <NA>
+#> 4    BRAND2    BRAND2
+#> 5    BRAND1    BRAND1
 ```
 
 The function `make_vaccineff_data` allows defining different aspects of
@@ -82,7 +82,7 @@ vaccineff_data <- make_vaccineff_data(
   vaccinated_status = "v",
   unvaccinated_status = "u",
   immunization_delay = 15,
-  end_cohort = as.Date("2044-12-31"),
+  end_cohort = as.Date("2021-12-31"),
   match = TRUE,
   exact = "sex",
   nearest = c(age = 1)
@@ -95,12 +95,10 @@ ve <- estimate_vaccineff(vaccineff_data, at = 180)
 summary(ve)
 #> Vaccine Effectiveness at 180 days computed as VE = 1 - HR:
 #>      VE lower.95 upper.95
-#>  0.8457   0.7429   0.9074
+#>  0.7254   0.5437   0.8347
 #> 
 #> Schoenfeld test for Proportional Hazards assumption:
-#> p-value = 0.0046
-#> Warning in print.summary_vaccineff(x): 
-#> p-value < 0.05. Please check loglog plot for Proportional Hazards assumption
+#> p-value = 0.1507
 
 # Generate loglog plot to check proportional hazards
 plot(ve, type = "loglog")

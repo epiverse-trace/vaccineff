@@ -12,7 +12,7 @@
 \item{...}{Additional arguments passed to other functions.}
 }
 \value{
-Summary of the results from vaccineff data
+None
 }
 \description{
 Summarizes the results of \code{make_vaccineff_data}.

@@ -46,7 +46,6 @@ Imports:
     survival
 Suggests: 
     knitr,
-    qtl,
     rmarkdown,
     spelling,
     testthat (>= 3.0.0)

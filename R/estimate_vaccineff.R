@@ -36,7 +36,7 @@
 #'   vaccinated_status = "v",
 #'   unvaccinated_status = "u",
 #'   immunization_delay = 15,
-#'   end_cohort = as.Date("2044-12-31"),
+#'   end_cohort = as.Date("2021-12-31"),
 #'   match = TRUE,
 #'   exact = c("age", "sex"),
 #'   nearest = NULL
@@ -133,7 +133,7 @@ summary.vaccineff <- function(object, ...) {
 #'
 #' @param x Object of the class `summary.vaccineff`.
 #' @param ... Additional arguments passed to other functions.
-#' @return Summary of the results from `estimate_vaccineff`.
+#' @return None
 #' @export
 
 print.summary_vaccineff <- function(x, ...) {
@@ -149,7 +149,8 @@ print.summary_vaccineff <- function(x, ...) {
     warning_schoenfeld <- paste0("\np-value < 0.05. Please check loglog plot",
       " for Proportional Hazards assumption"
     )
-    warning(warning_schoenfeld)
+    message("Warning:")
+    message(warning_schoenfeld)
   }
   invisible(x)
 }

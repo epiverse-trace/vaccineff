@@ -57,7 +57,7 @@ and caliper(s) for each variable (e.g., \code{nearest = c("characteristic1" = n1
 }
 \description{
 This function iterates to re-match registers that were
-removed after adjusting exposition times. To avoid generating the
+removed after adjusting exposure times. To avoid generating the
 same pairs already removed, each iteration is split in two steps,
 one for the removed vaccinated population and the other for the
 unvaccinated. A \code{tryCatch} validation handles errors when no matches

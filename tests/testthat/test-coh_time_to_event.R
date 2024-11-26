@@ -1,7 +1,7 @@
 #### Tests for coh_time_to_event.R module ####
 #### Prepare data for all the tests ####
 data("cohortdata")
-end_cohort <- as.Date("2044-12-31")
+end_cohort <- as.Date("2021-12-31")
 
 # sample cohort to make tests faster - take a bigger sample
 sample_size <- 10000
@@ -49,12 +49,12 @@ data_test1$t0_follow_up <- as.Date(
 data_test2 <- vaccineff_data$matching$match
 tags <- linelist::tags(data_test2)
 
-#### Tests for the get_exposition_time() ####
+#### Tests for the get_exposure_time() ####
 # Snapshot tests to check cleaned up implementation
-test_that("Snapshot test for `get_exposition_time`", {
+test_that("Snapshot test for `get_exposure_time`", {
 
   # calculate time to death
-  exposition_time <- get_exposition_time(
+  exposure_time <- get_exposure_time(
     data_set = data_test1,
     outcome_date_col = "death_date",
     censoring_date_col = "death_other_causes",
@@ -62,15 +62,15 @@ test_that("Snapshot test for `get_exposition_time`", {
   )
 
   expect_snapshot(
-    head(exposition_time, 20)
+    head(exposure_time, 20)
   )
 })
 
 # Correctness test
-test_that("`get_exposition_time`: correctness", {
+test_that("`get_exposure_time`: correctness", {
 
   # calculate time to death
-  data_test1$exposition_time <- get_exposition_time(
+  data_test1$exposure_time <- get_exposure_time(
     data_set = data_test1,
     outcome_date_col = "death_date",
     censoring_date_col = "death_other_causes",
@@ -78,7 +78,7 @@ test_that("`get_exposition_time`: correctness", {
   )
 
   # Check for NAs
-  expect_false(anyNA(data_test1$exposition_time))
+  expect_false(anyNA(data_test1$exposure_time))
 
   #Check for informed outcome or censoring dates
   informed_data <- data_test1[!is.na(data_test1$death_date) |
@@ -87,23 +87,23 @@ test_that("`get_exposition_time`: correctness", {
   informed_data$tf <- pmin(informed_data$death_date,
     informed_data$death_other_causes, na.rm = TRUE
   )
-  informed_data$exposition_time_test <-
+  informed_data$exposure_time_test <-
     informed_data$tf - informed_data$t0_follow_up
 
   expect_true(
-    all(informed_data$exposition_time_test == informed_data$exposition_time)
+    all(informed_data$exposure_time_test == informed_data$exposure_time)
   )
   #Check for non-informed outcome or censoring dates
   non_informed_data <- data_test1[is.na(data_test1$death_date) &
       is.na(data_test1$death_other_causes),
   ]
 
-  non_informed_data$exposition_time_test <-
+  non_informed_data$exposure_time_test <-
     end_cohort - non_informed_data$t0_follow_up
 
   expect_true(
-    all(non_informed_data$exposition_time_test ==
-          non_informed_data$exposition_time)
+    all(non_informed_data$exposure_time_test ==
+          non_informed_data$exposure_time)
   )
 })
 

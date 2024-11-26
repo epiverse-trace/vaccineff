@@ -53,7 +53,7 @@ List with results from static match:
 }
 \description{
 This function calls \code{match_cohort_} once and then
-removes the pairs whose exposition times do not coincide.
+removes the pairs whose exposure times do not coincide.
 It returns the adjusted cohort, a summary of the matching result,
 and the balance of the cohort before and after matching.
 }

@@ -77,8 +77,8 @@
 </nav><div class="container template-home">
 <div class="row">
   <main id="main" class="col-md-9"><div class="section level2">
-<h2 id="vaccineff-an-r-package-with-tools-for-estimating-vaccine-effectiveness-and-vaccine-related-metrics-">
-<em>vaccineff</em>: An R package with tools for estimating vaccine effectiveness and vaccine related metrics <img src="reference/figures/logo.png" align="right" width="130"><a class="anchor" aria-label="anchor" href="#vaccineff-an-r-package-with-tools-for-estimating-vaccine-effectiveness-and-vaccine-related-metrics-"></a>
+<h2 id="vaccineff-tools-for-estimating-vaccine-effectiveness-and-vaccine-related-metrics-">
+<em>vaccineff</em>: Tools for estimating vaccine effectiveness and vaccine related metrics <img src="reference/figures/logo.png" align="right" width="130"><a class="anchor" aria-label="anchor" href="#vaccineff-tools-for-estimating-vaccine-effectiveness-and-vaccine-related-metrics-"></a>
 </h2>
 <!-- badges: start -->
 
@@ -89,16 +89,23 @@
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>The current development version of <em>vaccineff</em> can be installed from <a href="https://github.com/" class="external-link">GitHub</a> using the <code>pak</code> package.</p>
+<p>Our stable versions are released on CRAN, and can be installed using:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"vaccineff"</span>, build_vignettes <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<p>The current development version of <em>vaccineff</em> can be installed from <a href="https://github.com/" class="external-link">GitHub</a> using the <code>pak</code> package.</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw">if</span><span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://pak.r-lib.org/" class="external-link">"pak"</a></span><span class="op">)</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"pak"</span><span class="op">)</span></span>
 <span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="st">"epiverse-trace/vaccineff"</span><span class="op">)</span></span></code></pre></div>
+<p>Or using the <code>remotes</code> package</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw">if</span><span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://remotes.r-lib.org" class="external-link">"remotes"</a></span><span class="op">)</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span></span>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"epiverse-trace/vaccineff"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="quick-start">Quick start<a class="anchor" aria-label="anchor" href="#quick-start"></a>
 </h2>
 <p><em>vaccineff</em> provides a minimal cohort dataset that can be used to test out the models.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Load example `cohortdata` included in the package</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"cohortdata"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">cohortdata</span>, <span class="fl">5</span><span class="op">)</span></span>
@@ -116,7 +123,7 @@
 <span><span class="co">#&gt; 5    BRAND1    BRAND1</span></span></code></pre></div>
 <p>The function <code>make_vaccineff_data</code> allows defining different aspects of the study design—such as vaccination dates, immunization delays, and potential confounding factors—and creates an object of class <code>vaccineff_data</code>. Its output is used to estimate VE using a Cox model regression invoked by the function <code>estimate_vaccineff</code>, which returns the object <code>vaccineff</code>.</p>
 <p>The proportional hazard assumption can be tested both through the Schoenfeld test and visually using the <code>plot</code> method by setting <code>type = "loglog"</code>.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Create `vaccineff_data`</span></span>
 <span><span class="va">vaccineff_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/make_vaccineff_data.html">make_vaccineff_data</a></span><span class="op">(</span></span>
 <span>  data_set <span class="op">=</span> <span class="va">cohortdata</span>,</span>
@@ -146,7 +153,7 @@
 <span></span>
 <span><span class="co"># Generate loglog plot to check proportional hazards</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">ve</span>, type <span class="op">=</span> <span class="st">"loglog"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-2-1.png" width="100%"></p>
+<p><img src="reference/figures/README-unnamed-chunk-4-1.png" width="100%"></p>
 </div>
 <div class="section level2">
 <h2 id="package-vignettes">Package vignettes<a class="anchor" aria-label="anchor" href="#package-vignettes"></a>
@@ -164,7 +171,7 @@
 <p>Contributions to <em>vaccineff</em> are welcomed. Contributions are welcome via <a href="https://github.com/epiverse-trace/vaccineff/pulls" class="external-link">pull requests</a>.</p>
 <p>Contributors to the project include:</p>
 <p><strong>Authors</strong>: <a href="https://github.com/davidsantiagoquevedo" class="external-link">David Santiago Quevedo</a> and <a href="https://github.com/zmcucunuba" class="external-link">Zulma M. Cucunubá</a> (maintainer)</p>
-<p><strong>Contributors</strong>: <a href="https://github.com/GeraldineGomez" class="external-link">Geraldine Gómez</a>, <a href="https://github.com/pratikunterwegs" class="external-link">Pratik Gupte</a>, <a href="https://github.com/ErikaCantor" class="external-link">Érika J. Cantor</a>, <a href="https://github.com/santilo9513" class="external-link">Santiago Loaiza</a>, <a href="https://github.com/jpavlich" class="external-link">Jaime A. Pavlich-Mariscal</a>, <a href="https://github.com/Bisaloo" class="external-link">Hugo Gruson</a>, <a href="https://github.com/chartgerink" class="external-link">Chris Hartgerink</a>, <a href="https://github.com/fsabrilb" class="external-link">Felipe Segundo Abril-Bermúdez</a></p>
+<p><strong>Contributors</strong>: <a href="https://github.com/GeraldineGomez" class="external-link">Geraldine Gómez</a>, <a href="https://github.com/pratikunterwegs" class="external-link">Pratik Gupte</a>, <a href="https://github.com/ErikaCantor" class="external-link">Érika J. Cantor</a>, <a href="https://github.com/santilo9513" class="external-link">Santiago Loaiza</a>, <a href="https://github.com/jpavlich" class="external-link">Jaime A. Pavlich-Mariscal</a>, <a href="https://github.com/Bisaloo" class="external-link">Hugo Gruson</a>, <a href="https://github.com/chartgerink" class="external-link">Chris Hartgerink</a>, <a href="https://github.com/fsabrilb" class="external-link">Felipe Segundo Abril-Bermúdez</a>, <a href="https://github.com/joshwlambert" class="external-link">Joshua W. Lambert</a>, <a href="https://github.com/jd-otero" class="external-link">Julian Otero</a></p>
 </div>
 <div class="section level2">
 <h2 id="code-of-conduct">Code of conduct<a class="anchor" aria-label="anchor" href="#code-of-conduct"></a>

@@ -21,8 +21,8 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/license/mit)
-[![R-CMD-check](https://github.com/{{ gh_repo }}/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/{{ gh_repo }}/actions/workflows/R-CMD-check.yaml)
-[![Codecov test coverage](https://codecov.io/gh/{{ gh_repo }}/branch/main/graph/badge.svg)](https://app.codecov.io/gh/{{ gh_repo }}?branch=main)
+[![R-CMD-check](https://github.com/epiverse-trace/vaccineff/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/epiverse-trace/vaccineff/actions/workflows/R-CMD-check.yaml)
+[![Codecov test coverage](https://codecov.io/gh/epiverse-trace/vaccineff/branch/main/graph/badge.svg)](https://app.codecov.io/gh/epiverse-trace/vaccineff?branch=main)
 [![Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
 [![lifecycle-maturing](https://raw.githubusercontent.com/reconverse/reconverse.github.io/master/images/badge-maturing.svg)](https://www.reconverse.org/lifecycle.html#concept)
 
@@ -100,16 +100,16 @@ plot(ve, type = "loglog")
 
 ## Package vignettes
 
-More details on how to use _{{ packagename }}_ can be found in the [online documentation as package vignettes](https://epiverse-trace.github.io/{{ packagename }}/), and in the articles "Get Started with vaccineff" and "Introduction to cohort design with vaccineff".
+More details on how to use _{{ packagename }}_ can be found in the [online documentation as package vignettes](https://epiverse-trace.github.io/vaccineff/), and in the articles "Get Started with vaccineff" and "Introduction to cohort design with vaccineff".
 
 ## Help
 
-To report a bug or to request a new feature please open an [issue](https://github.com/{{ gh_repo }}/issues/new/choose).
+To report a bug or to request a new feature please open an [issue](https://github.com/epiverse-trace/vaccineff/issues/new/choose).
 
 ## Contribute 
 
 Contributions to _{{ packagename }}_ are welcomed. Contributions are welcome via [pull
-requests](https://github.com/{{ gh_repo }}/pulls).
+requests](https://github.com/epiverse-trace/vaccineff/pulls).
 
 Contributors to the project include:
 

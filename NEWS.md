@@ -1,3 +1,5 @@
+# vaccineff (development version)
+
 # vaccineff 1.0.0
 
 `{vaccineff 1.0.0}` refactors the package's internal structure for better 

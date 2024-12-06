@@ -8,7 +8,8 @@ message: 'To cite package "vaccineff" in publications use:'
 type: software
 license: MIT
 title: 'vaccineff: Estimate Vaccine Effectiveness Based on Different Study Designs'
-version: 1.0.0
+version: 1.0.0.9000
+doi: 10.32614/CRAN.package.vaccineff
 abstract: Provides tools for estimating vaccine effectiveness and related metrics.
   The 'vaccineff_data' class manages key features for preparing, visualizing, and
   organizing cohort data, as well as estimating vaccine effectiveness. The results
@@ -22,6 +23,7 @@ authors:
   given-names: Zulma M.
   email: tracelacdev@gmail.com
   orcid: https://orcid.org/0000-0002-8165-3198
+repository: https://CRAN.R-project.org/package=vaccineff
 repository-code: https://github.com/epiverse-trace/vaccineff
 url: https://epiverse-trace.github.io/vaccineff/
 contact:

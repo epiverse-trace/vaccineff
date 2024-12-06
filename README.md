@@ -12,6 +12,9 @@ coverage](https://codecov.io/gh/epiverse-trace/vaccineff/branch/main/graph/badge
 has not yet been a stable, usable release suitable for the
 public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
 [![lifecycle-maturing](https://raw.githubusercontent.com/reconverse/reconverse.github.io/master/images/badge-maturing.svg)](https://www.reconverse.org/lifecycle.html#concept)
+[![CRAN
+status](https://www.r-pkg.org/badges/version/vaccineff)](https://CRAN.R-project.org/package=vaccineff)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14258965.svg)](https://doi.org/10.5281/zenodo.14258965)
 
 <!-- badges: end -->
 

@@ -27,7 +27,8 @@ Authors@R: c(
            comment = c(ORCID = "0000-0001-5218-3046")),
     person("Julian", "Otero", , "jd.otero10@uniandes.edu.co", role = "ctb",
            comment = c(ORCID = "0009-0006-0429-7747")),
-    person("Pontificia Universidad Javeriana", role = "cph")
+    person("Pontificia Universidad Javeriana", role = "cph",
+           comment = c(ROR = "03etyjw28"))
   )
 Description: Provides tools for estimating vaccine effectiveness and
     related metrics. The 'vaccineff_data' class manages key features for

@@ -113,7 +113,7 @@ truncate_from_start_cohort <- function(data_set,
     " the mininimum immunization date. \n",
     n0 - nf, " registers were removed with outcomes before the start date.\n"
   )
-  warning(msg)
+  warning(msg, call. = FALSE)
 
   return(data_set)
 }

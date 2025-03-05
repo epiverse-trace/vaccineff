@@ -2,8 +2,8 @@
 
 # Example function that generates warnings
 example_function <- function() {
-  warning("This is warning 1")
-  warning("This is warning 2")
+  warning("This is warning 1", call. = FALSE)
+  warning("This is warning 2", call. = FALSE)
   return("Function completed")
 }
 

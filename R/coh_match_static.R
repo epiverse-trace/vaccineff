@@ -100,7 +100,7 @@ static_match <- function(data_set,
   adjusted_f <- adjusted_f[, -which(names(adjusted_f) == "match_id")]
 
   warning(
-    warning_1, warning_2, warning_3, warning_4
+    warning_1, warning_2, warning_3, warning_4, call. = FALSE
   )
 
   # Match object

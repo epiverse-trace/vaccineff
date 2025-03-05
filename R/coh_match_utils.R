@@ -57,12 +57,12 @@ match_pair_info <- function(data_set,
       function(x) {
         if (all(is.na(x))) {
           return(NA)
-        } else {
-          if (criteria == "min") {
-            return(as.character(min(x, na.rm = TRUE)))
-          } else if (criteria == "max") {
-            return(as.character(max(x, na.rm = TRUE)))
-          }
+        }
+        if (criteria == "min") {
+          return(as.character(min(x, na.rm = TRUE)))
+        }
+        if (criteria == "max") {
+          return(as.character(max(x, na.rm = TRUE)))
         }
       }
     )

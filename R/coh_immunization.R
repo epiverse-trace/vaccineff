@@ -167,13 +167,12 @@ get_immunization_date <- function(data_set,
       #(i.e. the max delta). If take_firt = FALSE it returns the
       #closest date to the event (i.e. the min delta).
       if (all(is.na(x))) {
-        NA_real_
+        return(NA_real_)
+      }
+      if (take_first) {
+        max(x, na.rm = TRUE)
       } else {
-        if (take_first) {
-          max(x, na.rm = TRUE)
-        } else {
-          min(x, na.rm = TRUE)
-        }
+        min(x, na.rm = TRUE)
       }
     }
   )

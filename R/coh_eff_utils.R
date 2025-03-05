@@ -102,7 +102,7 @@ cox_model <- function(data_set,
   # Cox model time to event, outcome ~ vaccine status
   # Regression
   model <- survival::coxph(
-    survival::Surv( # nolint
+    survival::Surv(
       data_set[[time_to_event_col]], data_set[[outcome_status_col]]
     ) ~ data_set[[vacc_status_col]]
   )

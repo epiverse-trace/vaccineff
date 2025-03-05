@@ -75,7 +75,7 @@ test_that("`set_status`: Correctness", {
     cohortdata[, c("death_date", "vaccine_date_1")],
     MARGIN = 1,
     FUN = function(x) {
-      all(!is.na(x)) # nolint
+      all(!is.na(x))
     }
   )
   expect_identical(
@@ -88,7 +88,7 @@ test_that("`set_status`: Correctness", {
     cohortdata[, c("death_date", "vaccine_date_1")],
     MARGIN = 1,
     FUN = function(x) {
-      any(!is.na(x)) # nolint
+      any(!is.na(x))
     }
   )
   expect_identical(

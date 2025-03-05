@@ -50,7 +50,7 @@ test_that("`match_cohort`: basic expectations", {
 })
 
 # Snapshot for summary
-test_that("`match_cohort`: summary snapshot", { # nolint
+test_that("`match_cohort`: summary snapshot", {
   for (column in c("balance_all", "balance_match", "summary")) {
     expect_snapshot_value(matching[column], style = "json2", tolerance = 1e-1)
   }

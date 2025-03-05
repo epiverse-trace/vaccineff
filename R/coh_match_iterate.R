@@ -63,15 +63,16 @@ rematch_ <- function(all,
           start_cohort = start_cohort,
           end_cohort = end_cohort
         )
-        warning("Iteration ", im, " for ", rematch_status)
-        warning(" - New: ", nrow(adjusted_i_s), "\n")
+        warning("Iteration ", im, " for ", rematch_status, call. = FALSE)
+        warning(" - New: ", nrow(adjusted_i_s), "\n", call. = FALSE)
       },
       error = function(e) {
         # MatchIt returns error if there are no enough individuals
         # from both groups to match
         warning(
           "Error at iteration ", im, " for ", rematch_status, ": ",
-          e$message, "- skipping to next \n"
+          e$message, "- skipping to next \n",
+          call. = FALSE
         )
       }
     )

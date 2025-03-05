@@ -105,7 +105,8 @@ check_vaccineff_inputs <- function(data_set,
       sprintf(
         "`end_cohort` has a date with year > %s, please check the date!",
         as.character(max_year)
-      )
+      ),
+      call. = FALSE
     )
   }
 
@@ -119,7 +120,8 @@ check_vaccineff_inputs <- function(data_set,
     # Check if both 'exact' and 'nearest' are NULL or missing
     if (is.null(nearest) && is.null(exact)) {
       stop(
-        "`exact` and `nearest` cannot be NULL. At least one must be provided"
+        "`exact` and `nearest` cannot be NULL. At least one must be provided",
+        call. = FALSE
       )
     }
 

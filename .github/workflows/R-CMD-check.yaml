@@ -1,5 +1,11 @@
 # Workflow derived from https://github.com/r-lib/actions/tree/v2/examples
 # Need help debugging build failures? Start at https://github.com/r-lib/actions#where-to-find-help
+#
+# Reproduce locally by running:
+# ```r
+# pak::pak(c("any::rcmdcheck", "."), dependencies = "Config/Needs/check")
+# rcmdcheck::rcmdcheck()
+# ```
 on:
   push:
     branches: [main, master]
@@ -16,8 +22,8 @@ on:
       - 'LICENSE'
       - '.Rbuildignore'
       - '.github/workflows/R-CMD-check.yaml'
+  merge_group:
   pull_request:
-    branches: [main, master]
     paths:
       - 'data/**'
       - 'R/**'
@@ -48,20 +54,24 @@ jobs:
       fail-fast: false
       matrix:
         config:
+          # Test with the 3 R versions and the 3 platforms from CRAN checks
           - {os: macOS-latest,   r: 'release'}
           - {os: windows-latest, r: 'release'}
-          - {os: ubuntu-latest,   r: 'devel', http-user-agent: 'release'}
-          - {os: ubuntu-latest,   r: 'release'}
-          - {os: ubuntu-latest,   r: 'oldrel-1'}
+          - {os: ubuntu-latest,  r: 'devel', http-user-agent: 'release'}
+          - {os: ubuntu-latest,  r: 'release'}
+          - {os: ubuntu-latest,  r: 'oldrel-1'}
+          # Older R version we officially support according to the blueprints
+          # https://epiverse-trace.github.io/blueprints/dependencies.html#base-r-support-schedule
+          # If a specific package depends on an older version of R, this can be
+          # tweaked to test the oldest supported version.
+          - {os: ubuntu-latest,  r: 'oldrel-4'}
 
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       R_KEEP_PKG_SOURCE: yes
-      # Exists since R 4.3.0 but `false` by default
-      _R_CHECK_LENGTH_COLON_: true
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - uses: r-lib/actions/setup-pandoc@v2
 
@@ -80,6 +90,7 @@ jobs:
         id: rcmdcheck
         with:
           upload-snapshots: true
+          error-on: '"note"'
 
       # fail-fast but only if rcmdcheck step fails
       - name: Manual fail-fast

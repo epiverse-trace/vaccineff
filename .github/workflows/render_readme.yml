@@ -1,14 +1,42 @@
-# Name of the workflow
+# This is a modified render_readme workflow, to work with README
+# variables. This allows us to use the same README template across
+# repos, without ever hardcoding repo-specific elements.
+# We currently have two README variables:
+# - `packagename` is extracted from the DESCRIPTION file
+# - `gh_repo` is extracted via a special environment variable in GitHub Actions
+#
+# Reproduce locally by running:
+# ```r
+# pak::pak(c("any::rmarkdown", "any::usethis", "."))
+# writeLines(
+#   knitr::knit_expand(
+#     "README.Rmd",
+#     packagename = read.dcf("DESCRIPTION", "Package"),
+#     gh_repo = usethis:::github_remote_list()$repo_spec
+#   ),
+#   "README_expanded.Rmd"
+# )
+# rmarkdown::render(
+#   "README_expanded.Rmd",
+#   output_file = "README.md",
+#   output_dir = "."
+# )
+# unlink("README_expanded.Rmd")
+# ```
 name: render-readme
 
 # Controls when the action will run. Triggers include:
-# 
+#
 # - button trigger from github action page
 # - on changes to readme.Rmd
 
 on:
   workflow_dispatch:
   push:
+    branches:
+      # This may seem like a no-op but it prevents triggering on tags
+      # We use '**' rather '*' to accomodate names like 'dev/branch-1'
+      - '**'
     paths:
       - 'README.Rmd'
       - '.github/workflows/render_readme.yml'
@@ -16,6 +44,9 @@ on:
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
+
+permissions:
+  contents: write
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -25,7 +56,7 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - name: Checkout repos
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup R
         uses: r-lib/actions/setup-r@v2
@@ -34,12 +65,12 @@ jobs:
 
       - name: Setup pandoc
         uses: r-lib/actions/setup-pandoc@v2
-    
+
       - name: Install dependencies
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
           extra-packages: any::rmarkdown, local::.
- 
+
       - name: Compile the readme
         run: |
           writeLines(
@@ -56,7 +87,7 @@ jobs:
             output_dir = "."
           )
         shell: Rscript {0}
-        
+
       - name: Commit files
         run: |
           git config --local user.email "action@github.com"
@@ -68,4 +99,5 @@ jobs:
             git add man/figures/
           fi
           git diff-index --quiet HEAD || git commit -m "Automatic readme update"
+          git pull --rebase origin ${{ github.ref.name }}
           git push origin || echo "No changes to push"

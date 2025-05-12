@@ -65,7 +65,7 @@ jobs:
           # https://epiverse-trace.github.io/blueprints/dependencies.html#base-r-support-schedule
           # If a specific package depends on an older version of R, this can be
           # tweaked to test the oldest supported version.
-          - {os: ubuntu-latest,  r: 'oldrel-4'}
+          - {os: ubuntu-latest,  r: '4.2'}
 
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}

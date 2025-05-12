@@ -38,9 +38,9 @@ License: MIT + file LICENSE
 URL: https://github.com/epiverse-trace/vaccineff,
     https://epiverse-trace.github.io/vaccineff/
 BugReports: https://github.com/epiverse-trace/vaccineff/issues
-Depends: 
-    R (>= 4.0.0)
-Imports: 
+Depends:
+    R (>= 4.2.0)
+Imports:
     checkmate,
     ggplot2,
     linelist,
@@ -49,12 +49,12 @@ Imports:
     scales,
     stats,
     survival
-Suggests: 
+Suggests:
     knitr,
     rmarkdown,
     spelling,
     testthat (>= 3.0.0)
-VignetteBuilder: 
+VignetteBuilder:
     knitr
 Config/Needs/website: epiverse-trace/epiversetheme
 Config/testthat/edition: 3

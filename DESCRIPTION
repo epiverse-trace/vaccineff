@@ -44,7 +44,7 @@ Depends:
     R (>= 4.2.0)
 Imports:
     checkmate,
-    ggplot2,
+    ggplot2 (>= 3.5.2),
     linelist,
     MatchIt,
     rlang,

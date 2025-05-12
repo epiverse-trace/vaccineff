@@ -102,6 +102,7 @@ references:
     orcid: https://orcid.org/0000-0002-9335-7468
   year: '2025'
   doi: 10.32614/CRAN.package.ggplot2
+  version: '>= 3.5.2'
 - type: software
   title: linelist
   abstract: 'linelist: Tagging and Validating Epidemiological Data'

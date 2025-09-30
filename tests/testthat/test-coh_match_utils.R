@@ -213,6 +213,7 @@ test_that("`get_censoring_date_match`: take maximum censoring date", {
 # Snapshot for summary comparing only two dataframes
 test_that("`match_cohort`: summary snapshot", {
   # Create `data.frame` with information on immunization
+  set.seed(123) #use fixed seed to avoid problems with snapshots
   sample_cohort_imm <- make_immunization(
     data_set = sample_cohort_s,
     outcome_date_col = "death_date",
@@ -225,6 +226,7 @@ test_that("`match_cohort`: summary snapshot", {
     end_cohort = end_cohort
   )
   # Match the data directly using match_cohort
+  set.seed(123) #use fixed seed to avoid problems with snapshots
   output <- capture_warnings(match_cohort(
     data_set = sample_cohort_imm,
     outcome_date_col = "death_date",
@@ -244,6 +246,7 @@ test_that("`match_cohort`: summary snapshot", {
 
   # snapshot for summary
   matched <- matching$match
+  set.seed(123) #use fixed seed to avoid problems with snapshots
   summary <- match_summary(all = sample_cohort_imm,
     matched = matched,
     vacc_status_col = "vaccine_status"

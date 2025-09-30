@@ -29,7 +29,7 @@ Authors:
 
 Other contributors:
 \itemize{
-  \item International Development Research Center (IDRC) [funder]
+  \item International Development Research Center (IDRC) (0445x0472) [funder]
   \item Geraldine Gómez Millán \email{geralidine.gomez@javeriana.edu.co} (\href{https://orcid.org/0009-0007-8701-0568}{ORCID}) [contributor]
   \item Pratik Gupte \email{pratik.gupte@lshtm.ac.uk} (\href{https://orcid.org/0000-0001-5294-7819}{ORCID}) [contributor]
   \item Érika J Cantor \email{erika.cantor@javeriana.edu.co} (\href{https://orcid.org/0000-0003-3320-6032}{ORCID}) [contributor]
@@ -40,7 +40,7 @@ Other contributors:
   \item Felipe Segundo Abril \email{fsabrilb@unal.edu.co} (\href{https://orcid.org/0000-0002-2512-4929}{ORCID}) [contributor]
   \item Joshua W. Lambert \email{joshua.lambert@lshtm.ac.uk} (\href{https://orcid.org/0000-0001-5218-3046}{ORCID}) [contributor]
   \item Julian Otero \email{jd.otero10@uniandes.edu.co} (\href{https://orcid.org/0009-0006-0429-7747}{ORCID}) [contributor]
-  \item Pontificia Universidad Javeriana [copyright holder]
+  \item Pontificia Universidad Javeriana (03etyjw28) [copyright holder]
 }
 
 }

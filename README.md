@@ -1,5 +1,5 @@
 
-## *vaccineff*: Tools for estimating vaccine effectiveness and vaccine related metrics <img src="man/figures/logo.png" align="right" width="130"/>
+## *{{ packagename }}*: Tools for estimating vaccine effectiveness and vaccine related metrics <img src="man/figures/logo.png" align="right" width="130"/>
 
 <!-- badges: start -->
 
@@ -18,18 +18,19 @@ status](https://www.r-pkg.org/badges/version/vaccineff)](https://CRAN.R-project.
 
 <!-- badges: end -->
 
-*vaccineff* is developed at [Pontificia Universidad
+*{{ packagename }}* is developed at [Pontificia Universidad
 Javeriana](https://www.javeriana.edu.co/inicio) as part of the
 [Epiverse-TRACE initiative](https://data.org/initiatives/epiverse/).
 
-*vaccineff* is an R package that offers tools for estimating vaccine
-effectiveness (VE), using a series of epidemiological designs including
-cohort studies, test-negative case-control, and screening methods
-([Halloran, Longini, and Struchiner 2010](#ref-bookvaccine)). The
-current version of the package provides a set of features for preparing,
-visualizing, and managing cohort data, estimating vaccine effectiveness,
-and assessing the performance of the models. Test-negative design and
-screening method will be included in future versions.
+*{{ packagename }}* is an R package that offers tools for estimating
+vaccine effectiveness (VE), using a series of epidemiological designs
+including cohort studies, test-negative case-control, and screening
+methods ([Halloran, Longini, and Struchiner 2010](#ref-bookvaccine)).
+The current version of the package provides a set of features for
+preparing, visualizing, and managing cohort data, estimating vaccine
+effectiveness, and assessing the performance of the models.
+Test-negative design and screening method will be included in future
+versions.
 
 ## Installation
 
@@ -39,25 +40,25 @@ Our stable versions are released on CRAN, and can be installed using:
 install.packages("vaccineff", build_vignettes = TRUE)
 ```
 
-The current development version of *vaccineff* can be installed from
-[GitHub](https://github.com/) using the `pak` package.
+The current development version of *{{ packagename }}* can be installed
+from [GitHub](https://github.com/) using the `pak` package.
 
 ``` r
 if(!require("pak")) install.packages("pak")
-pak::pak("epiverse-trace/vaccineff")
+pak::pak("{{ gh_repo }}")
 ```
 
 Or using the `remotes` package
 
 ``` r
 if(!require("remotes")) install.packages("remotes")
-remotes::install_github("epiverse-trace/vaccineff")
+remotes::install_github("{{ gh_repo }}")
 ```
 
 ## Quick start
 
-*vaccineff* provides a minimal cohort dataset that can be used to test
-out the models.
+*{{ packagename }}* provides a minimal cohort dataset that can be used
+to test out the models.
 
 ``` r
 # Load example `cohortdata` included in the package
@@ -111,10 +112,10 @@ ve <- estimate_vaccineff(vaccineff_data, at = 180)
 summary(ve)
 #> Vaccine Effectiveness at 180 days computed as VE = 1 - HR:
 #>      VE lower.95 upper.95
-#>  0.7254   0.5437   0.8347
+#>  0.7109   0.5245   0.8243
 #> 
 #> Schoenfeld test for Proportional Hazards assumption:
-#> p-value = 0.1507
+#> p-value = 0.0631
 
 # Generate loglog plot to check proportional hazards
 plot(ve, type = "loglog")
@@ -124,8 +125,8 @@ plot(ve, type = "loglog")
 
 ## Package vignettes
 
-More details on how to use *vaccineff* can be found in the [online
-documentation as package
+More details on how to use *{{ packagename }}* can be found in the
+[online documentation as package
 vignettes](https://epiverse-trace.github.io/vaccineff/), and in the
 articles “Get Started with vaccineff” and “Introduction to cohort design
 with vaccineff”.
@@ -137,8 +138,9 @@ To report a bug or to request a new feature please open an
 
 ## Contribute
 
-Contributions to *vaccineff* are welcomed. Contributions are welcome via
-[pull requests](https://github.com/epiverse-trace/vaccineff/pulls).
+Contributions to *{{ packagename }}* are welcomed. Contributions are
+welcome via [pull
+requests](https://github.com/epiverse-trace/vaccineff/pulls).
 
 Contributors to the project include:
 
@@ -159,8 +161,8 @@ Otero](https://github.com/jd-otero)
 
 ## Code of conduct
 
-Please note that the *vaccineff* project is released with a [Contributor
-Code of
+Please note that the *{{ packagename }}* project is released with a
+[Contributor Code of
 Conduct](https://github.com/epiverse-trace/.github/blob/main/CODE_OF_CONDUCT.md).
 By contributing to this project, you agree to abide by its terms.
 

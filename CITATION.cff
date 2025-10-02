@@ -8,7 +8,7 @@ message: 'To cite package "vaccineff" in publications use:'
 type: software
 license: MIT
 title: 'vaccineff: Estimate Vaccine Effectiveness Based on Different Study Designs'
-version: 1.0.0.9000
+version: 1.0.1
 doi: 10.32614/CRAN.package.vaccineff
 abstract: Provides tools for estimating vaccine effectiveness and related metrics.
   The 'vaccineff_data' class manages key features for preparing, visualizing, and
@@ -112,7 +112,6 @@ references:
   authors:
   - family-names: Gruson
     given-names: Hugo
-    email: hugo@data.org
     orcid: https://orcid.org/0000-0002-4094-1476
   - family-names: Jombart
     given-names: Thibaut

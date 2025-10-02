@@ -1,5 +1,3 @@
-# vaccineff (development version)
-
 # vaccineff 1.0.1
 
 `{vaccineff 1.0.1}` patches the package's tests to fix failing CRAN checks.

@@ -12,8 +12,8 @@
 <link rel="icon" sizes="any" href="../favicon.ico">
 <link rel="manifest" href="../site.webmanifest">
 <script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Introduction to cohort design with vaccineff">
 <!-- Google tag (gtag.js) --><script async src="https://www.googletagmanager.com/gtag/js?id=G-XZ471458FQ"></script><script>
@@ -104,20 +104,19 @@ status. Thus,
 can be estimated by survival analysis methods, substituting the relative
 risk for the hazard ratio
 (<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>H</mi><mi>R</mi></mrow><annotation encoding="application/x-tex">HR</annotation></semantics></math>),
-which considers the person-time at risk in the estimation of VE <span class="citation">(<a href="#ref-bookvaccine">Halloran, Longini, and
-Struchiner 2010</a>)</span>. <code>Vaccineff</code> package estimates VE
-using
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>H</mi><mi>R</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>×</mo><mn>100</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">(1-HR) \times 100\%</annotation></semantics></math>
+which considers the person-time at risk in the estimation of VE <span class="citation">(<a href="#ref-bookvaccine">Halloran et al.
+2010</a>)</span>. <code>Vaccineff</code> package estimates VE using
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>H</mi><mi>R</mi><mo stretchy="false" form="postfix">)</mo><mo>×</mo><mn>100</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">(1-HR) \times 100\%</annotation></semantics></math>
 and therefore, the outcome variable is the time from the initial study
 date to the occurrence of the event (e.g., infection, death,
 hospitalization) or the date of the end of the study. VE is approximated
 by the Cox proportional hazards model that is usually written by the
 following expression:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>h</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>t</mi><mo>,</mo><mi>X</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><msub><mi>h</mi><mn>0</mn></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>t</mi><mo stretchy="true" form="postfix">)</mo></mrow><msup><mi>e</mi><mrow><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>p</mi></munderover><msub><mi>β</mi><mi>i</mi></msub><msub><mi>X</mi><mi>i</mi></msub></mrow></msup><mo>,</mo></mrow><annotation encoding="application/x-tex">\begin{equation}\label{eq:cox}
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>h</mi><mo stretchy="false" form="prefix">(</mo><mi>t</mi><mo>,</mo><mi>X</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><msub><mi>h</mi><mn>0</mn></msub><mo stretchy="false" form="prefix">(</mo><mi>t</mi><mo stretchy="false" form="postfix">)</mo><msup><mi>e</mi><mrow><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>p</mi></munderover><msub><mi>β</mi><mi>i</mi></msub><msub><mi>X</mi><mi>i</mi></msub></mrow></msup><mo>,</mo></mrow><annotation encoding="application/x-tex">\begin{equation}\label{eq:cox}
 h(t,X)=h_0(t) e ^{\sum_{i=1}^p \beta_i X_i},
 \end{equation}</annotation></semantics></math></p>
 <p>where
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>h</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>t</mi><mo>,</mo><mi>X</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">h(t, X)</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>h</mi><mo stretchy="false" form="prefix">(</mo><mi>t</mi><mo>,</mo><mi>X</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">h(t, X)</annotation></semantics></math>
 is the risk function for each individual over the time
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>t</mi><annotation encoding="application/x-tex">t</annotation></semantics></math>
 given a set of
@@ -125,12 +124,12 @@ given a set of
 explanatory/predictors variables denoted by
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>X</mi><annotation encoding="application/x-tex">X</annotation></semantics></math>
 (e.g., vaccination status, age, sex).
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>h</mi><mn>0</mn></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>t</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">h_0 (t)</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>h</mi><mn>0</mn></msub><mo stretchy="false" form="prefix">(</mo><mi>t</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">h_0 (t)</annotation></semantics></math>
 represents the baseline hazard function when all variables of
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>X</mi><annotation encoding="application/x-tex">X</annotation></semantics></math>
 are equal to 0. In the Cox regression model, it is unnecessary to
 specify
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>h</mi><mn>0</mn></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>t</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">h_0 (t)</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>h</mi><mn>0</mn></msub><mo stretchy="false" form="prefix">(</mo><mi>t</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">h_0 (t)</annotation></semantics></math>,
 making this type of analysis a semiparametric model. Finally, the
 interest of the analysis is to compare the risk function of two
 individuals according to the values of the explanatory variables, which
@@ -146,13 +145,13 @@ denotes the vaccinated group and
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>X</mi><mn>1</mn></msub><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">X_1=0</annotation></semantics></math>
 denotes the unvaccinated group without including other predictors, the
 HR corresponds to:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>H</mi><mi>R</mi><mo>=</mo><mfrac><mrow><msub><mi>h</mi><mn>0</mn></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>t</mi><mo stretchy="true" form="postfix">)</mo></mrow><msup><mi>e</mi><mrow><msub><mi>β</mi><mn>1</mn></msub><msub><mi>X</mi><mn>1</mn></msub><mo stretchy="false" form="prefix">|</mo><mi>X</mi><mo>=</mo><mn>1</mn></mrow></msup></mrow><mrow><msub><mi>h</mi><mn>0</mn></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>t</mi><mo stretchy="true" form="postfix">)</mo></mrow><msup><mi>e</mi><mrow><msub><mover><mi>β</mi><mo accent="true">̂</mo></mover><mn>1</mn></msub><msub><mi>X</mi><mn>1</mn></msub><mo stretchy="false" form="prefix">|</mo><mi>X</mi><mo>=</mo><mn>0</mn></mrow></msup></mrow></mfrac><mo>=</mo><msup><mi>e</mi><msub><mover><mi>β</mi><mo accent="true">̂</mo></mover><mn>1</mn></msub></msup><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><mn>0</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><msup><mi>e</mi><msub><mover><mi>β</mi><mo accent="true">̂</mo></mover><mn>1</mn></msub></msup><mo>,</mo></mrow><annotation encoding="application/x-tex">HR=\frac{h_0(t) e ^{ \beta_1 X_1|X=1}}{h_0(t) e ^{ \hat \beta_1 X_1|X=0}}=e^{ \hat \beta_1} (1-0)=e^{ \hat \beta_1},</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>H</mi><mi>R</mi><mo>=</mo><mfrac><mrow><msub><mi>h</mi><mn>0</mn></msub><mo stretchy="false" form="prefix">(</mo><mi>t</mi><mo stretchy="false" form="postfix">)</mo><msup><mi>e</mi><mrow><msub><mi>β</mi><mn>1</mn></msub><msub><mi>X</mi><mn>1</mn></msub><mo stretchy="false" form="prefix">|</mo><mi>X</mi><mo>=</mo><mn>1</mn></mrow></msup></mrow><mrow><msub><mi>h</mi><mn>0</mn></msub><mo stretchy="false" form="prefix">(</mo><mi>t</mi><mo stretchy="false" form="postfix">)</mo><msup><mi>e</mi><mrow><msub><mover><mi>β</mi><mo accent="true">̂</mo></mover><mn>1</mn></msub><msub><mi>X</mi><mn>1</mn></msub><mo stretchy="false" form="prefix">|</mo><mi>X</mi><mo>=</mo><mn>0</mn></mrow></msup></mrow></mfrac><mo>=</mo><msup><mi>e</mi><msub><mover><mi>β</mi><mo accent="true">̂</mo></mover><mn>1</mn></msub></msup><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>−</mo><mn>0</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><msup><mi>e</mi><msub><mover><mi>β</mi><mo accent="true">̂</mo></mover><mn>1</mn></msub></msup><mo>,</mo></mrow><annotation encoding="application/x-tex">HR=\frac{h_0(t) e ^{ \beta_1 X_1|X=1}}{h_0(t) e ^{ \hat \beta_1 X_1|X=0}}=e^{ \hat \beta_1} (1-0)=e^{ \hat \beta_1},</annotation></semantics></math></p>
 <p>therefore, the estimated
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>H</mi><mi>R</mi></mrow><annotation encoding="application/x-tex">HR</annotation></semantics></math>
 does not depend on time
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>t</mi><annotation encoding="application/x-tex">t</annotation></semantics></math>,
 and
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>h</mi><mn>0</mn></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>t</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">h_0 (t)</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>h</mi><mn>0</mn></msub><mo stretchy="false" form="prefix">(</mo><mi>t</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">h_0 (t)</annotation></semantics></math>
 can remain unspecified, assuming that the effect of an explanatory
 variable is proportional over time representing <em>the proportional
 hazard (PH) assumption</em>. When
@@ -231,12 +230,12 @@ can also be visualized by the following code:</p>
 <span></span>
 <span><span class="co"># Generate Survival plot</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">ve1</span>, type <span class="op">=</span> <span class="st">"surv"</span>, percentage <span class="op">=</span> <span class="cn">FALSE</span>, cumulative <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="cohort_design_files/figure-html/artcohor-1.png" width="768"></p>
+<p><img src="cohort_design_files/figure-html/artcohor-1.png" class="r-plt" alt="" width="768"></p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co"># Generate loglog plot to check proportional hazards</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">ve1</span>, type <span class="op">=</span> <span class="st">"loglog"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="cohort_design_files/figure-html/artcohor-2.png" width="768"></p>
+<p><img src="cohort_design_files/figure-html/artcohor-2.png" class="r-plt" alt="" width="768"></p>
 <p>The crude VE of death from two doses was 68.9% [95% CI 54.6-78.7].
 Furthermore, since the log-log plot shows that the curves do not appear
 entirely parallel, this indicates that there is a slight violation of
@@ -259,11 +258,11 @@ variables, as shown in the figure below:</p>
 <p>IMP runs a nearest neighbor matching using Mahalanobis distance to
 analyze similarities between a pair of unvaccinated and vaccinated
 subjects as follows:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>d</mi><mn>2</mn></msup><mrow><mo stretchy="true" form="prefix">(</mo><mi>u</mi><mo>,</mo><mi>v</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><msup><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>x</mi><mi>u</mi></msub><mo>−</mo><msub><mi>x</mi><mi>v</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mi>T</mi></msup><msup><mi>Σ</mi><mrow><mo>−</mo><mn>1</mn></mrow></msup><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>x</mi><mi>u</mi></msub><mo>−</mo><msub><mi>x</mi><mi>v</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>,</mo></mrow><annotation encoding="application/x-tex">d^2 (u,v)=(x_u-x_v)^T \Sigma^{-1} (x_u-x_v),</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>d</mi><mn>2</mn></msup><mo stretchy="false" form="prefix">(</mo><mi>u</mi><mo>,</mo><mi>v</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mo stretchy="false" form="prefix">(</mo><msub><mi>x</mi><mi>u</mi></msub><mo>−</mo><msub><mi>x</mi><mi>v</mi></msub><msup><mo stretchy="false" form="postfix">)</mo><mi>T</mi></msup><msup><mi mathvariant="normal">Σ</mi><mrow><mi>−</mi><mn>1</mn></mrow></msup><mo stretchy="false" form="prefix">(</mo><msub><mi>x</mi><mi>u</mi></msub><mo>−</mo><msub><mi>x</mi><mi>v</mi></msub><mo stretchy="false" form="postfix">)</mo><mo>,</mo></mrow><annotation encoding="application/x-tex">d^2 (u,v)=(x_u-x_v)^T \Sigma^{-1} (x_u-x_v),</annotation></semantics></math></p>
 <p>where
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>x</mi><annotation encoding="application/x-tex">x</annotation></semantics></math>
 corresponds to values of confounders variables y
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Σ</mi><annotation encoding="application/x-tex">\Sigma</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="normal">Σ</mi><annotation encoding="application/x-tex">\Sigma</annotation></semantics></math>
 is the sample variance-covariance matrix to standardize the variables.
 Thus, IMP selects the unvaccinated individual with the shortest distance
 for each person in the vaccinated group. However, all these pairings are
@@ -374,12 +373,12 @@ of the individuals and the time of exposure. Now, using
 <span></span>
 <span><span class="co"># Generate loglog plot to check proportional hazards</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">ve2</span>, type <span class="op">=</span> <span class="st">"loglog"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="cohort_design_files/figure-html/artcohor3-1.png" width="768"></p>
+<p><img src="cohort_design_files/figure-html/artcohor3-1.png" class="r-plt" alt="" width="768"></p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co"># Generate Survival plot</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">ve2</span>, type <span class="op">=</span> <span class="st">"surv"</span>, percentage <span class="op">=</span> <span class="cn">FALSE</span>, cumulative <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="cohort_design_files/figure-html/artcohor3-2.png" width="768"></p>
+<p><img src="cohort_design_files/figure-html/artcohor3-2.png" class="r-plt" alt="" width="768"></p>
 <p>In the matched cohort, the estimated VE for death of two doses was
 66.7% [95% CI 46.1–79.4]. Although, Schoenfeld test was rejected (p
 value&lt;0.05), the log-log plot demonstrates that the proportional
@@ -450,18 +449,18 @@ implemented:</p>
 <span></span>
 <span><span class="co"># Generate loglog plot to check proportional hazards</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">ve3</span>, type <span class="op">=</span> <span class="st">"loglog"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="cohort_design_files/figure-html/artcohor4-1.png" width="768"></p>
+<p><img src="cohort_design_files/figure-html/artcohor4-1.png" class="r-plt" alt="" width="768"></p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co"># Generate Survival plot</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">ve3</span>, type <span class="op">=</span> <span class="st">"surv"</span>, percentage <span class="op">=</span> <span class="cn">FALSE</span>, cumulative <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="cohort_design_files/figure-html/artcohor4-2.png" width="768"></p>
+<p><img src="cohort_design_files/figure-html/artcohor4-2.png" class="r-plt" alt="" width="768"></p>
 </div>
 </div>
 <div class="section level2 unnumbered">
 <h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
-<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
+<div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-austin2014use" class="csl-entry">
 Austin, Peter C. 2014. <span>“The Use of Propensity Score Methods with
 Survival or Time-to-Event Outcomes: Reporting Measures of Effect Similar
@@ -481,11 +480,11 @@ Halloran, Elizabeth, Ira Longini, and Claudio Struchiner. 2010.
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by David Santiago Quevedo, Zulma M. Cucunubá, International Development Research Center (IDRC).</p>
+  <p>Developed by David Santiago Quevedo, Zulma M. Cucunubá, International Development Research Center (IDRC), Jaime Pavlich-Mariscal.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3. Theme provided by <a href="https://github.com/epiverse-trace/epiversetheme" class="external-link">epiversetheme</a> 0.1.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1. Theme provided by <a href="https://github.com/epiverse-trace/epiversetheme" class="external-link">epiversetheme</a> 0.1.0.</p>
 </div>
 
     </footer>

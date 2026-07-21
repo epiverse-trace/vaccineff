@@ -1,0 +1,4 @@
+# License
+
+    YEAR: 2024-2025
+    COPYRIGHT HOLDER: vaccineff authors

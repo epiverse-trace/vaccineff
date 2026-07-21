@@ -20,11 +20,12 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Zulma M. Cucunubá \email{tracelacdev@gmail.com} (\href{https://orcid.org/0000-0002-8165-3198}{ORCID})
+\strong{Maintainer}: Jaime Pavlich-Mariscal \email{jpavlich@javeriana.edu.co} (\href{https://orcid.org/0000-0002-3892-6680}{ORCID}) [contributor]
 
 Authors:
 \itemize{
   \item David Santiago Quevedo \email{ex-dsquevedo@javeriana.edu.co} (\href{https://orcid.org/0000-0003-1583-4262}{ORCID})
+  \item Zulma M. Cucunubá \email{zulma.cucunuba@javeriana.edu.co} (\href{https://orcid.org/0000-0002-8165-3198}{ORCID})
 }
 
 Other contributors:
@@ -34,7 +35,6 @@ Other contributors:
   \item Pratik Gupte \email{pratik.gupte@lshtm.ac.uk} (\href{https://orcid.org/0000-0001-5294-7819}{ORCID}) [contributor]
   \item Érika J Cantor \email{erika.cantor@javeriana.edu.co} (\href{https://orcid.org/0000-0003-3320-6032}{ORCID}) [contributor]
   \item Santiago Loaiza \email{santiago.loaiza@javeriana.edu.co} (\href{https://orcid.org/0000-0002-2092-3262}{ORCID}) [contributor]
-  \item Jaime Pavlich-Mariscal \email{jpavlich@javeriana.edu.co} (\href{https://orcid.org/0000-0002-3892-6680}{ORCID}) [contributor]
   \item Hugo Gruson \email{hugo.gruson@data.org} (\href{https://orcid.org/0000-0002-4094-1476}{ORCID}) [contributor]
   \item Chris Hartgerink \email{chris@data.org} (\href{https://orcid.org/0000-0003-1050-6809}{ORCID}) [contributor]
   \item Felipe Segundo Abril \email{fsabrilb@unal.edu.co} (\href{https://orcid.org/0000-0002-2512-4929}{ORCID}) [contributor]

@@ -50,13 +50,13 @@ Source:
 [`DESCRIPTION`](https://github.com/epiverse-trace/vaccineff/blob/main/DESCRIPTION)
 
 Quevedo D, Cucunubá Z (2026). *vaccineff: Estimate Vaccine Effectiveness
-Based on Different Study Designs*. R package version 1.0.1,
+Based on Different Study Designs*. R package version 1.0.2,
 <https://github.com/epiverse-trace/vaccineff>.
 
     @Manual{,
       title = {vaccineff: Estimate Vaccine Effectiveness Based on Different Study Designs},
       author = {David Santiago Quevedo and Zulma M. Cucunubá},
       year = {2026},
-      note = {R package version 1.0.1},
+      note = {R package version 1.0.2},
       url = {https://github.com/epiverse-trace/vaccineff},
     }

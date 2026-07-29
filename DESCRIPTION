@@ -1,6 +1,6 @@
 Package: vaccineff
 Title: Estimate Vaccine Effectiveness Based on Different Study Designs
-Version: 1.0.2
+Version: 1.0.3
 Authors@R: c(
     person("David Santiago", "Quevedo", , "ex-dsquevedo@javeriana.edu.co", role = "aut",
            comment = c(ORCID = "0000-0003-1583-4262")),
@@ -64,4 +64,4 @@ Encoding: UTF-8
 Language: en-US
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.2
+Config/roxygen2/version: 8.0.0

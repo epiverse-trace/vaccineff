@@ -1,14 +1,14 @@
-# --------------------------------------------
-# CITATION file created with {cffr} R package
+# ------------------------------------------------
+# CITATION.cff file created with {cffr} R package
 # See also: https://docs.ropensci.org/cffr/
-# --------------------------------------------
+# ------------------------------------------------
  
 cff-version: 1.2.0
 message: 'To cite package "vaccineff" in publications use:'
 type: software
 license: MIT
 title: 'vaccineff: Estimate Vaccine Effectiveness Based on Different Study Designs'
-version: 1.0.0.9000
+version: 1.0.3
 doi: 10.32614/CRAN.package.vaccineff
 abstract: Provides tools for estimating vaccine effectiveness and related metrics.
   The 'vaccineff_data' class manages key features for preparing, visualizing, and
@@ -21,16 +21,20 @@ authors:
   orcid: https://orcid.org/0000-0003-1583-4262
 - family-names: Cucunubá
   given-names: Zulma M.
-  email: tracelacdev@gmail.com
+  email: zulma.cucunuba@javeriana.edu.co
   orcid: https://orcid.org/0000-0002-8165-3198
+- family-names: Pavlich-Mariscal
+  given-names: Jaime
+  email: jpavlich@javeriana.edu.co
+  orcid: https://orcid.org/0000-0002-3892-6680
 repository: https://CRAN.R-project.org/package=vaccineff
 repository-code: https://github.com/epiverse-trace/vaccineff
 url: https://epiverse-trace.github.io/vaccineff/
 contact:
-- family-names: Cucunubá
-  given-names: Zulma M.
-  email: tracelacdev@gmail.com
-  orcid: https://orcid.org/0000-0002-8165-3198
+- family-names: Pavlich-Mariscal
+  given-names: Jaime
+  email: jpavlich@javeriana.edu.co
+  orcid: https://orcid.org/0000-0002-3892-6680
 keywords:
 - epidemiology
 - epiverse
@@ -44,10 +48,13 @@ references:
   url: https://www.R-project.org/
   authors:
   - name: R Core Team
+    website: https://ror.org/02zz1nj61
   institution:
     name: R Foundation for Statistical Computing
+    website: https://ror.org/05qewa988
     address: Vienna, Austria
-  year: '2025'
+  year: '2026'
+  doi: 10.32614/R.manuals
   version: '>= 4.2.0'
 - type: software
   title: checkmate
@@ -60,7 +67,7 @@ references:
     given-names: Michel
     email: michellang@gmail.com
     orcid: https://orcid.org/0000-0001-9754-0393
-  year: '2025'
+  year: '2026'
   doi: 10.32614/CRAN.package.checkmate
 - type: software
   title: ggplot2
@@ -100,7 +107,7 @@ references:
     given-names: Teun
     name-particle: van den
     orcid: https://orcid.org/0000-0002-9335-7468
-  year: '2025'
+  year: '2026'
   doi: 10.32614/CRAN.package.ggplot2
   version: '>= 3.5.2'
 - type: software
@@ -112,11 +119,10 @@ references:
   authors:
   - family-names: Gruson
     given-names: Hugo
-    email: hugo@data.org
     orcid: https://orcid.org/0000-0002-4094-1476
   - family-names: Jombart
     given-names: Thibaut
-  year: '2025'
+  year: '2026'
   doi: 10.32614/CRAN.package.linelist
 - type: software
   title: MatchIt
@@ -145,7 +151,7 @@ references:
     given-names: Noah
     email: noah.greifer@gmail.com
     orcid: https://orcid.org/0000-0003-3067-7154
-  year: '2025'
+  year: '2026'
   doi: 10.32614/CRAN.package.MatchIt
 - type: software
   title: rlang
@@ -160,7 +166,7 @@ references:
   - family-names: Wickham
     given-names: Hadley
     email: hadley@posit.co
-  year: '2025'
+  year: '2026'
   doi: 10.32614/CRAN.package.rlang
 - type: software
   title: scales
@@ -178,7 +184,7 @@ references:
     orcid: https://orcid.org/0000-0002-5147-4711
   - family-names: Seidel
     given-names: Dana
-  year: '2025'
+  year: '2026'
   doi: 10.32614/CRAN.package.scales
 - type: software
   title: stats
@@ -186,10 +192,13 @@ references:
   notes: Imports
   authors:
   - name: R Core Team
+    website: https://ror.org/02zz1nj61
   institution:
     name: R Foundation for Statistical Computing
+    website: https://ror.org/05qewa988
     address: Vienna, Austria
-  year: '2025'
+  year: '2026'
+  doi: 10.32614/R.manuals
 - type: software
   title: survival
   abstract: 'survival: Survival Analysis'
@@ -200,7 +209,7 @@ references:
   - family-names: Therneau
     given-names: Terry M
     email: therneau.terry@mayo.edu
-  year: '2025'
+  year: '2026'
   doi: 10.32614/CRAN.package.survival
 - type: software
   title: knitr
@@ -213,7 +222,7 @@ references:
     given-names: Yihui
     email: xie@yihui.name
     orcid: https://orcid.org/0000-0003-0645-5666
-  year: '2025'
+  year: '2026'
   doi: 10.32614/CRAN.package.knitr
 - type: software
   title: rmarkdown
@@ -257,7 +266,7 @@ references:
     given-names: Richard
     email: rich@posit.co
     orcid: https://orcid.org/0000-0003-3925-190X
-  year: '2025'
+  year: '2026'
   doi: 10.32614/CRAN.package.rmarkdown
 - type: software
   title: spelling
@@ -273,7 +282,7 @@ references:
   - family-names: Hester
     given-names: Jim
     email: james.hester@rstudio.com
-  year: '2025'
+  year: '2026'
   doi: 10.32614/CRAN.package.spelling
 - type: software
   title: testthat
@@ -285,7 +294,7 @@ references:
   - family-names: Wickham
     given-names: Hadley
     email: hadley@posit.co
-  year: '2025'
+  year: '2026'
   doi: 10.32614/CRAN.package.testthat
   version: '>= 3.0.0'
 

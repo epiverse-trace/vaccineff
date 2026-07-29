@@ -31,8 +31,8 @@ Authors:
 
 Other contributors:
 
-- International Development Research Center (IDRC) (0445x0472)
-  \[funder\]
+- International Development Research Center (IDRC)
+  ([ROR](https://ror.org/0445x0472)) \[funder\]
 
 - Geraldine Gómez Millán <geralidine.gomez@javeriana.edu.co>
   ([ORCID](https://orcid.org/0009-0007-8701-0568)) \[contributor\]
@@ -61,4 +61,5 @@ Other contributors:
 - Julian Otero <jd.otero10@uniandes.edu.co>
   ([ORCID](https://orcid.org/0009-0006-0429-7747)) \[contributor\]
 
-- Pontificia Universidad Javeriana (03etyjw28) \[copyright holder\]
+- Pontificia Universidad Javeriana ([ROR](https://ror.org/03etyjw28))
+  \[copyright holder\]

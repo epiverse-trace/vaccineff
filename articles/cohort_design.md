@@ -351,7 +351,7 @@ summary(vaccineff_data_matched2)
 #> 
 #> Balance matched:
 #>                u          v         smd
-#> age   63.8914428 63.5114927 -0.03493039
+#> age   63.8914428 63.5119542 -0.03488958
 #> sex_F  0.5205391  0.5205391  0.00000000
 #> sex_M  0.4794609  0.4794609  0.00000000
 #> 
@@ -371,10 +371,10 @@ ve3 <- estimate_vaccineff(vaccineff_data_matched2, at = 180)
 summary(ve3)
 #> Vaccine Effectiveness at 180 days computed as VE = 1 - HR:
 #>      VE lower.95 upper.95
-#>  0.6883    0.485   0.8113
+#>  0.6883   0.4849   0.8113
 #> 
 #> Schoenfeld test for Proportional Hazards assumption:
-#> p-value = 0.0751
+#> p-value = 0.1022
 
 # Generate loglog plot to check proportional hazards
 plot(ve3, type = "loglog")

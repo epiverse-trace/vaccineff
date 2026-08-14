@@ -1,3 +1,9 @@
+# vaccineff 1.0.3
+New submission to CRAN using latest version of R release
+
+# vaccineff 1.0.2
+Updated maintainer to Jaime Pavlich-Mariscal <jpavlich@javeriana.edu.co>
+
 # vaccineff 1.0.1
 
 `{vaccineff 1.0.1}` patches the package's tests to fix failing CRAN checks.

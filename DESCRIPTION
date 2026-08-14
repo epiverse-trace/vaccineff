@@ -1,10 +1,10 @@
 Package: vaccineff
 Title: Estimate Vaccine Effectiveness Based on Different Study Designs
-Version: 1.0.1
+Version: 1.0.3
 Authors@R: c(
     person("David Santiago", "Quevedo", , "ex-dsquevedo@javeriana.edu.co", role = "aut",
            comment = c(ORCID = "0000-0003-1583-4262")),
-    person("Zulma M.", "Cucunubá", , "tracelacdev@gmail.com", role = c("aut", "cre"),
+    person("Zulma M.", "Cucunubá", , "zulma.cucunuba@javeriana.edu.co", role = "aut",
            comment = c(ORCID = "0000-0002-8165-3198")),
     person("International Development Research Center (IDRC)", role = "fnd",
            comment = c(ROR = "0445x0472")),
@@ -16,7 +16,7 @@ Authors@R: c(
            comment = c(ORCID = "0000-0003-3320-6032")),
     person("Santiago", "Loaiza", , "santiago.loaiza@javeriana.edu.co", role = "ctb",
            comment = c(ORCID = "0000-0002-2092-3262")),
-    person("Jaime", "Pavlich-Mariscal", , "jpavlich@javeriana.edu.co", role = "ctb",
+    person("Jaime", "Pavlich-Mariscal", , "jpavlich@javeriana.edu.co", role = c("ctb", "cre"),
            comment = c(ORCID = "0000-0002-3892-6680")),
     person("Hugo", "Gruson", , "hugo.gruson@data.org", role = "ctb",
            comment = c(ORCID = "0000-0002-4094-1476")),
@@ -64,4 +64,4 @@ Encoding: UTF-8
 Language: en-US
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.2
+Config/roxygen2/version: 8.0.0

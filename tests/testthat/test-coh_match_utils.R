@@ -210,8 +210,30 @@ test_that("`get_censoring_date_match`: take maximum censoring date", {
 })
 
 #### Tests for match_summary() ####
-# Snapshot for summary comparing only two dataframes
-test_that("`match_cohort`: summary snapshot", {
+# Unit test for `match_summary()` on deterministic inputs. The exact counts
+# produced by `match_cohort()` depend on the `{MatchIt}` version, so the
+# summary contract is checked here without relying on `{MatchIt}`.
+test_that("`match_summary`: counts by vaccine status", {
+  all <- data.frame(
+    vaccine_status = c("u", "u", "u", "u", "v", "v", "v")
+  )
+  matched <- data.frame(
+    vaccine_status = c("u", "u", "v")
+  )
+  summary <- match_summary(
+    all = all,
+    matched = matched,
+    vacc_status_col = "vaccine_status"
+  )
+  # Rows describe the full, matched and unmatched populations
+  expect_identical(rownames(summary), c("All", "Matched", "Unmatched"))
+  # Counts by vaccine status
+  expect_equal(summary[["u"]], c(4L, 2L, 2L))
+  expect_equal(summary[["v"]], c(3L, 1L, 2L))
+})
+
+# Summary for the matched cohort has to be consistent with the matching inputs
+test_that("`match_cohort`: summary is consistent", {
   # Create `data.frame` with information on immunization
   sample_cohort_imm <- make_immunization(
     data_set = sample_cohort_s,
@@ -242,14 +264,42 @@ test_that("`match_cohort`: summary snapshot", {
   # Extract results from matching after capturing warning
   matching <- output$result
 
-  # snapshot for summary
+  # Summary of the matching result
   matched <- matching$match
   summary <- match_summary(all = sample_cohort_imm,
     matched = matched,
     vacc_status_col = "vaccine_status"
   )
-  # expect_snapshot(summary)
-  expect_true(sum(summary$u == c(364,358,6)) == 3 || sum(summary$u == c(364, 359, 5)) == 3)
-  expect_true(sum(summary$v == c(636,359,277)) == 3 || sum(summary$v == c(636,358,278)) == 3)
 
+  # Rows describe the full, matched and unmatched populations
+  expect_identical(rownames(summary), c("All", "Matched", "Unmatched"))
+  # The "All" population is the composition of the entire cohort
+  expect_equal(
+    summary["All", "u"],
+    sum(sample_cohort_imm$vaccine_status == "u")
+  )
+  expect_equal(
+    summary["All", "v"],
+    sum(sample_cohort_imm$vaccine_status == "v")
+  )
+  # Matched and unmatched populations partition the full cohort
+  expect_equal(
+    summary["Matched", "u"] + summary["Unmatched", "u"],
+    summary["All", "u"]
+  )
+  expect_equal(
+    summary["Matched", "v"] + summary["Unmatched", "v"],
+    summary["All", "v"]
+  )
+  # Matched counts reflect the matched cohort
+  expect_equal(
+    summary["Matched", "u"],
+    sum(matched$vaccine_status == "u")
+  )
+  expect_equal(
+    summary["Matched", "v"],
+    sum(matched$vaccine_status == "v")
+  )
+  # A non-empty matched population is expected for this cohort
+  expect_gt(summary["Matched", "u"], 0)
 })

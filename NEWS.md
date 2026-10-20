@@ -1,3 +1,9 @@
+# vaccineff 1.0.4
+
+`{vaccineff 1.0.4}` patches the package's tests to fix failing CRAN checks. The
+`match_summary()` tests no longer rely on the exact matched counts produced by
+`{MatchIt}`, which changed in `{MatchIt}` 4.8.0.
+
 # vaccineff 1.0.3
 New submission to CRAN using latest version of R release
 

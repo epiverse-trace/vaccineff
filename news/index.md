@@ -2,6 +2,8 @@
 
 ## vaccineff 1.0.3
 
+CRAN release: 2026-07-29
+
 New submission to CRAN using latest version of R release
 
 ## vaccineff 1.0.2

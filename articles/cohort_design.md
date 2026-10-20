@@ -351,15 +351,15 @@ summary(vaccineff_data_matched2)
 #> 
 #> Balance matched:
 #>                u          v         smd
-#> age   63.8914428 63.5119542 -0.03488958
-#> sex_F  0.5205391  0.5205391  0.00000000
-#> sex_M  0.4794609  0.4794609  0.00000000
+#> age   63.8845266 63.3661894 -0.04812506
+#> sex_F  0.5209238  0.5209238  0.00000000
+#> sex_M  0.4790762  0.4790762  0.00000000
 #> 
 #> Summary vaccination:
 #>               u     v
 #> All       10973 19905
-#> Matched   10833 10833
-#> Unmatched   140  9072
+#> Matched   10825 10825
+#> Unmatched   148  9080
 #> 
 #> // tags: outcome_date_col:death_date, censoring_date_col:death_other_causes, vacc_date_col:vaccine_date_2, immunization_date_col:immunization_date, vacc_status_col:vaccine_status
 
@@ -371,10 +371,10 @@ ve3 <- estimate_vaccineff(vaccineff_data_matched2, at = 180)
 summary(ve3)
 #> Vaccine Effectiveness at 180 days computed as VE = 1 - HR:
 #>      VE lower.95 upper.95
-#>  0.6883   0.4849   0.8113
+#>  0.7265   0.5322   0.8401
 #> 
 #> Schoenfeld test for Proportional Hazards assumption:
-#> p-value = 0.1022
+#> p-value = 0.0746
 
 # Generate loglog plot to check proportional hazards
 plot(ve3, type = "loglog")

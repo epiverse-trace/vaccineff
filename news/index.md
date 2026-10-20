@@ -1,5 +1,14 @@
 # Changelog
 
+## vaccineff 1.0.4
+
+`{vaccineff 1.0.4}` patches the package’s tests to fix failing CRAN
+checks. The
+[`match_summary()`](https://epiverse-trace.github.io/vaccineff/reference/match_summary.md)
+tests no longer rely on the exact matched counts produced by
+[MatchIt](https://kosukeimai.github.io/MatchIt/), which changed in
+[MatchIt](https://kosukeimai.github.io/MatchIt/) 4.8.0.
+
 ## vaccineff 1.0.3
 
 CRAN release: 2026-07-29
